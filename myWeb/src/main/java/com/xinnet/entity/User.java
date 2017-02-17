@@ -14,7 +14,7 @@ public class User implements Serializable {
 
 	private Integer id;
     
-    @NotEmpty
+    @NotEmpty(name="用户名")
     private String userName;
 
     @NotEmpty(name="密码",maxLength=20)
@@ -23,6 +23,9 @@ public class User implements Serializable {
 
 //    @NotNull
     private Integer age;
+    
+    @NotEmpty(name="邮箱")
+    private String email;
 
     public Integer getId() {
         return id;
@@ -55,11 +58,20 @@ public class User implements Serializable {
     public void setAge(Integer age) {
         this.age = age;
     }
+    
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email == null ? null : email.trim();
+    }
 
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", userName=" + userName + ", password="
-				+ password + ", age=" + age + "]";
+				+ password + ", age=" + age + ", email=" + email + "]";
 	}
+
     
 }

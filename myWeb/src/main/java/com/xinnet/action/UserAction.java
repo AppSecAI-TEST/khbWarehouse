@@ -46,7 +46,8 @@ public class UserAction extends BaseAction {
 		} catch (IllegalArgumentException e) {
 			// TODO: handle exception
 			logger.info(e.getMessage());
-			return null;
+			model.addAttribute("message", e.getMessage());  
+			return jsp("error");
 		} catch (Exception e) {
 			// TODO: handle exception
 			logger.info("接口调用出错");
