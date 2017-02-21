@@ -31,7 +31,7 @@ $("#button").click(function() {
 });
 
 $("#buttonp").click(function() {
-  $.ajax({
+  $.ajax({ 
     url:"http://172.19.61.153${ctx}/show/doOrder",
     dataType:'jsonp',
     data: {
