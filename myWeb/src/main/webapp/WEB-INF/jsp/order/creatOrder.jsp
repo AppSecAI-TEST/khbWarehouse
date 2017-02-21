@@ -16,7 +16,7 @@
 $("#button").click(function() {
   $.ajax({
     url:"${ctx}/show/doOrder",
-    dataType:'jsonp',
+    dataType:'json',
     data: {
       amount:100.27,
       userId:1,
@@ -32,7 +32,7 @@ $("#button").click(function() {
 
 $("#buttonp").click(function() {
   $.ajax({
-    url:"http://192.168.126.130:8090${ctx}/show/doOrder",
+    url:"http://172.19.61.153${ctx}/show/doOrder",
     dataType:'jsonp',
     data: {
       amount:100.27,
