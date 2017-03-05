@@ -3,6 +3,6 @@
 <html>
 <body>
 <h2>Welcome To My Web</h2>
-<h3>康洪彬老师的站点正在建设中ing</h3>
+<h3>康洪彬老湿的站点正在建设中ing</h3>
 </body>
 </html>
