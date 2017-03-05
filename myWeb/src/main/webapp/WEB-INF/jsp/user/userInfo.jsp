@@ -2,7 +2,10 @@
 <%@ page contentType="text/html;charset=UTF-8"%> 
 <html>
 <body>
-<h2>Welcome To My Web</h2>
-<h3>康洪彬老师的站点正在建设中ing</h3>
+<h2>Hello World!</h2>
+<p>${user.id }</p>
+<p>${user.userName }</p>
+<p>${user.password }</p>
+<p>${user.age }</p>
 </body>
 </html>

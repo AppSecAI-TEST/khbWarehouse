@@ -1,7 +1,5 @@
 package com.xinnet.action;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.xinnet.annotation.NotLogin;
 import com.xinnet.entity.User;
 import com.xinnet.service.IUserService;
   
@@ -26,7 +23,7 @@ public class UserAction extends BaseAction {
 	
 	
     @RequestMapping("/showUser")
-    public String toIndex(HttpServletRequest request,Model model){  
+    public String toIndex(Model model){  
     	User user = new User();
     	user.setAge(13);
     	user.setPassword("1111");
@@ -54,6 +51,6 @@ public class UserAction extends BaseAction {
 		} 
     	logger.info("验证通过");
         model.addAttribute("user", user);  
-        return jsp("index");  
+        return jsp("user/userInfo");  
     }  
 }
