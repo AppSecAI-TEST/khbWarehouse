@@ -33,7 +33,7 @@ public class CrawlerUtils{
 	static int deep = 0;
 	
 	public static void main(String[] argv) throws UnsupportedEncodingException, ParserException{  
-		linkLists.add("http://m.lanmao.com/lmweChat/popularize/toPopularize");
+		linkLists.add("http://www.pettertang.top");
 		serverCrawler(linkLists,deep);
 	} 
 	
@@ -48,7 +48,7 @@ public class CrawlerUtils{
 			try {
 				if(null != responseBody) {
 					Parser parserImg = new Parser();  
-					parserImg = Parser.createParser(new String(responseBody,"gb2312"),"gb2312");//原网站编码格式gb2312  
+					parserImg = Parser.createParser(new String(responseBody,"utf-8"),"utf-8");//原网站编码格式gb2312  
 					NodeClassFilter filter1 = new 
 							NodeClassFilter(ImageTag.class);//设置过滤器，这里的意思是设定具有class属性且属性值为new_table的过滤器  
 					NodeList listImg = parserImg.extractAllNodesThatMatch(filter1);//抓取所有通过过滤器的网页DOM节点 
@@ -56,7 +56,7 @@ public class CrawlerUtils{
 					
 					//下面用html解析网页  链接
 					Parser parserA = new Parser();  
-					parserA = Parser.createParser(new String(responseBody,"gb2312"),"gb2312");//原网站编码格式gb2312  
+					parserA = Parser.createParser(new String(responseBody,"utf-8"),"utf-8");//原网站编码格式gb2312  
 					NodeClassFilter filter2 = new 
 							NodeClassFilter(LinkTag.class);//设置过滤器，这里的意思是设定具有class属性且属性值为new_table的过滤器 
 					NodeList listA = parserA.extractAllNodesThatMatch(filter2);//抓取所有通过过滤器的网页DOM节点 

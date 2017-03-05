@@ -53,7 +53,7 @@ public class CrawlerUtils{
 	static Pattern p = Pattern.compile(pattern);
 	
 	public static void main(String[] argv) throws UnsupportedEncodingException, ParserException{  
-		linkLists.add("http://123.sogou.com/yule/meinv.html#meinv_6");
+		linkLists.add("http://www.pettertang.top");
 		serverCrawler(linkLists,deep);
 	} 
 	
@@ -273,7 +273,7 @@ public class CrawlerUtils{
 //		// 设置编码 
 //		parser.setEncoding("gbk"); 
 		Parser parser = new Parser();  
-		parser = Parser.createParser(new String(responseBody,"gbk"),"gbk");//原网站编码格式gb2312  
+		parser = Parser.createParser(new String(responseBody,"utf-8"),"utf-8");//原网站编码格式gb2312  
 		NodeList list = parser.extractAllNodesThatMatch(filter);
 		return list;
 	}

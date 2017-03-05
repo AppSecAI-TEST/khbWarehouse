@@ -20,4 +20,11 @@ public class IndexAction extends BaseAction {
     	logger.info("welcome to my Web");
         return jsp("index");  
     }  
+    
+    @RequestMapping("/toAbout")
+    @NotLogin
+    public String toAbout(){  
+    	logger.info("welcome to my about");
+        return jsp("about");  
+    } 
 }
