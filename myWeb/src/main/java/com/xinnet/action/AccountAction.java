@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.xinnet.annotation.NotLogin;
 import com.xinnet.entity.User;
+import com.xinnet.service.IEmailService;
 import com.xinnet.service.IUserService;
 
 @Controller
@@ -20,6 +21,9 @@ public class AccountAction extends BaseAction  {
 	private static final Logger logger = LoggerFactory.getLogger(AccountAction.class);
 	@Autowired
 	IUserService userServiceImpl;
+	
+	@Autowired
+	IEmailService emailServiceImpl;
 	
 	@RequestMapping("toLogin")
 	@NotLogin

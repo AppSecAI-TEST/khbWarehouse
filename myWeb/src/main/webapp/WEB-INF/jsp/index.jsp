@@ -68,8 +68,7 @@
             <p>大家好，关于搭建一个网站的想法由来已久。去年在机缘巧合接触到了Ruby on Rails开发，然后在<a href="www.pettertang.top" target="_blank">PetterTang</a>同学介绍下，知道了Jekyll。本应当时就做的事情结果一拖再拖，加之惰性使然，直到今天才勉强完善了个人网站的搭建。这件事也让我明白执行力的重要性。不幸的是，很多人，包括我自己，都是执行力并不强的人。</p>
         </p>
         <p class="readmore">
-            <a href="/2016/11/18/Getting-Started.html">
-                阅读全文
+            <a href="/2016/11/18/Getting-Started.html">阅读全文
                 <span class="glyphicon glyphicon-circle-arrow-right"></span>
             </a>
         </p>
