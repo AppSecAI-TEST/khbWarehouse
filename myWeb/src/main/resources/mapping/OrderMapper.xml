@@ -79,4 +79,5 @@
       amout = #{amout,jdbcType=DECIMAL}
     where id = #{id,jdbcType=INTEGER}
   </update>
+ 
 </mapper>

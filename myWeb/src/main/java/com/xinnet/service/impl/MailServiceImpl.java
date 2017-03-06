@@ -1,5 +1,6 @@
 package com.xinnet.service.impl;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Properties;
 import java.util.Random;
@@ -42,6 +43,7 @@ public class MailServiceImpl implements IEmailService {
 	@Autowired
 	private IdentifyingCodeMapper dentifyingCodeMapper;
 	
+	
 	@Override
 	public void sendEmailCode(String sendAddress) throws Exception {
 		sendEmail(sendAddress,null,getRandNum(1,999999));
@@ -56,9 +58,10 @@ public class MailServiceImpl implements IEmailService {
 	public void sendEmail(String sendAddress,String tittle ,String content)
 			throws Exception {
 		logger.info("sendAddress={},tittle={},content={}",sendAddress,tittle,content);
-		
+		Calendar nowTime = Calendar.getInstance();
+		nowTime.add(Calendar.MINUTE, 15);
 		dentifyingCodeMapper.insertSelective(new IdentifyingCode(SendModeEnum.EMAIL
-						.toString(), sendAddress, content, new Date()));
+						.toString(), sendAddress, content, new Date(),nowTime.getTime()));
 
 		// 创建一个连接属性。
 		Properties props = new Properties(); //

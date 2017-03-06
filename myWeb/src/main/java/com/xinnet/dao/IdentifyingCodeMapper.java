@@ -1,5 +1,7 @@
 package com.xinnet.dao;
 
+import java.util.Map;
+
 import com.xinnet.entity.IdentifyingCode;
 
 public interface IdentifyingCodeMapper {
@@ -14,4 +16,6 @@ public interface IdentifyingCodeMapper {
     int updateByPrimaryKeySelective(IdentifyingCode record);
 
     int updateByPrimaryKey(IdentifyingCode record);
+
+	IdentifyingCode selectByParam(Map<Object, Object> param);
 }

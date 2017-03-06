@@ -21,15 +21,18 @@ public class IdentifyingCode implements Serializable {
 	
 	private String effective = "true";
 	
+	private Date effectiveTime;
+	
 	public IdentifyingCode(){
 		
 	}
 	
-	public IdentifyingCode(String mode, String email,String code,Date creatTime) {
+	public IdentifyingCode(String mode, String email,String code,Date creatTime,Date effectiveTime) {
 		this.mode = mode;
 		this.email = email;
 		this.code = code;
 		this.creatTime = creatTime;
+		this.effectiveTime = effectiveTime;
 	}
 	public Integer getId() {
 		return id;
@@ -77,5 +80,13 @@ public class IdentifyingCode implements Serializable {
 	
 	public void setEffective(String effective) {
 		this.effective = effective == null ? null : effective.trim();
+	}
+
+	public Date getEffectiveTime() {
+		return effectiveTime;
+	}
+
+	public void setEffectiveTime(Date effectiveTime) {
+		this.effectiveTime = effectiveTime;
 	}
 }

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.xinnet.annotation.NotLogin;
+import com.xinnet.entity.RegisterResultDto;
 import com.xinnet.entity.User;
 import com.xinnet.service.IEmailService;
 import com.xinnet.service.IUserService;
@@ -64,9 +65,12 @@ public class AccountAction extends BaseAction  {
 		logger.info("User={}",user);
 		
 		
-		userServiceImpl.add(user,code);
+		RegisterResultDto dto = userServiceImpl.add(user,code);
+		if(dto.getResult().equals("success")) {
+			session.setAttribute("User", dto.getUser());
+		}
 		model.put("returnUrl", returnUrl);
-		return jsp("account/register");
+		return forward("/index");
 	}
 	
 	@RequestMapping("toLogin")
