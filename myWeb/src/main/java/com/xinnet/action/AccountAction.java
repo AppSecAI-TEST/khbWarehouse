@@ -25,6 +25,13 @@ public class AccountAction extends BaseAction  {
 	@Autowired
 	IEmailService emailServiceImpl;
 	
+	@RequestMapping("toRegister")
+	@NotLogin
+	public String toRegister(String returnUrl,ModelMap model) {
+		model.put("returnUrl", returnUrl);
+		return jsp("account/register");
+	}
+	
 	@RequestMapping("toLogin")
 	@NotLogin
 	public String toLogin(String returnUrl,ModelMap model) {

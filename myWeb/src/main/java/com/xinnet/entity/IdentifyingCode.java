@@ -1,9 +1,15 @@
 package com.xinnet.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class IdentifyingCode {
-    private Integer id;
+public class IdentifyingCode implements Serializable {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -4097883182050978180L;
+
+	private Integer id;
 
     private String mode;
 

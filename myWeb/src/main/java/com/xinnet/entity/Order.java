@@ -6,7 +6,12 @@ import java.math.BigDecimal;
 import com.xinnet.annotation.NotEmpty;
 
 public class Order  implements Serializable {
-    private Integer id;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1817536635312435492L;
+
+	private Integer id;
 
     @NotEmpty
     private String waterNum;
