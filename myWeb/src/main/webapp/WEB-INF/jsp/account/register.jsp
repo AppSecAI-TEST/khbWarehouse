@@ -7,26 +7,44 @@
 <p><input type="text" name="userName" /></p>
 <p><input type="text" name="passWord" /></p>
 <p><input type="text" name="rePassWord" /></p>
-<p><input type="text" id="email" name="email" /></p>
+<p><input type="text" id="email" name="email" /><button id="sendEmailCode">获取邮箱验证码</button></p>
 <p><input type="text" name="code" /></p>
 </body>
 <button id="button">注册</button>
 <script type="text/javascript">
-$("#button").click(function() {
+$("#sendEmailCode").click(function() {
   var email = $("#email").val();
-  $.ajax({
-    url:"${ctx}/account/sendEmailCode",
-    dataType:'json',
-    data: {
-      email:email
-    },
-    type:'post',
-    success:function(data){
-      if(data.code =="success") {
-        console.log(data.orderId);
-      }
-    },
-  });
+  
+  if(checkEmail(email)){
+    $.ajax({
+      url:"${ctx}/account/sendEmailCode",
+      dataType:'json',
+      data: {
+        email:email
+      },
+      type:'post',
+      success:function(data){
+        if(data.code =="success") {
+          alert("发送成功");
+        } else {
+          alert(data.message);
+        }
+      },
+    });
+  } else {
+    alert("邮箱错误");
+  }
+  
 });
+
+function checkEmail(str){  
+  var re=/^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/  
+  if(re.test(str)){  
+      console.log("邮箱正确");  
+      return true;
+  }else{  
+      return false;
+  }  
+}
 </script>
 </html>
