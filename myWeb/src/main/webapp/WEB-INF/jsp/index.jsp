@@ -31,17 +31,14 @@
   <![endif]-->
 
 </head>
-
-
   <body>
-
     <header class="bloghead">
     <dev class="authorheader">
         <a href="/">
             <img alt="My Avatar" src="${ctx}/static/img/avatar.JPG"/>
         </a>
         <dev class="blogtitle">
-            <h3><a href="/">Barry Kang</a></h3>
+            <h3><a href="/">BarryKang</a></h3>
             <h5> 存好心，做好事。多读书，读好书。 </h5>
         </dev>
     </dev>
@@ -52,15 +49,13 @@
             <li>|</li>
             <li><a href="/menu.html">存档</a></li>
             <li>|</li>
-            <li><a target="_blank" href="https://github.com/pettertang">Github</a></li>
+            <!-- <li><a target="_blank" href="https://github.com/pettertang">Github</a></li> -->
             <li>|</li>
             <li><a target="_blank" href="${ctx}/toAbout">关于我</a></li>
         </ul>
     </nav>
 </header>
-
-    <main class="blogmain">
-      
+<main class="blogmain">
 <article class="preview">
     <header>
         <h2 class="post-title">
@@ -70,9 +65,7 @@
     </header>
     <section class="post-section">
         <p>
-            <p>大家好，关于搭建个人博客的想法由来已久。去年在国科大机缘巧合接触到了Ruby on Rails开发，然后在<a href="https://github.com/cseryp" target="_blank">YaoPan</a>同学介绍下，知道了Jekyll。本应当时就做的事情结果一拖再拖，加之惰性使然，直到今天才勉强完成了个人博客的搭建。这件事也让我明白执行力的重要性。不幸的是，很多人，包括我自己，都是执行力并不强的人。</p>
-
-
+            <p>大家好，关于搭建一个网站的想法由来已久。去年在机缘巧合接触到了Ruby on Rails开发，然后在<a href="www.pettertang.top" target="_blank">PetterTang</a>同学介绍下，知道了Jekyll。本应当时就做的事情结果一拖再拖，加之惰性使然，直到今天才勉强完善了个人网站的搭建。这件事也让我明白执行力的重要性。不幸的是，很多人，包括我自己，都是执行力并不强的人。</p>
         </p>
         <p class="readmore">
             <a href="/2016/11/18/Getting-Started.html">
@@ -91,7 +84,7 @@
     <div class="container-fluid">
         <div class="row-fluid">
             <div class="col-md-12">
-                Copyright &copy; 2016 汤文恺 - All rights reserved.
+                Copyright &copy; 2016 康洪彬 - All rights reserved.
             </div>
         </div>
     </div>

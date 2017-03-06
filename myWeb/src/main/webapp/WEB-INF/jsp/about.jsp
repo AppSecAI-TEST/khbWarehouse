@@ -1,27 +1,20 @@
 <%@ page language="java" pageEncoding="UTF-8"%>  
 <%@ page contentType="text/html;charset=UTF-8"%> 
-
-
 <!DOCTYPE html>
 <html>
-
   <link rel="stylesheet" href="${ctx}/static/css/icard_resume.css">
   <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <title>Petter Tang</title>
-  <meta name="description" content="Petter Tang">
-
-  <link rel="canonical" href="https://pettertang.github.io/about.html">
-
+  <title>Barry Kang</title>
+  <meta name="description" content="Barry Kang">
+  <!-- <link rel="canonical" href="https://pettertang.github.io/about.html"> -->
   <link rel="stylesheet" href="${ctx}/static/css/bootstrap.min.css">
   <!-- <link rel="stylesheet" href="${ctx}/static/css/icard_resume.css"> -->
   <link rel="stylesheet" href="${ctx}/static/css/font-awesome.min.css">
   <link rel="stylesheet" href="${ctx}/static/css/blog.css" >
   <link rel="stylesheet" href="${ctx}/static/css/syntax.css">
-
   <link rel="icon" type="image/png" href="${ctx}/static/img/avatar.JPG">
 
   <!-- Google fonts -->
@@ -44,15 +37,15 @@
         <div class="row-center">
             <div class="col-md-7">
                 <a href="index.html"><img src="${ctx}/static/img/avatar.JPG" title="Avatar" alt="My Avatar"></a>
-                <h4>汤文恺</h4>
-                <p>一个混迹在北六环的码代码的汉子</p>
+                <h4>康洪彬</h4>
+                <p>一个混迹在南三环的码代码的汉子</p>
                 <p class="muted">中国,北京</p>
                 <div class="clearfix"></div>
             </div>
             <div class="col-md-5">
                 <h4>&nbsp;</h4>
-                <p><i class="fa fa-github fa-fw"></i><a href="https://github.com/pettertang" target="_blank">  <font color="#5F9EA0">pettertang</font> </a></p>
-                <p><i class="fa fa-envelope-o fa-fw"></i> pettertang@aliyun.com </p>
+                <p><i class="fa fa-github fa-fw"></i><a href="https://github.com/" target="_blank">  <font color="#5F9EA0">barrykang</font> </a></p>
+                <p><i class="fa fa-envelope-o fa-fw"></i> barrykang@aliyun.com </p>
             </div>
             <!-- <div class="col-sm-4 visible-md-block visible-lg-block">
                 <a href="#" class="btn btn-dark"><i class="icon-file icon-white"></i> Download.pdf </a>
@@ -60,14 +53,11 @@
         </div>
     </div>
 </div>
-
-
     <div class="page-content">
       <div class="wrapper">
         <div class="container">
     <div class="row-center">
         <div class="col-md-7">
-            
                 <h3 class="title with-icon"><span class="glyphicon glyphicon-plane cat-title"></span>Internship Experience</h3>
                 <ul class="timeline">
                     
@@ -331,7 +321,7 @@
     <div class="container-fluid">
         <div class="row-fluid">
             <div class="col-md-12">
-                Copyright &copy; 2016 汤文恺 - All rights reserved.
+                Copyright &copy; 2016 康洪彬 - All rights reserved.
             </div>
         </div>
     </div>
