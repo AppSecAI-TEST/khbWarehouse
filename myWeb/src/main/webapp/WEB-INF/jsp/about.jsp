@@ -36,7 +36,7 @@
     <div class="container">
         <div class="row-center">
             <div class="col-md-7">
-                <a href="index.html"><img src="${ctx}/static/img/avatar.JPG" title="Avatar" alt="My Avatar"></a>
+                <a href="index.html"><img src="${ctx}/static/img/avatar.jpg" title="Avatar" alt="My Avatar"></a>
                 <h4>康洪彬</h4>
                 <p>一个混迹在南三环的码代码的汉子</p>
                 <p class="muted">中国,北京</p>
@@ -57,7 +57,7 @@
       <div class="wrapper">
         <div class="container">
     <div class="row-center">
-        <div class="col-md-7">
+        <!-- <div class="col-md-7">
                 <h3 class="title with-icon"><span class="glyphicon glyphicon-plane cat-title"></span>Internship Experience</h3>
                 <ul class="timeline">
                     
@@ -147,67 +147,43 @@
                                         <h4 class="timeline-title">华北计算机系统工程研究所</h4>
                                     
                                     <p>
-                                        <small class="text-muted">
-                                            
-                                                硕士
-                                            
-                                            
-                                                , 计算机技术
-                                            
+                                        <small class="text-muted">硕士, 计算机技术
                                         </small>
                                     </p>
-                                    
-                                        <p>
-                                            <small class="text-muted"><i class="fa fa-calendar"></i> (2015.9 - Present)
-                                            </small>
-                                        </p>
-                                    
+                                    <p>
+                                        <small class="text-muted"><i class="fa fa-calendar"></i> (2015.9 - Present)
+                                        </small>
+                                    </p>
                                 </div>
                                 <div class="timeline-body">
-                                    
-                                        <p>第一学年在中国科学院大学雁栖湖校区学习理论课程，第二及第三学年在昌平区未来科技城中国电子第六研究所实习并在导师指导下完成毕业论文。</p>
-                                    
+                                    <p>第一学年在中国科学院大学雁栖湖校区学习理论课程，第二及第三学年在昌平区未来科技城中国电子第六研究所实习并在导师指导下完成毕业论文。</p>
                                 </div>
                             </div>
                         </li>
                     
                         <li class="timeline-inverted">
-                            
                                 <div class="timeline-badge info">2011</div>
-                            
                             <div class="timeline-panel grid-block">
                                 <div class="timeline-heading">
-                                    
                                         <h4 class="timeline-title">吉林大学</h4>
-                                    
                                     <p>
-                                        <small class="text-muted">
-                                            
-                                                学士
-                                            
-                                            
-                                                , 计算机科学与技术
-                                            
+                                        <small class="text-muted">学士, 计算机科学与技术
                                         </small>
                                     </p>
-                                    
-                                        <p>
-                                            <small class="text-muted"><i class="fa fa-calendar"></i> (2011.9 - 2015.7)
-                                            </small>
-                                        </p>
-                                    
+                                    <p>
+                                        <small class="text-muted"><i class="fa fa-calendar"></i> (2011.9 - 2015.7)
+                                        </small>
+                                    </p>
                                 </div>
                                 <div class="timeline-body">
-                                    
-                                        <p>学习了计算机方面的基础理论课程，多次获得院级奖学金和院优秀学生称号，四年加权成绩排名年级前25%。</p>
-                                    
+                                    <p>学习了计算机方面的基础理论课程，多次获得院级奖学金和院优秀学生称号，四年加权成绩排名年级前25%。</p>
                                 </div>
                             </div>
                         </li>
                     
                 </ul>
             
-        </div>
+        </div> -->
         <div class="col-md-5">
             
                 <h3 class="title with-icon"><span class="fa fa-code cat-title"></span> Programming Skills</h3>
@@ -293,19 +269,19 @@
                         <li>
                             <h4>地址</h4>
                             <p>
-                                北京市昌平区未来科技城<br />
-                                CEC第六研究所<br />
-                                102200
+                                北京市丰台区<br />
+                                东升科技园<br />
+                                <!-- 102200 -->
                             </p>
                         </li>
                         <li>
                             <h4>Mail</h4>
-                            <p><a href="mailto:tangjm0727@gmail.com">tangjm0727@gmail.com</a></p>
-                            <p><a href="mailto:pettertang@aliyun.com">pettertang@aliyun.com</a></p>
+                            <!-- <p><a href="mailto:tangjm0727@gmail.com">tangjm0727@gmail.com</a></p> -->
+                            <p><a href="mailto:pettertang@aliyun.com">barrykang@aliyun.com</a></p>
                         </li>
                         <li>
                             <h4>QQ</h4>
-                            <p>960707971</p>
+                            <p>3132948915</p>
                             <p>加我请说明通过我的博客看到</p>
                         </li>
                     </ul>
@@ -321,7 +297,7 @@
     <div class="container-fluid">
         <div class="row-fluid">
             <div class="col-md-12">
-                Copyright &copy; 2016 康洪彬 - All rights reserved.
+                Copyright &copy; 2016 HongbinKang - All rights reserved.
             </div>
         </div>
     </div>

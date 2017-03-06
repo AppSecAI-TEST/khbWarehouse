@@ -17,7 +17,7 @@
   <link rel="stylesheet" href="${ctx}/static/css/blog.css" >
   <link rel="stylesheet" href="${ctx}/static/css/syntax.css">
 
-  <link rel="icon" type="image/png" href="${ctx}/static/img/avatar.JPG">
+  <link rel="icon" type="image/png" href="${ctx}/static/img/avatar.jpg">
 
   <!-- Google fonts -->
   <link rel='stylesheet' href='//fonts.googleapis.com/css?family=Open+Sans:300' type='text/css'>
@@ -35,7 +35,7 @@
     <header class="bloghead">
     <dev class="authorheader">
         <a href="/">
-            <img alt="My Avatar" src="${ctx}/static/img/avatar.JPG"/>
+            <img alt="My Avatar" src="${ctx}/static/img/avatar.jpg"/>
         </a>
         <dev class="blogtitle">
             <h3><a href="/">BarryKang</a></h3>
@@ -45,10 +45,10 @@
 
     <nav class="menu" role="nav">
         <ul>
-            <li><a href="/">主页</a></li>
+            <li><a href="/${ctx }">主页</a></li>
             <li>|</li>
-            <li><a href="/menu.html">存档</a></li>
-            <li>|</li>
+            <li><a href="/${ctx }">存档</a></li>
+            <!-- <li>|</li> -->
             <!-- <li><a target="_blank" href="https://github.com/pettertang">Github</a></li> -->
             <li>|</li>
             <li><a target="_blank" href="${ctx}/toAbout">关于我</a></li>
@@ -84,7 +84,7 @@
     <div class="container-fluid">
         <div class="row-fluid">
             <div class="col-md-12">
-                Copyright &copy; 2016 康洪彬 - All rights reserved.
+                Copyright &copy; 2016 HongbinKang - All rights reserved.
             </div>
         </div>
     </div>
