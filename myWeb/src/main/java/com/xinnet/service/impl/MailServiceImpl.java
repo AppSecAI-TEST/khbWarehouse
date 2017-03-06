@@ -2,6 +2,7 @@ package com.xinnet.service.impl;
 
 import java.util.Date;
 import java.util.Properties;
+import java.util.Random;
 
 import javax.mail.Authenticator;
 import javax.mail.Message;
@@ -35,8 +36,8 @@ public class MailServiceImpl implements IEmailService {
 	private static final String EMAILCONTENT = "欢迎使用 CNCD-码上中国博客激活邮件 ，请点击右侧链接完成账号激活:\n";// 邮件内容
 	
 	@Override
-	public void sendEmail(String sendAddress,String content) throws Exception {
-		sendEmail(sendAddress,null,content);
+	public void sendEmailCode(String sendAddress) throws Exception {
+		sendEmail(sendAddress,null,getRandNum(1,999999));
 	}
 	
 	/**
@@ -103,4 +104,8 @@ public class MailServiceImpl implements IEmailService {
 		logger.info("发送完毕");
 	}
 	
+	public String getRandNum(int min, int max) {
+	    int randNum = min + (int)(Math.random() * ((max - min) + 1));
+	    return String.valueOf(randNum);
+	}
 }
