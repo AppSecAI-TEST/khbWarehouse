@@ -66,8 +66,10 @@ public class AccountAction extends BaseAction  {
 		
 		
 		RegisterResultDto dto = userServiceImpl.add(user,code);
-		if(dto.getResult().equals("success")) {
+		if("success".equals(dto.getResult())) {
 			session.setAttribute("User", dto.getUser());
+		} else {
+			return jsp("error");
 		}
 		model.put("returnUrl", returnUrl);
 		return forward("/index");
