@@ -17,9 +17,13 @@ import javax.mail.internet.MimeUtility;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.xinnet.dao.IdentifyingCodeMapper;
+import com.xinnet.entity.IdentifyingCode;
 import com.xinnet.entity.MyEmailAutherticator;
+import com.xinnet.enums.SendModeEnum;
 import com.xinnet.service.IEmailService;
 
 @Service
@@ -34,6 +38,9 @@ public class MailServiceImpl implements IEmailService {
 	private static final String FROMUSERNAME = "CNCD-码上博客"; // 发件人姓名，可随意写
 	private static final String EMAILTITLE = "码上博客注册验证"; // 邮件标题
 	private static final String EMAILCONTENT = "欢迎使用 CNCD-码上中国博客激活邮件 ，请点击右侧链接完成账号激活:\n";// 邮件内容
+	
+	@Autowired
+	private IdentifyingCodeMapper dentifyingCodeMapper;
 	
 	@Override
 	public void sendEmailCode(String sendAddress) throws Exception {
@@ -50,6 +57,9 @@ public class MailServiceImpl implements IEmailService {
 			throws Exception {
 		logger.info("sendAddress={},tittle={},content={}",sendAddress,tittle,content);
 		
+		dentifyingCodeMapper.insertSelective(new IdentifyingCode(SendModeEnum.EMAIL
+						.toString(), sendAddress, content, new Date()));
+
 		// 创建一个连接属性。
 		Properties props = new Properties(); //
 		props.put("mail.smtp.host ", HOSTNAME); // 设置smtp的服务器地址是smtp.126.com

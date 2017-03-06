@@ -19,6 +19,17 @@ public class IdentifyingCode implements Serializable {
 
     private Date creatTime;
 
+    public IdentifyingCode(){
+    	
+    }
+    
+    public IdentifyingCode(String mode, String email,String code,Date creatTime) {
+    	this.mode = mode;
+    	this.email = email;
+    	this.code = code;
+    	this.creatTime = creatTime;
+    }
+    
     public Integer getId() {
         return id;
     }
