@@ -4,11 +4,13 @@
 <script type="text/javascript" src="${ctx}/static/js/jquery.min.js"></script>
 <body>
 <h2>Hello World!</h2>
-<p><input type="text" name="userName" /></p>
-<p><input type="text" name="passWord" /></p>
-<p><input type="text" name="rePassWord" /></p>
-<p><input type="text" id="email" name="email" /><button id="sendEmailCode">获取邮箱验证码</button></p>
-<p><input type="text" name="code" /></p>
+<form action="${ctx}/account/register" mothod="post">
+	<p>用户名<input type="text" name="userName" /></p>
+	<p>密码<input type="text" name="passWord" /></p>
+	<p>重复密码<input type="text" name="rePassWord" /></p>
+	<p>邮箱<input type="text" id="email" name="email" /><button id="sendEmailCode">获取邮箱验证码</button></p>
+	<p>验证码<input type="text" name="code" /></p>
+</form>
 </body>
 <button id="button">注册</button>
 <script type="text/javascript">
@@ -46,5 +48,10 @@ function checkEmail(str){
       return false;
   }  
 }
+</script>
+<script type="text/javascript">
+$("#button").click(function(){
+  
+});
 </script>
 </html>

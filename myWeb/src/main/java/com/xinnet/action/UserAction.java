@@ -38,7 +38,7 @@ public class UserAction extends BaseAction {
 		}
     	try {
     		logger.info("验证判空");
-    		userService.add(user);
+//    		userService.add(user);
 		} catch (IllegalArgumentException e) {
 			// TODO: handle exception
 			logger.info(e.getMessage());

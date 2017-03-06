@@ -37,7 +37,7 @@
       #{email,jdbcType=VARCHAR}, #{creatTime,jdbcType=TIMESTAMP}, #{headPortrait,jdbcType=LONGVARBINARY}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.xinnet.entity.User" >
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id" parameterType="com.xinnet.entity.User" >
     insert into t_user
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >

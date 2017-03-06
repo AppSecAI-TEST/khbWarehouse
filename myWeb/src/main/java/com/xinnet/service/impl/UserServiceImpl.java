@@ -1,6 +1,7 @@
 package com.xinnet.service.impl;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,10 +11,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.xinnet.dao.UserMapper;
 import com.xinnet.entity.Order;
+import com.xinnet.entity.RegisterResultDto;
 import com.xinnet.entity.User;
 import com.xinnet.service.IOrderService;
 import com.xinnet.service.IUserService;
 import com.xinnet.utils.CheckParamUtils;
+import com.xinnet.utils.EncryptUtils;
 
 @Service
 public class UserServiceImpl implements IUserService {
@@ -37,15 +40,18 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	@Override
-	public void add(User record) {
+	public RegisterResultDto add(User record,String code) {
 		CheckParamUtils.isEmpty(record);
+		record.setPassWord(EncryptUtils.MD5(record.getPassWord()));
+		record.setCreatTime(new Date());
 		userMapper.insertSelective(record);
+		return null;
 		
-		Order order = new Order();
+		/*Order order = new Order();
 		order.setUserId(record.getId());
 		order.setAmout(new BigDecimal(10000));
 		order.setWaterNum(UUID.randomUUID().toString());
 		orderService.insertSelective(order);
 //		throw new RuntimeException();
-	}
+*/	}
 }

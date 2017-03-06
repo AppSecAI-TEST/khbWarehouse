@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.xinnet.annotation.NotLogin;
@@ -16,6 +17,7 @@ import com.xinnet.entity.User;
 import com.xinnet.service.IEmailService;
 import com.xinnet.service.IUserService;
 import com.xinnet.utils.CheckEmailAndPhoneUtils;
+import com.xinnet.utils.EncryptUtils;
 
 @Controller
 @RequestMapping("account")
@@ -54,6 +56,17 @@ public class AccountAction extends BaseAction  {
 			}
 		}
 		return ajax(json.toString());
+	}
+	
+	@RequestMapping("register")
+	@NotLogin
+	public String register(@ModelAttribute User user,String code,ModelMap model, String returnUrl) {
+		logger.info("User={}",user);
+		
+		
+		userServiceImpl.add(user,code);
+		model.put("returnUrl", returnUrl);
+		return jsp("account/register");
 	}
 	
 	@RequestMapping("toLogin")

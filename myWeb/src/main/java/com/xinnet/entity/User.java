@@ -1,6 +1,7 @@
 package com.xinnet.entity;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Date;
 
 import com.xinnet.annotation.NotEmpty;
@@ -73,4 +74,12 @@ public class User implements Serializable {
     public void setHeadPortrait(byte[] headPortrait) {
         this.headPortrait = headPortrait;
     }
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", userName=" + userName + ", passWord="
+				+ passWord + ", email=" + email + ", creatTime=" + creatTime
+				+ "]";
+	}
+    
 }
