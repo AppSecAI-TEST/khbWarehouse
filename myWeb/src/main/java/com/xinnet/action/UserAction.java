@@ -25,8 +25,7 @@ public class UserAction extends BaseAction {
     @RequestMapping("/showUser")
     public String toIndex(Model model){  
     	User user = new User();
-    	user.setAge(13);
-    	user.setPassword("1111");
+    	user.setPassWord("1111");
     	user.setUserName("康洪彬");
     	logger.info("用户的实体", user);
     	logger.info(user.toString());

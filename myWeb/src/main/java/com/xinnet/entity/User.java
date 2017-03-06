@@ -1,31 +1,24 @@
 package com.xinnet.entity;
 
-import java.io.Serializable;
+import java.util.Date;
 
 import com.xinnet.annotation.NotEmpty;
-import com.xinnet.annotation.NotNull;
 
-
-public class User implements Serializable {
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -8983483272576663056L;
-
-	private Integer id;
+public class User {
+    private Integer id;
     
     @NotEmpty(name="用户名")
     private String userName;
-
-    @NotEmpty(name="密码",maxLength=20)
-//    @NotNull
-    private String password;
-
-//    @NotNull
-    private Integer age;
+    
+    @NotEmpty(name="密码")
+    private String passWord;
     
     @NotEmpty(name="邮箱")
     private String email;
+
+    private Date creatTime;
+
+    private byte[] headPortrait;
 
     public Integer getId() {
         return id;
@@ -43,22 +36,14 @@ public class User implements Serializable {
         this.userName = userName == null ? null : userName.trim();
     }
 
-    public String getPassword() {
-        return password;
+    public String getPassWord() {
+        return passWord;
     }
 
-    public void setPassword(String password) {
-        this.password = password == null ? null : password.trim();
+    public void setPassWord(String passWord) {
+        this.passWord = passWord == null ? null : passWord.trim();
     }
 
-    public Integer getAge() {
-        return age;
-    }
-
-    public void setAge(Integer age) {
-        this.age = age;
-    }
-    
     public String getEmail() {
         return email;
     }
@@ -67,11 +52,19 @@ public class User implements Serializable {
         this.email = email == null ? null : email.trim();
     }
 
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", userName=" + userName + ", password="
-				+ password + ", age=" + age + ", email=" + email + "]";
-	}
+    public Date getCreatTime() {
+        return creatTime;
+    }
 
-    
+    public void setCreatTime(Date creatTime) {
+        this.creatTime = creatTime;
+    }
+
+    public byte[] getHeadPortrait() {
+        return headPortrait;
+    }
+
+    public void setHeadPortrait(byte[] headPortrait) {
+        this.headPortrait = headPortrait;
+    }
 }

@@ -99,7 +99,6 @@ public class asd {
         
         
         UserP u = new UserP();
-        u.setAge(10);
         u.setSex("nan");
         
 		System.out.println(sss(u));

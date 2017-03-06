@@ -19,7 +19,7 @@ public class UserP extends User {
 	public String toString() {
 		return "UserP [sex=" + sex + ", getId()=" + getId()
 				+ ", getUserName()=" + getUserName() + ", getPassword()="
-				+ getPassword() + ", getAge()=" + getAge() + "]";
+				+ getPassWord()+"]";
 	}
 	
 	

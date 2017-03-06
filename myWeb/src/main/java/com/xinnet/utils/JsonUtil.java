@@ -218,9 +218,8 @@ public class JsonUtil {
         String s = "{id : '1',userName:'abcd',password:'123456ok'}";     
         System.out.println(" object : " + JsonUtil.getJSONString(s));   
         User u = new User();
-        u.setAge(1);
         u.setId(11);
-        u.setPassword("1234567890");
+        u.setPassWord("1234567890");
         System.out.println(u);
         JSONObject j = getJSONObject(u);
         System.out.println(j);
