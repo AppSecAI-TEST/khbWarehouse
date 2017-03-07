@@ -4,12 +4,13 @@
 <script type="text/javascript" src="${ctx}/static/js/jquery.min.js"></script>
 <body>
 <h2>Hello World!</h2>
-<form action="${ctx}/account/register" id="form" mothod="post">
+<form id="form">
 	<p>用户名<input type="text" name="userName" /></p>
 	<p>密码<input type="text" name="passWord" /></p>
 	<p>重复密码<input type="text" name="rePassWord" /></p>
 	<p>邮箱<input type="text" id="email" name="email" /></p>
 	<p>验证码<input type="text" name="code" /></p>
+	<p>验证码<input type="text" name="returnUrl" value="${returnUrl}" /></p>
 </form>
 <button id="sendEmailCode">获取邮箱验证码</button>
 </body>
@@ -52,7 +53,19 @@ function checkEmail(str){
 </script>
 <script type="text/javascript">
 $("#button").click(function(){
-  $("#form").submit();
+  $.ajax({
+    url:"${ctx}/account/register",
+    dataType:'json',
+    data: $("#form").serialize(),
+    type:'post',
+    success:function(data){
+      if(data.code =="success") {
+        
+      } else {
+        alert(data.message);
+      }
+    },
+  }); 
 });
 </script>
 </html>
