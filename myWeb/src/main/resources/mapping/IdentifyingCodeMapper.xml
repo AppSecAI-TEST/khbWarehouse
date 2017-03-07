@@ -141,8 +141,8 @@
   </select>
   
   <update id="updateFalseByEmail" parameterType="java.lang.String" >
-    update t_identifying_code
-    effective ='false'
+    update t_identifying_code 
+    set effective ='false'
     where email = #{email,jdbcType=VARCHAR}
   </update>
 </mapper>
