@@ -4,6 +4,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,8 +15,6 @@ import com.xinnet.dao.UserMapper;
 import com.xinnet.entity.IdentifyingCode;
 import com.xinnet.entity.RegisterResultDto;
 import com.xinnet.entity.User;
-import com.xinnet.enums.SendModeEnum;
-import com.xinnet.service.IOrderService;
 import com.xinnet.service.IUserService;
 import com.xinnet.utils.CheckParamUtils;
 import com.xinnet.utils.EncryptUtils;
@@ -21,6 +22,7 @@ import com.xinnet.utils.EncryptUtils;
 @Service
 public class UserServiceImpl implements IUserService {
 
+	private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 	@Autowired
 	private UserMapper userMapper;
 	
@@ -33,6 +35,38 @@ public class UserServiceImpl implements IUserService {
 		// TODO Auto-generated method stub
 		return userMapper.selectByPrimaryKey(userId);
 	}
+	
+	@Override
+	public User getUserByEmail(String email) {
+		logger.info("[getUserByEmail]-email={}",email);
+		// TODO Auto-generated method stub
+		if(StringUtils.isEmpty(email)) {
+			return null;
+		}else {
+			User record = new User();
+			record.setEmail(email);
+			return userMapper.selectByParam(record);
+		}
+	}
+	
+	@Override
+	public User getUserByParam(User record) {
+		logger.info("[getUserByParam]-User={}",record);
+		return userMapper.selectByParam(record);
+	}
+	
+	@Override
+	public User getUserByUserName(String userName) {
+		logger.info("[getUserByUserName]-userName={}",userName);
+		// TODO Auto-generated method stub
+		if(StringUtils.isEmpty(userName)) {
+			return null;
+		}else {
+			User record = new User();
+			record.setUserName(userName);
+			return userMapper.selectByParam(record);
+		}
+	}
 
 	@Override
 	public int adds(int a, int b) {
@@ -44,6 +78,17 @@ public class UserServiceImpl implements IUserService {
 	public RegisterResultDto add(User record,String code) {
 		CheckParamUtils.isEmpty(record);
 		RegisterResultDto dto = new RegisterResultDto();
+		User user = getUserByEmail(record.getEmail());
+		logger.info("[getUserByEmail]-User={}",user);
+		user = getUserByUserName(record.getUserName());
+		logger.info("[getUserByUserName]-User={}",user);
+		if(null != user) {
+			dto.setResult("false");
+			dto.setMseeage("用户已经存在");
+			logger.info("[RegisterResultDto]-dto={}",dto);
+			return dto;
+		}
+		
 		Map<Object, Object> param = new HashMap<Object, Object>();
 		param.put("email", record.getEmail());
 		param.put("time", new Date());
@@ -53,6 +98,7 @@ public class UserServiceImpl implements IUserService {
 		if(null == identifyingCode) {
 			dto.setResult("false");
 			dto.setMseeage("验证码失效");
+			logger.info("[RegisterResultDto]-dto={}",dto);
 			return dto;
 		} else {
 			dto.setResult("success");
@@ -63,13 +109,7 @@ public class UserServiceImpl implements IUserService {
 		record.setCreatTime(new Date());
 		userMapper.insertSelective(record);
 		dto.setUser(record);
+		logger.info("[RegisterResultDto]-dto={}",dto);
 		return dto;
-		
-		/*Order order = new Order();
-		order.setUserId(record.getId());
-		order.setAmout(new BigDecimal(10000));
-		order.setWaterNum(UUID.randomUUID().toString());
-		orderService.insertSelective(order);
-//		throw new RuntimeException();
-*/	}
+	}
 }

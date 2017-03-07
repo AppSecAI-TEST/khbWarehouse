@@ -16,4 +16,12 @@ public class RegisterResultDto extends BaseResult {
 	public void setUser(User user) {
 		this.user = user;
 	}
+
+	@Override
+	public String toString() {
+		return "RegisterResultDto [user=" + user + ", getResult()="
+				+ getResult() + ", getMseeage()=" + getMseeage() + "]";
+	}
+	
+	
 }

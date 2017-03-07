@@ -7,7 +7,13 @@ public interface IUserService {
 	
 	public User getUserById(int userId);
 	
-	public int adds(int a,int b);
-	
 	public RegisterResultDto add(User record,String code);
+
+	User getUserByEmail(String email);
+
+	User getUserByUserName(String userName);
+
+	int adds(int a, int b);
+
+	User getUserByParam(User record);
 }

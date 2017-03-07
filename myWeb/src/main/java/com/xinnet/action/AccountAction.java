@@ -72,7 +72,7 @@ public class AccountAction extends BaseAction  {
 			return jsp("error");
 		}
 		model.put("returnUrl", returnUrl);
-		return forward("/index");
+		return redirect("/index");
 	}
 	
 	@RequestMapping("toLogin")
