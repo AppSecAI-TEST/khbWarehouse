@@ -139,4 +139,10 @@
         and effective = #{effective,jdbcType=VARCHAR}
       </if>
   </select>
+  
+  <update id="updateFalseByEmail" parameterType="java.lang.String" >
+    update t_identifying_code
+    effective ='false'
+    where email = #{email,jdbcType=VARCHAR}
+  </update>
 </mapper>

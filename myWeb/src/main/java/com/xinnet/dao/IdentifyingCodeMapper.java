@@ -18,4 +18,6 @@ public interface IdentifyingCodeMapper {
     int updateByPrimaryKey(IdentifyingCode record);
 
 	IdentifyingCode selectByParam(Map<Object, Object> param);
+	
+	int updateFalseByEmail(String email);
 }

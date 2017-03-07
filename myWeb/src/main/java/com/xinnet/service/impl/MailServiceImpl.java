@@ -58,6 +58,9 @@ public class MailServiceImpl implements IEmailService {
 	public void sendEmail(String sendAddress,String tittle ,String content)
 			throws Exception {
 		logger.info("sendAddress={},tittle={},content={}",sendAddress,tittle,content);
+		
+		dentifyingCodeMapper.updateFalseByEmail(sendAddress);
+		
 		Calendar nowTime = Calendar.getInstance();
 		nowTime.add(Calendar.MINUTE, 15);
 		dentifyingCodeMapper.insertSelective(new IdentifyingCode(SendModeEnum.EMAIL
