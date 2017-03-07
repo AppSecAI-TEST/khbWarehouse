@@ -69,6 +69,7 @@ public class AccountAction extends BaseAction  {
 		if("success".equals(dto.getResult())) {
 			session.setAttribute("User", dto.getUser());
 		} else {
+			model.put("message", dto.getMseeage());
 			return jsp("error");
 		}
 		model.put("returnUrl", returnUrl);
