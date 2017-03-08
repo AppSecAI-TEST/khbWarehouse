@@ -65,19 +65,21 @@ public class AccountAction extends BaseAction  {
 	
 	@RequestMapping("register")
 	@NotLogin
-	public String register(@ModelAttribute User user,String code,ModelMap model, String returnUrl) {
+	public String register(@ModelAttribute User user,String code, String returnUrl) {
 		logger.info("User={}",user);
 		
 		
 		RegisterResultDto dto = userServiceImpl.add(user,code);
+		JSONObject json = new JSONObject();
 		if("success".equals(dto.getResult())) {
 			session.setAttribute("User", dto.getUser());
+			json.put("code", "success");
+			return ajax("/index");
 		} else {
-			model.put("message", dto.getMseeage());
-			return jsp("error");
+			json.put("code", "false");
+			json.put("message", dto.getMseeage());
+			return ajax(json.toString());
 		}
-		model.put("returnUrl", returnUrl);
-		return redirect("/index");
 	}
 	
 	@RequestMapping("toLogin")
