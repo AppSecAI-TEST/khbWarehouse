@@ -1,7 +1,7 @@
 <%@ page language="java" pageEncoding="UTF-8"%>  
 <%@ page contentType="text/html;charset=UTF-8"%> 
 <html>
-<%@ include file="../common/head.jsp" %>  
+<script type="text/javascript" src="${ctx}/static/js/jquery.min.js"></script>
 <body>
 <h2>Hello World!</h2>
 <form id="form">
