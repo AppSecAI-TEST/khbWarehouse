@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import net.sf.json.JSONObject;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,9 @@ public class AccountAction extends BaseAction  {
 	@RequestMapping("toRegister")
 	@NotLogin
 	public String toRegister(String returnUrl,ModelMap model) {
+		if(StringUtils.isEmpty(returnUrl)) {
+			returnUrl = request.getContextPath()+"/index";
+		}
 		model.put("returnUrl", returnUrl);
 		return jsp("account/register");
 	}

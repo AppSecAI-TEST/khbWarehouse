@@ -10,7 +10,6 @@
 	<p>重复密码<input type="text" name="rePassWord" /></p>
 	<p>邮箱<input type="text" id="email" name="email" /></p>
 	<p>验证码<input type="text" name="code" /></p>
-	<p>验证码<input type="text" name="returnUrl" value="${returnUrl}" /></p>
 </form>
 <button id="sendEmailCode">获取邮箱验证码</button>
 </body>
@@ -60,7 +59,7 @@ $("#button").click(function(){
     type:'post',
     success:function(data){
       if(data.code =="success") {
-        
+        location.href="${returnUrl}";
       } else {
         alert(data.message);
       }
