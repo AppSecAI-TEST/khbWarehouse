@@ -74,7 +74,7 @@ public class AccountAction extends BaseAction  {
 		if("success".equals(dto.getResult())) {
 			session.setAttribute("User", dto.getUser());
 			json.put("code", "success");
-			return ajax("/index");
+			return ajax(json.toString());
 		} else {
 			json.put("code", "false");
 			json.put("message", dto.getMseeage());
