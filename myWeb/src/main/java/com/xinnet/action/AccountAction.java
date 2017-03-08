@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.xinnet.annotation.NotLogin;
+import com.xinnet.entity.LoginResultDto;
 import com.xinnet.entity.RegisterResultDto;
 import com.xinnet.entity.User;
 import com.xinnet.service.IEmailService;
@@ -85,23 +86,35 @@ public class AccountAction extends BaseAction  {
 	@RequestMapping("toLogin")
 	@NotLogin
 	public String toLogin(String returnUrl,ModelMap model) {
+		if(StringUtils.isEmpty(returnUrl)) {
+			returnUrl = request.getContextPath()+"/index";
+		}
 		model.put("returnUrl", returnUrl);
-		return html("login");
+		return jsp("account/login");
 	}
 	
 	@RequestMapping("login")
 	@NotLogin
-	public void login(String returnUrl,ModelMap model,Integer id) {
-		model.put("returnUrl", returnUrl);
-		logger.info("userId={},returnUrl={}", id,returnUrl);
-		User user = userServiceImpl.getUserById(id);
-		logger.info("userDto={}", user.toString());
-		session.setAttribute("User", user);
+	public String login(ModelMap model,String userName, String passWord) {
+		JSONObject json = new JSONObject();
 		try {
-			response.sendRedirect(returnUrl);
-		} catch (IOException e) {
+			LoginResultDto dto = userServiceImpl.loginByParam(userName,passWord);
+			logger.info("LoginResultDto={}", dto.toString());
+			if("success".equals(dto.getResult())) {
+				session.setAttribute("User", dto.getUser());
+				json.put("code", "success");
+				return ajax(json.toString());
+			} else {
+				json.put("code", "false");
+				json.put("message", dto.getMseeage());
+				return ajax(json.toString());
+			}
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			json.put("code", "false");
+			json.put("message", "系统异常");
+			return ajax(json.toString());
 		}
 	}
 }
