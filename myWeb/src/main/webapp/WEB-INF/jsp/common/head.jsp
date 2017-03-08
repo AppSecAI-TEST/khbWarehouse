@@ -6,9 +6,9 @@
 	<script type="text/javascript">
 	$(document ).ajaxComplete(function(event,xhr,settings){
 	  if(xhr.getResponseHeader("sessionstatus") == "timeout"){
-	    local.href = location.href;
+	    location.href = location.href;
 	  }
-	}
+	});
 	
 	</script>
 	</head>
