@@ -164,10 +164,10 @@
             <version>1.2</version>  
         </dependency>  
     </dependencies>  
-    <build>  
+    <!-- <build>  
         <finalName>mavenSSH</finalName>  
         <plugins>  
-            <!-- Run the JUnit unit tests in an isolated classloader -->  
+            Run the JUnit unit tests in an isolated classloader  
             <plugin>  
                 <groupId>org.apache.maven.plugins</groupId>  
                 <artifactId>maven-surefire-plugin</artifactId>  
@@ -204,14 +204,14 @@
                 <configuration>  
                     <container>  
                         <containerId>tomcat7x</containerId>  
-                        <home>D:\tomcat</home><!--Tomcat安装目录-->  
+                        <home>D:\tomcat</home>Tomcat安装目录  
                     </container>  
                     <configuration>  
                         <type>existing</type>  
-                        <home>D:\tomcat</home><!--Tomcat安装目录-->  
+                        <home>D:\tomcat</home>Tomcat安装目录  
                     </configuration>  
                 </configuration>  
             </plugin>  
         </plugins>  
-    </build>  
+    </build>   -->
 </project>
