@@ -1,5 +1,6 @@
 package com.xinnet.service;
 
+import com.xinnet.entity.LoginResultDto;
 import com.xinnet.entity.RegisterResultDto;
 import com.xinnet.entity.User;
 
@@ -16,4 +17,6 @@ public interface IUserService {
 	int adds(int a, int b);
 
 	User getUserByParam(User record);
+
+	public LoginResultDto loginByParam(String userName, String passWord);
 }
