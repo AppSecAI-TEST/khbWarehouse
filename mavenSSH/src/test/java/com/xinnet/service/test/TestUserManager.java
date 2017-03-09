@@ -1,4 +1,4 @@
-package com.xinnet.service;
+package com.xinnet.service.test;
 
 import org.apache.log4j.Logger;
 import org.junit.Test;
@@ -9,6 +9,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.alibaba.fastjson.JSON;
 import com.xinnet.entity.User;
+import com.xinnet.service.UserManager;
   
 @RunWith(SpringJUnit4ClassRunner.class)  
 @ContextConfiguration(locations = {  
