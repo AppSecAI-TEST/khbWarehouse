@@ -13,8 +13,8 @@ import com.xinnet.service.UserManager;
   
 @RunWith(SpringJUnit4ClassRunner.class)  
 @ContextConfiguration(locations = {  
-        "classpath:spring.xml",  
-        "classpath:spring-hibernate.xml"  
+        "classpath*:spring.xml",  
+        "classpath*:spring-hibernate.xml"  
 })  
 public class TestUserManager {  
     private static final Logger LOGGER = Logger.getLogger(TestUserManager.class);  
