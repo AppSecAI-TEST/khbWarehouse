@@ -12,7 +12,7 @@
 	<p>验证码<input type="text" name="code" /></p>
 </form>
 <button id="sendEmailCode">获取邮箱验证码</button>
-</body>
+</body> 
 <button id="button">注册</button>
 <script type="text/javascript">
 $("#sendEmailCode").click(function() {
