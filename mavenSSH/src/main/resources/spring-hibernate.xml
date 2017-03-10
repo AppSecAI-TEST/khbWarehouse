@@ -13,7 +13,7 @@
 	<!-- 配置数据源 使用的是Druid数据源 -->
 	<bean name="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
 		init-method="init" destroy-method="close">
-		<property name="url" value="${jdbc.url}" />
+		<property name="url" value="${jdbc.url}"/>
 		<property name="username" value="${jdbc.username}" />
 		<property name="password" value="${jdbc.password}" />
 
@@ -63,7 +63,7 @@
 			</props>
 		</property>
 		<!-- 扫描hibernate注解配置的entity -->
-		<property name="packagesToScan" value="org.andy.shop.entity" />
+		<property name="packagesToScan" value="com.xinnet.entity" />
 	</bean>
 
 	<!-- 配置事务管理器 -->
@@ -95,7 +95,7 @@
 	<aop:config>
 		<!-- 配置切入点 -->
 		<aop:pointcut id="transactionPointcut"
-			expression="execution(* org.andy.shop.service.impl.*Impl.*(..))" />
+			expression="execution(* com.xinnet.service.impl.*Impl.*(..))" />
 		<!-- 指定在txAdvice切入点应用txAdvice事务增强处理 -->
 		<aop:advisor pointcut-ref="transactionPointcut"
 			advice-ref="transactionAdvice" />
