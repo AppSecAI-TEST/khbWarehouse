@@ -8,26 +8,30 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.alibaba.fastjson.JSON;
-import com.xinnet.entity.User;
-import com.xinnet.service.UserManager;
+import com.xinnet.entity.UserInfo;
+import com.xinnet.service.UserInfoService;
   
 @RunWith(SpringJUnit4ClassRunner.class)  
 @ContextConfiguration(locations = {  
         "classpath:spring.xml",  
         "classpath:spring-hibernate.xml"  
 })  
-public class TestUserManager {  
-    private static final Logger LOGGER = Logger.getLogger(TestUserManager.class);  
-    @Autowired  
-    UserManager userManager;  
-      
-    @Test  
-    public void save() {  
-        User user = new User();  
-        user.setUserName("fengwusan");  
-        user.setPassword("123456");  
-        user.setGender(0);  
-        Integer id = userManager.save(user);  
-        JSON.toJSONString(id);  
-    }  
-} 
+public class TestUserService {
+
+	private static final Logger LOGGER = Logger
+			.getLogger(TestUserService.class);
+
+	@Autowired
+	private UserInfoService userInfoService;
+
+	@Test
+	public void save() {
+		UserInfo userInfo = new UserInfo();
+		userInfo.setName("zty");
+		userInfo.setAge(23);
+		userInfo.setTelephone("1");
+		Integer id = userInfoService.save(userInfo);
+		JSON.toJSONString(id);
+	}
+
+}
