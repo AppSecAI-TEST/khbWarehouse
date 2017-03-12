@@ -8,7 +8,9 @@
   <action-mappings >
    <action path="/hello/test" type="com.xinnet.action.HelloAction" parameter="method" scope="request">           
       <forward name="detail" path="/WEB-INF/user/users.jsp" /> 
-      <forward name="list" path="/WEB-INF/user/list.jsp" />         
+      <forward name="list" path="/WEB-INF/user/list.jsp" />   
+      <forward name="edit" path="/WEB-INF/user/edit.jsp" />  
+      <forward name="success" path="/hello/test.do?method=list" />    
     </action>
   </action-mappings>
   <!-- <message-resources parameter="com.yourcompany.struts.ApplicationResources" /> -->

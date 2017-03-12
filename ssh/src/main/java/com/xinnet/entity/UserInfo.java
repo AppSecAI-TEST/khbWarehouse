@@ -17,9 +17,18 @@ public class UserInfo implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 5127853981202454040L;
+	
+	@Id  
+    @GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
+	
+	@Column(name = "name", nullable = false)
 	private String name;
+	
+	@Column(name = "age")
 	private Integer age;
+	
+	@Column(name = "telephone")
 	private String telephone;
 
 	public UserInfo() {
@@ -37,8 +46,7 @@ public class UserInfo implements Serializable {
 		this.telephone = telephone;
 	}
 
-	@Id  
-    @GeneratedValue(strategy=GenerationType.AUTO)
+	
 	public int getId() {
 		return this.id;
 	}
@@ -47,7 +55,7 @@ public class UserInfo implements Serializable {
 		this.id = id;
 	}
 
-	@Column(name = "name", nullable = false)
+	
 	public String getName() {
 		return this.name;
 	}
@@ -56,7 +64,7 @@ public class UserInfo implements Serializable {
 		this.name = name;
 	}
 
-	@Column(name = "age")
+	
 	public Integer getAge() {
 		return this.age;
 	}
@@ -65,7 +73,7 @@ public class UserInfo implements Serializable {
 		this.age = age;
 	}
 
-	@Column(name = "telephone")
+	
 	public String getTelephone() {
 		return this.telephone;
 	}
