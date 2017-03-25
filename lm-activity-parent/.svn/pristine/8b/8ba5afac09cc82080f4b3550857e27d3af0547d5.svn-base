@@ -1,0 +1,160 @@
+package com.yeepay.g3.core.activity.entity;
+
+import java.util.Date;
+
+import com.yeepay.g3.utils.persistence.EntityVersion;
+
+public class ActivityInfo implements EntityVersion<Long> {
+
+	private static final long serialVersionUID = -3831067003088851316L;
+
+	private Long id;
+
+    private Long version;
+
+    private String activityCode;
+
+    private String activityName;
+
+    private Date uplineTime;
+
+    private Date startTime;
+
+    private Date endTime;
+
+    private String activityStatus;
+
+    private Date createTime;
+
+    private String creator;
+
+    private Date checkedTime;
+
+    private String checkor;
+
+    private String activityUrl;
+
+    private String uplineRemark;
+
+    private String offlineRemark;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
+    }
+
+    public String getActivityCode() {
+        return activityCode;
+    }
+
+    public void setActivityCode(String activityCode) {
+        this.activityCode = activityCode == null ? null : activityCode.trim();
+    }
+
+    public String getActivityName() {
+        return activityName;
+    }
+
+    public void setActivityName(String activityName) {
+        this.activityName = activityName == null ? null : activityName.trim();
+    }
+
+    public Date getUplineTime() {
+        return uplineTime;
+    }
+
+    public void setUplineTime(Date uplineTime) {
+        this.uplineTime = uplineTime;
+    }
+
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
+    }
+
+    public String getActivityStatus() {
+        return activityStatus;
+    }
+
+    public void setActivityStatus(String activityStatus) {
+        this.activityStatus = activityStatus == null ? null : activityStatus.trim();
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public String getCreator() {
+        return creator;
+    }
+
+    public void setCreator(String creator) {
+        this.creator = creator == null ? null : creator.trim();
+    }
+
+    public Date getCheckedTime() {
+        return checkedTime;
+    }
+
+    public void setCheckedTime(Date checkedTime) {
+        this.checkedTime = checkedTime;
+    }
+
+    public String getCheckor() {
+        return checkor;
+    }
+
+    public void setCheckor(String checkor) {
+        this.checkor = checkor == null ? null : checkor.trim();
+    }
+
+    public String getActivityUrl() {
+        return activityUrl;
+    }
+
+    public void setActivityUrl(String activityUrl) {
+        this.activityUrl = activityUrl == null ? null : activityUrl.trim();
+    }
+
+    public String getUplineRemark() {
+        return uplineRemark;
+    }
+
+    public void setUplineRemark(String uplineRemark) {
+        this.uplineRemark = uplineRemark == null ? null : uplineRemark.trim();
+    }
+
+    public String getOfflineRemark() {
+        return offlineRemark;
+    }
+
+    public void setOfflineRemark(String offlineRemark) {
+        this.offlineRemark = offlineRemark == null ? null : offlineRemark.trim();
+    }
+}

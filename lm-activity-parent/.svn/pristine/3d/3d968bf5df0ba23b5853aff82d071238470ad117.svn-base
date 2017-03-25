@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+    <!-- classPathEntry:数据库的JDBC驱动,换成你自己的驱动位置 -->
+    <classPathEntry location="/Users/Iren08/work/maven/repository/com/ibm/db2/db2jcc4/1.6.0_9.7/db2jcc4-1.6.0_9.7.jar" />
+
+    <context id="DB2Tables" targetRuntime="MyBatis3">
+
+        <!-- 去除自动生成的注释 -->
+        <commentGenerator>
+            <property name="suppressAllComments" value="true" />
+        </commentGenerator>
+
+        <jdbcConnection driverClass="com.ibm.db2.jcc.DB2Driver"
+                        connectionURL="jdbc:db2://172.17.106.194:50000/qa3new"
+                        userId="db2inst"
+                        password="dev8132430">
+        </jdbcConnection>
+
+<!--         <javaTypeResolver > -->
+<!--             <property name="forceBigDecimals" value="false" /> -->
+<!--         </javaTypeResolver> -->
+
+        <!-- targetProject:自动生成代码的位置 -->
+        <javaModelGenerator targetPackage="com.yeepay.g3.core.activity.entity" targetProject="activity-core">
+            <property name="enableSubPackages" value="true" />
+            <property name="trimStrings" value="true" />
+        </javaModelGenerator>
+        <sqlMapGenerator targetPackage="com.yeepay.g3.core.activity.entity"  targetProject="activity-core">
+            <property name="enableSubPackages" value="true" />
+        </sqlMapGenerator>
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.yeepay.g3.core.activity.entity"  targetProject="activity-core">
+            <property name="enableSubPackages" value="true" />
+        </javaClientGenerator>
+
+        <!-- tableName:用于自动生成代码的数据库表；domainObjectName:对应于数据库表的javaBean类名 -->
+        <!-- <table tableName="TBL_ACTIVITY_COUPON" domainObjectName="ActivityCoupon" />
+        <table tableName="TBL_ACTIVITY_RULE" domainObjectName="ActivityRule" />
+        <table tableName="TBL_ACTIVITY_EVENT" domainObjectName="ActivityEvent" />
+        <table tableName="TBL_ACTIVITY_COUPON_EVENT_RELATION" domainObjectName="ActivityCouponEventRelation" />
+        <table tableName="TBL_ACTIVITY_RULE_EVENT_RELATION" domainObjectName="ActivityRuleEventRelation" />
+        <table tableName="TBL_ACTIVITY_USERCOUPON" domainObjectName="ActivityUsercoupon" />
+        <table tableName="TBL_ACTIVITY_USERCOUPON_RECORD" domainObjectName="ActivityUsercouponRecord" />
+        <table tableName="TBL_ACTIVITY_COUPON_LEVEL" domainObjectName="ActivityCouponLevel" />
+        <table tableName="TBL_ACTIVITY_GRANT_RECORD" domainObjectName="ActivityGrantRecord" /> -->
+<!--         <table tableName="TBL_ACTIVITY_SHARE_RECORDS" domainObjectName="ActivityShareRecords" /> -->
+<!--         <table tableName="TBL_ACTIVITY_ACTION" domainObjectName="ActivityAction" /> -->
+<!--         <table tableName="TBL_ACTIVITY_ACTION_RELA" domainObjectName="ActivityActionRela" /> -->
+<!--         <table tableName="TBL_ACTIVITY_CHANNEL_RELA" domainObjectName="ActivityChannelRela" /> -->
+<!--         <table tableName="TBL_ACTIVITY_GOODS" domainObjectName="ActivityGoods" /> -->
+<!--         <table tableName="TBL_ACTIVITY_INFO" domainObjectName="ActivityInfo" /> -->
+<!--         <table tableName="TBL_ACTIVITY_MEMBER_OPERECORD" domainObjectName="ActivityMemberOperecord" /> -->
+        <table tableName="TBL_ACTIVITY_PRIZE" domainObjectName="ActivityPrize" />
+<!--         <table tableName="TBL_ACTIVITY_RAFFLETICKET_RECORD" domainObjectName="ActivityRaffleticketRecord" /> -->
+<!--         <table tableName="TBL_ACTIVITY_RAFFLE_TICKET" domainObjectName="ActivityRaffleTicket" /> -->
+<!--         <table tableName="TBL_ACTIVITY_USER_PRIZE" domainObjectName="ActivityUserPrize" /> -->
+<!--         <table tableName="TBL_ACTIVITY_USER_RAFFLETICKET" domainObjectName="ActivityUserRaffleticket" /> -->
+        <!--<table tableName="pds_system_level" domainObjectName="PdsSystemLevel" />-->
+    </context>
+
+</generatorConfiguration>

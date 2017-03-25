@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd"> -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+    
+    <!-- 账务处理接口  -->
+<!--     <bean id="accountingFacade" class="org.springframework.remoting.caucho.HessianProxyFactoryBean">  -->
+<!-- 		<property name="serviceUrl" value="${account-hessian-url}/accounting-hessian/hessian/accountingFacade" />  -->
+<!-- 		<property name="serviceInterface" value="com.yeepay.g3.facade.accounting.facade.AccountingFacade" />  -->
+<!-- 	</bean> -->
+	
+    <!-- 线下汇入银行查询接口  -->
+<!--     <bean id="yPReconcileDocFacade" class="org.springframework.remoting.caucho.HessianProxyFactoryBean">  -->
+<!-- 		<property name="serviceUrl" value="${remit-hessian-url}/remit-hessian/hessian/YPReconcileDocFacade" />  -->
+<!-- 		<property name="serviceInterface" value="com.yeepay.g3.facade.remit.service.YPReconcileDocFacade" />  -->
+<!-- 	</bean> -->
+	
+    <!-- 修改商户可用打款余额接口  -->
+<!--     <bean id="daemonCalcValidateAmountFacade" class="org.springframework.remoting.caucho.HessianProxyFactoryBean">  -->
+<!-- 		<property name="serviceUrl" value="${balance-hessian-url}/balance-hessian/hessian/DaemonCalcValidateAmountFacade" />  -->
+<!-- 		<property name="serviceInterface" value="com.yeepay.g3.facade.balance.facade.DaemonCalcValidateAmountFacade" />  -->
+<!-- 	</bean> -->
+	
+	<!-- 查询二代商户信息接口 -->
+<!-- 	<bean id="g2ServiceInterfaceFacade" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean"> -->
+<!--         <property name="serviceUrl" value="${biz-for3g-url}/biz-for3g/httpinvoke/G2ServiceInterfaceFacade"/> -->
+<!--         <property name="serviceInterface" value="com.yeepay.app.httpinvoke.online.facade.G2ServiceInterfaceFacade"/> -->
+<!--     </bean> -->
+</beans>

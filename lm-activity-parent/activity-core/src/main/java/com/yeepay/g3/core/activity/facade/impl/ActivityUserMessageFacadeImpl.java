@@ -1,0 +1,110 @@
+/**
+ * 
+ */
+package com.yeepay.g3.core.activity.facade.impl;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.yeepay.g3.core.activity.entity.ActivityUserMessage;
+import com.yeepay.g3.core.activity.service.ActivityUserMessageService;
+import com.yeepay.g3.core.activity.utils.EntityDTOConvert;
+import com.yeepay.g3.core.activity.utils.UserMessageContentUtil;
+import com.yeepay.g3.facade.activity.dto.ActivityUserMessageDTO;
+import com.yeepay.g3.facade.activity.enums.UserMessageReadStatusEnum;
+import com.yeepay.g3.facade.activity.facade.ActivityUserMessageFacade;
+import com.yeepay.g3.utils.common.StringUtils;
+import com.yeepay.g3.utils.common.json.JSONObject;
+
+import freemarker.cache.ClassTemplateLoader;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+
+/**
+ * @Description 用户消息公告记录对外接口实现类
+ * @author zhenping.zhou
+ * @CreateTime 2016年3月24日 下午8:21:23
+ * @version 1.0
+ */
+@Service
+public class ActivityUserMessageFacadeImpl implements ActivityUserMessageFacade {
+
+    private static Log logger = LogFactory.getLog(ActivityUserMessageFacadeImpl.class);
+    
+	@Autowired
+	private ActivityUserMessageService activityUserMessageServiceImpl;
+	
+	private Configuration cfg = new Configuration();
+
+	@Override
+	public List<ActivityUserMessageDTO> selectByMemberNo(String memberNo) {
+		
+	    cfg.setTemplateLoader(new ClassTemplateLoader(this.getClass(), "/template"));
+	    
+		List<ActivityUserMessageDTO> list = new ArrayList<ActivityUserMessageDTO>();
+		try {
+			List<ActivityUserMessage> resultList = activityUserMessageServiceImpl.selectByMemberNo(memberNo);
+			if(resultList != null && resultList.size() > 0) {
+				list = EntityDTOConvert.toTragetList(resultList, ActivityUserMessageDTO.class);
+	            Template template = null;
+	            Map<String, Object> params = null;
+				for(ActivityUserMessageDTO userMsg : list) {
+					template = cfg.getTemplate(userMsg.getTemplateName(), "UTF-8");
+//					logger.info("before userMsg.getMsgContent={}" + userMsg.getMsgContent());
+					params = new HashMap<String, Object>();
+					String msgContent = userMsg.getMsgContent();
+					if(StringUtils.isNotEmpty(msgContent)) {
+						JSONObject contentJson = new JSONObject(msgContent);
+						Iterator it = contentJson.keys();  
+						// 遍历jsonObject数据，添加到Map对象  
+						while (it.hasNext()) {  
+							String key = String.valueOf(it.next());  
+							String value = (String) contentJson.get(key);  
+							params.put(key, value);
+						}
+						//添加id和version
+						params.put("messageId", userMsg.getId());
+						params.put("versions", userMsg.getVersion());
+						if(userMsg.getReadStatus()==UserMessageReadStatusEnum.READED){
+							params.put("readStatusClass", "");
+						}else{
+							params.put("readStatusClass", "icon-round pa");
+						}
+						userMsg.setMsgContent(UserMessageContentUtil.generateUserMsgContent(params, template));
+						
+						logger.info("after userMsg.getMsgContent={}" + userMsg.getMsgContent());
+					}
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.yeepay.g3.facade.activity.facade.ActivityUserMessageFacade#updateReadStatus(com.yeepay.g3.facade.activity.dto.ActivityUserMessageDTO)
+	 */
+	@Override
+	public void updateReadStatus(ActivityUserMessageDTO activityUserMessageDto) {
+		ActivityUserMessage activityUserMessage = EntityDTOConvert.toTarget(activityUserMessageDto, ActivityUserMessage.class);
+		activityUserMessageServiceImpl.updateReadStatus(activityUserMessage);
+	}
+
+	/* (non-Javadoc)
+	 * @see com.yeepay.g3.facade.activity.facade.ActivityUserMessageFacade#queryMessageCountByMemberNo(java.lang.String)
+	 */
+	@Override
+	public Integer queryMessageCountByMemberNo(String memberNo) {
+		return activityUserMessageServiceImpl.queryMessageCountByMemberNo(memberNo);
+	}
+
+}

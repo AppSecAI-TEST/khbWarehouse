@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ActivityUserPrize" >
+  <resultMap id="BaseResultMap" type="com.yeepay.g3.core.activity.entity.ActivityUserPrize" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="VERSION" property="version" jdbcType="BIGINT" />
+    <result column="RAFFLE_TICKET_RECORD_ID" property="raffleTicketRecordId" jdbcType="BIGINT" />
+    <result column="RAFFLE_TICKET_ID" property="raffleTicketId" jdbcType="BIGINT" />
+    <result column="PRIZE_ID" property="prizeId" jdbcType="BIGINT" />
+    <result column="PRIZE_NAME" property="prizeName" jdbcType="VARCHAR" />
+    <result column="MEMBER_NO" property="memberNo" jdbcType="VARCHAR" />
+    <result column="MEMBER_TEL" property="memberTel" jdbcType="VARCHAR" />
+    <result column="GRANT_STATUS" property="grantStatus" jdbcType="BIGINT" />
+    <result column="GRANT_TYPE" property="grantType" jdbcType="VARCHAR" />
+    <result column="TRACKING_NUMBER" property="trackingNumber" jdbcType="VARCHAR" />
+    <result column="MEMO" property="memo" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="CHECKED_TIME" property="checkedTime" jdbcType="TIMESTAMP" />
+    <result column="CHECKOR" property="checked" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select * 
+    from TBL_ACTIVITY_USER_PRIZE
+    where ID = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from TBL_ACTIVITY_USER_PRIZE
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.yeepay.g3.core.activity.entity.ActivityUserPrize" useGeneratedKeys="true" keyProperty="id" >
+    insert into TBL_ACTIVITY_USER_PRIZE (ID, VERSION, RAFFLE_TICKET_RECORD_ID, 
+      RAFFLE_TICKET_ID, PRIZE_ID, PRIZE_NAME, 
+      MEMBER_NO, MEMBER_TEL, GRANT_STATUS, 
+      GRANT_TYPE, TRACKING_NUMBER, MEMO, 
+      CREATE_TIME)
+    values (#{id,jdbcType=BIGINT}, #{version,jdbcType=BIGINT}, #{raffleTicketRecordId,jdbcType=BIGINT}, 
+      #{raffleTicketId,jdbcType=BIGINT}, #{prizeId,jdbcType=BIGINT}, #{prizeName,jdbcType=VARCHAR}, 
+      #{memberNo,jdbcType=VARCHAR}, #{memberTel,jdbcType=VARCHAR}, #{grantStatus,jdbcType=BIGINT}, 
+      #{grantType,jdbcType=VARCHAR}, #{trackingNumber,jdbcType=VARCHAR}, #{memo,jdbcType=VARCHAR}, 
+      current timestamp)
+  </insert>
+  <update id="update" parameterType="com.yeepay.g3.core.activity.entity.ActivityUserPrize" >
+    update TBL_ACTIVITY_USER_PRIZE
+    <set >
+      <if test="version != null" >
+        VERSION = VERSION + 1,
+      </if>
+      <if test="raffleTicketRecordId != null" >
+        RAFFLE_TICKET_RECORD_ID = #{raffleTicketRecordId,jdbcType=BIGINT},
+      </if>
+      <if test="raffleTicketId != null" >
+        RAFFLE_TICKET_ID = #{raffleTicketId,jdbcType=BIGINT},
+      </if>
+      <if test="prizeId != null" >
+        PRIZE_ID = #{prizeId,jdbcType=BIGINT},
+      </if>
+      <if test="prizeName != null" >
+        PRIZE_NAME = #{prizeName,jdbcType=VARCHAR},
+      </if>
+      <if test="memberNo != null" >
+        MEMBER_NO = #{memberNo,jdbcType=VARCHAR},
+      </if>
+      <if test="memberTel != null" >
+        MEMBER_TEL = #{memberTel,jdbcType=VARCHAR},
+      </if>
+      <if test="grantStatus != null" >
+        GRANT_STATUS = #{grantStatus,jdbcType=BIGINT},
+      </if>
+      <if test="grantType != null" >
+        GRANT_TYPE = #{grantType,jdbcType=VARCHAR},
+      </if>
+      <if test="trackingNumber != null" >
+        TRACKING_NUMBER = #{trackingNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="memo != null" >
+        MEMO = #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkedTime != null" >
+        CHECKED_TIME = #{checkedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkor != null" >
+        CHECKOR = #{checkor,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=BIGINT} AND VERSION = #{version,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yeepay.g3.core.activity.entity.ActivityUserPrize" >
+    update TBL_ACTIVITY_USER_PRIZE
+    set VERSION = #{version,jdbcType=BIGINT},
+      RAFFLE_TICKET_RECORD_ID = #{raffleTicketRecordId,jdbcType=BIGINT},
+      RAFFLE_TICKET_ID = #{raffleTicketId,jdbcType=BIGINT},
+      PRIZE_ID = #{prizeId,jdbcType=BIGINT},
+      PRIZE_NAME = #{prizeName,jdbcType=VARCHAR},
+      MEMBER_NO = #{memberNo,jdbcType=VARCHAR},
+      MEMBER_TEL = #{memberTel,jdbcType=VARCHAR},
+      GRANT_STATUS = #{grantStatus,jdbcType=BIGINT},
+      GRANT_TYPE = #{grantType,jdbcType=VARCHAR},
+      TRACKING_NUMBER = #{trackingNumber,jdbcType=VARCHAR},
+      MEMO = #{memo,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

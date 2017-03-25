@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ZtSceneMapper">
+  <resultMap id="BaseResultMap" type="com.yeepay.g3.core.zt.entity.ZtScene">
+    <id column="ID" jdbcType="BIGINT" property="id" />
+    <result column="VERSION" jdbcType="BIGINT" property="version" />
+    <result column="SCENE_NAME" jdbcType="VARCHAR" property="sceneName" />
+    <result column="SCENE_DESC" jdbcType="VARCHAR" property="sceneDesc" />
+    <result column="SCENE_TYPE" jdbcType="VARCHAR" property="sceneType" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="CREATOR" jdbcType="VARCHAR" property="creator" />
+    <result column="CHECK_STATUS" jdbcType="VARCHAR" property="checkStatus" />
+    <result column="CHECK_TIME" jdbcType="TIMESTAMP" property="checkTime" />
+    <result column="CHECKER" jdbcType="VARCHAR" property="checker" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.yeepay.g3.core.zt.entity.ZtScene">
+    <result column="SCENE_ICON" jdbcType="BLOB" property="sceneIcon" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, VERSION, SCENE_NAME, SCENE_DESC, SCENE_TYPE, CREATE_TIME, CREATOR, CHECK_STATUS, 
+    CHECK_TIME, CHECKER
+  </sql>
+  <sql id="Blob_Column_List">
+    SCENE_ICON
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from ACTIVITY.TBL_ZT_SCENE
+    where ID = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from ACTIVITY.TBL_ZT_SCENE
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.yeepay.g3.core.zt.entity.ZtScene">
+    insert into ACTIVITY.TBL_ZT_SCENE (ID, VERSION, SCENE_NAME, 
+      SCENE_DESC, SCENE_TYPE, CREATE_TIME, 
+      CREATOR, CHECK_STATUS, CHECK_TIME, 
+      CHECKER, SCENE_ICON)
+    values (#{id,jdbcType=BIGINT}, #{version,jdbcType=BIGINT}, #{sceneName,jdbcType=VARCHAR}, 
+      #{sceneDesc,jdbcType=VARCHAR}, #{sceneType,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{creator,jdbcType=VARCHAR}, #{checkStatus,jdbcType=VARCHAR}, #{checkTime,jdbcType=TIMESTAMP}, 
+      #{checker,jdbcType=VARCHAR}, #{sceneIcon,jdbcType=BLOB})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yeepay.g3.core.zt.entity.ZtScene">
+    insert into ACTIVITY.TBL_ZT_SCENE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="version != null">
+        VERSION,
+      </if>
+      <if test="sceneName != null">
+        SCENE_NAME,
+      </if>
+      <if test="sceneDesc != null">
+        SCENE_DESC,
+      </if>
+      <if test="sceneType != null">
+        SCENE_TYPE,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="creator != null">
+        CREATOR,
+      </if>
+      <if test="checkStatus != null">
+        CHECK_STATUS,
+      </if>
+      <if test="checkTime != null">
+        CHECK_TIME,
+      </if>
+      <if test="checker != null">
+        CHECKER,
+      </if>
+      <if test="sceneIcon != null">
+        SCENE_ICON,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=BIGINT},
+      </if>
+      <if test="sceneName != null">
+        #{sceneName,jdbcType=VARCHAR},
+      </if>
+      <if test="sceneDesc != null">
+        #{sceneDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="sceneType != null">
+        #{sceneType,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="checkStatus != null">
+        #{checkStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="checkTime != null">
+        #{checkTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checker != null">
+        #{checker,jdbcType=VARCHAR},
+      </if>
+      <if test="sceneIcon != null">
+        #{sceneIcon,jdbcType=BLOB},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yeepay.g3.core.zt.entity.ZtScene">
+    update ACTIVITY.TBL_ZT_SCENE
+    <set>
+      <if test="version != null">
+        VERSION = #{version,jdbcType=BIGINT},
+      </if>
+      <if test="sceneName != null">
+        SCENE_NAME = #{sceneName,jdbcType=VARCHAR},
+      </if>
+      <if test="sceneDesc != null">
+        SCENE_DESC = #{sceneDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="sceneType != null">
+        SCENE_TYPE = #{sceneType,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        CREATOR = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="checkStatus != null">
+        CHECK_STATUS = #{checkStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="checkTime != null">
+        CHECK_TIME = #{checkTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checker != null">
+        CHECKER = #{checker,jdbcType=VARCHAR},
+      </if>
+      <if test="sceneIcon != null">
+        SCENE_ICON = #{sceneIcon,jdbcType=BLOB},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.yeepay.g3.core.zt.entity.ZtScene">
+    update ACTIVITY.TBL_ZT_SCENE
+    set VERSION = #{version,jdbcType=BIGINT},
+      SCENE_NAME = #{sceneName,jdbcType=VARCHAR},
+      SCENE_DESC = #{sceneDesc,jdbcType=VARCHAR},
+      SCENE_TYPE = #{sceneType,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      CREATOR = #{creator,jdbcType=VARCHAR},
+      CHECK_STATUS = #{checkStatus,jdbcType=VARCHAR},
+      CHECK_TIME = #{checkTime,jdbcType=TIMESTAMP},
+      CHECKER = #{checker,jdbcType=VARCHAR},
+      SCENE_ICON = #{sceneIcon,jdbcType=BLOB}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yeepay.g3.core.zt.entity.ZtScene">
+    update ACTIVITY.TBL_ZT_SCENE
+    set VERSION = #{version,jdbcType=BIGINT},
+      SCENE_NAME = #{sceneName,jdbcType=VARCHAR},
+      SCENE_DESC = #{sceneDesc,jdbcType=VARCHAR},
+      SCENE_TYPE = #{sceneType,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      CREATOR = #{creator,jdbcType=VARCHAR},
+      CHECK_STATUS = #{checkStatus,jdbcType=VARCHAR},
+      CHECK_TIME = #{checkTime,jdbcType=TIMESTAMP},
+      CHECKER = #{checker,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

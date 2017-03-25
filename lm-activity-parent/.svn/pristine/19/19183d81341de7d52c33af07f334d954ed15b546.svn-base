@@ -1,0 +1,77 @@
+package com.yeepay.g3.core.activity.service;
+
+import java.util.Date;
+
+import com.yeepay.g3.core.activity.entity.ActivityMemberOperecord;
+import com.yeepay.g3.core.activity.entity.ActivityUserMessage;
+import com.yeepay.g3.facade.lmact.enumtype.ArenaDetailTypeEnum;
+import com.yeepay.g3.facade.lmlc.async.event.LMTradeMessageEvent;
+import com.yeepay.g3.facade.lmportal.async.event.ActivityMemberRecords;
+/**
+ * @Title: 会员操作记录业务逻辑处理接口
+ * @Copyright: 懒猫金服
+ * @author zhenping.zhou
+ * @createTime 2016-5-18 下午1:51:00
+ * @version 2016-5-4
+ */
+
+public interface ActivityMemberOperecordService {
+	
+	/**
+	 * 添加会员操作记录
+	 * @param in - activityMemberOperecord
+	 * @return
+	 */
+	public void addActivityMemberOperecord(ActivityMemberOperecord memberOperecord);
+	
+	/**
+	 * 会员消息公告记录初始化
+	 * @param memberTel
+	 * @param occurTime
+	 * @param templeteName
+	 * @param memberNo
+	 * @param score
+	 * @param wxNickName
+	 * @return
+	 */
+	public ActivityUserMessage initUserMessage(String memberTel, Date occurTime,
+			String templateName, String memberNo, Integer score, String wxNickName,String prizeName,String activityName);
+	
+	/**
+	 * 根据会员记录ID补发抽奖券
+	 * @param userMemberOperecordId
+	 */
+	public void updateUserRaffleTicket(Long userMemberOperecordId);
+
+	/**
+	 * 送抽奖券
+	 * @param in - memberOperecord
+	 * @return 
+	 */
+	public void addUserRaffleTicket(ActivityMemberOperecord memberOperecord);
+	
+	/**
+	 * 绑卡发送流量
+	 * @param in -
+	 * @return 
+	 */
+	public void sendBindCardFlow(ActivityMemberRecords event,ActivityMemberOperecord activityMemberOperecord);
+	
+	/**
+	 * 投资发放流量
+	 * @param in -
+	 * @return 
+	 */
+	public void sendInvestFlow(LMTradeMessageEvent event,ActivityMemberOperecord activityMemberOperecord);
+
+	/**
+	 * 其他的送流量的活动
+	 * @author hongbin.kang
+	 * @date 2016年9月14日 下午3:39:30
+	 * @param memberNo
+	 * @param otherType
+	 * @param otherSrcNo
+	 */
+	public void sendFlowByOtherWays(String memberNo, ArenaDetailTypeEnum otherType,
+			String otherSrcNo);
+}

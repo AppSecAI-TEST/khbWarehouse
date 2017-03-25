@@ -1,0 +1,265 @@
+/**
+ * @author 陈大涛
+ * 2016-6-1下午4:03:43
+ */
+package com.yeepay.g3.core.activity.service.impl;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.yeepay.g3.core.activity.dao.ActivityActionRelaDao;
+import com.yeepay.g3.core.activity.dao.ActivityCouponDao;
+import com.yeepay.g3.core.activity.dao.ActivityGoodsDao;
+import com.yeepay.g3.core.activity.dao.ActivityInfoDao;
+import com.yeepay.g3.core.activity.dao.ActivityPrizeDao;
+import com.yeepay.g3.core.activity.dao.ActivityRaffleticketRecordDao;
+import com.yeepay.g3.core.activity.dao.ActivityUserInfoDao;
+import com.yeepay.g3.core.activity.dao.ActivityUserMessageDao;
+import com.yeepay.g3.core.activity.dao.ActivityUserPrizeDao;
+import com.yeepay.g3.core.activity.dao.ActivityUserRaffleticketDao;
+import com.yeepay.g3.core.activity.dao.ActivityUserScoreRecordDao;
+import com.yeepay.g3.core.activity.entity.ActivityCoupon;
+import com.yeepay.g3.core.activity.entity.ActivityGoods;
+import com.yeepay.g3.core.activity.entity.ActivityInfo;
+import com.yeepay.g3.core.activity.entity.ActivityPrize;
+import com.yeepay.g3.core.activity.entity.ActivityRaffleticketRecord;
+import com.yeepay.g3.core.activity.entity.ActivityUserInfo;
+import com.yeepay.g3.core.activity.entity.ActivityUserMessage;
+import com.yeepay.g3.core.activity.entity.ActivityUserPrize;
+import com.yeepay.g3.core.activity.entity.ActivityUserRaffleticket;
+import com.yeepay.g3.core.activity.entity.ActivityUserScoreRecord;
+import com.yeepay.g3.core.activity.entity.ActivityUsercoupon;
+import com.yeepay.g3.core.activity.service.ActivityDrawPrizeService;
+import com.yeepay.g3.core.activity.service.ActivityUsercouponService;
+import com.yeepay.g3.core.activity.utils.Constant;
+import com.yeepay.g3.core.activity.utils.WxUtil;
+import com.yeepay.g3.facade.activity.dto.ActivityWXSendMessageDTO;
+import com.yeepay.g3.facade.activity.enums.ActivityWXSendMessageEnum;
+import com.yeepay.g3.facade.activity.enums.PrizeGrantStatusEnum;
+import com.yeepay.g3.facade.activity.enums.PrizeGrantWayEnum;
+import com.yeepay.g3.facade.activity.enums.PrizeTypeEnum;
+import com.yeepay.g3.facade.activity.enums.RuleTypeEnum;
+import com.yeepay.g3.facade.activity.enums.UserMessageReadStatusEnum;
+import com.yeepay.g3.facade.activity.enums.UserRaffleticketStatusEnum;
+import com.yeepay.g3.facade.activity.enums.UserScoreRecordTypeEnum;
+import com.yeepay.g3.facade.activity.enums.UsercouponStatusEnum;
+import com.yeepay.g3.facade.activity.enums.ValidityTypeEnum;
+import com.yeepay.g3.utils.common.DateUtils;
+
+/**
+ * @author 陈大涛
+ * 2016-6-1下午4:03:43
+ */
+@Service
+public class ActivityDrawPrizeServiceImpl implements ActivityDrawPrizeService{
+
+	@Resource
+	private ActivityUserRaffleticketDao activityUserRaffleticketDaoImpl;
+	@Resource
+	private ActivityRaffleticketRecordDao activityRaffleticketRecordDaoImpl;
+	@Resource
+	private ActivityActionRelaDao activityActionRelaDaoImpl;
+	@Resource
+	private ActivityPrizeDao activityPrizeDaoImpl;
+	@Resource
+	private ActivityInfoDao activityInfoDaoImpl;
+	@Resource
+	private ActivityUserPrizeDao activityUserPrizeDaoImpl;
+	@Resource
+	private ActivityGoodsDao activityGoodsDaoImpl;
+	@Resource
+	private ActivityUserInfoDao activityUserInfoDaoImpl;
+	@Resource
+	private ActivityUserScoreRecordDao activityUserScoreRecordImpl;
+	@Autowired
+	private ActivityCouponDao activityCouponDaoImpl;
+	@Resource
+	private ActivityUsercouponService activityUsercouponServiceImpl;
+	@Autowired
+	private ActivityUserMessageDao activityUserMessageDaoImpl;
+	@Override
+	public ActivityPrize updateUserPrize(String memberNo,String actionCode,String activityCode) throws Exception {
+		//判断用户是否在抽奖系统中注册登录
+		ActivityUserInfo activityUser = (ActivityUserInfo) activityUserInfoDaoImpl.queryOne("selectUserInfoByMemberNo", memberNo);
+		if(activityUser==null){
+			throw new Exception("NOMEMBER");
+		}
+		//判断用户是否有抽奖机会
+		ActivityUserRaffleticket  record = new ActivityUserRaffleticket ();
+		record.setMemberNo(memberNo);
+		record.setStatus(UserRaffleticketStatusEnum.UN_USE);
+		List<ActivityUserRaffleticket> UserRaffleticketList = (List<ActivityUserRaffleticket>)activityUserRaffleticketDaoImpl.query("queryUserRaffleticketCountByStatus", record);
+		if(UserRaffleticketList==null||UserRaffleticketList.size()==0){
+			throw new Exception("NOCHANGE");
+		}
+		//抽奖算法，百分百中奖（可设置谢谢参与为奖品）
+		
+		//1.根据抽奖事件编号查询抽奖活动是否正常；如果正常查询事件id对应所有奖品信息，如果非正常则返回异常
+		Map<String,String> params = new HashMap<String, String>();
+		params.put("actionCode", actionCode);
+		params.put("activityCode", activityCode);
+		Integer activityCount = activityActionRelaDaoImpl.queryActivityByActionCode(params);
+		if(activityCount==null||activityCount==0){
+			throw new Exception("NOACTIVITY");
+		}
+		//查询事件id对应所有奖品信息(按奖品等级正序),如果没有奖品，则抛出异常
+		List<ActivityPrize> prizeList = activityPrizeDaoImpl.query("selectByActionCode", actionCode);
+		if(prizeList==null||prizeList.size()==0){
+			throw new Exception("NOPRIZE");
+		}
+		//2.根据奖品中奖概率和抽奖基值，得到每项奖品对应的基值数
+		ActivityInfo activityInfo = (ActivityInfo) activityInfoDaoImpl.queryOne("queryActivityInfoByActivityCode", activityCode);
+		Float lotteryBase =  (activityInfo.getLotteryBase()/(float)100);
+		List<BigDecimal> prizeBaseList=new ArrayList<BigDecimal>();
+		for( int i=0;i<prizeList.size();i++){
+			BigDecimal prizeBase = new BigDecimal(0);
+			for(int j=0;j<=i;j++){
+				prizeBase=prizeBase.add(prizeList.get(j).getPrizeOdds());
+			}
+			prizeBaseList.add(prizeBase.multiply(new BigDecimal(lotteryBase)));
+		}
+		//3.获取用户最终基值（随机数-幸运值）
+		BigDecimal userBaseRandom = new BigDecimal(Math.random()*activityInfo.getLotteryBase()-activityInfo.getLuckBase());
+		//4.根据用户最终基值（随机数-幸运值）算出应该得到哪项奖品
+		ActivityPrize userPrize = new ActivityPrize();//应得奖品
+		int k=0;//应得奖品的index
+		for(int i=0;i<prizeBaseList.size();i++){
+			if(userBaseRandom.compareTo(prizeBaseList.get(i))==-1){
+				userPrize=prizeList.get(i);
+				k=i;
+				break;
+			}else{
+				continue;
+			}
+		}
+		//5.判断此项奖品是否存在，如果不存在(有库存)则获取下一等级奖品（递推），直到最后一个奖品;如果没有奖品则抛出异常
+		for(int i=k;i<prizeList.size();i++){
+			if(prizeList.get(i).getPrizeTotalCount()<=prizeList.get(i).getPrizeGrantCount()){
+				continue;
+			}else{
+				userPrize=prizeList.get(i);
+				break;
+			}
+		}
+		if(userPrize.getPrizeTotalCount()<=0){
+			throw new Exception("NOPRIZE");
+		}
+		//6.修改用户抽奖券表 ，用户抽奖券使用记录表;默认使用用户抽奖券id最小的抽奖券
+		ActivityUserRaffleticket param = UserRaffleticketList.get(0);//使用用户抽奖券bean
+		param.setStatus(UserRaffleticketStatusEnum.USED);
+		activityUserRaffleticketDaoImpl.update(param);
+		ActivityRaffleticketRecord paramRecord = new ActivityRaffleticketRecord ();
+		paramRecord.setMemberNo(param.getMemberNo());
+		paramRecord.setMemberTel(param.getMemberTel());
+		paramRecord.setRaffleTicketId(param.getRaffleTicketId());
+		paramRecord.setUserRaffleTicketId(param.getId());
+		paramRecord.setUseTime(new Date());
+		 activityRaffleticketRecordDaoImpl.add(paramRecord);
+		//7.根据获取的最终奖品id，修改用户中奖记录表，商品库存信息表，奖品信息表，用户优惠券表
+		ActivityUserPrize paramUserPrize = new ActivityUserPrize();
+		paramUserPrize.setRaffleTicketRecordId(paramRecord.getId());
+		paramUserPrize.setRaffleTicketId(param.getRaffleTicketId());
+		paramUserPrize.setPrizeId(userPrize.getId());
+		paramUserPrize.setPrizeName(userPrize.getPrizeName());
+		paramUserPrize.setMemberNo(paramRecord.getMemberNo());
+		paramUserPrize.setMemberTel(paramRecord.getMemberTel());
+		//如果为人工发送，则状态为未发送；否则为已发送
+		if(userPrize.getGrantWay()==PrizeGrantWayEnum.LOGISTICS ){
+			paramUserPrize.setGrantStatus(PrizeGrantStatusEnum.NOSEND);
+		}else{
+			paramUserPrize.setGrantStatus(PrizeGrantStatusEnum.SEND);
+		}
+		paramUserPrize.setGrantType(userPrize.getGrantWay());
+		paramUserPrize.setCreateTime(new Date());
+		activityUserPrizeDaoImpl.add(paramUserPrize);
+		ActivityPrize paramPrize=userPrize;
+		paramPrize.setId(userPrize.getId());
+		paramPrize.setVersion(userPrize.getVersion());
+		paramPrize.setPrizeGrantCount(userPrize.getPrizeGrantCount()+1);
+		activityPrizeDaoImpl.update(paramPrize);
+		if(userPrize.getPrizeType()==PrizeTypeEnum.GOODS){
+			ActivityGoods activityGood =(ActivityGoods) activityGoodsDaoImpl.queryOne("selectByPrimaryKey", userPrize.getRelaGoodsId());
+			ActivityGoods paramGood = new ActivityGoods();
+			paramGood.setVersion(activityGood.getVersion());
+			paramGood.setId(activityGood.getId());
+			paramGood.setGrantCount(activityGood.getGrantCount()+1);
+			activityGoodsDaoImpl.update(paramGood);
+		}else if(userPrize.getPrizeType()==PrizeTypeEnum.COUPON){
+			List<ActivityUsercoupon>  usercouponList = new ArrayList<ActivityUsercoupon>();
+			ActivityCoupon coupon =activityCouponDaoImpl.selectByPrimaryKey(userPrize.getRelaGoodsId());
+			ActivityUsercoupon usercoupon = new ActivityUsercoupon();
+			usercoupon.setCoupon(coupon);
+			usercoupon.setCouponCount(1);
+			usercoupon.setCouponUsedCount(0);
+			usercoupon.setMemberNo(memberNo);
+			usercoupon.setReceiveTime(new Date());
+			usercoupon.setRuleType(RuleTypeEnum.USER_RECEIVE); //用户领取
+			usercoupon.setStatus(UsercouponStatusEnum.EFFECTIVE);
+			usercoupon.setValidityTimeStart(new Date());
+			
+			Date validityTimeEnd = null;
+			//有效期截止时间
+			if(coupon.getValidityType().equals(ValidityTypeEnum.FLOAT)){
+				Calendar c = Calendar.getInstance();
+				c.add(Calendar.DAY_OF_MONTH, coupon.getValidityDays() == null ? 0 : coupon.getValidityDays() - 1);
+				validityTimeEnd =c.getTime();
+			}else if(coupon.getValidityType().equals(ValidityTypeEnum.FIXED)){
+				validityTimeEnd = coupon.getValidityDate();
+			}
+			usercoupon.setValidityTimeEnd(DateUtils.getDayEnd(validityTimeEnd));
+			usercouponList.add(usercoupon);
+			activityUsercouponServiceImpl.insertByUsercouponList(usercouponList);	
+		}
+		//8.判断是否为需要改变幸运值的奖项；修改用户信息表，用户分值流水表
+		if(userPrize.getPrizeLevel()==0){
+		ActivityUserInfo activityUserInfo = (ActivityUserInfo) activityUserInfoDaoImpl.queryOne("selectUserInfoByMemberNo", memberNo);
+		if(activityUserInfo.getTotalScore()==activityInfo.getLuckBase()){//等于最大幸运值
+			ActivityUserInfo paramUserInfo = activityUserInfo;
+			paramUserInfo.setId(activityUserInfo.getId());
+			paramUserInfo.setVersion(activityUserInfo.getVersion());
+			paramUserInfo.setTotalScore(0);//清零幸运值
+			activityUserInfoDaoImpl.update(paramUserInfo);
+			ActivityUserScoreRecord paramUserScoreRecord = new ActivityUserScoreRecord();
+			paramUserScoreRecord.setCreateTime(new Date());
+			paramUserScoreRecord.setEventCode(actionCode);
+			paramUserScoreRecord.setEventId(userPrize.getActionId());
+			paramUserScoreRecord.setScore(new Long(activityInfo.getLuckBase()));
+			paramUserScoreRecord.setType(UserScoreRecordTypeEnum.MOVE);
+			paramUserScoreRecord.setMemberNo(memberNo);
+			activityUserScoreRecordImpl.add(paramUserScoreRecord);	
+		}
+		}
+		//9.发送微信消息模板（TODO）
+		WxUtil wxutil = new WxUtil();
+		ActivityWXSendMessageDTO dataDto = new ActivityWXSendMessageDTO();
+		dataDto.setOpenId(activityUser.getOpenId());
+		dataDto.setUrl(Constant.WX_SEND_MESSAGE_GET_PRIZE_URL);
+		dataDto.setFirst("测试first");
+		dataDto.setRemark("测试remark");
+		dataDto.setKeyword1("大转盘活动");
+		dataDto.setKeyword2(userPrize.getPrizeName());
+		wxutil.sendWxMessage(ActivityWXSendMessageEnum.GET_PRIZE, dataDto);
+		//10.消息公告
+		ActivityUserMessage paramUserMessage = new ActivityUserMessage();
+		paramUserMessage.setOccurTime(new Date());
+		paramUserMessage.setMemberNo(memberNo);
+		//TODO
+		paramUserMessage.setMsgContent("");
+		paramUserMessage.setReadStatus(UserMessageReadStatusEnum.UNREAD);
+		paramUserMessage.setTemplateName("");
+		activityUserMessageDaoImpl.add(paramUserMessage);
+		//11.返回奖品bean
+		return userPrize;
+	}
+
+}

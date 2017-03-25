@@ -1,0 +1,36 @@
+/**
+ * @descrption
+ * @author 陈大涛
+ * 2016-7-27下午5:01:41
+ */
+package com.yeepay.g3.core.activity.service;
+
+import com.yeepay.g3.core.activity.entity.ActivityInvForProOrder;
+import com.yeepay.g3.facade.activity.dto.ActivityInvForProOrderDTO;
+
+/**
+ * @author 陈大涛
+ * 2016-7-27下午5:01:41
+ */
+public interface ActivityInvForProOrderService {
+
+	/**
+	 * 新增订单（下单）
+	 * @author 陈大涛
+	 * 2016-7-27下午5:02:36
+	 */
+	public void insertInvForProOrder(ActivityInvForProOrder activityInvForProOrder);
+	
+	/**
+	 * 更新订单（确认支付）
+	 * @author 陈大涛
+	 * 2016-7-27下午4:37:17
+	 */
+	public void updateInvForProOrder(ActivityInvForProOrder activityInvForProOrder);
+	/**
+	 *  修改订单状态
+	 * @author 陈大涛
+	 * 2016-7-27下午4:37:25
+	 */
+	public void updateInvForProOrderForStatus(ActivityInvForProOrder activityInvForProOrder);
+}

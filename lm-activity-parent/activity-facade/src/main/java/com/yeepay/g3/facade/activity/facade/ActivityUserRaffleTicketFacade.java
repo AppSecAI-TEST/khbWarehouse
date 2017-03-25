@@ -1,0 +1,41 @@
+package com.yeepay.g3.facade.activity.facade;
+
+import java.util.List;
+
+import com.yeepay.g3.facade.activity.dto.ActivityRaffleTicketDTO;
+import com.yeepay.g3.facade.activity.dto.ActivityUserRaffleticketDTO;
+import com.yeepay.g3.facade.activity.dto.ActivityUsercouponDTO;
+
+/**
+ * @Description 用户抽奖券对外服务接口
+ * @author hongbin.kang
+ * @CreateTime 2016年6月1日 下午6:18:56
+ * @version 1.0
+ */
+public interface ActivityUserRaffleTicketFacade {
+	/**
+	 * 根据主键id获取抽奖券信息
+	 */
+	public ActivityUserRaffleticketDTO selectUserRaffleTicketById(long id);
+	/**
+	 * 保存抽奖券信息
+	 */
+	public void addActivityUserRaffleTicket(ActivityUsercouponDTO activityUserRaffleTicketDto);
+	
+	/**
+	 * 根据实体类参数查询信息
+	 * @param ActivityUserRaffleticketDTO
+	 * @return
+	 */
+	public List<ActivityUserRaffleticketDTO> selectListByParams(ActivityUserRaffleticketDTO activityUserRaffleTicketDto);
+	
+	/**
+	 * 批量发放抽奖券
+	 * @author 陈大涛
+	 * 2016-7-19下午6:10:29
+	 */
+	public void addActivityUserRaffleTicketList (String memberNoList,
+	Integer num, Long id,Long version,Integer grantCount,String actionCode,String activityCode) throws Exception ;
+	
+	
+}

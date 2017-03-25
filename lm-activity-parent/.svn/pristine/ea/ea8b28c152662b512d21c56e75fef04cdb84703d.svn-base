@@ -1,0 +1,70 @@
+package com.yeepay.g3.core.activity.entity;
+
+import java.util.Date;
+
+import com.yeepay.g3.facade.activity.enums.ActivityInvForProOrderStatusEnum;
+import com.yeepay.g3.utils.persistence.EntityVersion;
+
+public class ActivityInvForProOrderFlow implements EntityVersion<Long>{
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -2786721307362660499L;
+
+	private Long id;
+	/**订单id **/
+    private Long orderId;
+    /**状态 **/
+    private ActivityInvForProOrderStatusEnum status;
+    /**更新事件 **/
+    private Date updateTime;
+
+    private Long version;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
+    }
+
+    public ActivityInvForProOrderStatusEnum getStatus() {
+        return status;
+    }
+
+    public void setStatus(ActivityInvForProOrderStatusEnum status) {
+        this.status = status;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
+    }
+
+	@Override
+	public String toString() {
+		return "ActivityInvForProOrderFlow [id=" + id + ", orderId=" + orderId
+				+ ", status=" + status + ", updateTime=" + updateTime
+				+ ", version=" + version + "]";
+	}
+}

@@ -1,0 +1,68 @@
+/**
+ * @author cdt
+ * @date 2016-5-18
+ * @time 上午10:30:49
+ */
+package com.yeepay.g3.core.activity.service;
+
+import java.util.List;
+
+import com.yeepay.g3.core.activity.entity.ActivityInfo;
+import com.yeepay.g3.facade.activity.dto.ActivityInfoDTO;
+
+/**
+ * 活动service
+ * @author cdt
+ * @date 2016-5-18
+ * @time 上午10:30:49
+ */
+public interface ActivityService {
+	
+	/**
+	 * 新增活动
+	 * @author cdt
+	 * @date 2016-5-18
+	 * @time 下午4:34:03
+	 */
+	public void insertActivity(ActivityInfo activityInfo,String actions,String creator) throws Exception ;
+	
+	/**
+	 * 根据活动id查询活动实体
+	 * @author cdt
+	 * @date 2016-5-19
+	 * @time 上午9:08:53
+	 */
+	public ActivityInfo queryActivityById(Long id);
+	
+	/**
+	 * 修改活动
+	 * @author cdt
+	 * @date 2016-5-19
+	 * @time 上午11:24:01
+	 */
+	public void updateActivity(ActivityInfo activityInfo,String actions,String creator) throws Exception ;
+	
+	/**
+	 * 审核活动
+	 * @author cdt
+	 * @date 2016-5-19
+	 * @time 下午2:21:51
+	 */
+	public void updateCheckActivity(ActivityInfo activityInfo);
+
+	/**
+	 * 查询满足条件的活动的列表
+	 * @author hongbin.kang
+	 * @param activityInfo
+	 * @return
+	 */
+	public List<ActivityInfo> selectActivityList(ActivityInfo activityInfo);
+
+	/**
+	 * 根据actionCode查询最新的ActivityCode
+	 * @param actionCode
+	 * @return
+	 */
+	public String queryActivityCodeByActionCode(String actionCode);
+
+}

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ZtPolicyProductMapper">
+  <resultMap id="BaseResultMap" type="com.yeepay.g3.core.zt.entity.ZtPolicyProduct">
+    <id column="ID" jdbcType="BIGINT" property="id" />
+    <result column="VERSION" jdbcType="BIGINT" property="version" />
+    <result column="POLICY_ID" jdbcType="BIGINT" property="policyId" />
+    <result column="PRODUCT_PROPORTION" jdbcType="DECIMAL" property="productProportion" />
+    <result column="PRODUCT_NAME" jdbcType="VARCHAR" property="productName" />
+    <result column="PRODUCT_CODE" jdbcType="VARCHAR" property="productCode" />
+    <result column="PRODUCT_TYPE" jdbcType="VARCHAR" property="productType" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, VERSION, POLICY_ID, PRODUCT_PROPORTION, PRODUCT_NAME, PRODUCT_CODE, PRODUCT_TYPE, 
+    CREATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ACTIVITY.TBL_ZT_POLICY_PRODUCT
+    where ID = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from ACTIVITY.TBL_ZT_POLICY_PRODUCT
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.yeepay.g3.core.zt.entity.ZtPolicyProduct">
+    insert into ACTIVITY.TBL_ZT_POLICY_PRODUCT (ID, VERSION, POLICY_ID, 
+      PRODUCT_PROPORTION, PRODUCT_NAME, PRODUCT_CODE, 
+      PRODUCT_TYPE, CREATE_TIME)
+    values (#{id,jdbcType=BIGINT}, #{version,jdbcType=BIGINT}, #{policyId,jdbcType=BIGINT}, 
+      #{productProportion,jdbcType=DECIMAL}, #{productName,jdbcType=VARCHAR}, #{productCode,jdbcType=VARCHAR}, 
+      #{productType,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yeepay.g3.core.zt.entity.ZtPolicyProduct">
+    insert into ACTIVITY.TBL_ZT_POLICY_PRODUCT
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="version != null">
+        VERSION,
+      </if>
+      <if test="policyId != null">
+        POLICY_ID,
+      </if>
+      <if test="productProportion != null">
+        PRODUCT_PROPORTION,
+      </if>
+      <if test="productName != null">
+        PRODUCT_NAME,
+      </if>
+      <if test="productCode != null">
+        PRODUCT_CODE,
+      </if>
+      <if test="productType != null">
+        PRODUCT_TYPE,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=BIGINT},
+      </if>
+      <if test="policyId != null">
+        #{policyId,jdbcType=BIGINT},
+      </if>
+      <if test="productProportion != null">
+        #{productProportion,jdbcType=DECIMAL},
+      </if>
+      <if test="productName != null">
+        #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="productCode != null">
+        #{productCode,jdbcType=VARCHAR},
+      </if>
+      <if test="productType != null">
+        #{productType,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yeepay.g3.core.zt.entity.ZtPolicyProduct">
+    update ACTIVITY.TBL_ZT_POLICY_PRODUCT
+    <set>
+      <if test="version != null">
+        VERSION = #{version,jdbcType=BIGINT},
+      </if>
+      <if test="policyId != null">
+        POLICY_ID = #{policyId,jdbcType=BIGINT},
+      </if>
+      <if test="productProportion != null">
+        PRODUCT_PROPORTION = #{productProportion,jdbcType=DECIMAL},
+      </if>
+      <if test="productName != null">
+        PRODUCT_NAME = #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="productCode != null">
+        PRODUCT_CODE = #{productCode,jdbcType=VARCHAR},
+      </if>
+      <if test="productType != null">
+        PRODUCT_TYPE = #{productType,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yeepay.g3.core.zt.entity.ZtPolicyProduct">
+    update ACTIVITY.TBL_ZT_POLICY_PRODUCT
+    set VERSION = #{version,jdbcType=BIGINT},
+      POLICY_ID = #{policyId,jdbcType=BIGINT},
+      PRODUCT_PROPORTION = #{productProportion,jdbcType=DECIMAL},
+      PRODUCT_NAME = #{productName,jdbcType=VARCHAR},
+      PRODUCT_CODE = #{productCode,jdbcType=VARCHAR},
+      PRODUCT_TYPE = #{productType,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ActivityAppSuggestion" >
+  <resultMap id="BaseResultMap" type="com.yeepay.g3.core.activity.entity.ActivityAppSuggestion" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="VERSION" property="version" jdbcType="BIGINT" />
+    <result column="MEMBER_NO" property="memberNo" jdbcType="VARCHAR" />
+    <result column="RESERVED_NO" property="reservedNo" jdbcType="VARCHAR" />
+    <result column="SUGGESTION" property="suggestion" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="REPLAY_FLAG" property="replayFlag" jdbcType="SMALLINT" />
+    <result column="REPLAY_MSG" property="replayMsg" jdbcType="VARCHAR" />
+    <result column="REPLAY_TIME" property="replayTime" jdbcType="TIMESTAMP" />
+    <result column="OPERATOR" property="operator" jdbcType="VARCHAR" />
+    <result column="SUGGESTION_IMG" property="suggestionImg" jdbcType="BLOB" />
+  </resultMap>
+  <insert id="insert" parameterType="com.yeepay.g3.core.activity.entity.ActivityAppSuggestion" >
+	insert into TBL_ACTIVITY_APP_SUGGESTION (MEMBER_NO,
+	RESERVED_NO, SUGGESTION, CREATE_TIME, REPLAY_MSG, REPLAY_TIME,
+	OPERATOR,SUGGESTION_IMG)
+	values (#{memberNo,jdbcType=VARCHAR},
+	#{reservedNo,jdbcType=VARCHAR}, #{suggestion,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+	#{replayMsg,jdbcType=VARCHAR}, #{replayTime,jdbcType=TIMESTAMP},
+	#{operator,jdbcType=VARCHAR},#{suggestionImg,jdbcType=BLOB})
+  </insert>
+</mapper>

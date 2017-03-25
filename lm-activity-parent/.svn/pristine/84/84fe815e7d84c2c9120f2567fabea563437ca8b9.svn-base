@@ -1,0 +1,403 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yeepay.g3.core.zt.dao.ZtPolicyOrderMapper" >
+  <resultMap id="BaseResultMap" type="com.yeepay.g3.core.zt.entity.ZtPolicyOrder" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="VERSION" property="version" jdbcType="BIGINT" />
+    <result column="SCENE_ID" property="sceneId" jdbcType="BIGINT" />
+    <result column="POLICY_ID" property="policyId" jdbcType="BIGINT" />
+    <result column="MEMBER_POLICY_PLAN_ID" property="memberPolicyPlanId" jdbcType="BIGINT" />
+    <result column="MEMBER_NO" property="memberNo" jdbcType="VARCHAR" />
+    <result column="TOTAL_INVEST_AMOUNT" property="totalInvestAmount" jdbcType="DECIMAL" />
+    <result column="TOTAL_INVEST_TERM" property="totalInvestTerm" jdbcType="INTEGER" />
+    <result column="LAST_INVEST_MONTH" property="lastInvestMonth" jdbcType="VARCHAR" />
+    <result column="CUR_TERM_INVEST_AMOUNT" property="curTermInvestAmount" jdbcType="DECIMAL" />
+    <result column="TOTAL_INVEST_COUNT" property="totalInvestCount" jdbcType="INTEGER" />
+    <result column="ORDER_CREATE_TIME" property="orderCreateTime" jdbcType="TIMESTAMP" />
+    <result column="TOTAL_FEE" property="totalFee" jdbcType="DECIMAL" />
+    <result column="YESTERDAY_INCOME" property="yesterdayIncome" jdbcType="DECIMAL" />
+    <result column="TOTAL_INCOME" property="totalIncome" jdbcType="DECIMAL" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="POLICY_STATUS" property="policyStatus" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, VERSION, SCENE_ID, POLICY_ID, MEMBER_POLICY_PLAN_ID, MEMBER_NO, TOTAL_INVEST_AMOUNT, 
+    TOTAL_INVEST_TERM, LAST_INVEST_MONTH, CUR_TERM_INVEST_AMOUNT, TOTAL_INVEST_COUNT, 
+    ORDER_CREATE_TIME, TOTAL_FEE, YESTERDAY_INCOME, TOTAL_INCOME, UPDATE_TIME, POLICY_STATUS
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yeepay.g3.core.zt.entity.ZtPolicyOrderExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from TBL_ZT_POLICY_ORDER
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from TBL_ZT_POLICY_ORDER
+    where ID = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from TBL_ZT_POLICY_ORDER
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yeepay.g3.core.zt.entity.ZtPolicyOrderExample" >
+    delete from TBL_ZT_POLICY_ORDER
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yeepay.g3.core.zt.entity.ZtPolicyOrder" >
+    insert into TBL_ZT_POLICY_ORDER (ID, VERSION, SCENE_ID, 
+      POLICY_ID, MEMBER_POLICY_PLAN_ID, MEMBER_NO, 
+      TOTAL_INVEST_AMOUNT, TOTAL_INVEST_TERM, LAST_INVEST_MONTH, 
+      CUR_TERM_INVEST_AMOUNT, TOTAL_INVEST_COUNT, 
+      ORDER_CREATE_TIME, TOTAL_FEE, YESTERDAY_INCOME, 
+      TOTAL_INCOME, UPDATE_TIME, POLICY_STATUS
+      )
+    values (#{id,jdbcType=BIGINT}, #{version,jdbcType=BIGINT}, #{sceneId,jdbcType=BIGINT}, 
+      #{policyId,jdbcType=BIGINT}, #{memberPolicyPlanId,jdbcType=BIGINT}, #{memberNo,jdbcType=VARCHAR}, 
+      #{totalInvestAmount,jdbcType=DECIMAL}, #{totalInvestTerm,jdbcType=INTEGER}, #{lastInvestMonth,jdbcType=VARCHAR}, 
+      #{curTermInvestAmount,jdbcType=DECIMAL}, #{totalInvestCount,jdbcType=INTEGER}, 
+      #{orderCreateTime,jdbcType=TIMESTAMP}, #{totalFee,jdbcType=DECIMAL}, #{yesterdayIncome,jdbcType=DECIMAL}, 
+      #{totalIncome,jdbcType=DECIMAL}, #{updateTime,jdbcType=TIMESTAMP}, #{policyStatus,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yeepay.g3.core.zt.entity.ZtPolicyOrder" >
+    insert into TBL_ZT_POLICY_ORDER
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="version != null" >
+        VERSION,
+      </if>
+      <if test="sceneId != null" >
+        SCENE_ID,
+      </if>
+      <if test="policyId != null" >
+        POLICY_ID,
+      </if>
+      <if test="memberPolicyPlanId != null" >
+        MEMBER_POLICY_PLAN_ID,
+      </if>
+      <if test="memberNo != null" >
+        MEMBER_NO,
+      </if>
+      <if test="totalInvestAmount != null" >
+        TOTAL_INVEST_AMOUNT,
+      </if>
+      <if test="totalInvestTerm != null" >
+        TOTAL_INVEST_TERM,
+      </if>
+      <if test="lastInvestMonth != null" >
+        LAST_INVEST_MONTH,
+      </if>
+      <if test="curTermInvestAmount != null" >
+        CUR_TERM_INVEST_AMOUNT,
+      </if>
+      <if test="totalInvestCount != null" >
+        TOTAL_INVEST_COUNT,
+      </if>
+      <if test="orderCreateTime != null" >
+        ORDER_CREATE_TIME,
+      </if>
+      <if test="totalFee != null" >
+        TOTAL_FEE,
+      </if>
+      <if test="yesterdayIncome != null" >
+        YESTERDAY_INCOME,
+      </if>
+      <if test="totalIncome != null" >
+        TOTAL_INCOME,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="policyStatus != null" >
+        POLICY_STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="version != null" >
+        #{version,jdbcType=BIGINT},
+      </if>
+      <if test="sceneId != null" >
+        #{sceneId,jdbcType=BIGINT},
+      </if>
+      <if test="policyId != null" >
+        #{policyId,jdbcType=BIGINT},
+      </if>
+      <if test="memberPolicyPlanId != null" >
+        #{memberPolicyPlanId,jdbcType=BIGINT},
+      </if>
+      <if test="memberNo != null" >
+        #{memberNo,jdbcType=VARCHAR},
+      </if>
+      <if test="totalInvestAmount != null" >
+        #{totalInvestAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="totalInvestTerm != null" >
+        #{totalInvestTerm,jdbcType=INTEGER},
+      </if>
+      <if test="lastInvestMonth != null" >
+        #{lastInvestMonth,jdbcType=VARCHAR},
+      </if>
+      <if test="curTermInvestAmount != null" >
+        #{curTermInvestAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="totalInvestCount != null" >
+        #{totalInvestCount,jdbcType=INTEGER},
+      </if>
+      <if test="orderCreateTime != null" >
+        #{orderCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="totalFee != null" >
+        #{totalFee,jdbcType=DECIMAL},
+      </if>
+      <if test="yesterdayIncome != null" >
+        #{yesterdayIncome,jdbcType=DECIMAL},
+      </if>
+      <if test="totalIncome != null" >
+        #{totalIncome,jdbcType=DECIMAL},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="policyStatus != null" >
+        #{policyStatus,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.yeepay.g3.core.zt.entity.ZtPolicyOrderExample" resultType="java.lang.Integer" >
+    select count(*) from TBL_ZT_POLICY_ORDER
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update TBL_ZT_POLICY_ORDER
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.version != null" >
+        VERSION = #{record.version,jdbcType=BIGINT},
+      </if>
+      <if test="record.sceneId != null" >
+        SCENE_ID = #{record.sceneId,jdbcType=BIGINT},
+      </if>
+      <if test="record.policyId != null" >
+        POLICY_ID = #{record.policyId,jdbcType=BIGINT},
+      </if>
+      <if test="record.memberPolicyPlanId != null" >
+        MEMBER_POLICY_PLAN_ID = #{record.memberPolicyPlanId,jdbcType=BIGINT},
+      </if>
+      <if test="record.memberNo != null" >
+        MEMBER_NO = #{record.memberNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.totalInvestAmount != null" >
+        TOTAL_INVEST_AMOUNT = #{record.totalInvestAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.totalInvestTerm != null" >
+        TOTAL_INVEST_TERM = #{record.totalInvestTerm,jdbcType=INTEGER},
+      </if>
+      <if test="record.lastInvestMonth != null" >
+        LAST_INVEST_MONTH = #{record.lastInvestMonth,jdbcType=VARCHAR},
+      </if>
+      <if test="record.curTermInvestAmount != null" >
+        CUR_TERM_INVEST_AMOUNT = #{record.curTermInvestAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.totalInvestCount != null" >
+        TOTAL_INVEST_COUNT = #{record.totalInvestCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderCreateTime != null" >
+        ORDER_CREATE_TIME = #{record.orderCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.totalFee != null" >
+        TOTAL_FEE = #{record.totalFee,jdbcType=DECIMAL},
+      </if>
+      <if test="record.yesterdayIncome != null" >
+        YESTERDAY_INCOME = #{record.yesterdayIncome,jdbcType=DECIMAL},
+      </if>
+      <if test="record.totalIncome != null" >
+        TOTAL_INCOME = #{record.totalIncome,jdbcType=DECIMAL},
+      </if>
+      <if test="record.updateTime != null" >
+        UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.policyStatus != null" >
+        POLICY_STATUS = #{record.policyStatus,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update TBL_ZT_POLICY_ORDER
+    set ID = #{record.id,jdbcType=BIGINT},
+      VERSION = #{record.version,jdbcType=BIGINT},
+      SCENE_ID = #{record.sceneId,jdbcType=BIGINT},
+      POLICY_ID = #{record.policyId,jdbcType=BIGINT},
+      MEMBER_POLICY_PLAN_ID = #{record.memberPolicyPlanId,jdbcType=BIGINT},
+      MEMBER_NO = #{record.memberNo,jdbcType=VARCHAR},
+      TOTAL_INVEST_AMOUNT = #{record.totalInvestAmount,jdbcType=DECIMAL},
+      TOTAL_INVEST_TERM = #{record.totalInvestTerm,jdbcType=INTEGER},
+      LAST_INVEST_MONTH = #{record.lastInvestMonth,jdbcType=VARCHAR},
+      CUR_TERM_INVEST_AMOUNT = #{record.curTermInvestAmount,jdbcType=DECIMAL},
+      TOTAL_INVEST_COUNT = #{record.totalInvestCount,jdbcType=INTEGER},
+      ORDER_CREATE_TIME = #{record.orderCreateTime,jdbcType=TIMESTAMP},
+      TOTAL_FEE = #{record.totalFee,jdbcType=DECIMAL},
+      YESTERDAY_INCOME = #{record.yesterdayIncome,jdbcType=DECIMAL},
+      TOTAL_INCOME = #{record.totalIncome,jdbcType=DECIMAL},
+      UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
+      POLICY_STATUS = #{record.policyStatus,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yeepay.g3.core.zt.entity.ZtPolicyOrder" >
+    update TBL_ZT_POLICY_ORDER
+    <set >
+      <if test="version != null" >
+        VERSION = #{version,jdbcType=BIGINT},
+      </if>
+      <if test="sceneId != null" >
+        SCENE_ID = #{sceneId,jdbcType=BIGINT},
+      </if>
+      <if test="policyId != null" >
+        POLICY_ID = #{policyId,jdbcType=BIGINT},
+      </if>
+      <if test="memberPolicyPlanId != null" >
+        MEMBER_POLICY_PLAN_ID = #{memberPolicyPlanId,jdbcType=BIGINT},
+      </if>
+      <if test="memberNo != null" >
+        MEMBER_NO = #{memberNo,jdbcType=VARCHAR},
+      </if>
+      <if test="totalInvestAmount != null" >
+        TOTAL_INVEST_AMOUNT = #{totalInvestAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="totalInvestTerm != null" >
+        TOTAL_INVEST_TERM = #{totalInvestTerm,jdbcType=INTEGER},
+      </if>
+      <if test="lastInvestMonth != null" >
+        LAST_INVEST_MONTH = #{lastInvestMonth,jdbcType=VARCHAR},
+      </if>
+      <if test="curTermInvestAmount != null" >
+        CUR_TERM_INVEST_AMOUNT = #{curTermInvestAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="totalInvestCount != null" >
+        TOTAL_INVEST_COUNT = #{totalInvestCount,jdbcType=INTEGER},
+      </if>
+      <if test="orderCreateTime != null" >
+        ORDER_CREATE_TIME = #{orderCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="totalFee != null" >
+        TOTAL_FEE = #{totalFee,jdbcType=DECIMAL},
+      </if>
+      <if test="yesterdayIncome != null" >
+        YESTERDAY_INCOME = #{yesterdayIncome,jdbcType=DECIMAL},
+      </if>
+      <if test="totalIncome != null" >
+        TOTAL_INCOME = #{totalIncome,jdbcType=DECIMAL},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="policyStatus != null" >
+        POLICY_STATUS = #{policyStatus,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yeepay.g3.core.zt.entity.ZtPolicyOrder" >
+    update TBL_ZT_POLICY_ORDER
+    set VERSION = #{version,jdbcType=BIGINT},
+      SCENE_ID = #{sceneId,jdbcType=BIGINT},
+      POLICY_ID = #{policyId,jdbcType=BIGINT},
+      MEMBER_POLICY_PLAN_ID = #{memberPolicyPlanId,jdbcType=BIGINT},
+      MEMBER_NO = #{memberNo,jdbcType=VARCHAR},
+      TOTAL_INVEST_AMOUNT = #{totalInvestAmount,jdbcType=DECIMAL},
+      TOTAL_INVEST_TERM = #{totalInvestTerm,jdbcType=INTEGER},
+      LAST_INVEST_MONTH = #{lastInvestMonth,jdbcType=VARCHAR},
+      CUR_TERM_INVEST_AMOUNT = #{curTermInvestAmount,jdbcType=DECIMAL},
+      TOTAL_INVEST_COUNT = #{totalInvestCount,jdbcType=INTEGER},
+      ORDER_CREATE_TIME = #{orderCreateTime,jdbcType=TIMESTAMP},
+      TOTAL_FEE = #{totalFee,jdbcType=DECIMAL},
+      YESTERDAY_INCOME = #{yesterdayIncome,jdbcType=DECIMAL},
+      TOTAL_INCOME = #{totalIncome,jdbcType=DECIMAL},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      POLICY_STATUS = #{policyStatus,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

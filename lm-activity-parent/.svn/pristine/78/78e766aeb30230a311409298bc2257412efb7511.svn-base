@@ -1,0 +1,30 @@
+package com.yeepay.g3.core.zt.dao;
+
+import com.yeepay.g3.core.zt.entity.ZtMemberRetreatRecord;
+import com.yeepay.g3.core.zt.entity.ZtMemberRetreatRecordExample;
+import java.util.List;
+import org.apache.ibatis.annotations.Param;
+
+public interface ZtMemberRetreatRecordMapper {
+    int countByExample(ZtMemberRetreatRecordExample example);
+
+    int deleteByExample(ZtMemberRetreatRecordExample example);
+
+    int deleteByPrimaryKey(Long id);
+
+    int insert(ZtMemberRetreatRecord record);
+
+    int insertSelective(ZtMemberRetreatRecord record);
+
+    List<ZtMemberRetreatRecord> selectByExample(ZtMemberRetreatRecordExample example);
+
+    ZtMemberRetreatRecord selectByPrimaryKey(Long id);
+
+    int updateByExampleSelective(@Param("record") ZtMemberRetreatRecord record, @Param("example") ZtMemberRetreatRecordExample example);
+
+    int updateByExample(@Param("record") ZtMemberRetreatRecord record, @Param("example") ZtMemberRetreatRecordExample example);
+
+    int updateByPrimaryKeySelective(ZtMemberRetreatRecord record);
+
+    int updateByPrimaryKey(ZtMemberRetreatRecord record);
+}

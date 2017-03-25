@@ -1,0 +1,19 @@
+/**
+ * @author 陈大涛
+ * 2016-8-22下午8:24:17
+ */
+package com.yeepay.g3.facade.activity.facade;
+
+/**
+ * @Description
+ * @author 陈大涛
+ * 2016-8-22下午8:24:17
+ */
+public interface ActivityInvForProTripSecondDiscountFacade {
+	/**
+	 * 查询打折限额剩余数
+	 * @author 陈大涛
+	 * 2016-8-22下午8:32:08
+	 */
+	public String queryTripSecondDiscountSurplusNum(String actionCode,String activityCode);
+}

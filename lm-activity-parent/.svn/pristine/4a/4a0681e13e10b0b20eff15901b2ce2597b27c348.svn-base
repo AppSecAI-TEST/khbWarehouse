@@ -1,0 +1,20 @@
+package com.yeepay.g3.core.activity.dao;
+
+import com.yeepay.g3.core.activity.entity.ActivityUserRaffleticket;
+import com.yeepay.g3.utils.persistence.GenericDao;
+
+public interface ActivityUserRaffleticketDao extends GenericDao<ActivityUserRaffleticket> {
+
+	public int deleteByPrimaryKey(Long id);
+
+	public ActivityUserRaffleticket selectByPrimaryKey(Long id);
+
+	public int updateByPrimaryKey(ActivityUserRaffleticket record);
+	
+	/**
+	 * 查询用户的抽奖券数量
+	 * @author 陈大涛
+	 * 2016-6-1下午5:09:28
+	 */
+	public Integer queryUserRaffleticketCountByStatus(ActivityUserRaffleticket record);
+}

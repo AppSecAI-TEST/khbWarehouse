@@ -1,0 +1,43 @@
+package com.yeepay.g3.core.activity.service;
+
+import java.util.Date;
+
+import com.yeepay.g3.core.activity.entity.ActivityMemberOperecord;
+import com.yeepay.g3.core.activity.entity.ActivityUserMessage;
+/**
+ * @Title: 会员操作记录业务逻辑处理接口
+ * @Copyright: 懒猫金服
+ * @author zhenping.zhou
+ * @createTime 2016-5-18 下午1:51:00
+ * @version 2016-5-4
+ */
+
+public interface ActivityMemberOperecordService {
+	
+	/**
+	 * 添加会员操作记录
+	 * @param in - activityMemberOperecord
+	 * @return
+	 */
+	public void addActivityMemberOperecord(ActivityMemberOperecord memberOperecord);
+	
+	/**
+	 * 会员消息公告记录初始化
+	 * @param memberTel
+	 * @param occurTime
+	 * @param templeteName
+	 * @param memberNo
+	 * @param score
+	 * @param wxNickName
+	 * @return
+	 */
+	public ActivityUserMessage initUserMessage(String memberTel, Date occurTime,
+			String templateName, String memberNo, Integer score, String wxNickName,String prizeName,String activityName);
+	
+	/**
+	 * 根据会员记录ID补发抽奖券
+	 * @param userMemberOperecordId
+	 */
+	public void updateUserRaffleTicket(Long userMemberOperecordId);
+	
+}

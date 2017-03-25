@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yeepay.g3.core.zt.dao.ZtPolicyFundShareDao" >
+  <resultMap id="BaseResultMap" type="com.yeepay.g3.core.zt.entity.ZtPolicyFundShare" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="VERSION" property="version" jdbcType="BIGINT" />
+    <result column="SCENE_ID" property="sceneId" jdbcType="BIGINT" />
+    <result column="POLICY_ID" property="policyId" jdbcType="BIGINT" />
+    <result column="MEMBER_POLICY_PLAN_ID" property="memberPolicyPlanId" jdbcType="BIGINT" />
+    <result column="MEMBER_POLICY_ORDER_ID" property="memberPolicyOrderId" jdbcType="BIGINT" />
+    <result column="MEMBER_NO" property="memberNo" jdbcType="VARCHAR" />
+    <result column="FUND_ACCOUNT_NO" property="fundAccountNo" jdbcType="VARCHAR" />
+    <result column="FUND_CODE" property="fundCode" jdbcType="VARCHAR" />
+    <result column="FUND_TYPE" property="fundType" jdbcType="VARCHAR" />
+    <result column="TA_ACCOUNT" property="taAccount" jdbcType="VARCHAR" />
+    <result column="CURRENT_SHARE" property="currentShare" jdbcType="DECIMAL" />
+    <result column="ENABLE_SHARE" property="enableShare" jdbcType="DECIMAL" />
+    <result column="FROZEN_SHARE" property="frozenShare" jdbcType="VARCHAR" />
+    <result column="AUTO_BUY" property="autoBuy" jdbcType="VARCHAR" />
+    <result column="BUSINESS_FROZEN_AMOUNT" property="businessFrozenAmount" jdbcType="DECIMAL" />
+    <result column="UNPAID_INCOME" property="unpaidIncome" jdbcType="DECIMAL" />
+    <result column="AVAILABLE_DUE_SHARE" property="availableDueShare" jdbcType="DECIMAL" />
+    <result column="QUICK_EXCEED_ENABLE_SHARE" property="quickExceedEnableShare" jdbcType="DECIMAL" />
+    <result column="WORTH_VALUE" property="worthValue" jdbcType="DECIMAL" />
+    <result column="ACCUM_INCOME" property="accumIncome" jdbcType="DECIMAL" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    ID, VERSION, SCENE_ID, POLICY_ID, MEMBER_POLICY_PLAN_ID, MEMBER_POLICY_ORDER_ID, 
+    MEMBER_NO, FUND_ACCOUNT_NO, FUND_CODE, FUND_TYPE, TA_ACCOUNT, CURRENT_SHARE, ENABLE_SHARE, 
+    FROZEN_SHARE, AUTO_BUY, BUSINESS_FROZEN_AMOUNT, UNPAID_INCOME, AVAILABLE_DUE_SHARE, 
+    QUICK_EXCEED_ENABLE_SHARE, WORTH_VALUE, ACCUM_INCOME, CREATE_TIME, UPDATE_TIME
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from TBL_ZT_POLICY_FUND_SHARE
+    where ID = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from TBL_ZT_POLICY_FUND_SHARE
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+  
+  <insert id="insert" parameterType="com.yeepay.g3.core.zt.entity.ZtPolicyFundShare" >
+    insert into TBL_ZT_POLICY_FUND_SHARE (ID, VERSION, SCENE_ID, 
+      POLICY_ID, MEMBER_POLICY_PLAN_ID, MEMBER_POLICY_ORDER_ID, 
+      MEMBER_NO, FUND_ACCOUNT_NO, FUND_CODE, 
+      FUND_TYPE, TA_ACCOUNT, CURRENT_SHARE, 
+      ENABLE_SHARE, FROZEN_SHARE, AUTO_BUY, 
+      BUSINESS_FROZEN_AMOUNT, UNPAID_INCOME, AVAILABLE_DUE_SHARE, 
+      QUICK_EXCEED_ENABLE_SHARE, WORTH_VALUE, ACCUM_INCOME, 
+      CREATE_TIME, UPDATE_TIME)
+    values (#{id,jdbcType=BIGINT}, #{version,jdbcType=BIGINT}, #{sceneId,jdbcType=BIGINT}, 
+      #{policyId,jdbcType=BIGINT}, #{memberPolicyPlanId,jdbcType=BIGINT}, #{memberPolicyOrderId,jdbcType=BIGINT}, 
+      #{memberNo,jdbcType=VARCHAR}, #{fundAccountNo,jdbcType=VARCHAR}, #{fundCode,jdbcType=VARCHAR}, 
+      #{fundType,jdbcType=VARCHAR}, #{taAccount,jdbcType=VARCHAR}, #{currentShare,jdbcType=DECIMAL}, 
+      #{enableShare,jdbcType=DECIMAL}, #{frozenShare,jdbcType=VARCHAR}, #{autoBuy,jdbcType=VARCHAR}, 
+      #{businessFrozenAmount,jdbcType=DECIMAL}, #{unpaidIncome,jdbcType=DECIMAL}, #{availableDueShare,jdbcType=DECIMAL}, 
+      #{quickExceedEnableShare,jdbcType=DECIMAL}, #{worthValue,jdbcType=DECIMAL}, #{accumIncome,jdbcType=DECIMAL}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yeepay.g3.core.zt.entity.ZtPolicyFundShare" >
+    insert into TBL_ZT_POLICY_FUND_SHARE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="version != null" >
+        VERSION,
+      </if>
+      <if test="sceneId != null" >
+        SCENE_ID,
+      </if>
+      <if test="policyId != null" >
+        POLICY_ID,
+      </if>
+      <if test="memberPolicyPlanId != null" >
+        MEMBER_POLICY_PLAN_ID,
+      </if>
+      <if test="memberPolicyOrderId != null" >
+        MEMBER_POLICY_ORDER_ID,
+      </if>
+      <if test="memberNo != null" >
+        MEMBER_NO,
+      </if>
+      <if test="fundAccountNo != null" >
+        FUND_ACCOUNT_NO,
+      </if>
+      <if test="fundCode != null" >
+        FUND_CODE,
+      </if>
+      <if test="fundType != null" >
+        FUND_TYPE,
+      </if>
+      <if test="taAccount != null" >
+        TA_ACCOUNT,
+      </if>
+      <if test="currentShare != null" >
+        CURRENT_SHARE,
+      </if>
+      <if test="enableShare != null" >
+        ENABLE_SHARE,
+      </if>
+      <if test="frozenShare != null" >
+        FROZEN_SHARE,
+      </if>
+      <if test="autoBuy != null" >
+        AUTO_BUY,
+      </if>
+      <if test="businessFrozenAmount != null" >
+        BUSINESS_FROZEN_AMOUNT,
+      </if>
+      <if test="unpaidIncome != null" >
+        UNPAID_INCOME,
+      </if>
+      <if test="availableDueShare != null" >
+        AVAILABLE_DUE_SHARE,
+      </if>
+      <if test="quickExceedEnableShare != null" >
+        QUICK_EXCEED_ENABLE_SHARE,
+      </if>
+      <if test="worthValue != null" >
+        WORTH_VALUE,
+      </if>
+      <if test="accumIncome != null" >
+        ACCUM_INCOME,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="version != null" >
+        #{version,jdbcType=BIGINT},
+      </if>
+      <if test="sceneId != null" >
+        #{sceneId,jdbcType=BIGINT},
+      </if>
+      <if test="policyId != null" >
+        #{policyId,jdbcType=BIGINT},
+      </if>
+      <if test="memberPolicyPlanId != null" >
+        #{memberPolicyPlanId,jdbcType=BIGINT},
+      </if>
+      <if test="memberPolicyOrderId != null" >
+        #{memberPolicyOrderId,jdbcType=BIGINT},
+      </if>
+      <if test="memberNo != null" >
+        #{memberNo,jdbcType=VARCHAR},
+      </if>
+      <if test="fundAccountNo != null" >
+        #{fundAccountNo,jdbcType=VARCHAR},
+      </if>
+      <if test="fundCode != null" >
+        #{fundCode,jdbcType=VARCHAR},
+      </if>
+      <if test="fundType != null" >
+        #{fundType,jdbcType=VARCHAR},
+      </if>
+      <if test="taAccount != null" >
+        #{taAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="currentShare != null" >
+        #{currentShare,jdbcType=DECIMAL},
+      </if>
+      <if test="enableShare != null" >
+        #{enableShare,jdbcType=DECIMAL},
+      </if>
+      <if test="frozenShare != null" >
+        #{frozenShare,jdbcType=VARCHAR},
+      </if>
+      <if test="autoBuy != null" >
+        #{autoBuy,jdbcType=VARCHAR},
+      </if>
+      <if test="businessFrozenAmount != null" >
+        #{businessFrozenAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="unpaidIncome != null" >
+        #{unpaidIncome,jdbcType=DECIMAL},
+      </if>
+      <if test="availableDueShare != null" >
+        #{availableDueShare,jdbcType=DECIMAL},
+      </if>
+      <if test="quickExceedEnableShare != null" >
+        #{quickExceedEnableShare,jdbcType=DECIMAL},
+      </if>
+      <if test="worthValue != null" >
+        #{worthValue,jdbcType=DECIMAL},
+      </if>
+      <if test="accumIncome != null" >
+        #{accumIncome,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.yeepay.g3.core.zt.entity.ZtPolicyFundShare" >
+    update TBL_ZT_POLICY_FUND_SHARE
+    <set >
+      <if test="version != null" >
+        VERSION = #{version,jdbcType=BIGINT},
+      </if>
+      <if test="sceneId != null" >
+        SCENE_ID = #{sceneId,jdbcType=BIGINT},
+      </if>
+      <if test="policyId != null" >
+        POLICY_ID = #{policyId,jdbcType=BIGINT},
+      </if>
+      <if test="memberPolicyPlanId != null" >
+        MEMBER_POLICY_PLAN_ID = #{memberPolicyPlanId,jdbcType=BIGINT},
+      </if>
+      <if test="memberPolicyOrderId != null" >
+        MEMBER_POLICY_ORDER_ID = #{memberPolicyOrderId,jdbcType=BIGINT},
+      </if>
+      <if test="memberNo != null" >
+        MEMBER_NO = #{memberNo,jdbcType=VARCHAR},
+      </if>
+      <if test="fundAccountNo != null" >
+        FUND_ACCOUNT_NO = #{fundAccountNo,jdbcType=VARCHAR},
+      </if>
+      <if test="fundCode != null" >
+        FUND_CODE = #{fundCode,jdbcType=VARCHAR},
+      </if>
+      <if test="fundType != null" >
+        FUND_TYPE = #{fundType,jdbcType=VARCHAR},
+      </if>
+      <if test="taAccount != null" >
+        TA_ACCOUNT = #{taAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="currentShare != null" >
+        CURRENT_SHARE = #{currentShare,jdbcType=DECIMAL},
+      </if>
+      <if test="enableShare != null" >
+        ENABLE_SHARE = #{enableShare,jdbcType=DECIMAL},
+      </if>
+      <if test="frozenShare != null" >
+        FROZEN_SHARE = #{frozenShare,jdbcType=VARCHAR},
+      </if>
+      <if test="autoBuy != null" >
+        AUTO_BUY = #{autoBuy,jdbcType=VARCHAR},
+      </if>
+      <if test="businessFrozenAmount != null" >
+        BUSINESS_FROZEN_AMOUNT = #{businessFrozenAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="unpaidIncome != null" >
+        UNPAID_INCOME = #{unpaidIncome,jdbcType=DECIMAL},
+      </if>
+      <if test="availableDueShare != null" >
+        AVAILABLE_DUE_SHARE = #{availableDueShare,jdbcType=DECIMAL},
+      </if>
+      <if test="quickExceedEnableShare != null" >
+        QUICK_EXCEED_ENABLE_SHARE = #{quickExceedEnableShare,jdbcType=DECIMAL},
+      </if>
+      <if test="worthValue != null" >
+        WORTH_VALUE = #{worthValue,jdbcType=DECIMAL},
+      </if>
+      <if test="accumIncome != null" >
+        ACCUM_INCOME = #{accumIncome,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yeepay.g3.core.zt.entity.ZtPolicyFundShare" >
+    update TBL_ZT_POLICY_FUND_SHARE
+    set VERSION = #{version,jdbcType=BIGINT},
+      SCENE_ID = #{sceneId,jdbcType=BIGINT},
+      POLICY_ID = #{policyId,jdbcType=BIGINT},
+      MEMBER_POLICY_PLAN_ID = #{memberPolicyPlanId,jdbcType=BIGINT},
+      MEMBER_POLICY_ORDER_ID = #{memberPolicyOrderId,jdbcType=BIGINT},
+      MEMBER_NO = #{memberNo,jdbcType=VARCHAR},
+      FUND_ACCOUNT_NO = #{fundAccountNo,jdbcType=VARCHAR},
+      FUND_CODE = #{fundCode,jdbcType=VARCHAR},
+      FUND_TYPE = #{fundType,jdbcType=VARCHAR},
+      TA_ACCOUNT = #{taAccount,jdbcType=VARCHAR},
+      CURRENT_SHARE = #{currentShare,jdbcType=DECIMAL},
+      ENABLE_SHARE = #{enableShare,jdbcType=DECIMAL},
+      FROZEN_SHARE = #{frozenShare,jdbcType=VARCHAR},
+      AUTO_BUY = #{autoBuy,jdbcType=VARCHAR},
+      BUSINESS_FROZEN_AMOUNT = #{businessFrozenAmount,jdbcType=DECIMAL},
+      UNPAID_INCOME = #{unpaidIncome,jdbcType=DECIMAL},
+      AVAILABLE_DUE_SHARE = #{availableDueShare,jdbcType=DECIMAL},
+      QUICK_EXCEED_ENABLE_SHARE = #{quickExceedEnableShare,jdbcType=DECIMAL},
+      WORTH_VALUE = #{worthValue,jdbcType=DECIMAL},
+      ACCUM_INCOME = #{accumIncome,jdbcType=DECIMAL},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

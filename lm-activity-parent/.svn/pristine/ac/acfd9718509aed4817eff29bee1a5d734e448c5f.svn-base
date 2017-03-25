@@ -1,0 +1,228 @@
+/**
+ * @author cdt
+ * @date 2016-5-18
+ * @time 上午9:33:24
+ */
+package com.yeepay.g3.facade.activity.dto;
+
+import java.io.Serializable;
+import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.yeepay.g3.facade.activity.enums.ActivityStatusEnum;
+
+/**
+ * @author cdt
+ * @date 2016-5-18
+ * @time 上午9:33:24
+ */
+public class ActivityInfoDTO implements Serializable{
+
+	/**
+	 * @author cdt
+	 * @date 2016-5-18
+	 * @time 上午9:36:54
+	 */
+	private static final long serialVersionUID = 6621114780826634379L;
+
+	/**
+	 * @author cdt
+	 * @date 2016-5-18
+	 * @time 上午9:33:37
+	 */
+
+	private Long id;
+
+    private Long version;
+    /**活动编码 **/
+    private String activityCode;
+    /**活动名称 **/
+    private String activityName;
+    /**活动上线时间 **/
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    private Date uplineTime;
+    /**活动开始时间**/
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    private Date startTime;
+    /**活动截止时间 **/
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    private Date endTime;
+    /**	状态 **/
+    private ActivityStatusEnum activityStatus;
+    /**创建时间 **/
+    private Date createTime;
+    /**创建人 **/
+    private String creator;
+    /**	审核操作时间 **/
+    private Date checkedTime;
+    /**审核操作人 **/
+    private String checkor;
+    /**活动URL **/
+    private String activityUrl;
+    /**活动上线说明 **/
+    private String uplineRemark;
+    /**活动下线说明 **/
+    private String offlineRemark;
+    /**抽奖基数值**/
+    private Integer lotteryBase;
+    /**幸运值基数值**/
+    private Integer luckBase;
+    /**图片 **/
+    private byte[] img;
+    /**是否显示 默认为1（显示） **/
+    private Integer isShow;
+    
+    public Integer getIsShow() {
+		return isShow;
+	}
+
+	public void setIsShow(Integer isShow) {
+		this.isShow = isShow;
+	}
+
+	public  byte[] getImg() {
+		return img;
+	}
+
+	public void setImg( byte[] img) {
+		this.img = img;
+	}
+
+	public Integer getLotteryBase() {
+		return lotteryBase;
+	}
+
+	public void setLotteryBase(Integer lotteryBase) {
+		this.lotteryBase = lotteryBase;
+	}
+
+	public Integer getLuckBase() {
+		return luckBase;
+	}
+
+	public void setLuckBase(Integer luckBase) {
+		this.luckBase = luckBase;
+	}
+
+	public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
+    }
+
+    public String getActivityCode() {
+        return activityCode;
+    }
+
+    public void setActivityCode(String activityCode) {
+        this.activityCode = activityCode == null ? null : activityCode.trim();
+    }
+
+    public String getActivityName() {
+        return activityName;
+    }
+
+    public void setActivityName(String activityName) {
+        this.activityName = activityName == null ? null : activityName.trim();
+    }
+
+    public Date getUplineTime() {
+        return uplineTime;
+    }
+
+    public void setUplineTime(Date uplineTime) {
+        this.uplineTime = uplineTime;
+    }
+
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
+    }
+
+
+    public ActivityStatusEnum getActivityStatus() {
+		return activityStatus;
+	}
+
+	public void setActivityStatus(ActivityStatusEnum activityStatus) {
+		this.activityStatus = activityStatus;
+	}
+
+	public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public String getCreator() {
+        return creator;
+    }
+
+    public void setCreator(String creator) {
+        this.creator = creator == null ? null : creator.trim();
+    }
+
+    public Date getCheckedTime() {
+        return checkedTime;
+    }
+
+    public void setCheckedTime(Date checkedTime) {
+        this.checkedTime = checkedTime;
+    }
+
+    public String getCheckor() {
+        return checkor;
+    }
+
+    public void setCheckor(String checkor) {
+        this.checkor = checkor == null ? null : checkor.trim();
+    }
+
+    public String getActivityUrl() {
+        return activityUrl;
+    }
+
+    public void setActivityUrl(String activityUrl) {
+        this.activityUrl = activityUrl == null ? null : activityUrl.trim();
+    }
+
+    public String getUplineRemark() {
+        return uplineRemark;
+    }
+
+    public void setUplineRemark(String uplineRemark) {
+        this.uplineRemark = uplineRemark == null ? null : uplineRemark.trim();
+    }
+
+    public String getOfflineRemark() {
+        return offlineRemark;
+    }
+
+    public void setOfflineRemark(String offlineRemark) {
+        this.offlineRemark = offlineRemark == null ? null : offlineRemark.trim();
+    }
+}

@@ -1,0 +1,32 @@
+package com.yeepay.g3.facade.activity.facade;
+
+import java.util.List;
+import java.util.Map;
+
+import com.yeepay.g3.facade.activity.dto.ActivityActionDTO;
+
+/**
+ * @author cdt
+ * @date 2016-5-16
+ * @time 下午3:54:02
+ */
+
+public interface ActivityActionFacade{
+	/**
+	 * 新增事件
+	 * @author cdt
+	 * @date 2016-5-16
+	 * @time 下午8:14:42
+	 */
+	public void insertActivityAction(ActivityActionDTO actionDto,String prizes,String odds,String versions);
+	
+	/**
+	 * 获取事件详情
+	 * @author cdt
+	 * @date 2016-5-17
+	 * @time 下午1:42:56
+	 */
+	public ActivityActionDTO getActionDetail(Long ActionId);
+	
+	
+}

@@ -1,0 +1,179 @@
+/**
+ * @descrption
+ * @author 陈大涛
+ * 2016-7-27下午4:57:14
+ */
+package com.yeepay.g3.core.activity.facade.impl;
+
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.yeepay.g3.core.activity.entity.ActivityInvForProInfo;
+import com.yeepay.g3.core.activity.entity.ActivityInvForProOrder;
+import com.yeepay.g3.core.activity.service.ActivityInvForProInfoService;
+import com.yeepay.g3.core.activity.service.ActivityInvForProOrderService;
+import com.yeepay.g3.core.activity.utils.Constant;
+import com.yeepay.g3.core.activity.utils.EntityDTOConvert;
+import com.yeepay.g3.facade.activity.dto.ActivityInvForProInfoDTO;
+import com.yeepay.g3.facade.activity.dto.ActivityInvForProOrderAndProInfoDTO;
+import com.yeepay.g3.facade.activity.dto.ActivityInvForProOrderDTO;
+import com.yeepay.g3.facade.activity.enums.ActivityInvForProOrderSendMessageStatusEnum;
+import com.yeepay.g3.facade.activity.enums.ActivityInvForProOrderStatusEnum;
+import com.yeepay.g3.facade.activity.facade.ActivityInvForProOrderFacade;
+
+/**
+ * @author 陈大涛
+ * 2016-7-27下午4:57:14
+ */
+@Service
+public class ActivityInvForProOrderFacadeImpl implements
+		ActivityInvForProOrderFacade {
+	@Autowired
+	private ActivityInvForProOrderService activityInvForProOrderServiceImpl;
+	@Autowired
+	private ActivityInvForProInfoService activityInvForProInfoServiceImpl;
+	@Override
+	public String insertInvForProOrder(ActivityInvForProOrderDTO activityInvForProOrderDTO) {
+		//订单code生成规则
+		StringBuffer orderCode=new StringBuffer();
+		Date date=new Date();
+		SimpleDateFormat sdfPrefix = new SimpleDateFormat("yyyyMMdd");
+		SimpleDateFormat sdfSuffix = new SimpleDateFormat("HHmmss");
+		String prefix=sdfPrefix.format(date);
+		String suffix=sdfSuffix.format(date);
+		orderCode.append(prefix);
+		orderCode.append(activityInvForProOrderDTO.getMemberNo());
+		orderCode.append(suffix);
+		activityInvForProOrderDTO.setOrderCode(orderCode.toString());
+		activityInvForProOrderDTO.setStatus(ActivityInvForProOrderStatusEnum.NO_PAID);
+		activityInvForProOrderDTO.setCreateTime(new Date());
+		activityInvForProOrderDTO.setSendMessageStatus(ActivityInvForProOrderSendMessageStatusEnum.NO_SEND_MESSAGE);
+		//
+		ActivityInvForProOrder activityInvForProOrder =new ActivityInvForProOrder();
+		activityInvForProOrder=EntityDTOConvert.toTarget(activityInvForProOrderDTO, ActivityInvForProOrder.class);
+		activityInvForProOrderServiceImpl.insertInvForProOrder(activityInvForProOrder);
+		return orderCode.toString();
+	}
+
+	@Override
+	public void updateInvForProOrder(ActivityInvForProOrderDTO activityInvForProOrderDTO) {
+		ActivityInvForProOrder activityInvForProOrder =new ActivityInvForProOrder();
+//		activityInvForProOrder.setStatus(ActivityInvForProOrderStatusEnum.PAIDED);
+		activityInvForProOrder=EntityDTOConvert.toTarget(activityInvForProOrderDTO, ActivityInvForProOrder.class);
+		activityInvForProOrderServiceImpl.updateInvForProOrder(activityInvForProOrder);
+	}
+
+	/*@Override
+	public void updateInvForProOrderForStatus(ActivityInvForProOrderDTO activityInvForProOrderDTO) {
+		ActivityInvForProOrder activityInvForProOrder =new ActivityInvForProOrder();
+		activityInvForProOrder=EntityDTOConvert.toTarget(activityInvForProOrderDTO, ActivityInvForProOrder.class);
+		activityInvForProOrderServiceImpl.updateInvForProOrder(activityInvForProOrder);
+
+	}*/
+
+	@Override
+	public ActivityInvForProOrderDTO queryInvForProOrderDetailById(Long id) {
+		ActivityInvForProOrder activityInvForProOrder = activityInvForProOrderServiceImpl.queryInvForProOrderDetailById(id);
+		ActivityInvForProOrderDTO result =EntityDTOConvert.toTarget(activityInvForProOrder, ActivityInvForProOrderDTO.class);
+		return result;
+
+	}
+
+	/* (non-Javadoc)
+	 * @see com.yeepay.g3.facade.activity.facade.ActivityInvForProOrderFacade#updateOrderStatusTiming()
+	 */
+	@Override
+	public void updateOrderStatusTiming() {
+		//取统一配置 失效时间
+		String deadLineTime = Constant.getUpdateOrderStatusTimingDeadLine();
+		Calendar calendar =Calendar.getInstance();
+		calendar.setTime(new Date());
+		calendar.add(Calendar.MINUTE, -Integer.valueOf(deadLineTime));
+		activityInvForProOrderServiceImpl.updateOrderStatusTiming(calendar.getTime());
+	}
+
+	@Override
+	public void sendMessageForNoPaidOrderTiming() {
+		//取统一配置 失效时间
+		String deadLineTime = Constant.getSendMessageForNoPaidOrderTimingDeadLine();
+		Calendar calendar =Calendar.getInstance();
+		calendar.setTime(new Date());
+		calendar.add(Calendar.MINUTE, -Integer.valueOf(deadLineTime));
+		activityInvForProOrderServiceImpl.sendMessageForNoPaidOrderTiming(calendar.getTime());
+	}
+
+	@Override
+	public List<ActivityInvForProOrderAndProInfoDTO> queryOrderAndProInfoListByMemberNoAndStatus(ActivityInvForProOrderDTO activityInvForProOrderDTO){
+		ActivityInvForProOrder activityInvForProOrder =new ActivityInvForProOrder();
+		activityInvForProOrder=EntityDTOConvert.toTarget(activityInvForProOrderDTO, ActivityInvForProOrder.class);
+		List<Map<String,Object>> result = activityInvForProOrderServiceImpl.queryOrderAndProInfoListByMemberNoAndStatus(activityInvForProOrder);
+		List<ActivityInvForProOrderAndProInfoDTO> resultList = new ArrayList<ActivityInvForProOrderAndProInfoDTO>();
+		for(Map<String,Object> itme : result){
+			ActivityInvForProOrderAndProInfoDTO param = new ActivityInvForProOrderAndProInfoDTO();
+			ActivityInvForProInfoDTO activityInvForProInfoDTO=new ActivityInvForProInfoDTO();
+//			activityInvForProInfoDTO.setActivityCode(itme.get(""));
+//			activityInvForProInfoDTO.setCreatePerson(createPerson);
+//			activityInvForProInfoDTO.setCreateTime(createTime);
+//			activityInvForProInfoDTO.setId(id);
+			activityInvForProInfoDTO.setName(itme.get("NAME")==null?null:itme.get("NAME").toString());
+//			activityInvForProInfoDTO.setOperatorer(operatorer);
+//			activityInvForProInfoDTO.setOperatorTime(operatorTime);
+//			activityInvForProInfoDTO.setPrice(price);
+//			activityInvForProInfoDTO.setProductPriceLow(productPriceLow);
+//			activityInvForProInfoDTO.setStatus(status);
+//			activityInvForProInfoDTO.setStockNum(stockNum);
+//			activityInvForProInfoDTO.setUrl(url);
+//			activityInvForProInfoDTO.setUsedNum(usedNum);
+//			activityInvForProInfoDTO.setVersion(version);
+			ActivityInvForProOrderDTO activityInvForProOrderDTOResult = new ActivityInvForProOrderDTO();
+			activityInvForProOrderDTOResult.setActivityCode(itme.get("ACTIVITY_CODE")==null?null:itme.get("ACTIVITY_CODE").toString());
+			activityInvForProOrderDTOResult.setCreateTime((Date) itme.get("CREATE_TIME"));
+			activityInvForProOrderDTOResult.setId((Long)itme.get("ID"));
+			activityInvForProOrderDTOResult.setLcProductId((Long)itme.get("LC_PRODUCT_ID"));
+			activityInvForProOrderDTOResult.setLogisticsNumber(itme.get("LOGISTICS_NUMBER")==null?null:itme.get("LOGISTICS_NUMBER").toString());
+			activityInvForProOrderDTOResult.setMemberNo(itme.get("MEMBER_NO")==null?null:itme.get("MEMBER_NO").toString());
+			activityInvForProOrderDTOResult.setMobileNum(itme.get("MOBILE_NUM")==null?null:itme.get("MOBILE_NUM").toString());
+			activityInvForProOrderDTOResult.setNum((Integer)itme.get("NUM"));
+			activityInvForProOrderDTOResult.setOperator(itme.get("OPERATOR")==null?null:itme.get("OPERATOR").toString());
+			activityInvForProOrderDTOResult.setOperatorTime((Date) itme.get("OPERATOR_TIME"));
+			activityInvForProOrderDTOResult.setOrderCode(itme.get("ORDER_CODE")==null?null:itme.get("ORDER_CODE").toString());
+			activityInvForProOrderDTOResult.setPrice((BigDecimal) itme.get("PRICE"));
+			activityInvForProOrderDTOResult.setProductId((Long)itme.get("PRODUCT_ID"));
+			activityInvForProOrderDTOResult.setSendMessageStatus(itme.get("SEND_MESSAGE_STATUS")==null?null:ActivityInvForProOrderSendMessageStatusEnum.valueOf(itme.get("SEND_MESSAGE_STATUS").toString()) );
+			activityInvForProOrderDTOResult.setStatus(itme.get("STATUS")==null?null:ActivityInvForProOrderStatusEnum.valueOf(itme.get("STATUS").toString()));
+			activityInvForProOrderDTOResult.setTotal((BigDecimal)itme.get("TOTAL"));
+			activityInvForProOrderDTOResult.setUserName(itme.get("USER_NAME")==null?null:itme.get("USER_NAME").toString());
+			activityInvForProOrderDTOResult.setVersion((Long)itme.get("VERSION"));
+			activityInvForProOrderDTOResult.setXtOrderCode(itme.get("XT_ORDER_CODE")==null?null:itme.get("XT_ORDER_CODE").toString());
+			param.setActivityInvForProInfoDTO(activityInvForProInfoDTO);
+			param.setActivityInvForProOrderDTO(activityInvForProOrderDTOResult);
+			resultList.add(param);
+		}
+		return resultList;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.yeepay.g3.facade.activity.facade.ActivityInvForProOrderFacade#queryInvForProOrderDetailByOrderCode(java.lang.String)
+	 */
+	@Override
+	public ActivityInvForProOrderAndProInfoDTO queryInvForProOrderDetailByOrderCode(
+			String orderCode) {
+		ActivityInvForProOrder activityInvForProOrder = activityInvForProOrderServiceImpl.queryInvForProOrderDetailByOrderCode(orderCode);
+		ActivityInvForProOrderDTO activityInvForProOrderDTO = EntityDTOConvert.toTarget(activityInvForProOrder, ActivityInvForProOrderDTO.class);
+		ActivityInvForProInfo  activityInvForProInfo = activityInvForProInfoServiceImpl.selectInvForProInfoById(activityInvForProOrder.getProductId());
+		ActivityInvForProInfoDTO activityInvForProInfoDTO = EntityDTOConvert.toTarget(activityInvForProInfo, ActivityInvForProInfoDTO.class);
+		ActivityInvForProOrderAndProInfoDTO result = new ActivityInvForProOrderAndProInfoDTO();
+		result.setActivityInvForProInfoDTO(activityInvForProInfoDTO);
+		result.setActivityInvForProOrderDTO(activityInvForProOrderDTO);
+		return result;
+	}
+
+}

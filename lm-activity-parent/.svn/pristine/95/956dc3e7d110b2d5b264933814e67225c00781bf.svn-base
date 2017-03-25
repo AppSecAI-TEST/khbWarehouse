@@ -1,0 +1,52 @@
+/**
+ * @descrption
+ * @author 陈大涛
+ * 2016-7-27下午5:01:41
+ */
+package com.yeepay.g3.core.activity.service;
+
+import java.util.Date;
+
+import com.yeepay.g3.core.activity.entity.ActivityInvForProOrder;
+import com.yeepay.g3.facade.activity.dto.ActivityInvForProOrderDTO;
+
+/**
+ * @author 陈大涛
+ * 2016-7-27下午5:01:41
+ */
+public interface ActivityInvForProOrderService {
+
+	/**
+	 * 新增订单（下单）
+	 * @author 陈大涛
+	 * 2016-7-27下午5:02:36
+	 */
+	public void insertInvForProOrder(ActivityInvForProOrder activityInvForProOrder);
+	
+	/**
+	 * 更新订单
+	 * @author 陈大涛
+	 * 2016-7-27下午4:37:17
+	 */
+	public void updateInvForProOrder(ActivityInvForProOrder activityInvForProOrder);
+	
+	/**
+	 * 根据id查询订单信息
+	 * @author 陈大涛
+	 * 2016-7-28上午11:02:37
+	 */
+	public ActivityInvForProOrder queryInvForProOrderDetailById(Long id);
+	
+	/**
+	 * 定时取消超时订单状态
+	 * @author 陈大涛
+	 * 2016-7-28下午3:50:55
+	 */
+	public void updateOrderStatusTiming(Date deadLine);
+	/**
+	 * 定时发送未支付订单消息
+	 * @author 陈大涛
+	 * 2016-7-28下午5:22:01
+	 */
+	public void sendMessageForNoPaidOrderTiming(Date deadLine);
+}

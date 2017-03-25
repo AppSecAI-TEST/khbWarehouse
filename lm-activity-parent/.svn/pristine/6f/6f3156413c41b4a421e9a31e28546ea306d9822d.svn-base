@@ -1,0 +1,193 @@
+package com.yeepay.g3.core.activity.entity;
+
+import java.math.BigDecimal;
+import java.util.Date;
+
+import com.yeepay.g3.utils.persistence.EntityVersion;
+
+public class ActivityInvForProOrder implements EntityVersion<Long> {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -9186190207405583160L;
+
+	private Long id;
+	/**产品id **/
+    private Long productId;
+    /**理财产品id **/
+    private Long lcProductId;
+    /**活动code **/
+    private String activityCode;
+    /**订单编号 **/
+    private String orderCode;
+    /**信托订单id **/
+    private Long xtOrderId;
+    /**会员编号 **/
+    private String memeberNo;
+    /** 状态**/
+    private String status;
+    /** 创建时间**/
+    private Date createTime;
+    /** 购买数量**/
+    private Integer num;
+    /**产品单价 **/
+    private BigDecimal prize;
+    /**总价 **/
+    private Integer total;
+    /**联系人 **/
+    private String userName;
+    /**手机号 **/
+    private String mobileNum;
+    /** 审核人员**/
+    private String operator;
+    /** 审核时间**/
+    private Date operatorTime;
+    /** **/
+    private Long version;
+    /**物流编号 **/
+    private String logisticsNumber;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getProductId() {
+        return productId;
+    }
+
+    public void setProductId(Long productId) {
+        this.productId = productId;
+    }
+
+    public Long getLcProductId() {
+        return lcProductId;
+    }
+
+    public void setLcProductId(Long lcProductId) {
+        this.lcProductId = lcProductId;
+    }
+
+    public String getActivityCode() {
+        return activityCode;
+    }
+
+    public void setActivityCode(String activityCode) {
+        this.activityCode = activityCode == null ? null : activityCode.trim();
+    }
+
+    public String getOrderCode() {
+        return orderCode;
+    }
+
+    public void setOrderCode(String orderCode) {
+        this.orderCode = orderCode == null ? null : orderCode.trim();
+    }
+
+    public Long getXtOrderId() {
+        return xtOrderId;
+    }
+
+    public void setXtOrderId(Long xtOrderId) {
+        this.xtOrderId = xtOrderId;
+    }
+
+    public String getMemeberNo() {
+        return memeberNo;
+    }
+
+    public void setMemeberNo(String memeberNo) {
+        this.memeberNo = memeberNo == null ? null : memeberNo.trim();
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status == null ? null : status.trim();
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Integer getNum() {
+        return num;
+    }
+
+    public void setNum(Integer num) {
+        this.num = num;
+    }
+
+    public BigDecimal getPrize() {
+        return prize;
+    }
+
+    public void setPrize(BigDecimal prize) {
+        this.prize = prize;
+    }
+
+    public Integer getTotal() {
+        return total;
+    }
+
+    public void setTotal(Integer total) {
+        this.total = total;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName == null ? null : userName.trim();
+    }
+
+    public String getMobileNum() {
+        return mobileNum;
+    }
+
+    public void setMobileNum(String mobileNum) {
+        this.mobileNum = mobileNum == null ? null : mobileNum.trim();
+    }
+
+    public String getOperator() {
+        return operator;
+    }
+
+    public void setOperator(String operator) {
+        this.operator = operator == null ? null : operator.trim();
+    }
+
+    public Date getOperatorTime() {
+        return operatorTime;
+    }
+
+    public void setOperatorTime(Date operatorTime) {
+        this.operatorTime = operatorTime;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
+    }
+
+    public String getLogisticsNumber() {
+        return logisticsNumber;
+    }
+
+    public void setLogisticsNumber(String logisticsNumber) {
+        this.logisticsNumber = logisticsNumber == null ? null : logisticsNumber.trim();
+    }
+}

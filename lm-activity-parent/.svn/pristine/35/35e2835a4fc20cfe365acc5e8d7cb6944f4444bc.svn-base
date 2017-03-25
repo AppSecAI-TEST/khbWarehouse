@@ -1,0 +1,116 @@
+/**
+ * @author cdt
+ * @date 2016-5-18
+ * @time 下午4:35:46
+ */
+package com.yeepay.g3.core.activity.service.impl;
+
+import java.util.Date;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.yeepay.g3.core.activity.dao.ActivityActionRelaDao;
+import com.yeepay.g3.core.activity.dao.ActivityInfoDao;
+import com.yeepay.g3.core.activity.entity.ActivityActionRela;
+import com.yeepay.g3.core.activity.entity.ActivityInfo;
+import com.yeepay.g3.core.activity.service.ActivityService;
+import com.yeepay.g3.facade.activity.dto.ActivityInfoDTO;
+import com.yeepay.g3.facade.activity.enums.ActivityStatusEnum;
+import com.yeepay.g3.facade.activity.facade.ActivityFacade;
+import com.yeepay.g3.utils.common.StringUtils;
+
+/**
+ * @author cdt
+ * @date 2016-5-18
+ * @time 下午4:35:46
+ */
+@Service
+public class ActivityServiceImpl implements ActivityService{
+	@Autowired
+	private ActivityInfoDao activityInfoDaoImpl;
+	@Autowired
+	private ActivityActionRelaDao activityActionRelaDaoImpl;
+	
+	@Override
+	public void insertActivity(ActivityInfo activityInfo,String actions,String creator) throws Exception {
+		//新增活动
+		activityInfo.setCreateTime(new Date());
+		activityInfo.setCreator(creator);
+		activityInfo.setActivityStatus(ActivityStatusEnum.CHECKING);
+		activityInfoDaoImpl.add(activityInfo);
+		//新增活动-事件关联
+		if(!StringUtils.isEmpty(actions)){
+			String[] actinoArray=actions.split(",");
+			for(String id:actinoArray){
+				ActivityActionRela param=new ActivityActionRela();
+				param.setCreateTime(new Date());
+				param.setCreator(creator);
+				param.setActionId(new Long(id));
+				param.setActivityId(activityInfo.getId());
+				activityActionRelaDaoImpl.add(param);
+			}
+		}else{
+			throw new Exception("新增活动actions为空");
+		}
+		
+	}
+
+	@Override
+	public ActivityInfo queryActivityById(Long id) {
+		ActivityInfo result=activityInfoDaoImpl.get(id);
+		return result;
+	}
+
+	@Override
+	public void updateActivity(ActivityInfo activityInfo,String actions,String creator) throws Exception {
+		//修改活动
+		activityInfo.setActivityStatus(ActivityStatusEnum.CHECKING);
+		activityInfoDaoImpl.update(activityInfo);
+		//修改活动对应事件关联信息
+		if(!StringUtils.isEmpty(actions)){
+			//第一步，先删除原有关联
+			activityActionRelaDaoImpl.deleteByActivityId(activityInfo.getId());
+			//第二步，重新新增关联
+			String[] actionArray=actions.split(",");
+			for(String id:actionArray){
+				ActivityActionRela param=new ActivityActionRela();
+				param.setActionId(new Long(id));
+				param.setActivityId(activityInfo.getId());
+				param.setCreateTime(new Date());
+				param.setCreator(creator);
+				activityActionRelaDaoImpl.add(param);
+			}	
+		}else{
+			throw new Exception("updateActivity方法的参数：actions为空");
+		}
+		
+		
+		
+	}
+
+	@Override
+	public void updateCheckActivity(ActivityInfo activityInfo) {
+		activityInfoDaoImpl.update(activityInfo);
+		}
+
+	@Override
+	public List<ActivityInfo> selectActivityList(ActivityInfo activityInfo) {
+		List<ActivityInfo> list= activityInfoDaoImpl.query("selectActivityList", activityInfo);
+		return list;
+	}
+
+	@Override
+	public String queryActivityCodeByActionCode(String actionCode) {
+		Object activityCode = activityInfoDaoImpl.queryOne("queryActivityCodeByActionCode", actionCode);
+		return String.valueOf(activityCode);
+	}
+
+	@Override
+	public ActivityInfo selectActivityByActionCoude(String actionCode) {
+		// TODO Auto-generated method stub
+		return (ActivityInfo) activityInfoDaoImpl.queryOne("queryActivityInfoByActivityCode", actionCode);
+	}
+
+}

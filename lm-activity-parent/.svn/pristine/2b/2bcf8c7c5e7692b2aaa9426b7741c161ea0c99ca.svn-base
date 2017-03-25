@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+	
+	<!--定义的系统配置环境 -->
+	<bean id="propertyPlaceholder"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="classpath:/system.properties" />
+	</bean>
+	
+	<bean id="configurationUtils" class="com.yeepay.g3.utils.config.ConfigurationUtils" init-method="init" />
+	
+	<import resource="classpath:/activity-core-spring/applicationContext-ds.xml"/>
+	<!-- 远程hessian配置 -->
+<!--     <import resource="classpath:/activity-core-spring/applicationContext-remote.xml"/> -->
+	 <!--<import resource="classpath:/activity-core-spring/applicationContext-quartz.xml" />-->
+    
+	<!-- 数据源配置 -->
+	<bean id="sqlSessionFactory"
+		class="com.yeepay.g3.utils.persistence.mybatis.SqlSessionFactoryBeanWapper">
+		<property name="configLocation">
+			<value>classpath:/activity-core-spring/sql-map-config.xml</value>
+		</property>
+		<property name="dataSource" ref="activityDataSource" />
+		<property name="mapperLocations">
+			<value>classpath*:/activity-core-sqlmap/*Mapper.xml</value>
+		</property>
+	</bean>
+	<bean id="activityTransactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="activityDataSource"></property>
+	</bean>
+	
+	<!-- spring自动注入扫描包 -->
+	<context:component-scan base-package="com.yeepay.g3.core.activity.dao.impl" />
+	<context:component-scan base-package="com.yeepay.g3.core.activity.service.impl" />
+	<context:component-scan base-package="com.yeepay.g3.core.activity.facade.impl" />
+	
+	<tx:advice id="txAdvice" transaction-manager="activityTransactionManager">
+		<tx:attributes>
+			<tx:method name="delete*" propagation="REQUIRED" read-only="false" rollback-for="Exception"/>
+    		<tx:method name="insert*" propagation="REQUIRED" read-only="false" rollback-for="Exception"/>
+    		<tx:method name="get*" propagation="SUPPORTS"/>
+    		<tx:method name="query*" propagation="SUPPORTS"/>
+    		<tx:method name="add*" propagation="REQUIRED" read-only="false" rollback-for="Exception"/>
+    		<tx:method name="save*" propagation="REQUIRED" read-only="false" rollback-for="Exception"/>
+    		<tx:method name="create*" propagation="REQUIRED" read-only="false" rollback-for="Exception"/>
+    		<tx:method name="update*" propagation="REQUIRED" read-only="false" rollback-for="Exception"/>
+    		<tx:method name="do*" propagation="REQUIRED" read-only="false" rollback-for="Exception"/>
+    		<tx:method name="notrans*" propagation="NOT_SUPPORTED" read-only="false" rollback-for="Exception"/>
+    	</tx:attributes>
+    </tx:advice>
+    <!-- 事务控制在service层 -->
+    <aop:config>
+    	<aop:pointcut id="pc" expression="execution(* com.yeepay.g3.core.activity.service.impl.*.*(..))" />
+    	<aop:advisor pointcut-ref="pc" advice-ref="txAdvice" />
+    </aop:config>
+</beans>

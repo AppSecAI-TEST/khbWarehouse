@@ -1,0 +1,156 @@
+package com.yeepay.g3.core.activity.entity;
+
+import java.math.BigDecimal;
+import java.util.Date;
+
+public class ActivitySrcFlowRule {
+    private Long id;
+
+    private Long version;
+
+    private String srcNo;
+
+    private String opeType;
+
+    private BigDecimal minOpeAmount;
+
+    private BigDecimal maxOpeAmount;
+
+    private String cmccCode;
+
+    private String ctccCode;
+
+    private String cuccCode;
+
+    private Date startDate;
+
+    private Date endDate;
+
+    private Short sendFlag;
+
+    private Date createTime;
+
+    private String operator;
+
+    private Date lastUpdateTime;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
+    }
+
+    public String getSrcNo() {
+        return srcNo;
+    }
+
+    public void setSrcNo(String srcNo) {
+        this.srcNo = srcNo == null ? null : srcNo.trim();
+    }
+
+    public String getOpeType() {
+        return opeType;
+    }
+
+    public void setOpeType(String opeType) {
+        this.opeType = opeType == null ? null : opeType.trim();
+    }
+
+    public BigDecimal getMinOpeAmount() {
+        return minOpeAmount;
+    }
+
+    public void setMinOpeAmount(BigDecimal minOpeAmount) {
+        this.minOpeAmount = minOpeAmount;
+    }
+
+    public BigDecimal getMaxOpeAmount() {
+        return maxOpeAmount;
+    }
+
+    public void setMaxOpeAmount(BigDecimal maxOpeAmount) {
+        this.maxOpeAmount = maxOpeAmount;
+    }
+
+    public String getCmccCode() {
+        return cmccCode;
+    }
+
+    public void setCmccCode(String cmccCode) {
+        this.cmccCode = cmccCode == null ? null : cmccCode.trim();
+    }
+
+    public String getCtccCode() {
+        return ctccCode;
+    }
+
+    public void setCtccCode(String ctccCode) {
+        this.ctccCode = ctccCode == null ? null : ctccCode.trim();
+    }
+
+    public String getCuccCode() {
+        return cuccCode;
+    }
+
+    public void setCuccCode(String cuccCode) {
+        this.cuccCode = cuccCode == null ? null : cuccCode.trim();
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
+    public Short getSendFlag() {
+        return sendFlag;
+    }
+
+    public void setSendFlag(Short sendFlag) {
+        this.sendFlag = sendFlag;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public String getOperator() {
+        return operator;
+    }
+
+    public void setOperator(String operator) {
+        this.operator = operator == null ? null : operator.trim();
+    }
+
+    public Date getLastUpdateTime() {
+        return lastUpdateTime;
+    }
+
+    public void setLastUpdateTime(Date lastUpdateTime) {
+        this.lastUpdateTime = lastUpdateTime;
+    }
+}

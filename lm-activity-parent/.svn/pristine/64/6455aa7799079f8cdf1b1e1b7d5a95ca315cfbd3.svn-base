@@ -1,0 +1,103 @@
+package com.yeepay.g3.core.activity.entity;
+
+import java.math.BigDecimal;
+import java.util.Date;
+
+import com.yeepay.g3.utils.persistence.EntityVersion;
+
+public class ActivityMemberOperecord implements EntityVersion<Long> {
+
+	private static final long serialVersionUID = -1762262468871539867L;
+
+	private Long id;
+	/**
+	 * 版本号
+	 */
+    private Long version;
+    /**
+     * 会员编号
+     */
+    private String memberNo;
+    /**
+     * 会员手机号
+     */
+    private String memberTel;
+    /**
+     * 操作类型
+     */
+    private String operateType;
+    /**
+     * 操作时间
+     */
+    private Date operateTime;
+    /**
+     * 操作金额
+     */
+    private BigDecimal operateAmount;
+
+    private Date createTime;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
+    }
+
+    public String getMemberNo() {
+        return memberNo;
+    }
+
+    public void setMemberNo(String memberNo) {
+        this.memberNo = memberNo == null ? null : memberNo.trim();
+    }
+
+    public String getMemberTel() {
+        return memberTel;
+    }
+
+    public void setMemberTel(String memberTel) {
+        this.memberTel = memberTel == null ? null : memberTel.trim();
+    }
+
+    public String getOperateType() {
+        return operateType;
+    }
+
+    public void setOperateType(String operateType) {
+        this.operateType = operateType == null ? null : operateType.trim();
+    }
+
+    public Date getOperateTime() {
+        return operateTime;
+    }
+
+    public void setOperateTime(Date operateTime) {
+        this.operateTime = operateTime;
+    }
+
+    public BigDecimal getOperateAmount() {
+        return operateAmount;
+    }
+
+    public void setOperateAmount(BigDecimal operateAmount) {
+        this.operateAmount = operateAmount;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+}

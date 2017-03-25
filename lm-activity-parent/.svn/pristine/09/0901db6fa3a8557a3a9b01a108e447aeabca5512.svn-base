@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ActivitySrcFlowRule" >
+  <resultMap id="BaseResultMap" type="com.yeepay.g3.core.activity.entity.ActivitySrcFlowRule" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="VERSION" property="version" jdbcType="BIGINT" />
+    <result column="SRC_NO" property="srcNo" jdbcType="VARCHAR" />
+    <result column="OPE_TYPE" property="opeType" jdbcType="VARCHAR" />
+    <result column="MIN_OPE_AMOUNT" property="minOpeAmount" jdbcType="DECIMAL" />
+    <result column="MAX_OPE_AMOUNT" property="maxOpeAmount" jdbcType="DECIMAL" />
+    <result column="CMCC_CODE" property="cmccCode" jdbcType="VARCHAR" />
+    <result column="CTCC_CODE" property="ctccCode" jdbcType="VARCHAR" />
+    <result column="CUCC_CODE" property="cuccCode" jdbcType="VARCHAR" />
+    <result column="START_DATE" property="startDate" jdbcType="TIMESTAMP" />
+    <result column="END_DATE" property="endDate" jdbcType="TIMESTAMP" />
+    <result column="SEND_FLAG" property="sendFlag" jdbcType="SMALLINT" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="OPERATOR" property="operator" jdbcType="VARCHAR" />
+    <result column="LAST_UPDATE_TIME" property="lastUpdateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    *
+    from TBL_ACTIVITY_SRC_FLOW_RULE
+    where ID = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectByParams" resultMap="BaseResultMap" parameterType="map" >
+    select 
+    *
+    from TBL_ACTIVITY_SRC_FLOW_RULE
+    where 1=1 
+    <if test="id != null" >
+        AND ID = #{id,jdbcType=BIGINT}
+    </if>
+    <if test="version != null">
+    	AND VERSION = #{version,jdbcType=BIGINT}
+    </if>
+    <if test="srcNo != null">
+    	AND SRC_NO = #{srcNo,jdbcType=VARCHAR}
+    </if>
+    <if test="opeType != null">
+    	AND OPE_TYPE = #{opeType,jdbcType=VARCHAR}
+    </if>
+    <if test="opeAmount != null">
+    	AND MIN_OPE_AMOUNT <![CDATA[ <= ]]> #{opeAmount,jdbcType=DECIMAL}
+    </if>
+    <if test="opeAmount != null">
+    	AND MAX_OPE_AMOUNT <![CDATA[ >]]> #{opeAmount,jdbcType=DECIMAL}
+    </if>
+    
+    <if test="minOpeAmount != null">
+    	AND MIN_OPE_AMOUNT = #{minOpeAmount,jdbcType=DECIMAL}
+    </if>
+    <if test="maxOpeAmount != null">
+    	AND MAX_OPE_AMOUNT = #{maxOpeAmount,jdbcType=DECIMAL}
+    </if>
+    
+    <if test="cmccCode != null">
+    	AND CMCC_CODE = #{cmccCode,jdbcType=VARCHAR}
+    </if>
+    <if test="ctccCode != null">
+    	AND CTCC_CODE = #{ctccCode,jdbcType=VARCHAR}
+    </if>
+    <if test="cuccCode != null">
+    	AND CUCC_CODE = #{cuccCode,jdbcType=VARCHAR}
+    </if>
+    <if test="startDate != null">
+    	AND START_DATE = #{startDate,jdbcType=TIMESTAMP}
+    </if>
+    <if test="endDate != null">
+    	AND END_DATE = #{endDate,jdbcType=TIMESTAMP}
+    </if>
+    <if test="sendFlag != null">
+    	AND SEND_FLAG = #{sendFlag,jdbcType=SMALLINT}
+    </if>
+    <if test="createTime != null">
+    	AND CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="createTimeStart != null">
+    	AND CREATE_TIME <![CDATA[ >= ]]> #{createTimeStart,jdbcType=TIMESTAMP}
+    </if>
+    <if test="createTimeEnd != null">
+    	AND CREATE_TIME <![CDATA[ < ]]> #{createTimeEnd,jdbcType=TIMESTAMP}
+    </if>
+    <if test="operator != null">
+    	AND OPERATOR = #{operator,jdbcType=VARCHAR}
+    </if>
+    <if test="lastUpdateTime != null">
+    	AND LAST_UPDATE_TIME = #{lastUpdateTime,jdbcType=TIMESTAMP}
+    </if>
+    ORDER BY ID ASC
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from TBL_ACTIVITY_SRC_FLOW_RULE
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.yeepay.g3.core.activity.entity.ActivitySrcFlowRule" useGeneratedKeys="true" keyProperty="id">
+    insert into TBL_ACTIVITY_SRC_FLOW_RULE (SRC_NO, 
+      OPE_TYPE, MIN_OPE_AMOUNT, MAX_OPE_AMOUNT, 
+      CMCC_CODE, CTCC_CODE, CUCC_CODE, 
+      START_DATE, END_DATE, SEND_FLAG, 
+      CREATE_TIME, OPERATOR, LAST_UPDATE_TIME
+      )
+    values (#{srcNo,jdbcType=VARCHAR}, 
+      #{opeType,jdbcType=VARCHAR}, #{minOpeAmount,jdbcType=DECIMAL}, #{maxOpeAmount,jdbcType=DECIMAL}, 
+      #{cmccCode,jdbcType=VARCHAR}, #{ctccCode,jdbcType=VARCHAR}, #{cuccCode,jdbcType=VARCHAR}, 
+      #{startDate,jdbcType=TIMESTAMP}, #{endDate,jdbcType=TIMESTAMP}, #{sendFlag,jdbcType=SMALLINT}, 
+      current timestamp, #{operator,jdbcType=VARCHAR}, #{lastUpdateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yeepay.g3.core.activity.entity.ActivitySrcFlowRule" >
+    update TBL_ACTIVITY_SRC_FLOW_RULE
+    <set >
+      <if test="version != null" >
+        VERSION = VERSION + 1,
+      </if>
+      <if test="srcNo != null" >
+        SRC_NO = #{srcNo,jdbcType=VARCHAR},
+      </if>
+      <if test="opeType != null" >
+        OPE_TYPE = #{opeType,jdbcType=VARCHAR},
+      </if>
+      <if test="minOpeAmount != null" >
+        MIN_OPE_AMOUNT = #{minOpeAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="maxOpeAmount != null" >
+        MAX_OPE_AMOUNT = #{maxOpeAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="cmccCode != null" >
+        CMCC_CODE = #{cmccCode,jdbcType=VARCHAR},
+      </if>
+      <if test="ctccCode != null" >
+        CTCC_CODE = #{ctccCode,jdbcType=VARCHAR},
+      </if>
+      <if test="cuccCode != null" >
+        CUCC_CODE = #{cuccCode,jdbcType=VARCHAR},
+      </if>
+      <if test="startDate != null" >
+        START_DATE = #{startDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endDate != null" >
+        END_DATE = #{endDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sendFlag != null" >
+        SEND_FLAG = #{sendFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operator != null" >
+        OPERATOR = #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="lastUpdateTime != null" >
+        LAST_UPDATE_TIME = #{lastUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yeepay.g3.core.activity.entity.ActivitySrcFlowRule" >
+    update TBL_ACTIVITY_SRC_FLOW_RULE
+    set VERSION = VERSION + 1,
+      SRC_NO = #{srcNo,jdbcType=VARCHAR},
+      OPE_TYPE = #{opeType,jdbcType=VARCHAR},
+      MIN_OPE_AMOUNT = #{minOpeAmount,jdbcType=DECIMAL},
+      MAX_OPE_AMOUNT = #{maxOpeAmount,jdbcType=DECIMAL},
+      CMCC_CODE = #{cmccCode,jdbcType=VARCHAR},
+      CTCC_CODE = #{ctccCode,jdbcType=VARCHAR},
+      CUCC_CODE = #{cuccCode,jdbcType=VARCHAR},
+      START_DATE = #{startDate,jdbcType=TIMESTAMP},
+      END_DATE = #{endDate,jdbcType=TIMESTAMP},
+      SEND_FLAG = #{sendFlag,jdbcType=SMALLINT},
+      OPERATOR = #{operator,jdbcType=VARCHAR},
+      LAST_UPDATE_TIME = current timestamp
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

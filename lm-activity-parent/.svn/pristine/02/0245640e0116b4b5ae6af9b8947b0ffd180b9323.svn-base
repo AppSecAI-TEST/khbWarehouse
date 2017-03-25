@@ -1,0 +1,117 @@
+package com.yeepay.g3.facade.activity.dto;
+
+import java.io.Serializable;
+import java.util.Date;
+
+import com.yeepay.g3.facade.activity.enums.UserMessageReadStatusEnum;
+
+/**
+ * 
+ * @Description 用户消息实体类
+ * @author zhenping.zhou
+ * @CreateTime 2016年6月4日 下午2:25:48
+ * @version 1.0
+ */
+public class ActivityUserMessageDTO implements Serializable {
+
+	private static final long serialVersionUID = 7624127878713487446L;
+
+	private Long id;
+
+    private Long version;
+
+    private String memberNo;
+
+    private String msgTitle;
+
+    private String msgContent;
+    
+    private String templateName;
+
+    private Date occurTime;
+
+    private UserMessageReadStatusEnum readStatus;
+
+    private Date createTime;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
+    }
+
+    public String getMemberNo() {
+        return memberNo;
+    }
+
+    public void setMemberNo(String memberNo) {
+        this.memberNo = memberNo == null ? null : memberNo.trim();
+    }
+
+    public String getMsgTitle() {
+        return msgTitle;
+    }
+
+    public void setMsgTitle(String msgTitle) {
+        this.msgTitle = msgTitle == null ? null : msgTitle.trim();
+    }
+
+    public String getMsgContent() {
+        return msgContent;
+    }
+
+    public void setMsgContent(String msgContent) {
+        this.msgContent = msgContent == null ? null : msgContent.trim();
+    }
+
+    public Date getOccurTime() {
+        return occurTime;
+    }
+
+    public void setOccurTime(Date occurTime) {
+        this.occurTime = occurTime;
+    }
+
+    public UserMessageReadStatusEnum getReadStatus() {
+        return readStatus;
+    }
+
+    public void setReadStatus(UserMessageReadStatusEnum readStatus) {
+        this.readStatus = readStatus;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+	public String getTemplateName() {
+		return templateName;
+	}
+
+	public void setTemplateName(String templateName) {
+		this.templateName = templateName;
+	}
+
+	@Override
+	public String toString() {
+		return "ActivityUserMessageDTO [id=" + id + ", version=" + version
+				+ ", memberNo=" + memberNo + ", msgTitle=" + msgTitle
+				+ ", msgContent=" + msgContent + ", templateName="
+				+ templateName + ", occurTime=" + occurTime + ", readStatus="
+				+ readStatus + ", createTime=" + createTime + "]";
+	}
+}

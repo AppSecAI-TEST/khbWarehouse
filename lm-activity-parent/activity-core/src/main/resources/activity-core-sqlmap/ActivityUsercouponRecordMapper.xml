@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ActivityUsercouponRecord" >
+  <resultMap id="BaseResultMap" type="com.yeepay.g3.core.activity.entity.ActivityUsercouponRecord" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="VERSION" property="version" jdbcType="BIGINT" />
+<!--     <result column="USERCOUPON_ID" property="usercouponId" jdbcType="BIGINT" /> -->
+<!--     <result column="COUPON_ID" property="couponId" jdbcType="BIGINT" /> -->
+    <result column="MEMBER_NO" property="memberNo" jdbcType="VARCHAR" />
+    <result column="USE_TIME" property="useTime" jdbcType="TIMESTAMP" />
+    <result column="TRADE_ID" property="tradeId" jdbcType="BIGINT" />
+    <result column="USE_STATUS" property="useStatus" jdbcType="VARCHAR" />
+    <result column="BIZ_TYPE" property="bizType" jdbcType="VARCHAR" />
+    <association property="coupon" column="COUPON_ID" javaType="com.yeepay.g3.core.activity.entity.ActivityCoupon" select="ActivityCoupon.selectByPrimaryKey"/>
+    <association property="usercoupon" column="USERCOUPON_ID" javaType="com.yeepay.g3.core.activity.entity.ActivityUsercoupon" select="ActivityUsercoupon.selectByPrimaryKey"/>
+  </resultMap>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    *
+    from TBL_ACTIVITY_USERCOUPON_RECORD
+    where ID = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectByParams" resultMap="BaseResultMap" parameterType="map" >
+    select 
+    *
+    from TBL_ACTIVITY_USERCOUPON_RECORD
+    where 1 = 1
+    <if test="usercouponId != null">
+    	AND USERCOUPON_ID = #{usercouponId,jdbcType=BIGINT}
+    </if>
+    <if test="tradeId != null">
+    	AND TRADE_ID = #{tradeId,jdbcType=BIGINT}
+    </if>
+    <if test="memberNo != null" >
+        AND MEMBER_NO = #{memberNo,jdbcType=VARCHAR}
+     </if>
+     <if test="useStatus != null" >
+        AND USE_STATUS = #{useStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="bizType != null" >
+        AND BIZ_TYPE = #{bizType,jdbcType=VARCHAR}
+      </if>
+      WITH UR
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from TBL_ACTIVITY_USERCOUPON_RECORD
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.yeepay.g3.core.activity.entity.ActivityUsercouponRecord" useGeneratedKeys="true" keyProperty="id" >
+    insert into TBL_ACTIVITY_USERCOUPON_RECORD (USERCOUPON_ID, 
+      COUPON_ID, MEMBER_NO, USE_TIME, 
+      TRADE_ID, USE_STATUS, BIZ_TYPE)
+    values (#{usercoupon.id,jdbcType=BIGINT}, 
+      #{coupon.id,jdbcType=BIGINT}, #{memberNo,jdbcType=VARCHAR}, current timestamp, 
+      #{tradeId,jdbcType=BIGINT}, #{useStatus,jdbcType=VARCHAR}, #{bizType,jdbcType=VARCHAR})
+  </insert>
+  <update id="update" parameterType="com.yeepay.g3.core.activity.entity.ActivityUsercouponRecord" >
+    update TBL_ACTIVITY_USERCOUPON_RECORD
+    <set >
+      <if test="version != null" >
+        VERSION = VERSION + 1,
+      </if>
+      <if test="memberNo != null" >
+        MEMBER_NO = #{memberNo,jdbcType=VARCHAR},
+      </if>
+      <if test="useTime != null" >
+        USE_TIME = #{useTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="useStatus != null" >
+        USE_STATUS = #{useStatus,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=BIGINT} AND VERSION = #{version,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yeepay.g3.core.activity.entity.ActivityUsercouponRecord" >
+    update TBL_ACTIVITY_USERCOUPON_RECORD
+    set VERSION = #{version,jdbcType=BIGINT},
+      USERCOUPON_ID = #{usercouponId,jdbcType=BIGINT},
+      COUPON_ID = #{couponId,jdbcType=BIGINT},
+      MEMBER_NO = #{memberNo,jdbcType=VARCHAR},
+      USE_TIME = #{useTime,jdbcType=TIMESTAMP},
+      TRADE_ID = #{tradeId,jdbcType=BIGINT},
+      USE_STATUS = #{useStatus,jdbcType=VARCHAR},
+      BIZ_TYPE = #{bizType,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

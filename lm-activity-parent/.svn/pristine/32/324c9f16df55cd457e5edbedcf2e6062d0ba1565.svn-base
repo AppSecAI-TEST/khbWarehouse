@@ -1,0 +1,87 @@
+package com.yeepay.g3.hessian.activity.test;
+
+import java.math.BigDecimal;
+import java.util.Date;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import com.yeepay.g3.core.activity.queue.ActivityMemberOperecordProcessor;
+import com.yeepay.g3.core.activity.queue.LMTradeMessageProcessor;
+import com.yeepay.g3.facade.lmlc.async.enumtype.LMTradeTypeEnum;
+import com.yeepay.g3.facade.lmlc.async.event.LMTradeMessageEvent;
+import com.yeepay.g3.facade.lmportal.async.enumType.LMOperationTypeEnum;
+import com.yeepay.g3.facade.lmportal.async.event.ActivityMemberRecords;
+import com.yeepay.g3.utils.rmi.RemoteServiceFactory;
+
+/**
+ * @Description 用户消息单元测试类
+ * @author zhenping.zhou
+ * @CreateTime 2015年12月7日 上午10:42:15
+ * @version 1.0
+ */
+@RunWith(SpringJUnit4ClassRunner.class)     //表示继承了SpringJUnit4ClassRunner类  
+@ContextConfiguration(locations = {"classpath:activity-core-spring/applicationContext.xml"})  
+public class ActivityMemberOpeRecordTest {
+	
+	@Autowired
+	LMTradeMessageProcessor lMTradeMessageProcessor;
+	
+	@Autowired
+	ActivityMemberOperecordProcessor activityMemberRecordsProcessor;
+
+    @Before
+    public void setUp() throws Exception {
+    	
+		RemoteServiceFactory.init();
+
+//        ApplicationContext ctx = ApplicationContextUtil.getInstence().getApplicationContext();
+        //activityCouponFacadeImpl = (ActivityCouponFacade) ctx.getBean("activityCouponFacadeImpl");
+//        activityCouponFacadeImpl = RemoteServiceFactory.getService(ActivityCouponFacade.class);
+    }
+
+    /**
+     * 测试会员购买信托
+     * @throws Exception
+     */
+    @Test
+    public void testLMTradeMessageProcessor() throws Exception {
+//        activityCouponFacadeImpl = RemoteServiceFactory.getService(ActivityCouponFacade.class);
+    	
+    	LMTradeMessageEvent event = new LMTradeMessageEvent();
+    	event.setAmount(new BigDecimal(1500));
+    	event.setCreateDate(new Date());
+    	event.setEventKey("invest");
+    	event.setMemberNo("811234568021");
+    	event.setMobileNo("1234567890");
+    	event.setTradeTime(new Date());
+    	event.setType(LMTradeTypeEnum.INVEST.toString());
+    	lMTradeMessageProcessor.process(event);
+    	
+    }
+    
+    /**
+     * 测试会员操作（注册、绑卡、充值、提现等）
+     * @throws Exception
+     */
+//    @Test
+    public void testMemberOperecordProcessor() throws Exception {
+    	
+    	ActivityMemberRecords event = new ActivityMemberRecords();
+    	event.setMemberTel("1234567890");
+//    	event.setOperateAmount();
+    	event.setOperateTime(new Date());
+    	event.setRegisterTime(new Date());
+    	event.setCreateDate(new Date());
+    	event.setEventKey("bind_card");
+    	event.setMemberNo("811234568021");
+    	event.setType(LMOperationTypeEnum.BIND_CARD.toString());
+    	activityMemberRecordsProcessor.process(event);
+    	
+    }
+    
+}

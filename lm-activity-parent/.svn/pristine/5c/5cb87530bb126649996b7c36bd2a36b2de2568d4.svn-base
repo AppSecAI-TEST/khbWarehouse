@@ -1,0 +1,20 @@
+package com.yeepay.g3.core.zt.dao;
+
+import com.yeepay.g3.core.zt.entity.ZtMemberRetreatRecord;
+
+public interface ZtMemberRetreatRecordDao {
+
+
+    int deleteByPrimaryKey(Long id);
+
+    int insert(ZtMemberRetreatRecord record);
+
+    int insertSelective(ZtMemberRetreatRecord record);
+
+
+    ZtMemberRetreatRecord selectByPrimaryKey(Long id);
+
+    int updateByPrimaryKeySelective(ZtMemberRetreatRecord record);
+
+    int updateByPrimaryKey(ZtMemberRetreatRecord record);
+}

@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ActivityInvForProInfo" >
+  <resultMap id="BaseResultMap" type="com.yeepay.g3.core.activity.entity.ActivityInvForProInfo" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="ACTIVITY_CODE" property="activityCode" jdbcType="VARCHAR" />
+    <result column="PRICE" property="price" jdbcType="DECIMAL" />
+    <result column="CREATE_PERSON" property="createPerson" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="URL" property="url" jdbcType="VARCHAR" />
+    <result column="PRODUCT_PRICE_LOW" property="productPriceLow" jdbcType="DECIMAL" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="STOCK_NUM" property="stockNum" jdbcType="INTEGER" />
+    <result column="USED_NUM" property="usedNum" jdbcType="INTEGER" />
+    <result column="OPERATORER" property="operatorer" jdbcType="VARCHAR" />
+    <result column="OPERATOR_TIME" property="operatorTime" jdbcType="TIMESTAMP" />
+    <result column="RATE" property="rate" jdbcType="DECIMAL" />
+    <result column="VERSION" property="version" jdbcType="BIGINT" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.yeepay.g3.core.activity.entity.ActivityInvForProInfo" extends="BaseResultMap" >
+    <result column="PRODUCT_IMG" property="productImg" jdbcType="BLOB" />
+  </resultMap>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+  *
+    from TBL_ACTIVITY_INVFORPRO_INFO
+    where ID = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from TBL_ACTIVITY_INVFORPRO_INFO
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+  
+  <insert id="insert" parameterType="com.yeepay.g3.core.activity.entity.ActivityInvForProInfo" useGeneratedKeys="true" keyProperty="id">
+    insert into TBL_ACTIVITY_INVFORPRO_INFO ( NAME, ACTIVITY_CODE, 
+      PRICE, CREATE_PERSON, CREATE_TIME, 
+      URL, PRODUCT_PRICE_LOW, STATUS, 
+      STOCK_NUM, USED_NUM, OPERATORER, 
+      OPERATOR_TIME,  PRODUCT_IMG,RATE
+      )
+    values ( #{name,jdbcType=VARCHAR}, #{activityCode,jdbcType=VARCHAR}, 
+      #{price,jdbcType=DECIMAL}, #{createPerson,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{url,jdbcType=VARCHAR}, #{productPriceLow,jdbcType=DECIMAL}, #{status,jdbcType=VARCHAR}, 
+      #{stockNum,jdbcType=INTEGER}, #{usedNum,jdbcType=INTEGER}, #{operatorer,jdbcType=VARCHAR}, 
+      #{operatorTime,jdbcType=TIMESTAMP}, #{productImg,jdbcType=BLOB},#{rate,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yeepay.g3.core.activity.entity.ActivityInvForProInfo" >
+    insert into TBL_ACTIVITY_INVFORPRO_INFO
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+     
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="activityCode != null" >
+        ACTIVITY_CODE,
+      </if>
+      <if test="price != null" >
+        PRICE,
+      </if>
+      <if test="createPerson != null" >
+        CREATE_PERSON,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="url != null" >
+        URL,
+      </if>
+      <if test="productPriceLow != null" >
+        PRODUCT_PRICE_LOW,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="stockNum != null" >
+        STOCK_NUM,
+      </if>
+      <if test="usedNum != null" >
+        USED_NUM,
+      </if>
+      <if test="operatorer != null" >
+        OPERATORER,
+      </if>
+      <if test="operatorTime != null" >
+        OPERATOR_TIME,
+      </if>
+      <if test="productImg != null" >
+        PRODUCT_IMG,
+      </if>
+       <if test="rate != null" >
+        RATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+     
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="activityCode != null" >
+        #{activityCode,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        #{PRICE,jdbcType=DECIMAL},
+      </if>
+      <if test="createPerson != null" >
+        #{createPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="productPriceLow != null" >
+        #{productPriceLow,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="stockNum != null" >
+        #{stockNum,jdbcType=INTEGER},
+      </if>
+      <if test="usedNum != null" >
+        #{usedNum,jdbcType=INTEGER},
+      </if>
+      <if test="operatorer != null" >
+        #{operatorer,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorTime != null" >
+        #{operatorTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="productImg != null" >
+        #{productImg,jdbcType=BLOB},
+      </if>
+       <if test="rate != null" >
+        #{rate,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+ 
+  
+  <update id="update" parameterType="com.yeepay.g3.core.activity.entity.ActivityInvForProInfo" >
+    update TBL_ACTIVITY_INVFORPRO_INFO
+    <set >
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="activityCode != null" >
+        ACTIVITY_CODE = #{activityCode,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        PRICE = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="createPerson != null" >
+        CREATE_PERSON = #{createPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="url != null" >
+        URL = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="productPriceLow != null" >
+        PRODUCT_PRICE_LOW = #{productPriceLow,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="stockNum != null" >
+        STOCK_NUM = #{stockNum,jdbcType=INTEGER},
+      </if>
+      <if test="usedNum != null" >
+        USED_NUM = #{usedNum,jdbcType=INTEGER},
+      </if>
+      <if test="operatorer != null" >
+        OPERATORER = #{operatorer,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorTime != null" >
+        OPERATOR_TIME = #{operatorTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="version != null" >
+        VERSION = VERSION + 1,
+      </if>
+      <if test="productImg != null" >
+        PRODUCT_IMG = #{productImg,jdbcType=BLOB},
+      </if>
+       <if test="rate != null" >
+        RATE = #{rate,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=BIGINT} AND VERSION = #{version,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.yeepay.g3.core.activity.entity.ActivityInvForProInfo" >
+    update TBL_ACTIVITY_INVFORPRO_INFO
+    set NAME = #{name,jdbcType=VARCHAR},
+      ACTIVITY_CODE = #{activityCode,jdbcType=VARCHAR},
+      PRICE = #{price,jdbcType=DECIMAL},
+      CREATE_PERSON = #{createPerson,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      URL = #{url,jdbcType=VARCHAR},
+      PRODUCT_PRICE_LOW = #{productPriceLow,jdbcType=DECIMAL},
+      STATUS = #{status,jdbcType=VARCHAR},
+      STOCK_NUM = #{stockNum,jdbcType=INTEGER},
+      USED_NUM = #{usedNum,jdbcType=INTEGER},
+      OPERATORER = #{operatorer,jdbcType=VARCHAR},
+      OPERATOR_TIME = #{operatorTime,jdbcType=TIMESTAMP},
+      VERSION = #{version,jdbcType=BIGINT},
+      PRODUCT_IMG = #{productImg,jdbcType=BLOB},
+      RATE = #{rate,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yeepay.g3.core.activity.entity.ActivityInvForProInfo" >
+    update TBL_ACTIVITY_INVFORPRO_INFO
+    set NAME = #{name,jdbcType=VARCHAR},
+      ACTIVITY_CODE = #{activityCode,jdbcType=VARCHAR},
+      PRICE = #{price,jdbcType=DECIMAL},
+      CREATE_PERSON = #{createPerson,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      URL = #{url,jdbcType=VARCHAR},
+      PRODUCT_PRICE_LOW = #{productPriceLow,jdbcType=DECIMAL},
+      STATUS = #{status,jdbcType=VARCHAR},
+      STOCK_NUM = #{stockNum,jdbcType=INTEGER},
+      USED_NUM = #{usedNum,jdbcType=INTEGER},
+      OPERATORER = #{operatorer,jdbcType=VARCHAR},
+      OPERATOR_TIME = #{operatorTime,jdbcType=TIMESTAMP},
+      VERSION = #{version,jdbcType=BIGINT},
+      RATE = #{rate,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  <!-- 查询不同状态的产品列表 -->
+  <select id="selectByStatus" resultMap="ResultMapWithBLOBs" parameterType="map" >
+    select 
+  *
+    from TBL_ACTIVITY_INVFORPRO_INFO
+    where STATUS = #{status,jdbcType=VARCHAR}
+  </select>
+</mapper>

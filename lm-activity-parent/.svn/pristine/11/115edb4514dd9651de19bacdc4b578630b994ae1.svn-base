@@ -1,0 +1,24 @@
+/**
+ * @author 陈大涛
+ * 2016-6-1下午4:03:43
+ */
+package com.yeepay.g3.core.activity.service.impl;
+
+import org.springframework.stereotype.Service;
+
+import com.yeepay.g3.core.activity.entity.ActivityPrize;
+import com.yeepay.g3.core.activity.service.ActivityDrawPrizeService;
+
+/**
+ * @author 陈大涛
+ * 2016-6-1下午4:03:43
+ */
+@Service
+public class ActivityDrawPrizeServiceImpl implements ActivityDrawPrizeService{
+
+	@Override
+	public ActivityPrize updateUserPrize(String memberNo) {
+		return null;
+	}
+
+}

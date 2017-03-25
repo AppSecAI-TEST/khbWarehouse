@@ -1,0 +1,74 @@
+/**
+ * @descrption
+ * @author 陈大涛
+ * 2016-7-27下午5:03:38
+ */
+package com.yeepay.g3.core.activity.service.impl;
+
+import java.util.Date;
+
+import javax.annotation.Resource;
+
+import com.yeepay.g3.core.activity.dao.ActivityInvForProOrderDao;
+import com.yeepay.g3.core.activity.dao.ActivityInvForProOrderFlowDao;
+import com.yeepay.g3.core.activity.entity.ActivityInvForProOrder;
+import com.yeepay.g3.core.activity.entity.ActivityInvForProOrderFlow;
+import com.yeepay.g3.core.activity.service.ActivityInvForProOrderService;
+import com.yeepay.g3.facade.activity.dto.ActivityInvForProOrderDTO;
+import com.yeepay.g3.facade.activity.enums.ActivityInvForProOrderStatusEnum;
+
+/**
+ * @author 陈大涛
+ * 2016-7-27下午5:03:38
+ */
+public class ActivityInvForProOrderServiceImpl implements
+		ActivityInvForProOrderService {
+
+	@Resource
+	private ActivityInvForProOrderDao activityInvForProOrderDaoImpl;
+	@Resource
+	private ActivityInvForProOrderFlowDao activityInvForProOrderFlowDaoImpl;
+	@Override
+	public void insertInvForProOrder(
+			ActivityInvForProOrder activityInvForProOrder) {
+		//1.新增订单
+		 activityInvForProOrderDaoImpl.add(activityInvForProOrder);
+		//2.新增订单流水
+		 ActivityInvForProOrderFlow activityInvForProOrderFlow =new ActivityInvForProOrderFlow();
+		 activityInvForProOrderFlow.setOrderId(activityInvForProOrder.getId());
+		 activityInvForProOrderFlow.setStatus(ActivityInvForProOrderStatusEnum.NOT_PAID);
+		 activityInvForProOrderFlow.setUpdateTime(new Date());
+		 activityInvForProOrderFlowDaoImpl.add(activityInvForProOrder);
+	}
+	@Override
+	public void updateInvForProOrder(
+			ActivityInvForProOrder activityInvForProOrder) {
+		//1.购买产品
+		//TODO
+		//2.更改订单表
+		activityInvForProOrderDaoImpl.update(activityInvForProOrder);
+		//3.新增订单流水
+		 ActivityInvForProOrderFlow activityInvForProOrderFlow =new ActivityInvForProOrderFlow();
+		 activityInvForProOrderFlow.setOrderId(activityInvForProOrder.getId());
+		 activityInvForProOrderFlow.setStatus(ActivityInvForProOrderStatusEnum.PAIDED);
+		 activityInvForProOrderFlow.setUpdateTime(new Date());
+		 activityInvForProOrderFlowDaoImpl.add(activityInvForProOrder);
+	}
+	/* (non-Javadoc)
+	 * @see com.yeepay.g3.core.activity.service.ActivityInvForProOrderService#updateInvForProOrderForStatus(com.yeepay.g3.core.activity.entity.ActivityInvForProOrder)
+	 */
+	@Override
+	public void updateInvForProOrderForStatus(
+			ActivityInvForProOrder activityInvForProOrder) {
+		//1.更改订单表
+		activityInvForProOrderDaoImpl.update(activityInvForProOrder);
+		//2.新增订单流水
+		 ActivityInvForProOrderFlow activityInvForProOrderFlow =new ActivityInvForProOrderFlow();
+		 activityInvForProOrderFlow.setOrderId(activityInvForProOrder.getId());
+		 activityInvForProOrderFlow.setStatus(activityInvForProOrder.getStatus());
+		 activityInvForProOrderFlow.setUpdateTime(new Date());
+		 activityInvForProOrderFlowDaoImpl.add(activityInvForProOrder);
+		
+	}
+
+}

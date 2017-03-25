@@ -1,0 +1,54 @@
+/**
+ * @author cdt
+ * @date 2016-5-16
+ * @time 下午4:26:30
+ */
+package com.yeepay.g3.core.activity.service.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.yeepay.g3.core.activity.dao.ActivityPrizeDao;
+import com.yeepay.g3.core.activity.entity.ActivityPrize;
+import com.yeepay.g3.core.activity.service.ActivityPrizeService;
+
+/**
+ * @author cdt
+ * @date 2016-5-16
+ * @time 下午4:26:30
+ */
+@Service
+public class ActivityPrizeServiceImpl implements ActivityPrizeService {
+
+	@Autowired
+	private ActivityPrizeDao activityPrizeDaoImpl;
+	@Override
+	public List<ActivityPrize> queryLeaveAll() {
+		return activityPrizeDaoImpl.selectLeaveAll();
+	}
+	@Override
+	public List<ActivityPrize> queryByActionId(Long ActionId) {
+		//查询奖品
+		List<ActivityPrize> activityPrizeList=activityPrizeDaoImpl.selectByActionId(ActionId);
+		return activityPrizeList;
+	}
+	@Override
+	public ActivityPrize queryPrizeById(Long id) {
+		ActivityPrize activityPrize = new ActivityPrize();
+		activityPrize = (ActivityPrize) activityPrizeDaoImpl.queryOne("selectByPrimaryKey", id);
+		return activityPrize;
+	}
+	@Override
+	public void updateActivityPrizeById(ActivityPrize activityPrize) {
+		activityPrizeDaoImpl.update(activityPrize);
+		
+	}
+	@Override
+	public void insertActivityPrize(ActivityPrize activityPrize) {
+		activityPrizeDaoImpl.add(activityPrize);
+		
+	}
+
+}

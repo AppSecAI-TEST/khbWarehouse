@@ -1,0 +1,14 @@
+package com.yeepay.g3.core.activity.service;
+
+import com.yeepay.g3.core.activity.entity.ActivityUserInfo;
+
+public interface ActivityUserInfoService {
+
+	/**
+	 * 会员编号查询用户活动详细信息
+	 * @param memberNo
+	 * @return ActivityUserInfo
+	 */
+	ActivityUserInfo selectUserInfoByMemberNo(String memberNo);
+
+}

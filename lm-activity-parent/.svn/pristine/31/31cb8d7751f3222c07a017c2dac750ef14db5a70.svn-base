@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ActivityInvForProRuleXT" >
+  <resultMap id="BaseResultMap" type="com.yeepay.g3.core.activity.entity.ActivityInvForProRuleXT" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="RULE_NAME" property="ruleName" jdbcType="VARCHAR" />
+    <result column="PRODUCT_ID" property="productId" jdbcType="BIGINT" />
+    <result column="TREM" property="trem" jdbcType="INTEGER" />
+    <result column="PRIZE" property="prize" jdbcType="DECIMAL" />
+    <result column="CREATER" property="creater" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="VERSION" property="version" jdbcType="BIGINT" />
+  </resultMap>
+  
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+  *
+    from TBL_ACTIVITY_INVFORPRO_RULE_XT
+    where ID = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from TBL_ACTIVITY_INVFORPRO_RULE_XT
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+  
+  <insert id="insert" parameterType="com.yeepay.g3.core.activity.entity.ActivityInvForProRuleXT" >
+    insert into TBL_ACTIVITY_INVFORPRO_RULE_XT ( RULE_NAME, PRODUCT_ID, 
+      TREM, PRIZE, CREATER, 
+      CREATE_TIME)
+    values ( #{ruleName,jdbcType=VARCHAR}, #{productId,jdbcType=BIGINT}, 
+      #{trem,jdbcType=INTEGER}, #{prize,jdbcType=DECIMAL}, #{creater,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yeepay.g3.core.activity.entity.ActivityInvForProRuleXT" >
+    insert into TBL_ACTIVITY_INVFORPRO_RULE_XT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="ruleName != null" >
+        RULE_NAME,
+      </if>
+      <if test="productId != null" >
+        PRODUCT_ID,
+      </if>
+      <if test="trem != null" >
+        TREM,
+      </if>
+      <if test="prize != null" >
+        PRIZE,
+      </if>
+      <if test="creater != null" >
+        CREATER,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="ruleName != null" >
+        #{ruleName,jdbcType=VARCHAR},
+      </if>
+      <if test="productId != null" >
+        #{productId,jdbcType=BIGINT},
+      </if>
+      <if test="trem != null" >
+        #{trem,jdbcType=INTEGER},
+      </if>
+      <if test="prize != null" >
+        #{prize,jdbcType=DECIMAL},
+      </if>
+      <if test="creater != null" >
+        #{creater,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  
+  
+  <update id="update" parameterType="com.yeepay.g3.core.activity.entity.ActivityInvForProRuleXT" >
+    update TBL_ACTIVITY_INVFORPRO_RULE_XT
+    <set >
+      <if test="ruleName != null" >
+        RULE_NAME = #{ruleName,jdbcType=VARCHAR},
+      </if>
+      <if test="productId != null" >
+        PRODUCT_ID = #{productId,jdbcType=BIGINT},
+      </if>
+      <if test="trem != null" >
+        TREM = #{trem,jdbcType=INTEGER},
+      </if>
+      <if test="prize != null" >
+        PRIZE = #{prize,jdbcType=DECIMAL},
+      </if>
+      <if test="creater != null" >
+        CREATER = #{creater,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="version != null" >
+        VERSION =VERSION + 1,
+      </if>
+    </set>
+    where ID = #{id,jdbcType=BIGINT} AND VERSION = #{version,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yeepay.g3.core.activity.entity.ActivityInvForProRuleXT" >
+    update TBL_ACTIVITY_INVFORPRO_RULE_XT
+    set RULE_NAME = #{ruleName,jdbcType=VARCHAR},
+      PRODUCT_ID = #{productId,jdbcType=BIGINT},
+      TREM = #{trem,jdbcType=INTEGER},
+      PRIZE = #{prize,jdbcType=DECIMAL},
+      CREATER = #{creater,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      VERSION = #{version,jdbcType=BIGINT}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

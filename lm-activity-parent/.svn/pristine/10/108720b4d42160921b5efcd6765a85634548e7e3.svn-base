@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ActivityUserMessage" >
+  <resultMap id="BaseResultMap" type="com.yeepay.g3.core.activity.entity.ActivityUserMessage" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="VERSION" property="version" jdbcType="BIGINT" />
+    <result column="MEMBER_NO" property="memberNo" jdbcType="VARCHAR" />
+    <result column="MSG_TITLE" property="msgTitle" jdbcType="VARCHAR" />
+    <result column="MSG_CONTENT" property="msgContent" jdbcType="VARCHAR" />
+    <result column="OCCUR_TIME" property="occurTime" jdbcType="TIMESTAMP" />
+    <result column="READ_STATUS" property="readStatus" jdbcType="VARCHAR" />
+    <result column="TEMPLATE_NAME" property="templateName" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select * 
+    from TBL_ACTIVITY_USER_MESSAGE
+    where ID = #{id,jdbcType=BIGINT}
+  </select>
+  <!-- 查询用户消息列表 -->
+  <select id="selectByMemberNo" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select * 
+    from TBL_ACTIVITY_USER_MESSAGE
+    where MEMBER_NO = #{memberNo,jdbcType=VARCHAR}
+    order by id desc
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from TBL_ACTIVITY_USER_MESSAGE
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.yeepay.g3.core.activity.entity.ActivityUserMessage" useGeneratedKeys="true" keyProperty="id">
+    insert into TBL_ACTIVITY_USER_MESSAGE (MEMBER_NO, 
+      MSG_TITLE, MSG_CONTENT, OCCUR_TIME, 
+      READ_STATUS, TEMPLATE_NAME, CREATE_TIME)
+    values (#{memberNo,jdbcType=VARCHAR}, 
+      #{msgTitle,jdbcType=VARCHAR}, #{msgContent,jdbcType=VARCHAR}, #{occurTime,jdbcType=TIMESTAMP}, 
+      #{readStatus,jdbcType=VARCHAR}, #{templateName,jdbcType=VARCHAR}, current timestamp)
+  </insert>
+  <update id="update" parameterType="com.yeepay.g3.core.activity.entity.ActivityUserMessage" >
+    update TBL_ACTIVITY_USER_MESSAGE
+    <set >
+      <if test="version != null" >
+        VERSION = VERSION + 1,
+      </if>
+      <if test="memberNo != null" >
+        MEMBER_NO = #{memberNo,jdbcType=VARCHAR},
+      </if>
+      <if test="msgTitle != null" >
+        MSG_TITLE = #{msgTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="msgContent != null" >
+        MSG_CONTENT = #{msgContent,jdbcType=VARCHAR},
+      </if>
+      <if test="occurTime != null" >
+        OCCUR_TIME = #{occurTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="readStatus != null" >
+        READ_STATUS = #{readStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="templateName != null" >
+        TEMPLATE_NAME = #{templateName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=BIGINT} AND VERSION = #{version,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yeepay.g3.core.activity.entity.ActivityUserMessage" >
+    update TBL_ACTIVITY_USER_MESSAGE
+    set VERSION = #{version,jdbcType=BIGINT},
+      MEMBER_NO = #{memberNo,jdbcType=VARCHAR},
+      MSG_TITLE = #{msgTitle,jdbcType=VARCHAR},
+      MSG_CONTENT = #{msgContent,jdbcType=VARCHAR},
+      OCCUR_TIME = #{occurTime,jdbcType=TIMESTAMP},
+      READ_STATUS = #{readStatus,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="queryMessageCountByMemberNo" parameterType="java.lang.String" resultType="java.lang.Integer">
+  select count(1) from TBL_ACTIVITY_USER_MESSAGE
+  where   MEMBER_NO = #{memberNo,jdbcType=VARCHAR} and READ_STATUS='UNREAD'
+  </select>
+</mapper>

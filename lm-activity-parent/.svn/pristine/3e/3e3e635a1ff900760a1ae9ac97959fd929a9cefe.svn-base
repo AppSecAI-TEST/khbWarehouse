@@ -1,0 +1,43 @@
+/**
+ * @author 陈大涛
+ * 2016-6-2下午3:48:21
+ */
+package com.yeepay.g3.facade.activity.dto;
+
+/**
+ * @author 陈大涛
+ * 2016-6-2下午3:48:21
+ */
+public class ActivityResultDTO {
+
+	/**
+	 * 标识符 code为0 表示请求成功
+	 */
+	private String code="0";
+	/**
+	 * 异常描述
+	 */
+	private String message;
+	public String getCode() {
+		return code;
+	}
+	public void setCode(String code) {
+		this.code = code;
+	}
+	public String getMessage() {
+		return message;
+	}
+	public void setMessage(String message) {
+		this.message = message;
+	}
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("ActivityResultDTO [code=");
+		builder.append(code);
+		builder.append(", message=");
+		builder.append(message);
+		builder.append("]");
+		return builder.toString();
+	}
+}

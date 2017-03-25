@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yeepay.g3.core.zt.dao.ZtPolicyOrderDetailDao" >
+  <resultMap id="BaseResultMap" type="com.yeepay.g3.core.zt.entity.ZtPolicyOrderDetail" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="VERSION" property="version" jdbcType="BIGINT" />
+    <result column="MEMBER_NO" property="memberNo" jdbcType="VARCHAR" />
+    <result column="POLICY_ID" property="policyId" jdbcType="BIGINT" />
+    <result column="POLICY_ORDER_ID" property="policyOrderId" jdbcType="BIGINT" />
+    <result column="ORDER_AMOUNT" property="orderAmount" jdbcType="DECIMAL" />
+    <result column="ORDER_TYPE" property="orderType" jdbcType="VARCHAR" />
+    <result column="PAY_MODE" property="payMode" jdbcType="VARCHAR" />
+    <result column="ORDER_TIME" property="orderTime" jdbcType="TIMESTAMP" />
+    <result column="ORDER_STATUS" property="orderStatus" jdbcType="VARCHAR" />
+    <result column="FEE" property="fee" jdbcType="DECIMAL" />
+    <result column="INTEREST_TIME" property="interestTime" jdbcType="TIMESTAMP" />
+    <result column="CLIENT_IP" property="clientIp" jdbcType="VARCHAR" />
+    <result column="USER_AGENT" property="userAgent" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    ID, VERSION, MEMBER_NO, POLICY_ID, POLICY_ORDER_ID, ORDER_AMOUNT, ORDER_TYPE, PAY_MODE, 
+    ORDER_TIME, ORDER_STATUS, FEE, INTEREST_TIME, CLIENT_IP, USER_AGENT
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from TBL_ZT_POLICY_ORDER_DETAIL
+    where ID = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from TBL_ZT_POLICY_ORDER_DETAIL
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+  
+  <insert id="insert" parameterType="com.yeepay.g3.core.zt.entity.ZtPolicyOrderDetail" >
+    insert into TBL_ZT_POLICY_ORDER_DETAIL (ID, VERSION, MEMBER_NO, 
+      POLICY_ID, POLICY_ORDER_ID, ORDER_AMOUNT, 
+      ORDER_TYPE, PAY_MODE, ORDER_TIME, 
+      ORDER_STATUS, FEE, INTEREST_TIME, 
+      CLIENT_IP, USER_AGENT)
+    values (#{id,jdbcType=BIGINT}, #{version,jdbcType=BIGINT}, #{memberNo,jdbcType=VARCHAR}, 
+      #{policyId,jdbcType=BIGINT}, #{policyOrderId,jdbcType=BIGINT}, #{orderAmount,jdbcType=DECIMAL}, 
+      #{orderType,jdbcType=VARCHAR}, #{payMode,jdbcType=VARCHAR}, #{orderTime,jdbcType=TIMESTAMP}, 
+      #{orderStatus,jdbcType=VARCHAR}, #{fee,jdbcType=DECIMAL}, #{interestTime,jdbcType=TIMESTAMP}, 
+      #{clientIp,jdbcType=VARCHAR}, #{userAgent,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yeepay.g3.core.zt.entity.ZtPolicyOrderDetail" >
+    insert into TBL_ZT_POLICY_ORDER_DETAIL
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="version != null" >
+        VERSION,
+      </if>
+      <if test="memberNo != null" >
+        MEMBER_NO,
+      </if>
+      <if test="policyId != null" >
+        POLICY_ID,
+      </if>
+      <if test="policyOrderId != null" >
+        POLICY_ORDER_ID,
+      </if>
+      <if test="orderAmount != null" >
+        ORDER_AMOUNT,
+      </if>
+      <if test="orderType != null" >
+        ORDER_TYPE,
+      </if>
+      <if test="payMode != null" >
+        PAY_MODE,
+      </if>
+      <if test="orderTime != null" >
+        ORDER_TIME,
+      </if>
+      <if test="orderStatus != null" >
+        ORDER_STATUS,
+      </if>
+      <if test="fee != null" >
+        FEE,
+      </if>
+      <if test="interestTime != null" >
+        INTEREST_TIME,
+      </if>
+      <if test="clientIp != null" >
+        CLIENT_IP,
+      </if>
+      <if test="userAgent != null" >
+        USER_AGENT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="version != null" >
+        #{version,jdbcType=BIGINT},
+      </if>
+      <if test="memberNo != null" >
+        #{memberNo,jdbcType=VARCHAR},
+      </if>
+      <if test="policyId != null" >
+        #{policyId,jdbcType=BIGINT},
+      </if>
+      <if test="policyOrderId != null" >
+        #{policyOrderId,jdbcType=BIGINT},
+      </if>
+      <if test="orderAmount != null" >
+        #{orderAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="orderType != null" >
+        #{orderType,jdbcType=VARCHAR},
+      </if>
+      <if test="payMode != null" >
+        #{payMode,jdbcType=VARCHAR},
+      </if>
+      <if test="orderTime != null" >
+        #{orderTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderStatus != null" >
+        #{orderStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="fee != null" >
+        #{fee,jdbcType=DECIMAL},
+      </if>
+      <if test="interestTime != null" >
+        #{interestTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="clientIp != null" >
+        #{clientIp,jdbcType=VARCHAR},
+      </if>
+      <if test="userAgent != null" >
+        #{userAgent,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.yeepay.g3.core.zt.entity.ZtPolicyOrderDetail" >
+    update TBL_ZT_POLICY_ORDER_DETAIL
+    <set >
+      <if test="version != null" >
+        VERSION = #{version,jdbcType=BIGINT},
+      </if>
+      <if test="memberNo != null" >
+        MEMBER_NO = #{memberNo,jdbcType=VARCHAR},
+      </if>
+      <if test="policyId != null" >
+        POLICY_ID = #{policyId,jdbcType=BIGINT},
+      </if>
+      <if test="policyOrderId != null" >
+        POLICY_ORDER_ID = #{policyOrderId,jdbcType=BIGINT},
+      </if>
+      <if test="orderAmount != null" >
+        ORDER_AMOUNT = #{orderAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="orderType != null" >
+        ORDER_TYPE = #{orderType,jdbcType=VARCHAR},
+      </if>
+      <if test="payMode != null" >
+        PAY_MODE = #{payMode,jdbcType=VARCHAR},
+      </if>
+      <if test="orderTime != null" >
+        ORDER_TIME = #{orderTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderStatus != null" >
+        ORDER_STATUS = #{orderStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="fee != null" >
+        FEE = #{fee,jdbcType=DECIMAL},
+      </if>
+      <if test="interestTime != null" >
+        INTEREST_TIME = #{interestTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="clientIp != null" >
+        CLIENT_IP = #{clientIp,jdbcType=VARCHAR},
+      </if>
+      <if test="userAgent != null" >
+        USER_AGENT = #{userAgent,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yeepay.g3.core.zt.entity.ZtPolicyOrderDetail" >
+    update TBL_ZT_POLICY_ORDER_DETAIL
+    set VERSION = #{version,jdbcType=BIGINT},
+      MEMBER_NO = #{memberNo,jdbcType=VARCHAR},
+      POLICY_ID = #{policyId,jdbcType=BIGINT},
+      POLICY_ORDER_ID = #{policyOrderId,jdbcType=BIGINT},
+      ORDER_AMOUNT = #{orderAmount,jdbcType=DECIMAL},
+      ORDER_TYPE = #{orderType,jdbcType=VARCHAR},
+      PAY_MODE = #{payMode,jdbcType=VARCHAR},
+      ORDER_TIME = #{orderTime,jdbcType=TIMESTAMP},
+      ORDER_STATUS = #{orderStatus,jdbcType=VARCHAR},
+      FEE = #{fee,jdbcType=DECIMAL},
+      INTEREST_TIME = #{interestTime,jdbcType=TIMESTAMP},
+      CLIENT_IP = #{clientIp,jdbcType=VARCHAR},
+      USER_AGENT = #{userAgent,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ActivityAppAd" >
+  <resultMap id="BaseResultMap" type="com.yeepay.g3.core.activity.entity.ActivityAppAd" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="CODE" property="code" jdbcType="VARCHAR" />
+    <result column="URL" property="url" jdbcType="VARCHAR" />
+    <result column="VALID_TIME_START" property="validTimeStart" jdbcType="TIMESTAMP" />
+    <result column="VALID_TIME_END" property="validTimeEnd" jdbcType="TIMESTAMP" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="IMG" property="img" jdbcType="BLOB" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="VERSION" property="version" jdbcType="BIGINT" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="CRETOR" property="cretor" jdbcType="VARCHAR" />
+    <result column="UPDATOR" property="updator" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+   *
+    from TBL_ACTIVITY_APP_AD
+    where ID = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from TBL_ACTIVITY_APP_AD
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.yeepay.g3.core.activity.entity.ActivityAppAd" >
+    insert into TBL_ACTIVITY_APP_AD (CODE, URL, 
+      VALID_TIME_START, VALID_TIME_END, CREATE_TIME, 
+      UPDATE_TIME, STATUS,NAME,CRETOR,UPDATOR,
+      IMG)
+    values ( #{code,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, 
+      #{validTimeStart,jdbcType=TIMESTAMP}, #{validTimeEnd,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{cretor,jdbcType=VARCHAR}, #{updator,jdbcType=VARCHAR}, 
+      #{img,jdbcType=BLOB})
+  </insert>
+  <update id="update" parameterType="com.yeepay.g3.core.activity.entity.ActivityAppAd" >
+    update TBL_ACTIVITY_APP_AD
+    <set >
+      <if test="code != null" >
+        CODE = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        URL = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="validTimeStart != null" >
+        VALID_TIME_START = #{validTimeStart,jdbcType=TIMESTAMP},
+      </if>
+      <if test="validTimeEnd != null" >
+        VALID_TIME_END = #{validTimeEnd,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+       <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+       <if test="cretor != null" >
+        CRETOR = #{cretor,jdbcType=VARCHAR},
+      </if>
+       <if test="updator != null" >
+        UPDATOR = #{updator,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null" >
+        VERSION = VERSION + 1,
+      </if>
+      <if test="img != null" >
+        IMG = #{img,jdbcType=BLOB},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=BIGINT} and VERSION = #{version,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yeepay.g3.core.activity.entity.ActivityAppAd" >
+    update TBL_ACTIVITY_APP_AD
+    set CODE = #{code,jdbcType=VARCHAR},
+      URL = #{url,jdbcType=VARCHAR},
+      VALID_TIME_START = #{validTimeStart,jdbcType=TIMESTAMP},
+      VALID_TIME_END = #{validTimeEnd,jdbcType=TIMESTAMP},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      STATUS = #{status,jdbcType=VARCHAR},
+        NAME = #{name,jdbcType=VARCHAR},
+          CRETOR = #{cretor,jdbcType=VARCHAR},
+            UPDATOR = #{updator,jdbcType=VARCHAR},
+      VERSION = #{version,jdbcType=BIGINT}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  <!-- 查询唯一有效广告 -->
+  <select id="queryOnlyOneAppAd" resultMap="BaseResultMap">
+   select 
+   *
+    from TBL_ACTIVITY_APP_AD
+    where  status='EFFECTIVE' 
+     and VALID_TIME_START <![CDATA[<]]> current timestamp   and VALID_TIME_END <![CDATA[>]]> current timestamp 
+  </select>
+</mapper>

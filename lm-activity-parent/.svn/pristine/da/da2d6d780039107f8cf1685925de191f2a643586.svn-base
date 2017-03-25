@@ -1,0 +1,28 @@
+/**
+ * @author 陈大涛
+ * 2016-8-22下午8:34:53
+ */
+package com.yeepay.g3.core.activity.facade.impl;
+
+import org.springframework.stereotype.Controller;
+
+import com.yeepay.g3.core.activity.service.ActivityInvForProTripSecondDiscountService;
+import com.yeepay.g3.facade.activity.facade.ActivityInvForProTripSecondDiscountFacade;
+
+/**
+ * @Description
+ * @author 陈大涛
+ * 2016-8-22下午8:34:53
+ */
+@Controller
+public class ActivityInvForProTripSecondDiscountFacadeImpl implements
+		ActivityInvForProTripSecondDiscountFacade {
+	private ActivityInvForProTripSecondDiscountService activityInvForProTripSecondDiscountServiceImpl;
+	
+	@Override
+	public String queryTripSecondDiscountSurplusNum(String actionCode,String activityCode) {
+		String result = activityInvForProTripSecondDiscountServiceImpl.queryTripSecondDiscountSurplusNum(actionCode, activityCode);
+		return result;
+	}
+
+}

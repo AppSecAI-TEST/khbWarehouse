@@ -1,0 +1,19 @@
+package com.yeepay.g3.core.activity.dao;
+
+import com.yeepay.g3.core.activity.entity.ActivityInvForProOrder;
+
+public interface ActivityInvForProOrderDao {
+
+    int deleteByPrimaryKey(Long id);
+
+    int insert(ActivityInvForProOrder record);
+
+    int insertSelective(ActivityInvForProOrder record);
+
+
+    ActivityInvForProOrder selectByPrimaryKey(Long id);
+
+    int updateByPrimaryKeySelective(ActivityInvForProOrder record);
+
+    int updateByPrimaryKey(ActivityInvForProOrder record);
+}

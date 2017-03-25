@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ActivityUserRaffleticket" >
+  <resultMap id="BaseResultMap" type="com.yeepay.g3.core.activity.entity.ActivityUserRaffleticket" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="VERSION" property="version" jdbcType="BIGINT" />
+    <result column="RAFFLE_TICKET_ID" property="raffleTicketId" jdbcType="BIGINT" />
+    <result column="RAFFLE_TICKET_COUNT" property="raffleTicketCount" jdbcType="INTEGER" />
+    <result column="RAFFLE_TICKET_USED_COUNT" property="raffleTicketUsedCount" jdbcType="INTEGER" />
+    <result column="MEMBER_NO" property="memberNo" jdbcType="VARCHAR" />
+    <result column="MEMBER_TEL" property="memberTel" jdbcType="VARCHAR" />
+    <result column="VALIDITY_TIME_START" property="validityTimeStart" jdbcType="TIMESTAMP" />
+    <result column="VALIDITY_TIME_END" property="validityTimeEnd" jdbcType="TIMESTAMP" />
+    <result column="RECEIVE_TIME" property="receiveTime" jdbcType="TIMESTAMP" />
+    <result column="ACTION_ID" property="actionId" jdbcType="BIGINT" />
+    <result column="ACTIVITY_ID" property="activityId" jdbcType="BIGINT" />
+    <result column="ACTIVITY_NAME" property="activityName" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select * 
+    from TBL_ACTIVITY_USER_RAFFLETICKET
+    where ID = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from TBL_ACTIVITY_USER_RAFFLETICKET
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.yeepay.g3.core.activity.entity.ActivityUserRaffleticket" useGeneratedKeys="true" keyProperty="id" >
+    insert into TBL_ACTIVITY_USER_RAFFLETICKET (ID, VERSION, RAFFLE_TICKET_ID, 
+      RAFFLE_TICKET_COUNT, RAFFLE_TICKET_USED_COUNT, 
+      MEMBER_NO, MEMBER_TEL, VALIDITY_TIME_START, 
+      VALIDITY_TIME_END, RECEIVE_TIME, ACTION_ID, 
+      ACTIVITY_ID, ACTIVITY_NAME, STATUS
+      )
+    values (#{id,jdbcType=BIGINT}, #{version,jdbcType=BIGINT}, #{raffleTicketId,jdbcType=BIGINT}, 
+      #{raffleTicketCount,jdbcType=INTEGER}, #{raffleTicketUsedCount,jdbcType=INTEGER}, 
+      #{memberNo,jdbcType=VARCHAR}, #{memberTel,jdbcType=VARCHAR}, #{validityTimeStart,jdbcType=TIMESTAMP}, 
+      #{validityTimeEnd,jdbcType=TIMESTAMP}, current timestamp, #{actionId,jdbcType=BIGINT}, 
+      #{activityId,jdbcType=BIGINT}, #{activityName,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}
+      )
+  </insert>
+  <update id="update" parameterType="com.yeepay.g3.core.activity.entity.ActivityUserRaffleticket" >
+    update TBL_ACTIVITY_USER_RAFFLETICKET
+    <set >
+      <if test="version != null" >
+        VERSION = VERSION + 1,
+      </if>
+      <if test="raffleTicketId != null" >
+        RAFFLE_TICKET_ID = #{raffleTicketId,jdbcType=BIGINT},
+      </if>
+      <if test="raffleTicketCount != null" >
+        RAFFLE_TICKET_COUNT = #{raffleTicketCount,jdbcType=INTEGER},
+      </if>
+      <if test="raffleTicketUsedCount != null" >
+        RAFFLE_TICKET_USED_COUNT = #{raffleTicketUsedCount,jdbcType=INTEGER},
+      </if>
+      <if test="memberNo != null" >
+        MEMBER_NO = #{memberNo,jdbcType=VARCHAR},
+      </if>
+      <if test="memberTel != null" >
+        MEMBER_TEL = #{memberTel,jdbcType=VARCHAR},
+      </if>
+      <if test="validityTimeStart != null" >
+        VALIDITY_TIME_START = #{validityTimeStart,jdbcType=TIMESTAMP},
+      </if>
+      <if test="validityTimeEnd != null" >
+        VALIDITY_TIME_END = #{validityTimeEnd,jdbcType=TIMESTAMP},
+      </if>
+      <if test="receiveTime != null" >
+        RECEIVE_TIME = #{receiveTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="actionId != null" >
+        ACTION_ID = #{actionId,jdbcType=BIGINT},
+      </if>
+      <if test="activityId != null" >
+        ACTIVITY_ID = #{activityId,jdbcType=BIGINT},
+      </if>
+      <if test="activityName != null" >
+        ACTIVITY_NAME = #{activityName,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=BIGINT} AND VERSION = #{version,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yeepay.g3.core.activity.entity.ActivityUserRaffleticket" >
+    update TBL_ACTIVITY_USER_RAFFLETICKET
+    set VERSION = #{version,jdbcType=BIGINT},
+      RAFFLE_TICKET_ID = #{raffleTicketId,jdbcType=BIGINT},
+      RAFFLE_TICKET_COUNT = #{raffleTicketCount,jdbcType=INTEGER},
+      RAFFLE_TICKET_USED_COUNT = #{raffleTicketUsedCount,jdbcType=INTEGER},
+      MEMBER_NO = #{memberNo,jdbcType=VARCHAR},
+      MEMBER_TEL = #{memberTel,jdbcType=VARCHAR},
+      VALIDITY_TIME_START = #{validityTimeStart,jdbcType=TIMESTAMP},
+      VALIDITY_TIME_END = #{validityTimeEnd,jdbcType=TIMESTAMP},
+      RECEIVE_TIME = #{receiveTime,jdbcType=TIMESTAMP},
+      ACTION_ID = #{actionId,jdbcType=BIGINT},
+      ACTIVITY_ID = #{activityId,jdbcType=BIGINT},
+      ACTIVITY_NAME = #{activityName,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  <!-- 自定义 -->
+  <select id="queryUserRaffleticketCountByStatus" parameterType="com.yeepay.g3.core.activity.entity.ActivityUserRaffleticket" resultType="Integer">
+  select count(1) 
+    from TBL_ACTIVITY_USER_RAFFLETICKET
+    where MEMBER_NO = #{memberNo,jdbcType=VARCHAR} and STATUS = #{status,jdbcType=VARCHAR}
+  </select>
+</mapper>

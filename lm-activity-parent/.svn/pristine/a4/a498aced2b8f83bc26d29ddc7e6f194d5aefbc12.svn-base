@@ -1,0 +1,40 @@
+/**
+ * @author 陈大涛
+ * 2016-5-31下午4:02:14
+ */
+package com.yeepay.g3.core.activity.facade.impl;
+
+import java.util.Map;
+
+import org.springframework.stereotype.Service;
+
+import com.yeepay.g3.core.activity.utils.WxUtil;
+import com.yeepay.g3.facade.activity.dto.ActivityWXSendMessageDTO;
+import com.yeepay.g3.facade.activity.dto.ActivityWXSendMessageResultDTO;
+import com.yeepay.g3.facade.activity.enums.ActivityWXSendMessageEnum;
+import com.yeepay.g3.facade.activity.facade.ActivityWXSendMessageFacade;
+
+/**
+ * @author 陈大涛
+ * 2016-5-31下午4:02:14
+ */
+@Service
+public class ActivityWXSendMessageFacadeImpl implements
+		ActivityWXSendMessageFacade {
+
+	@Override
+	public ActivityWXSendMessageResultDTO sendWxMessage(
+			ActivityWXSendMessageEnum type, ActivityWXSendMessageDTO dataDto) {
+
+		WxUtil wxUtil = new WxUtil();
+		return wxUtil.sendWxMessage(type, dataDto);
+	}
+
+	@Override
+	public Map<String, Object> getWxUserInfo(String openId) {
+		WxUtil wxUtil = new WxUtil();
+		return wxUtil.getWxUserInfo(openId);
+	}
+
+
+}

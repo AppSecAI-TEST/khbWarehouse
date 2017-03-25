@@ -1,0 +1,54 @@
+/**
+ * @author hongbin.kang
+ * @date 2016-6-1
+ * @time 下午4:26:30
+ */
+package com.yeepay.g3.core.activity.service.impl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.yeepay.g3.core.activity.dao.ActivityUserInfoDao;
+import com.yeepay.g3.core.activity.entity.ActivityUserInfo;
+import com.yeepay.g3.core.activity.entity.ActivityUserScoreRecord;
+import com.yeepay.g3.core.activity.service.ActivityUserInfoService;
+
+/**
+ * @author hongbin.kang
+ *
+ */
+@Service
+public class ActivityUserInfoServiceImpl implements ActivityUserInfoService {
+
+	@Autowired
+	private ActivityUserInfoDao activityUserInfoDaoImpl;
+	
+	
+	@Override
+	public ActivityUserInfo selectUserInfoByMemberNo(String memberNo) {
+		ActivityUserInfo userInfo = new ActivityUserInfo();
+		userInfo = (ActivityUserInfo) activityUserInfoDaoImpl.queryOne("selectUserInfoByMemberNo", memberNo);
+		return userInfo;
+	}
+
+	@Override
+	public void updateOrInitUserScore(ActivityUserInfo userInfo, String memberNo, int bindCardScore) {
+		// TODO Auto-generated method stub
+		if(userInfo == null) {
+			userInfo = new ActivityUserInfo();
+			userInfo.setMemberNo(memberNo);
+			userInfo.setTotalScore(bindCardScore);
+			activityUserInfoDaoImpl.add(userInfo);
+		} else {
+			ActivityUserInfo updateUserInfo = new ActivityUserInfo();
+			updateUserInfo.setId(userInfo.getId());
+			updateUserInfo.setVersion(userInfo.getVersion());
+			updateUserInfo.setTotalScore(userInfo.getTotalScore() + bindCardScore);
+			
+			activityUserInfoDaoImpl.update(updateUserInfo);
+			
+		}
+	}
+	
+
+}

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ActivityGoodsDetail" >
+  <resultMap id="BaseResultMap" type="com.yeepay.g3.core.activity.entity.ActivityGoodsDetail" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="VERSION" property="version" jdbcType="BIGINT" />
+    <result column="REDEEM_CODE" property="redeemCode" jdbcType="VARCHAR" />
+    <result column="GOOD_ID" property="goodId" jdbcType="BIGINT" />
+    <result column="USED_STATUS" property="usedStatus" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="USED_TIME" property="usedTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    *
+    from TBL_ACTIVITY_GOODS_DETAIL
+    where ID = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectByParams" resultMap="BaseResultMap" parameterType="map" >
+    select 
+    *
+    from TBL_ACTIVITY_GOODS_DETAIL
+    where 1=1
+    <if test="redeemCode != null" >
+      AND REDEEM_CODE = #{redeemCode,jdbcType=VARCHAR}
+    </if>
+    <if test="goodId != null" >
+      AND GOOD_ID = #{goodId,jdbcType=BIGINT}
+    </if>
+    <if test="usedStatus != null" >
+      AND USED_STATUS = #{usedStatus,jdbcType=VARCHAR}
+    </if>
+    <if test="createTime != null" >
+      AND CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="createTimeStart != null" >
+      AND CREATE_TIME <![CDATA[ >= ]]> #{createTimeStart,jdbcType=TIMESTAMP}
+    </if>
+    <if test="createTimeEnd != null" >
+      AND CREATE_TIME <![CDATA[ < ]]> #{createTimeEnd,jdbcType=TIMESTAMP}
+    </if>
+    <if test="usedTime != null" >
+      AND USED_TIME = #{usedTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="usedTimeStart != null" >
+      AND USED_TIME <![CDATA[ >= ]]> #{usedTimeStart,jdbcType=TIMESTAMP}
+    </if>
+    <if test="usedTimeEnd != null" >
+      AND USED_TIME <![CDATA[ < ]]> #{usedTimeEnd,jdbcType=TIMESTAMP}
+    </if>
+    ORDER BY ID ASC
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from TBL_ACTIVITY_GOODS_DETAIL
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.yeepay.g3.core.activity.entity.ActivityGoodsDetail" useGeneratedKeys="true" keyProperty="id">
+    insert into TBL_ACTIVITY_GOODS_DETAIL ( REDEEM_CODE, 
+      GOOD_ID, USED_STATUS, CREATE_TIME, 
+      USED_TIME)
+    values (#{redeemCode,jdbcType=VARCHAR}, 
+      #{goodId,jdbcType=BIGINT}, #{usedStatus,jdbcType=VARCHAR}, current timestamp, 
+      #{usedTime,jdbcType=TIMESTAMP})
+  </insert>
+  <update id="update" parameterType="com.yeepay.g3.core.activity.entity.ActivityGoodsDetail" >
+    update TBL_ACTIVITY_GOODS_DETAIL
+    <set >
+      <if test="version != null" >
+        VERSION = VERSION + 1,
+      </if>
+      <if test="redeemCode != null" >
+        REDEEM_CODE = #{redeemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="goodId != null" >
+        GOOD_ID = #{goodId,jdbcType=BIGINT},
+      </if>
+      <if test="usedStatus != null" >
+        USED_STATUS = #{usedStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="usedTime != null" >
+        USED_TIME = #{usedTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=BIGINT} AND VERSION = #{version,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yeepay.g3.core.activity.entity.ActivityGoodsDetail" >
+    update TBL_ACTIVITY_GOODS_DETAIL
+    set VERSION = #{version,jdbcType=BIGINT},
+      REDEEM_CODE = #{redeemCode,jdbcType=VARCHAR},
+      GOOD_ID = #{goodId,jdbcType=BIGINT},
+      USED_STATUS = #{usedStatus,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      USED_TIME = #{usedTime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ActivityInfo" >
+  <resultMap id="BaseResultMap" type="com.yeepay.g3.core.activity.entity.ActivityInfo" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="VERSION" property="version" jdbcType="BIGINT" />
+    <result column="ACTIVITY_CODE" property="activityCode" jdbcType="VARCHAR" />
+    <result column="ACTIVITY_NAME" property="activityName" jdbcType="VARCHAR" />
+    <result column="UPLINE_TIME" property="uplineTime" jdbcType="TIMESTAMP" />
+    <result column="START_TIME" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="END_TIME" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="ACTIVITY_STATUS" property="activityStatus" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="CREATOR" property="creator" jdbcType="VARCHAR" />
+    <result column="CHECKED_TIME" property="checkedTime" jdbcType="TIMESTAMP" />
+    <result column="CHECKOR" property="checkor" jdbcType="VARCHAR" />
+    <result column="ACTIVITY_URL" property="activityUrl" jdbcType="VARCHAR" />
+    <result column="UPLINE_REMARK" property="uplineRemark" jdbcType="VARCHAR" />
+    <result column="OFFLINE_REMARK" property="offlineRemark" jdbcType="VARCHAR" />
+     <result column="LOTTERY_BASE" property="lotteryBase" jdbcType="INTEGER" />
+      <result column="LUCK_BASE" property="luckBase" jdbcType="INTEGER" />
+       <result column="IMG" property="img" jdbcType="BLOB" />
+  </resultMap>
+  <select id="get" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select * 
+    from TBL_ACTIVITY_INFO
+    where ID = #{id,jdbcType=BIGINT}
+  </select>
+  <!-- 根据动作ID获取对应的活动列表 -->
+  <select id="selectByActionId" resultMap="BaseResultMap" parameterType="map" >
+    SELECT AI.* 
+    FROM TBL_ACTIVITY_INFO AI
+    LEFT JOIN TBL_ACTIVITY_ACTION_RELA AR
+    ON AI.ID = AR.ACTIVITY_ID
+    WHERE ACTIVITY_STATUS = #{activityStatus,jdbcType=VARCHAR} 
+    	AND AR.ACTION_ID = #{actionId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from TBL_ACTIVITY_INFO
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.yeepay.g3.core.activity.entity.ActivityInfo" useGeneratedKeys="true" keyProperty="id" >
+    insert into TBL_ACTIVITY_INFO ( ACTIVITY_CODE, 
+      ACTIVITY_NAME, UPLINE_TIME, START_TIME, 
+      END_TIME, ACTIVITY_STATUS, CREATE_TIME, 
+      CREATOR, CHECKED_TIME, CHECKOR, 
+      ACTIVITY_URL, UPLINE_REMARK, OFFLINE_REMARK,LOTTERY_BASE,LUCK_BASE,IMG
+      )
+    values ( #{activityCode,jdbcType=VARCHAR}, 
+      #{activityName,jdbcType=VARCHAR}, #{uplineTime,jdbcType=TIMESTAMP}, #{startTime,jdbcType=TIMESTAMP}, 
+      #{endTime,jdbcType=TIMESTAMP}, #{activityStatus,jdbcType=VARCHAR}, current timestamp, 
+      #{creator,jdbcType=VARCHAR}, #{checkedTime,jdbcType=TIMESTAMP}, #{checkor,jdbcType=VARCHAR}, 
+      #{activityUrl,jdbcType=VARCHAR}, #{uplineRemark,jdbcType=VARCHAR}, #{offlineRemark,jdbcType=VARCHAR},
+      #{lotteryBase,jdbcType=INTEGER}, #{luckBase,jdbcType=INTEGER},#{img,jdbcType=BLOB}
+      )
+  </insert>
+  <update id="update" parameterType="com.yeepay.g3.core.activity.entity.ActivityInfo" >
+    update TBL_ACTIVITY_INFO
+    <set >
+      <if test="version != null" >
+        VERSION = VERSION + 1,
+      </if>
+      <if test="activityCode != null" >
+        ACTIVITY_CODE = #{activityCode,jdbcType=VARCHAR},
+      </if>
+      <if test="activityName != null" >
+        ACTIVITY_NAME = #{activityName,jdbcType=VARCHAR},
+      </if>
+      <if test="uplineTime != null" >
+        UPLINE_TIME = #{uplineTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="startTime != null" >
+        START_TIME = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        END_TIME = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="activityStatus != null" >
+        ACTIVITY_STATUS = #{activityStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null" >
+        CREATOR = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="checkedTime != null" >
+        CHECKED_TIME = #{checkedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkor != null" >
+        CHECKOR = #{checkor,jdbcType=VARCHAR},
+      </if>
+      <if test="activityUrl != null" >
+        ACTIVITY_URL = #{activityUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="uplineRemark != null" >
+        UPLINE_REMARK = #{uplineRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="offlineRemark != null" >
+        OFFLINE_REMARK = #{offlineRemark,jdbcType=VARCHAR},
+      </if>
+       <if test="lotteryBase != null" >
+        LOTTERY_BASE = #{lotteryBase,jdbcType=INTEGER},
+      </if>
+       <if test="luckBase != null" >
+        LUCK_BASE = #{luckBase,jdbcType=INTEGER},
+      </if>
+      <if test="img != null" >
+        IMG = #{img,jdbcType=BLOB},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=BIGINT} AND VERSION = #{version,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yeepay.g3.core.activity.entity.ActivityInfo" >
+    update TBL_ACTIVITY_INFO
+    set VERSION = #{version,jdbcType=BIGINT},
+      ACTIVITY_CODE = #{activityCode,jdbcType=VARCHAR},
+      ACTIVITY_NAME = #{activityName,jdbcType=VARCHAR},
+      UPLINE_TIME = #{uplineTime,jdbcType=TIMESTAMP},
+      START_TIME = #{startTime,jdbcType=TIMESTAMP},
+      END_TIME = #{endTime,jdbcType=TIMESTAMP},
+      ACTIVITY_STATUS = #{activityStatus,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      CREATOR = #{creator,jdbcType=VARCHAR},
+      CHECKED_TIME = #{checkedTime,jdbcType=TIMESTAMP},
+      CHECKOR = #{checkor,jdbcType=VARCHAR},
+      ACTIVITY_URL = #{activityUrl,jdbcType=VARCHAR},
+      UPLINE_REMARK = #{uplineRemark,jdbcType=VARCHAR},
+      OFFLINE_REMARK = #{offlineRemark,jdbcType=VARCHAR},
+      LOTTERY_BASE = #{lotteryBase,jdbcType=INTEGER},
+      LUCK_BASE = #{luckBase,jdbcType=INTEGER},
+      IMG = #{img,jdbcType=BLOB}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  <!-- 自定义 -->
+  <select id="queryActivityInfoByActivityCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select * 
+    from TBL_ACTIVITY_INFO
+    where ACTIVITY_CODE = #{activityCode,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- 根据实体类的内容查询满足条件的活动列表 -->
+  <select id="selectActivityList" resultMap="BaseResultMap" parameterType="com.yeepay.g3.core.activity.entity.ActivityInfo" >
+    SELECT * 
+    FROM TBL_ACTIVITY_INFO 
+    WHERE 1=1
+    <if test="activityStatus != null" >
+     AND ACTIVITY_STATUS = #{activityStatus,jdbcType=VARCHAR}
+    </if>
+  </select>
+  <!-- 通过actionCode查询activityCode -->
+  <select id="queryActivityCodeByActionCode" resultType="String" parameterType="String" >
+    SELECT T1.ACTIVITY_CODE FROM TBL_ACTIVITY_INFO T1 
+     LEFT JOIN TBL_ACTIVITY_ACTION_RELA T2 ON T1.ID = T2.ACTIVITY_ID 
+    LEFT JOIN TBL_ACTIVITY_ACTION T3 ON T2.ACTION_ID = T3.ID 
+    WHERE T3.ACTION_CODE =#{actionCode,jdbcType=VARCHAR} AND T1.ACTIVITY_STATUS='EFFECTIVE' 
+    ORDER BY T1.ID DESC fetch first 1 rows only
+  </select>
+  
+</mapper>

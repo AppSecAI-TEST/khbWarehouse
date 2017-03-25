@@ -1,0 +1,259 @@
+/**
+ * 
+ */
+package com.yeepay.g3.core.activity.queue;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.yeepay.g3.core.activity.entity.ActivityMemberOperecord;
+import com.yeepay.g3.core.activity.entity.ActivitySrcFlowPlat;
+import com.yeepay.g3.core.activity.entity.ActivitySrcFlowRule;
+import com.yeepay.g3.core.activity.service.ActivityMemberOperecordService;
+import com.yeepay.g3.core.activity.service.ActivitySrcFlowPlatService;
+import com.yeepay.g3.core.activity.service.ActivitySrcFlowRuleService;
+import com.yeepay.g3.facade.lmact.dto.Esurfing800DetailDto;
+import com.yeepay.g3.facade.lmact.dto.FluxCloudDetailDto;
+import com.yeepay.g3.facade.lmact.dto.FluxPlatDetailDto;
+import com.yeepay.g3.facade.lmact.enumtype.ArenaDetailTypeEnum;
+import com.yeepay.g3.facade.lmact.service.NewLMACTFluxCloudFacade;
+import com.yeepay.g3.facade.lmact.service.NewLMACTFluxEsuring800Facade;
+import com.yeepay.g3.facade.lmact.service.NewLMACTFluxPlatFacade;
+import com.yeepay.g3.facade.lmlc.async.event.LMTradeMessageEvent;
+import com.yeepay.g3.facade.lmportal.async.enumType.LMOperationTypeEnum;
+import com.yeepay.g3.facade.lmportal.dto.MemberDto;
+import com.yeepay.g3.facade.lmportal.service.MemberManagementFacade;
+import com.yeepay.g3.utils.async.rabbitmq.receive.EventProcessor;
+import com.yeepay.g3.utils.common.StringUtils;
+import com.yeepay.g3.utils.config.ConfigParam;
+import com.yeepay.g3.utils.config.ConfigurationUtils;
+import com.yeepay.g3.utils.rmi.RemoteServiceFactory;
+
+/**
+ * @Description 信托交易事件接收器
+ * @author zhenping.zhou
+ * @CreateTime 2016年5月16日 下午2:50:30
+ * @version 1.0
+ */
+public class LMTradeMessageProcessor implements EventProcessor {
+	
+	private static Logger logger = Logger.getLogger(LMTradeMessageProcessor.class);
+	
+	@Autowired
+	private ActivityMemberOperecordService activityMemberOperecordServiceImpl;
+	
+	@Autowired
+	private ActivitySrcFlowRuleService activitySrcFlowRuleServiceImpl;
+	
+	@Autowired
+	private ActivitySrcFlowPlatService activitySrcFlowPlatServiceImpl;
+
+	private MemberManagementFacade memberManagementFacade = RemoteServiceFactory.getService(MemberManagementFacade.class);
+	
+	private NewLMACTFluxEsuring800Facade newLMACTFluxEsuring800Facade = RemoteServiceFactory.getService(NewLMACTFluxEsuring800Facade.class);
+	
+	private NewLMACTFluxPlatFacade newLMACTFluxPlatFacade = RemoteServiceFactory.getService(NewLMACTFluxPlatFacade.class);
+	
+	private NewLMACTFluxCloudFacade newLMACTFluxCloudFacade = RemoteServiceFactory.getService(NewLMACTFluxCloudFacade.class);
+	
+	@Override
+	public void process(Object obj) {
+		logger.info("LMTradeMessageProcessor事件处理 : " + obj);
+		if(obj != null) {
+			LMTradeMessageEvent event = (LMTradeMessageEvent) obj;
+			
+			//会员操作
+			ActivityMemberOperecord memberOperecord = new ActivityMemberOperecord();
+			memberOperecord.setMemberNo(event.getMemberNo());
+			memberOperecord.setMemberTel(event.getMobileNo());
+			memberOperecord.setOperateAmount(event.getAmount());
+			memberOperecord.setOperateTime(event.getTradeTime());
+			memberOperecord.setOperateType(event.getType());
+			//用户操作时的ip地址
+			memberOperecord.setClientIp(event.getClientIp());
+			activityMemberOperecordServiceImpl.addActivityMemberOperecord(memberOperecord);
+			
+//			//判断是投资的是否是首次投资 ，不是不送
+			String tradeType=event.getTrustTradeType();
+			ArenaDetailTypeEnum opeType=null;
+			
+				//1.查询会员信息，获取渠道号
+				MemberDto memberDto = memberManagementFacade.obtainMember(event.getMemberNo());
+				logger.info("ActivityMemberOperecordProcessor:[process] memberDto="+memberDto);
+				//2.根据渠道号和操作类型和投资金额去查询渠道发放流量规则
+				List<ActivitySrcFlowRule> list = new ArrayList<ActivitySrcFlowRule>();
+				Map<String,Object> map = new HashMap<String,Object>();
+				//新手发送流量规则不需要投资金额
+				if("NOVICE".equals(tradeType)){
+					opeType=ArenaDetailTypeEnum.NOVICE;
+					map.put("opeType",tradeType);
+				//首次购买标准和首次购买新手二次购买标准 都需要送流量且送流量规则相同
+				}else if("FIRST_GENERAL".equals(tradeType)||"SECOND_GENERAL".equals(tradeType)){
+					opeType=ArenaDetailTypeEnum.XTLC;
+					map.put("opeType","INVEST");
+					map.put("opeAmount", event.getAmount());
+				//tradeType为OTHER类型 不参与送流量
+				}else{
+					return;
+				}
+				map.put("srcNo", memberDto.getRegisterSrcNo());
+				List<ActivitySrcFlowRule> ruleList = activitySrcFlowRuleServiceImpl.selectRuleListByParams(map);
+				if(ruleList != null && ruleList.get(0).getSendFlag() == 1){
+					list = ruleList;
+				}else{
+					//ruleList为空说明此渠道可能没有特殊的送流量规则 去查询默认
+					map.put("srcNo", "default");
+					List<ActivitySrcFlowRule> rulelist = activitySrcFlowRuleServiceImpl.selectRuleListByParams(map);
+					if(rulelist != null && rulelist.get(0).getSendFlag() == 1){
+						list = rulelist;
+					}
+				}
+				if(list.size() == 0){
+					logger.info("ActivityMemberOperecordProcessor:[process] info = 不发送流量");
+					return;
+				}
+				/*if(list.size() > 1){
+					logger.info("ActivityMemberOperecordProcessor:[process] info = 渠道和操作类型配置规则多于一条");
+					return;
+				}*/
+				Date today = new Date();
+				if(today.getTime() < list.get(0).getStartDate().getTime() || today.getTime() > list.get(0).getEndDate().getTime()){
+					logger.info("[process] info = 规则未生效或已过期");
+					return;
+				}
+				logger.info("ActivityMemberOperecordProcessor:[process] ruleList ="+list.get(0));
+				String cmccCodes = list.get(0).getCmccCode();
+				String[] cmccCode = cmccCodes.split("#"); 
+				String cuccCodes = list.get(0).getCuccCode();
+				String[] cuccCode = cuccCodes.split("#");
+				String ctccCodes = list.get(0).getCtccCode();
+				String[] ctccCode = ctccCodes.split("#");
+				//3.根据渠道号和手机号前三位去查询对应的发放流量通道
+				ActivitySrcFlowPlat activitySrcFlowPlat = activitySrcFlowPlatServiceImpl.getSrcPlowPlatBySrcNo(memberDto.getRegisterSrcNo(), event.getMobileNo());
+				if(activitySrcFlowPlat == null){
+					logger.info("ActivityMemberOperecordProcessor:[process] info = 该渠道无流量发放通道");
+					return;
+				}
+				logger.info("ActivityMemberOperecordProcessor:[process] activitySrcFlowPlat ="+activitySrcFlowPlat);
+				//4.根据手机号判断是移动、联通还是电信(统一配置)
+				ConfigParam<Map<String,String>> config = ConfigurationUtils.getConfigParam("config_type_text_resources", "telecom_operators");
+				String telOpe= config.getValue().get(event.getMobileNo().substring(0, 3));
+				//5.根据流量通道选择调用哪个接口
+				//天翼800只充电信
+				try{
+					if(activitySrcFlowPlat.getFluxPlatCode().equals("ESURFING800")){
+						if(!telOpe.equals("ctcc")){
+							logger.info("ActivityMemberOperecordProcessor:[process] ERROR={} 规则配置错误");
+							return;
+						}
+						//天翼800
+						Esurfing800DetailDto esurfing800DetailDto = new Esurfing800DetailDto();
+						esurfing800DetailDto.setMemberNo(event.getMemberNo());
+						esurfing800DetailDto.setMobileNo(event.getMobileNo());
+						esurfing800DetailDto.setInvType(opeType);
+						esurfing800DetailDto.setInvAmount(event.getAmount());
+						esurfing800DetailDto.setInvTime(event.getTradeTime());
+						esurfing800DetailDto.setMemberOperecordId(memberOperecord.getId());
+						esurfing800DetailDto.setCreateDate(new Date());
+						//手机号段
+						if(StringUtils.isEmpty(ctccCodes)){
+							logger.info("ActivityMemberOperecordProcessor:[process] ERROR={} 选择天翼通道却无电信编码");
+							return;
+						}
+						for( int i = 0 ; i < ctccCode.length ;i ++){
+							esurfing800DetailDto.setPlatOfferId(ctccCode[i]);
+							newLMACTFluxEsuring800Facade.insertEsurfing800Detail(esurfing800DetailDto);
+						}
+					}else if(activitySrcFlowPlat.getFluxPlatCode().equals("FLUX_PLAT")){
+						//流量公社
+						FluxPlatDetailDto fluxPlatDetailDto = new FluxPlatDetailDto();
+						fluxPlatDetailDto.setMemberNo(event.getMemberNo());
+						fluxPlatDetailDto.setMobileNo(event.getMobileNo());
+						fluxPlatDetailDto.setInvType(opeType);
+						fluxPlatDetailDto.setInvAmount(event.getAmount());
+						fluxPlatDetailDto.setInvTime(event.getTradeTime());
+						fluxPlatDetailDto.setMemberOperecordId(memberOperecord.getId());
+						fluxPlatDetailDto.setCreateDate(new Date());
+						//手机号段
+						if(telOpe.equals("cmcc")){
+							if(StringUtils.isEmpty(cmccCodes)){
+								logger.info("ActivityMemberOperecordProcessor:[process] ERROR={} 选择流量公社无移动编码，规则配置错误");
+								return;
+							}
+							for(int i = 0; i < cmccCode.length; i++){
+								fluxPlatDetailDto.setCmccFlowId(cmccCode[i]);
+								newLMACTFluxPlatFacade.insertFluxPlatDetail(fluxPlatDetailDto);
+							}
+						}else if(telOpe.equals("cucc")){
+							if(StringUtils.isEmpty(cuccCodes)){
+								logger.info("ActivityMemberOperecordProcessor:[process] ERROR={} 选择流量公社无联通编码，规则配置错误");
+								return;
+							}
+							for(int i = 0; i < cuccCode.length; i++){
+								fluxPlatDetailDto.setCuccFlowId(cuccCode[i]);
+								newLMACTFluxPlatFacade.insertFluxPlatDetail(fluxPlatDetailDto);
+							}
+						}else if(telOpe.equals("ctcc")){
+							if(StringUtils.isEmpty(ctccCodes)){
+								logger.info("ActivityMemberOperecordProcessor:[process] ERROR={} 选择流量公社无电信编码，规则配置错误");
+								return;
+							}
+							for(int i = 0; i < ctccCode.length; i++){
+								fluxPlatDetailDto.setCtccFlowId(ctccCode[i]);
+								newLMACTFluxPlatFacade.insertFluxPlatDetail(fluxPlatDetailDto);
+							}
+						}
+					}else if(activitySrcFlowPlat.getFluxPlatCode().equals("FLUX_CLOUD")){
+						FluxCloudDetailDto fluxCloudDetailDto = new FluxCloudDetailDto();
+						fluxCloudDetailDto.setMemberNo(event.getMemberNo());
+						fluxCloudDetailDto.setMobileNo(event.getMobileNo());
+						fluxCloudDetailDto.setInvType(opeType);
+						fluxCloudDetailDto.setInvAmount(event.getAmount());
+						fluxCloudDetailDto.setInvTime(event.getTradeTime());
+						fluxCloudDetailDto.setMemberOperecordId(memberOperecord.getId());
+						fluxCloudDetailDto.setCreateDate(new Date());
+						//手机号段
+						if(telOpe.equals("cmcc")){
+							if(StringUtils.isEmpty(cmccCodes)){
+								logger.info("ActivityMemberOperecordProcessor:[process] ERROR={} 选择流量云无移动编码，规则配置错误");
+								return;
+							}
+							for(int i = 0; i < cmccCode.length; i++){
+								fluxCloudDetailDto.setCmccFlowid(cmccCode[i]);
+								newLMACTFluxCloudFacade.insertFluxCloudDetail(fluxCloudDetailDto);
+							}
+						}else if(telOpe.equals("cucc")){
+							if(StringUtils.isEmpty(cuccCodes)){
+								logger.info("ActivityMemberOperecordProcessor:[process] ERROR={} 选择流量云无联通编码，规则配置错误");
+								return;
+							}
+							for(int i = 0; i < cuccCode.length; i++){
+								fluxCloudDetailDto.setCuccFlowid(cuccCode[i]);
+								newLMACTFluxCloudFacade.insertFluxCloudDetail(fluxCloudDetailDto);
+							}
+						}else if(telOpe.equals("ctcc")){
+							if(StringUtils.isEmpty(ctccCodes)){
+								logger.info("ActivityMemberOperecordProcessor:[process] ERROR={} 选择流量云却无电信编码，规则配置错误");
+								return;
+							}
+							for(int i = 0; i < ctccCode.length; i++){
+								fluxCloudDetailDto.setCtccFlowid(ctccCode[i]);
+								newLMACTFluxCloudFacade.insertFluxCloudDetail(fluxCloudDetailDto);
+							}
+						}
+					}
+				}catch(Exception e){
+					logger.error("ActivityMemberOperecordProcessor:[process] ERROR={}",e);
+				}
+				
+			}
+		}
+	}
+

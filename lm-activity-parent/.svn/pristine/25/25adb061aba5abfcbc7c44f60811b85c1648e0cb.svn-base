@@ -1,0 +1,14 @@
+/**
+ * 
+ */
+package com.yeepay.g3.core.activity.utils;
+
+/**
+ * @Description 常量类
+ * @author zhenping.zhou
+ * @CreateTime 2015年12月16日 下午7:13:02
+ * @version 1.0
+ */
+public class Constant {
+	
+}

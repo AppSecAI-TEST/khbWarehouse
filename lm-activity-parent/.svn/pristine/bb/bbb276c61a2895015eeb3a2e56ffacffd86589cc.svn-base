@@ -1,0 +1,137 @@
+/**
+ * 
+ */
+package com.yeepay.g3.core.activity.queue;
+
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.lanmao.consultant.facade.dto.ReceiveUserInfoParamDTO;
+import com.lanmao.consultant.facade.dto.ReceiveUserInfoResultDTO;
+import com.lanmao.consultant.facade.service.UserFacade;
+import com.yeepay.g3.core.activity.entity.ActivityMemberOperecord;
+import com.yeepay.g3.core.activity.entity.ActivityShareRecords;
+import com.yeepay.g3.core.activity.service.ActivityMemberOperecordService;
+import com.yeepay.g3.core.activity.service.ActivityShareRecordsService;
+import com.yeepay.g3.core.activity.service.ActivitySrcFlowPlatService;
+import com.yeepay.g3.core.activity.service.ActivitySrcFlowRuleService;
+import com.yeepay.g3.facade.activity.enums.ShareBizTypeEnum;
+import com.yeepay.g3.facade.lmportal.async.enumType.LMOperationTypeEnum;
+import com.yeepay.g3.facade.lmportal.async.event.ActivityMemberRecords;
+import com.yeepay.g3.utils.async.rabbitmq.receive.EventProcessor;
+import com.yeepay.g3.utils.common.CheckUtils;
+import com.yeepay.g3.utils.rmi.RemoteServiceFactory;
+
+/**
+ * @Description 会员操作记录事件接收器
+ * @author zhenping.zhou
+ * @CreateTime 2016年5月16日 下午2:50:30
+ * @version 1.0
+ */
+public class ActivityMemberOperecordProcessor implements EventProcessor {
+	
+	@Autowired
+	private ActivityMemberOperecordService activityMemberOperecordServiceImpl;
+	
+	@Autowired
+	private ActivityShareRecordsService activityShareRecordsServiceImpl;
+	
+	@Autowired
+	private ActivitySrcFlowRuleService activitySrcFlowRuleServiceImpl;
+	
+	@Autowired
+	private ActivitySrcFlowPlatService activitySrcFlowPlatServiceImpl;
+	
+	private UserFacade userFacade;
+
+	private static Logger logger = Logger.getLogger(ActivityMemberOperecordProcessor.class);
+	
+
+	@Override
+	public void process(Object obj) {
+		//消息处理
+		logger.info("ActivityMemberOperecordProcessor事件处理 " + obj);
+		if(obj != null) {
+			ActivityMemberRecords event = (ActivityMemberRecords) obj;
+			
+			if(LMOperationTypeEnum.MEMBER_SHARE_REGISTER.toString().equals(event.getType())) {
+				
+				//先判断参数值是否为空
+				if(CheckUtils.isNull(event.getRecommendMemberNo()) || CheckUtils.isNull(event.getMemberNo()) 
+						|| CheckUtils.isNull(event.getMemberTel())) {
+					return;
+				}
+				
+				//推荐人消息
+				ActivityShareRecords activityShareRecords = new ActivityShareRecords();
+				activityShareRecords.setRecommendMemberNo(event.getRecommendMemberNo());
+				activityShareRecords.setRecommendMemberTel(""); //推荐人手机号有可能修改
+				
+				if(ShareBizTypeEnum.ALL.toString().equals(event.getBizType())) {
+					activityShareRecords.setBizType(ShareBizTypeEnum.ALL);
+				} else if(ShareBizTypeEnum.LINE.toString().equals(event.getBizType())) {
+					activityShareRecords.setBizType(ShareBizTypeEnum.LINE);
+				} else if(ShareBizTypeEnum.ON_LINE.toString().equals(event.getBizType())) {
+					activityShareRecords.setBizType(ShareBizTypeEnum.ON_LINE);
+				} else {
+					activityShareRecords.setBizType(ShareBizTypeEnum.ALL);
+				}
+				
+				activityShareRecords.setMemberNo(event.getMemberNo());
+				activityShareRecords.setMemberTel(event.getMemberTel());
+				activityShareRecords.setRegisterTime(event.getRegisterTime());
+				activityShareRecords.setSrcNo(event.getSrcNo());
+				//新增活动推荐人关系记录
+				try {
+					Long id = activityShareRecordsServiceImpl.addShareRecord(activityShareRecords);
+				} catch (Exception e){
+					e.printStackTrace();
+					logger.info("[addShareRecord] info={},ERROR={} 调用通知接口异常");
+				}
+				
+				try{
+					//发送通知线下理财顾问系统的接口调用
+					ReceiveUserInfoParamDTO receiveUserInfoParamDto = new ReceiveUserInfoParamDTO();
+					receiveUserInfoParamDto.setUserId(activityShareRecords.getMemberNo());
+					receiveUserInfoParamDto.setRecommenderUser(activityShareRecords.getRecommendMemberNo());
+					userFacade = RemoteServiceFactory.getService(UserFacade.class);
+					ReceiveUserInfoResultDTO receiveUserInfoResultDto = userFacade.receiveRecommendUserEvent(receiveUserInfoParamDto);
+					if(receiveUserInfoResultDto.isSuccess() == false) {
+						logger.info("[userFacade.receiveRecommendUserEvent] ERROR={memberNo, recommendMemberNo}"
+								+ activityShareRecords.getMemberNo() + ", " + activityShareRecords.getRecommendMemberNo());
+					}
+				} catch (Exception e){
+					logger.info("[addShareRecord] info={},ERROR={} 调用通知接口异常");
+				}
+				
+			} else {
+				
+				//会员操作
+				ActivityMemberOperecord memberOperecord = new ActivityMemberOperecord();
+				memberOperecord.setMemberNo(event.getMemberNo());
+				memberOperecord.setMemberTel(event.getMemberTel());
+				memberOperecord.setOperateAmount(event.getOperateAmount());
+				memberOperecord.setOperateTime(event.getOperateTime());
+				memberOperecord.setOperateType(event.getType());
+				memberOperecord.setClientIp(event.getClientIp());
+				logger.info("hehe-----------------------------");
+				activityMemberOperecordServiceImpl.addActivityMemberOperecord(memberOperecord);
+				logger.info("hehe-----------------------------");
+				logger.info("[process] memberOperecord="+memberOperecord);
+				//发送抽奖券和幸运值
+				try{
+					activityMemberOperecordServiceImpl.addUserRaffleTicket(memberOperecord);
+				}catch(Exception e){
+					logger.error("[process] info=发送绑卡抽奖券和幸运值异常,ERROR={}",e);
+				}
+				//绑卡发送流量
+				try{
+					activityMemberOperecordServiceImpl.sendBindCardFlow(event, memberOperecord);
+				}catch(Exception e){
+					logger.error("[process] info=绑卡发送流量时异常,ERROR={}",e);
+				}
+				
+			}
+		}
+	}
+}

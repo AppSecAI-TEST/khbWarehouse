@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yeepay.g3.core.activity.entity.ActivityShareRecordsMapper" >
+  <resultMap id="BaseResultMap" type="com.yeepay.g3.core.activity.entity.ActivityShareRecords" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="VERSION" property="version" jdbcType="BIGINT" />
+    <result column="MEMBER_NO" property="memberNo" jdbcType="VARCHAR" />
+    <result column="RELATIVE_MEMBER_NO" property="relativeMemberNo" jdbcType="VARCHAR" />
+    <result column="SRC_TYPE" property="srcType" jdbcType="VARCHAR" />
+    <result column="SRC_NO" property="srcNo" jdbcType="VARCHAR" />
+    <result column="BIZ_TYPE" property="bizType" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, VERSION, MEMBER_NO, RELATIVE_MEMBER_NO, SRC_TYPE, SRC_NO, BIZ_TYPE, CREATE_TIME
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yeepay.g3.core.activity.entity.ActivityShareRecordsExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from TBL_ACTIVITY_SHARE_RECORDS
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from TBL_ACTIVITY_SHARE_RECORDS
+    where ID = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from TBL_ACTIVITY_SHARE_RECORDS
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yeepay.g3.core.activity.entity.ActivityShareRecordsExample" >
+    delete from TBL_ACTIVITY_SHARE_RECORDS
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yeepay.g3.core.activity.entity.ActivityShareRecords" >
+    insert into TBL_ACTIVITY_SHARE_RECORDS (ID, VERSION, MEMBER_NO, 
+      RELATIVE_MEMBER_NO, SRC_TYPE, SRC_NO, 
+      BIZ_TYPE, CREATE_TIME)
+    values (#{id,jdbcType=BIGINT}, #{version,jdbcType=BIGINT}, #{memberNo,jdbcType=VARCHAR}, 
+      #{relativeMemberNo,jdbcType=VARCHAR}, #{srcType,jdbcType=VARCHAR}, #{srcNo,jdbcType=VARCHAR}, 
+      #{bizType,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yeepay.g3.core.activity.entity.ActivityShareRecords" >
+    insert into TBL_ACTIVITY_SHARE_RECORDS
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="version != null" >
+        VERSION,
+      </if>
+      <if test="memberNo != null" >
+        MEMBER_NO,
+      </if>
+      <if test="relativeMemberNo != null" >
+        RELATIVE_MEMBER_NO,
+      </if>
+      <if test="srcType != null" >
+        SRC_TYPE,
+      </if>
+      <if test="srcNo != null" >
+        SRC_NO,
+      </if>
+      <if test="bizType != null" >
+        BIZ_TYPE,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="version != null" >
+        #{version,jdbcType=BIGINT},
+      </if>
+      <if test="memberNo != null" >
+        #{memberNo,jdbcType=VARCHAR},
+      </if>
+      <if test="relativeMemberNo != null" >
+        #{relativeMemberNo,jdbcType=VARCHAR},
+      </if>
+      <if test="srcType != null" >
+        #{srcType,jdbcType=VARCHAR},
+      </if>
+      <if test="srcNo != null" >
+        #{srcNo,jdbcType=VARCHAR},
+      </if>
+      <if test="bizType != null" >
+        #{bizType,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.yeepay.g3.core.activity.entity.ActivityShareRecordsExample" resultType="java.lang.Integer" >
+    select count(*) from TBL_ACTIVITY_SHARE_RECORDS
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update TBL_ACTIVITY_SHARE_RECORDS
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.version != null" >
+        VERSION = #{record.version,jdbcType=BIGINT},
+      </if>
+      <if test="record.memberNo != null" >
+        MEMBER_NO = #{record.memberNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.relativeMemberNo != null" >
+        RELATIVE_MEMBER_NO = #{record.relativeMemberNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.srcType != null" >
+        SRC_TYPE = #{record.srcType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.srcNo != null" >
+        SRC_NO = #{record.srcNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bizType != null" >
+        BIZ_TYPE = #{record.bizType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update TBL_ACTIVITY_SHARE_RECORDS
+    set ID = #{record.id,jdbcType=BIGINT},
+      VERSION = #{record.version,jdbcType=BIGINT},
+      MEMBER_NO = #{record.memberNo,jdbcType=VARCHAR},
+      RELATIVE_MEMBER_NO = #{record.relativeMemberNo,jdbcType=VARCHAR},
+      SRC_TYPE = #{record.srcType,jdbcType=VARCHAR},
+      SRC_NO = #{record.srcNo,jdbcType=VARCHAR},
+      BIZ_TYPE = #{record.bizType,jdbcType=VARCHAR},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yeepay.g3.core.activity.entity.ActivityShareRecords" >
+    update TBL_ACTIVITY_SHARE_RECORDS
+    <set >
+      <if test="version != null" >
+        VERSION = #{version,jdbcType=BIGINT},
+      </if>
+      <if test="memberNo != null" >
+        MEMBER_NO = #{memberNo,jdbcType=VARCHAR},
+      </if>
+      <if test="relativeMemberNo != null" >
+        RELATIVE_MEMBER_NO = #{relativeMemberNo,jdbcType=VARCHAR},
+      </if>
+      <if test="srcType != null" >
+        SRC_TYPE = #{srcType,jdbcType=VARCHAR},
+      </if>
+      <if test="srcNo != null" >
+        SRC_NO = #{srcNo,jdbcType=VARCHAR},
+      </if>
+      <if test="bizType != null" >
+        BIZ_TYPE = #{bizType,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yeepay.g3.core.activity.entity.ActivityShareRecords" >
+    update TBL_ACTIVITY_SHARE_RECORDS
+    set VERSION = #{version,jdbcType=BIGINT},
+      MEMBER_NO = #{memberNo,jdbcType=VARCHAR},
+      RELATIVE_MEMBER_NO = #{relativeMemberNo,jdbcType=VARCHAR},
+      SRC_TYPE = #{srcType,jdbcType=VARCHAR},
+      SRC_NO = #{srcNo,jdbcType=VARCHAR},
+      BIZ_TYPE = #{bizType,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

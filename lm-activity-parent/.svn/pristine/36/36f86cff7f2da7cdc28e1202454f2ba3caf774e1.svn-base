@@ -1,0 +1,210 @@
+package com.yeepay.g3.core.activity.service.impl;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.yeepay.g3.core.activity.dao.ActivityActionDao;
+import com.yeepay.g3.core.activity.dao.ActivityInfoDao;
+import com.yeepay.g3.core.activity.dao.ActivityMemberOperecordDao;
+import com.yeepay.g3.core.activity.dao.ActivityRaffleTicketDao;
+import com.yeepay.g3.core.activity.dao.ActivityShareRecordsDao;
+import com.yeepay.g3.core.activity.dao.ActivityUserInfoDao;
+import com.yeepay.g3.core.activity.dao.ActivityUserRaffleticketDao;
+import com.yeepay.g3.core.activity.dao.ActivityUserScoreRecordDao;
+import com.yeepay.g3.core.activity.entity.ActivityAction;
+import com.yeepay.g3.core.activity.entity.ActivityInfo;
+import com.yeepay.g3.core.activity.entity.ActivityMemberOperecord;
+import com.yeepay.g3.core.activity.entity.ActivityRaffleTicket;
+import com.yeepay.g3.core.activity.entity.ActivityShareRecords;
+import com.yeepay.g3.core.activity.entity.ActivityUserInfo;
+import com.yeepay.g3.core.activity.entity.ActivityUserRaffleticket;
+import com.yeepay.g3.core.activity.entity.ActivityUserScoreRecord;
+import com.yeepay.g3.core.activity.service.ActivityMemberOperecordService;
+import com.yeepay.g3.core.activity.service.ActivityUserInfoService;
+import com.yeepay.g3.core.activity.utils.Constant;
+import com.yeepay.g3.facade.activity.enums.ActivityStatusEnum;
+import com.yeepay.g3.facade.activity.enums.RaffleTicketStatusEnum;
+import com.yeepay.g3.facade.activity.enums.UserRaffleticketStatusEnum;
+import com.yeepay.g3.facade.activity.enums.UserScoreRecordTypeEnum;
+import com.yeepay.g3.facade.lmportal.async.enumType.LMOperationTypeEnum;
+import com.yeepay.g3.utils.config.ConfigurationUtils;
+/**
+ * @Title: 会员操作记录业务逻辑实现类
+ * @Description: 业务逻辑实现类
+ * @Copyright: 懒猫金服
+ * @author zhenping.zhou
+ * @createTime 2016-5-18 下午1:55:06
+ * @version 2016-5-4
+ */
+@Service
+public class ActivityMemberOperecordServiceImpl implements ActivityMemberOperecordService {
+
+	private static Logger logger = Logger.getLogger(ActivityMemberOperecordServiceImpl.class);
+
+	@Autowired
+	private ActivityMemberOperecordDao activityMemberOperecordImpl;
+	
+	@Autowired
+	private ActivityShareRecordsDao activityShareRecordsDaoImpl;
+	
+	@Autowired
+	private ActivityActionDao activityActionDaoImpl;
+	
+	@Autowired
+	private ActivityRaffleTicketDao activityRaffleTicketDaoImpl;
+	
+	@Autowired
+	private ActivityUserRaffleticketDao activityUserRaffleticketDaoImpl;
+	
+	@Autowired
+	private ActivityInfoDao activityInfoDaoImpl;
+	
+	@Autowired
+	private ActivityUserInfoDao activityUserInfoDaoImpl;
+	
+	@Autowired
+	private ActivityUserInfoService activityUserInfoServiceImpl;
+	
+	@Autowired
+	private ActivityUserScoreRecordDao activityUserScoreRecordDaoImpl;
+
+	@Override
+	public void addActivityMemberOperecord(
+			ActivityMemberOperecord activityMemberOperecord) {
+		//1 新增会员操作记录
+		activityMemberOperecordImpl.add(activityMemberOperecord);
+		
+		//绑卡进行推荐人和被推荐人逻辑处理
+		if(LMOperationTypeEnum.BIND_CARD.toString().equals(activityMemberOperecord.getOperateType())) {
+			logger.info("[addActivityMemberOperecord] BIND_CARD ={}");
+
+			//1 查询当前用户是否为被推荐人
+			Map<String, Object> params = new HashMap<String, Object>();
+			params.put("memberNo", activityMemberOperecord.getMemberNo());
+			List<ActivityShareRecords> shareRecordsList = activityShareRecordsDaoImpl.selectByParams(params);
+			if(shareRecordsList != null && shareRecordsList.size() > 0) {
+				ActivityShareRecords shareRecords = shareRecordsList.get(0);
+				
+				//2 查线下理财顾问系统，判断当前操作会员的推荐人是什么角色，若是普通用户，则赠送抽奖券、赠送分值，创建对应消息
+				//注意 是判断推荐人的角色，而非当前操作会员的角色
+				boolean commonUser = LmUserServiceUtil.isCommonUser(shareRecords.getRecommendMemberNo());
+				if(commonUser) {
+					
+
+					//查询当前事件动作
+					Map<String, Object> actionParam = new HashMap<String, Object>();
+					actionParam.put("actionCode", activityMemberOperecord.getOperateType() + Constant.ACTION_SUFFIX);//BIND_CARD_ACTION 绑卡动作
+					List<ActivityAction> actionList = activityActionDaoImpl.query("selectByParams", actionParam);
+					if(actionList != null && actionList.size() > 0) {
+						ActivityAction action = actionList.get(0);
+						
+						//a 赠送抽奖券活动
+						this.addMemberRaffleTicket(shareRecords, activityMemberOperecord, action);
+						
+						//b 赠送分值
+						int bindCardScore = Integer.valueOf(ConfigurationUtils.getSysConfigParam(Constant.BIND_CARD_SCORE_CODE).getValue().toString());
+						//1 查询推荐人用户基础信息
+						ActivityUserInfo recommendUserInfo = (ActivityUserInfo)activityUserInfoDaoImpl.queryOne("selectUserInfoByMemberNo", shareRecords.getRecommendMemberNo());
+						activityUserInfoServiceImpl.updateOrInitUserScore(recommendUserInfo, shareRecords.getRecommendMemberNo(), bindCardScore);
+						// 创建一条幸运值流水记录
+						ActivityUserScoreRecord recommendUserScoreRecord = new ActivityUserScoreRecord();
+						recommendUserScoreRecord.setEventId(action.getId());
+						recommendUserScoreRecord.setMemberNo(shareRecords.getRecommendMemberNo());
+						recommendUserScoreRecord.setScore(Long.valueOf(bindCardScore));
+						recommendUserScoreRecord.setType(UserScoreRecordTypeEnum.ADD);
+						
+						activityUserScoreRecordDaoImpl.add(recommendUserScoreRecord);
+						
+						//2 查询当前会员用户基础信息
+						ActivityUserInfo userInfo = (ActivityUserInfo)activityUserInfoDaoImpl.queryOne("selectUserInfoByMemberNo", shareRecords.getMemberNo());
+						activityUserInfoServiceImpl.updateOrInitUserScore(userInfo, shareRecords.getMemberNo(), bindCardScore);
+						//创建一条幸运值流水记录
+						ActivityUserScoreRecord userScoreRecord = new ActivityUserScoreRecord();
+						userScoreRecord.setEventId(action.getId());
+						userScoreRecord.setMemberNo(shareRecords.getMemberNo());
+						userScoreRecord.setScore(Long.valueOf(bindCardScore));
+						userScoreRecord.setType(UserScoreRecordTypeEnum.ADD);
+
+						activityUserScoreRecordDaoImpl.add(userScoreRecord);
+						
+						//c 创建通知消息记录
+						//TODO 
+						//d 推送用户公众号
+						
+					}
+						
+				}
+				
+			}
+		}
+	}
+	
+	private void addMemberRaffleTicket(ActivityShareRecords shareRecords, ActivityMemberOperecord activityMemberOperecord, 
+			ActivityAction action) {
+
+		//查询当前事件对应的活动
+		Map<String, Object> activityParam = new HashMap<String, Object>();
+		activityParam.put("activityStatus", ActivityStatusEnum.EFFECTIVE);
+		activityParam.put("actionId", action.getId());
+		List<ActivityInfo> activityList = activityInfoDaoImpl.query("selectByActionId", activityParam);
+		ActivityInfo activityInfo = null;
+		//活动不为空
+		if(activityList != null && activityList.size() > 0) {
+			
+			activityInfo = activityList.get(0);
+			//TODO 判断当前活动是否有效
+			
+			//查询当前事件对应的抽奖券
+			Map<String, Object> raffleTicketParam = new HashMap<String, Object>();
+			raffleTicketParam.put("couponStatus", RaffleTicketStatusEnum.EFFECTIVE);
+			raffleTicketParam.put("actionId", action.getId());
+//				actionParam.put("raffleTicketCode", activityMemberOperecord.getOperateType() + Constant.RAFFLE_TICKET_SUFFIX);//BIND_CARD_RAFFLE_TICKET 绑卡抽奖券
+			List<ActivityRaffleTicket> raffleTicketList = activityRaffleTicketDaoImpl.query("selectByActionId", raffleTicketParam);
+			if(raffleTicketList != null && raffleTicketList.size() > 0) {
+				//赠送抽奖券
+				for(ActivityRaffleTicket raffleTicket : raffleTicketList) {
+					
+					//a 推荐人
+					ActivityUserRaffleticket recommendMemberRaffleTicket = new ActivityUserRaffleticket();
+					recommendMemberRaffleTicket.setActionId(action.getId());
+					recommendMemberRaffleTicket.setActivityId(activityInfo.getId());
+					recommendMemberRaffleTicket.setActivityName(activityInfo.getActivityName());
+					recommendMemberRaffleTicket.setMemberNo(shareRecords.getRecommendMemberNo()); //推荐人会员编号
+					recommendMemberRaffleTicket.setMemberTel(shareRecords.getRecommendMemberTel());
+					recommendMemberRaffleTicket.setRaffleTicketCount(1);
+					recommendMemberRaffleTicket.setRaffleTicketId(raffleTicket.getId());
+					recommendMemberRaffleTicket.setRaffleTicketUsedCount(0);
+//						recommendMemberRaffleTicket.setReceiveTime(receiveTime);
+					recommendMemberRaffleTicket.setStatus(UserRaffleticketStatusEnum.UN_USE);
+//						recommendMemberRaffleTicket.setValidityTimeEnd(validityTimeEnd);
+					recommendMemberRaffleTicket.setValidityTimeStart(new Date());
+					
+					activityUserRaffleticketDaoImpl.add(recommendMemberRaffleTicket);
+					//b 被推荐人
+					ActivityUserRaffleticket memberRaffleTicket = new ActivityUserRaffleticket();
+					memberRaffleTicket.setActionId(action.getId());
+					memberRaffleTicket.setActivityId(activityInfo.getId());
+					memberRaffleTicket.setActivityName(activityInfo.getActivityName());
+					memberRaffleTicket.setMemberNo(shareRecords.getMemberNo());
+					memberRaffleTicket.setMemberTel(shareRecords.getMemberTel());
+					memberRaffleTicket.setRaffleTicketCount(1);
+					memberRaffleTicket.setRaffleTicketId(raffleTicket.getId());
+					memberRaffleTicket.setRaffleTicketUsedCount(0);
+//						memberRaffleTicket.setReceiveTime(receiveTime);
+					memberRaffleTicket.setStatus(UserRaffleticketStatusEnum.UN_USE);
+//						memberRaffleTicket.setValidityTimeEnd(validityTimeEnd);
+					memberRaffleTicket.setValidityTimeStart(new Date());
+					
+					activityUserRaffleticketDaoImpl.add(memberRaffleTicket);
+				}
+			}
+			
+		}
+	}
+}

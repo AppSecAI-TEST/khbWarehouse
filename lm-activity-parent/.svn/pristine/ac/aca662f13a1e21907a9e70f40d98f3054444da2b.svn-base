@@ -1,0 +1,120 @@
+package com.yeepay.g3.core.activity.entity;
+
+import java.util.Date;
+
+import com.yeepay.g3.facade.activity.enums.UserScoreRecordTypeEnum;
+import com.yeepay.g3.utils.persistence.EntityVersion;
+
+/**
+ * 
+ * @Description 用户分值流水实体类
+ * @author zhenping.zhou
+ * @CreateTime 2016年5月31日 下午1:44:49
+ * @version 1.0
+ */
+public class ActivityUserScoreRecord implements EntityVersion<Long> {
+
+	private static final long serialVersionUID = -6526920539857043662L;
+
+	private Long id;
+
+    private Long version;
+    /**
+     * 会员编号
+     */
+    private String memberNo;
+    /**
+     * 分值
+     */
+    private Long score;
+    /**
+     * 类型 增加/扣除（add/move）
+     */
+    private UserScoreRecordTypeEnum type;
+    /**
+     * 事件id
+     */
+    private Long eventId;
+    /**
+     * 事件编码
+     */
+    private Long eventCode;
+
+    private Date createTime;
+    /**
+     * 备注
+     */
+    private String remark;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
+    }
+
+    public String getMemberNo() {
+        return memberNo;
+    }
+
+    public void setMemberNo(String memberNo) {
+        this.memberNo = memberNo == null ? null : memberNo.trim();
+    }
+
+    public Long getScore() {
+        return score;
+    }
+
+    public void setScore(Long score) {
+        this.score = score;
+    }
+
+    public UserScoreRecordTypeEnum getType() {
+        return type;
+    }
+
+    public void setType(UserScoreRecordTypeEnum type) {
+        this.type = type;
+    }
+
+    public Long getEventId() {
+        return eventId;
+    }
+
+    public void setEventId(Long eventId) {
+        this.eventId = eventId;
+    }
+
+    public Long getEventCode() {
+        return eventCode;
+    }
+
+    public void setEventCode(Long eventCode) {
+        this.eventCode = eventCode;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark == null ? null : remark.trim();
+    }
+}

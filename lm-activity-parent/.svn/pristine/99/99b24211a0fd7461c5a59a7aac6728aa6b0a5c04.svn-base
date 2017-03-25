@@ -1,0 +1,61 @@
+/**
+ * @author 陈大涛
+ * 2016-6-1下午4:06:12
+ */
+package com.yeepay.g3.core.activity.facade.impl;
+
+import java.util.Map;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
+import com.yeepay.g3.core.activity.entity.ActivityPrize;
+import com.yeepay.g3.core.activity.service.ActivityDrawPrizeService;
+import com.yeepay.g3.core.activity.utils.EntityDTOConvert;
+import com.yeepay.g3.facade.activity.dto.ActivityPrizeDTO;
+import com.yeepay.g3.facade.activity.facade.ActivityDrawPrizeFacade;
+import com.yeepay.g3.utils.common.log.Logger;
+import com.yeepay.g3.utils.common.log.LoggerFactory;
+import com.yeepay.g3.utils.config.ConfigurationUtils;
+
+/**
+ * @author 陈大涛
+ * 2016-6-1下午4:06:12
+ */
+@Service
+public class ActivityDrawPrizeFacadeImpl implements ActivityDrawPrizeFacade {
+
+	@Resource
+	private ActivityDrawPrizeService activityDrawPrizeServiceImpl;
+	
+	private static final Logger logger = LoggerFactory.getLogger(ActivityDrawPrizeFacadeImpl.class);
+	@Override
+	public ActivityPrizeDTO updateUserPrize(String memberNo, String actionCode,
+			String activityCode) {
+		ActivityPrizeDTO resultDto = new ActivityPrizeDTO ();
+		try {
+			ActivityPrize result = activityDrawPrizeServiceImpl.updateUserPrize(memberNo, actionCode, activityCode);
+			 resultDto = EntityDTOConvert.toTarget(result, ActivityPrizeDTO.class);
+		} catch (Exception e) {
+			Map<String, String> exes = (Map<String, String>) ConfigurationUtils.getConfigParam("config_type_text_resources", "activity_error_message").getValue();
+			if("NOCHANGE".equals(e.getMessage())){
+				resultDto.setCode("1002");
+				resultDto.setMessage(exes.get("1002"));
+			}else if("NOACTIVITY".equals(e.getMessage())){
+				resultDto.setCode("1003");
+				resultDto.setMessage(exes.get("1003"));
+			}else if("NOPRIZE".equals(e.getMessage())){
+				resultDto.setCode("1004");
+				resultDto.setMessage(exes.get("1004"));
+			}else{
+				resultDto.setCode("1005");
+				resultDto.setMessage(exes.get("1005"));
+			}
+		}
+		logger.info("[updateUserPrize] 抽奖算法 code={},message={}",resultDto.getCode(),resultDto.getMessage());
+		return resultDto;
+	}
+	
+	
+}

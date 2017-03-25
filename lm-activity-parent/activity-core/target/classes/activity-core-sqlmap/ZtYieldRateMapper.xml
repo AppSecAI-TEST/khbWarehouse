@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ZtYieldRateMapper">
+  <resultMap id="BaseResultMap" type="com.yeepay.g3.core.zt.entity.ZtYieldRate">
+    <id column="ID" jdbcType="BIGINT" property="id" />
+    <result column="VERSION" jdbcType="BIGINT" property="version" />
+    <result column="POLICY_ID" jdbcType="BIGINT" property="policyId" />
+    <result column="CALCULATE_TYPE" jdbcType="VARCHAR" property="calculateType" />
+    <result column="LAST_TERM" jdbcType="INTEGER" property="lastTerm" />
+    <result column="CUR_MONTH" jdbcType="VARCHAR" property="curMonth" />
+    <result column="YIELD_RATE" jdbcType="DECIMAL" property="yieldRate" />
+    <result column="BATCH_NO" jdbcType="VARCHAR" property="batchNo" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, VERSION, POLICY_ID, CALCULATE_TYPE, LAST_TERM, CUR_MONTH, YIELD_RATE, BATCH_NO, 
+    CREATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ACTIVITY.TBL_ZT_YIELD_RATE
+    where ID = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from ACTIVITY.TBL_ZT_YIELD_RATE
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.yeepay.g3.core.zt.entity.ZtYieldRate">
+    insert into ACTIVITY.TBL_ZT_YIELD_RATE (ID, VERSION, POLICY_ID, 
+      CALCULATE_TYPE, LAST_TERM, CUR_MONTH, 
+      YIELD_RATE, BATCH_NO, CREATE_TIME
+      )
+    values (#{id,jdbcType=BIGINT}, #{version,jdbcType=BIGINT}, #{policyId,jdbcType=BIGINT}, 
+      #{calculateType,jdbcType=VARCHAR}, #{lastTerm,jdbcType=INTEGER}, #{curMonth,jdbcType=VARCHAR}, 
+      #{yieldRate,jdbcType=DECIMAL}, #{batchNo,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yeepay.g3.core.zt.entity.ZtYieldRate">
+    insert into ACTIVITY.TBL_ZT_YIELD_RATE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="version != null">
+        VERSION,
+      </if>
+      <if test="policyId != null">
+        POLICY_ID,
+      </if>
+      <if test="calculateType != null">
+        CALCULATE_TYPE,
+      </if>
+      <if test="lastTerm != null">
+        LAST_TERM,
+      </if>
+      <if test="curMonth != null">
+        CUR_MONTH,
+      </if>
+      <if test="yieldRate != null">
+        YIELD_RATE,
+      </if>
+      <if test="batchNo != null">
+        BATCH_NO,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=BIGINT},
+      </if>
+      <if test="policyId != null">
+        #{policyId,jdbcType=BIGINT},
+      </if>
+      <if test="calculateType != null">
+        #{calculateType,jdbcType=VARCHAR},
+      </if>
+      <if test="lastTerm != null">
+        #{lastTerm,jdbcType=INTEGER},
+      </if>
+      <if test="curMonth != null">
+        #{curMonth,jdbcType=VARCHAR},
+      </if>
+      <if test="yieldRate != null">
+        #{yieldRate,jdbcType=DECIMAL},
+      </if>
+      <if test="batchNo != null">
+        #{batchNo,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yeepay.g3.core.zt.entity.ZtYieldRate">
+    update ACTIVITY.TBL_ZT_YIELD_RATE
+    <set>
+      <if test="version != null">
+        VERSION = #{version,jdbcType=BIGINT},
+      </if>
+      <if test="policyId != null">
+        POLICY_ID = #{policyId,jdbcType=BIGINT},
+      </if>
+      <if test="calculateType != null">
+        CALCULATE_TYPE = #{calculateType,jdbcType=VARCHAR},
+      </if>
+      <if test="lastTerm != null">
+        LAST_TERM = #{lastTerm,jdbcType=INTEGER},
+      </if>
+      <if test="curMonth != null">
+        CUR_MONTH = #{curMonth,jdbcType=VARCHAR},
+      </if>
+      <if test="yieldRate != null">
+        YIELD_RATE = #{yieldRate,jdbcType=DECIMAL},
+      </if>
+      <if test="batchNo != null">
+        BATCH_NO = #{batchNo,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yeepay.g3.core.zt.entity.ZtYieldRate">
+    update ACTIVITY.TBL_ZT_YIELD_RATE
+    set VERSION = #{version,jdbcType=BIGINT},
+      POLICY_ID = #{policyId,jdbcType=BIGINT},
+      CALCULATE_TYPE = #{calculateType,jdbcType=VARCHAR},
+      LAST_TERM = #{lastTerm,jdbcType=INTEGER},
+      CUR_MONTH = #{curMonth,jdbcType=VARCHAR},
+      YIELD_RATE = #{yieldRate,jdbcType=DECIMAL},
+      BATCH_NO = #{batchNo,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

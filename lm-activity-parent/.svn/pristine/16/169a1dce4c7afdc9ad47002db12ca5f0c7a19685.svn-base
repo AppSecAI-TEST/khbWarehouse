@@ -1,0 +1,56 @@
+/**
+ * 
+ */
+package com.yeepay.g3.facade.activity.facade;
+
+import java.util.List;
+
+import com.yeepay.g3.facade.activity.dto.ActivityInvForProRuleXTDTO;
+
+/**
+ * @Description 商品信息对外服务接口
+ * @author hongbin.kang
+ * @CreateTime 2016年7月28日 下午2:18:56
+ * @version 1.0
+ */
+public interface ActivityInvForProRuleFacade {
+	/**
+	 * 根据主键id获取投资换产品规则信息
+	 */
+	public ActivityInvForProRuleXTDTO selectInvForProRuleById(long id);
+	/**
+	 * 保存投资换产品规则信息
+	 */
+	public void addActivityInvForProRule(ActivityInvForProRuleXTDTO InvForProDto);
+	
+	/**
+	 * 根据实体类参数查询信息
+	 * @param ActivityInvForProRuleDTO
+	 * @return
+	 */
+//	public List<ActivityInvForProRuleXTDTO> selectListByParams(ActivityInvForProRuleXTDTO InvForProDto);
+	 
+	/**
+	 * 查询有效投资换产品规则（有效状态）
+	 * @param 
+	 * @return
+	 */
+	public List<ActivityInvForProRuleXTDTO> selectEffInvForProRuleList();
+	/**
+	 * 更新实体类（审批状态、操作人信息）
+	 * @param ActivityInvForProRuleDTO
+	 */
+	public void updateActivityInvForProRuleById(ActivityInvForProRuleXTDTO InvForProDto);
+	/**
+	 * 根据产品id查询规则
+	 * @param valueOf
+	 * @return
+	 */
+	public List<ActivityInvForProRuleXTDTO> selectRuleByProductId(Long id);
+	/**
+	 * 查询所有的规则
+	 * @return
+	 */
+	public List<ActivityInvForProRuleXTDTO> selectForProRuleList();
+	
+}

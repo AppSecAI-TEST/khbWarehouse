@@ -1,0 +1,22 @@
+package com.yeepay.g3.core.zt.dao;
+
+import com.yeepay.g3.core.zt.entity.ZtPolicyOrderDetail;
+
+public interface ZtPolicyOrderDetailDao {
+
+
+    int deleteByPrimaryKey(Long id);
+
+    int insert(ZtPolicyOrderDetail record);
+
+    int insertSelective(ZtPolicyOrderDetail record);
+
+
+    ZtPolicyOrderDetail selectByPrimaryKey(Long id);
+
+
+
+    int updateByPrimaryKeySelective(ZtPolicyOrderDetail record);
+
+    int updateByPrimaryKey(ZtPolicyOrderDetail record);
+}

@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ActivityInvForProOrder" >
+  <resultMap id="BaseResultMap" type="com.yeepay.g3.core.activity.entity.ActivityInvForProOrder" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="PRODUCT_ID" property="productId" jdbcType="BIGINT" />
+    <result column="LC_PRODUCT_ID" property="lcProductId" jdbcType="BIGINT" />
+    <result column="ACTIVITY_CODE" property="activityCode" jdbcType="VARCHAR" />
+    <result column="ORDER_CODE" property="orderCode" jdbcType="VARCHAR" />
+    <result column="XT_ORDER_CODE" property="xtOrderCode" jdbcType="VARCHAR" />
+    <result column="MEMBER_NO" property="memberNo" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="NUM" property="num" jdbcType="INTEGER" />
+    <result column="PRICE" property="price" jdbcType="DECIMAL" />
+    <result column="TOTAL" property="total" jdbcType="DECIMAL" />
+    <result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
+    <result column="MOBILE_NUM" property="mobileNum" jdbcType="VARCHAR" />
+    <result column="OPERATOR" property="operator" jdbcType="VARCHAR" />
+    <result column="OPERATOR_TIME" property="operatorTime" jdbcType="TIMESTAMP" />
+    <result column="VERSION" property="version" jdbcType="BIGINT" />
+    <result column="LOGISTICS_NUMBER" property="logisticsNumber" jdbcType="VARCHAR" />
+    <result column="SEND_MESSAGE_STATUS" property="sendMessageStatus" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+   *
+    from TBL_ACTIVITY_INVFORPRO_ORDER
+    where ID = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from TBL_ACTIVITY_INVFORPRO_ORDER
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+  
+  <insert id="insert" parameterType="com.yeepay.g3.core.activity.entity.ActivityInvForProOrder" useGeneratedKeys="true" keyProperty="id">
+    insert into TBL_ACTIVITY_INVFORPRO_ORDER ( PRODUCT_ID, LC_PRODUCT_ID, 
+      ACTIVITY_CODE, ORDER_CODE, XT_ORDER_CODE, 
+      MEMBER_NO, STATUS, CREATE_TIME, 
+      NUM, PRICE, TOTAL, 
+      USER_NAME, MOBILE_NUM, OPERATOR, 
+      OPERATOR_TIME,  LOGISTICS_NUMBER,SEND_MESSAGE_STATUS
+      )
+    values (#{productId,jdbcType=BIGINT}, #{lcProductId,jdbcType=BIGINT}, 
+      #{activityCode,jdbcType=VARCHAR}, #{orderCode,jdbcType=VARCHAR}, #{xtOrderCode,jdbcType=VARCHAR}, 
+      #{memberNo,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{num,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL}, #{total,jdbcType=DECIMAL}, 
+      #{userName,jdbcType=VARCHAR}, #{mobileNum,jdbcType=VARCHAR}, #{operator,jdbcType=VARCHAR}, 
+      #{operatorTime,jdbcType=TIMESTAMP},  #{logisticsNumber,jdbcType=VARCHAR},  #{sendMessageStatus,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yeepay.g3.core.activity.entity.ActivityInvForProOrder" >
+    insert into TBL_ACTIVITY_INVFORPRO_ORDER
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="productId != null" >
+        PRODUCT_ID,
+      </if>
+      <if test="lcProductId != null" >
+        LC_PRODUCT_ID,
+      </if>
+      <if test="activityCode != null" >
+        ACTIVITY_CODE,
+      </if>
+      <if test="orderCode != null" >
+        ORDER_CODE,
+      </if>
+      <if test="xtOrderCode != null" >
+        XT_ORDER_CODE,
+      </if>
+      <if test="memberNo != null" >
+        MEMBER_NO,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="num != null" >
+        NUM,
+      </if>
+      <if test="price != null" >
+        PRICE,
+      </if>
+      <if test="total != null" >
+        TOTAL,
+      </if>
+      <if test="userName != null" >
+        USER_NAME,
+      </if>
+      <if test="mobileNum != null" >
+        MOBILE_NUM,
+      </if>
+      <if test="operator != null" >
+        OPERATOR,
+      </if>
+      <if test="operatorTime != null" >
+        OPERATOR_TIME,
+      </if>
+      <if test="logisticsNumber != null" >
+        LOGISTICS_NUMBER,
+      </if>
+       <if test="sendMessageStatus != null" >
+        SEND_MESSAGE_STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="productId != null" >
+        #{productId,jdbcType=BIGINT},
+      </if>
+      <if test="lcProductId != null" >
+        #{lcProductId,jdbcType=BIGINT},
+      </if>
+      <if test="activityCode != null" >
+        #{activityCode,jdbcType=VARCHAR},
+      </if>
+      <if test="orderCode != null" >
+        #{orderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="xtOrderCode != null" >
+        #{xtOrderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="memberNo != null" >
+        #{memberNo,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="num != null" >
+        #{num,jdbcType=INTEGER},
+      </if>
+      <if test="price != null" >
+        #{PRICE,jdbcType=DECIMAL},
+      </if>
+      <if test="total != null" >
+        #{total,jdbcType=DECIMAL},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileNum != null" >
+        #{mobileNum,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null" >
+        #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorTime != null" >
+        #{operatorTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="logisticsNumber != null" >
+        #{logisticsNumber,jdbcType=VARCHAR},
+      </if>
+       <if test="sendMessageStatus != null" >
+        #{sendMessageStatus,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  
+  <update id="update" parameterType="com.yeepay.g3.core.activity.entity.ActivityInvForProOrder" >
+    update TBL_ACTIVITY_INVFORPRO_ORDER
+    <set >
+      <if test="productId != null" >
+        PRODUCT_ID = #{productId,jdbcType=BIGINT},
+      </if>
+      <if test="lcProductId != null" >
+        LC_PRODUCT_ID = #{lcProductId,jdbcType=BIGINT},
+      </if>
+      <if test="activityCode != null" >
+        ACTIVITY_CODE = #{activityCode,jdbcType=VARCHAR},
+      </if>
+      <if test="orderCode != null" >
+        ORDER_CODE = #{orderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="xtOrderCode != null" >
+        XT_ORDER_CODE = #{xtOrderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="memberNo != null" >
+        MEMBER_NO = #{memberNo,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="num != null" >
+        NUM = #{num,jdbcType=INTEGER},
+      </if>
+      <if test="price != null" >
+        PRICE = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="total != null" >
+        TOTAL = #{total,jdbcType=DECIMAL},
+      </if>
+      <if test="userName != null" >
+        USER_NAME = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileNum != null" >
+        MOBILE_NUM = #{mobileNum,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null" >
+        OPERATOR = #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorTime != null" >
+        OPERATOR_TIME = #{operatorTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="version != null" >
+        VERSION = VERSION + 1,
+      </if>
+      <if test="logisticsNumber != null" >
+        LOGISTICS_NUMBER = #{logisticsNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="sendMessageStatus != null" >
+        SEND_MESSAGE_STATUS = #{sendMessageStatus,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=BIGINT} AND VERSION = #{version,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yeepay.g3.core.activity.entity.ActivityInvForProOrder" >
+    update TBL_ACTIVITY_INVFORPRO_ORDER
+    set PRODUCT_ID = #{productId,jdbcType=BIGINT},
+      LC_PRODUCT_ID = #{lcProductId,jdbcType=BIGINT},
+      ACTIVITY_CODE = #{activityCode,jdbcType=VARCHAR},
+      ORDER_CODE = #{orderCode,jdbcType=VARCHAR},
+      XT_ORDER_CODE = #{xtOrderCode,jdbcType=VARCHAR},
+      MEMBER_NO = #{memberNo,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      NUM = #{num,jdbcType=INTEGER},
+      PRICE = #{price,jdbcType=DECIMAL},
+      TOTAL = #{total,jdbcType=DECIMAL},
+      USER_NAME = #{userName,jdbcType=VARCHAR},
+      MOBILE_NUM = #{mobileNum,jdbcType=VARCHAR},
+      OPERATOR = #{operator,jdbcType=VARCHAR},
+      OPERATOR_TIME = #{operatorTime,jdbcType=TIMESTAMP},
+      VERSION = #{version,jdbcType=BIGINT},
+      LOGISTICS_NUMBER = #{logisticsNumber,jdbcType=VARCHAR},
+      SEND_MESSAGE_STATUS = #{sendMessageStatus,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  
+  
+	<!-- 查询超时订单 -->  
+	<select id="queryOrderStatusByTiming" parameterType="com.yeepay.g3.core.activity.entity.ActivityInvForProOrder" resultMap="BaseResultMap">
+	select * 
+	 from TBL_ACTIVITY_INVFORPRO_ORDER
+	 where  CREATE_TIME <![CDATA[<]]>  #{createTime,jdbcType=TIMESTAMP} AND STATUS='NO_PAID'
+	</select>
+    <!-- 取消超时订单 -->
+  <update id="updateOrderStatusByTiming"  parameterType="com.yeepay.g3.core.activity.entity.ActivityInvForProOrder">
+   update TBL_ACTIVITY_INVFORPRO_ORDER
+   set STATUS = #{status,jdbcType=VARCHAR},
+   	OPERATOR = #{operator,jdbcType=VARCHAR},
+      OPERATOR_TIME = #{operatorTime,jdbcType=TIMESTAMP}
+      where CREATE_TIME <![CDATA[<]]>  #{createTime,jdbcType=TIMESTAMP} AND STATUS='NO_PAID'
+  </update>
+  <!-- 查询需发送消息列表 -->
+  <select id="queryMessageNoPaidOrderList" parameterType="com.yeepay.g3.core.activity.entity.ActivityInvForProOrder" resultType="java.util.Map">
+  select T1.*,T2.NAME
+	 from TBL_ACTIVITY_INVFORPRO_ORDER T1,TBL_ACTIVITY_INVFORPRO_INFO T2
+	 where T1.CREATE_TIME <![CDATA[<]]>  #{createTime,jdbcType=TIMESTAMP} AND T1.STATUS='NO_PAID' AND T1.SEND_MESSAGE_STATUS='NO_SEND_MESSAGE'
+	 AND T2.ID=T1.PRODUCT_ID
+  </select>
+  <!-- 查询订单，产品列表 -->
+  <select id="queryOrderAndProInfoListByMemberNoAndStatus"  parameterType="com.yeepay.g3.core.activity.entity.ActivityInvForProOrder" resultType="java.util.Map">
+  select T1.*,T2.NAME,T2.ID AS INFOID
+	 from TBL_ACTIVITY_INVFORPRO_ORDER T1,TBL_ACTIVITY_INVFORPRO_INFO T2 
+	 where  T2.ID=T1.PRODUCT_ID  AND  T1.MEMBER_NO = #{memberNo,jdbcType=VARCHAR}
+      <if test="status != null" >
+       AND T1.STATUS = #{status,jdbcType=VARCHAR}
+      </if>
+      order by id desc
+  </select>
+  <!-- 根据订单编码查询订单 -->
+  <select id="queryOrderByOrderCode" parameterType="java.lang.String" resultMap="BaseResultMap" >
+  select * 
+	 from TBL_ACTIVITY_INVFORPRO_ORDER
+	 where ORDER_CODE=#{orderCode,jdbcType=VARCHAR}
+  </select>
+  <!-- 查询活动期间订单列表 -->
+  <select id="selectByFlowParams" resultMap="BaseResultMap" parameterType="map" >
+    SELECT DISTINCT A.* FROM TBL_ACTIVITY_INVFORPRO_ORDER A
+    	LEFT JOIN TBL_INVFORPRO_ORDER_FLOW_DETAIL B ON A.ID = B.ORDER_ID
+    where 1=1 
+      AND (A.STATUS = 'PAIDED' OR A.STATUS = 'SUCCESS')
+      <if test="num != null">
+      	AND A.NUM = #{num,jdbcType=INTEGER}
+      </if>
+      <if test="updateTimeStart != null" >
+        AND B.UPDATE_TIME <![CDATA[ >= ]]> #{updateTimeStart,jdbcType=TIMESTAMP}
+      </if>
+      <if test="updateTimeEnd != null" >
+        AND B.UPDATE_TIME <![CDATA[ <= ]]> #{updateTimeEnd,jdbcType=TIMESTAMP}
+      </if>
+  </select>
+  <select id="queryNoEffectOrderList" resultMap="BaseResultMap" parameterType="map" >
+   SELECT * FROM TBL_ACTIVITY_INVFORPRO_ORDER
+    where 1=1 and total <![CDATA[ <> ]]> num*price
+      <if test="status != null" >
+        AND STATUS = #{status,jdbcType=VARCHAR}
+      </if>
+      <if test="createTimeStart != null" >
+        AND CREATE_TIME <![CDATA[ >= ]]> #{createTimeStart,jdbcType=TIMESTAMP}
+      </if>
+      <if test="createTimeEnd != null" >
+        AND CREATE_TIME <![CDATA[ <= ]]> #{createTimeEnd,jdbcType=TIMESTAMP}
+      </if>
+  </select>
+</mapper>

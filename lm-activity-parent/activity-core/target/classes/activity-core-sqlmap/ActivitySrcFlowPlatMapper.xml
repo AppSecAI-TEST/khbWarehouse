@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ActivitySrcFlowPlat">
+	<resultMap id="BaseResultMap"
+		type="com.yeepay.g3.core.activity.entity.ActivitySrcFlowPlat">
+		<id column="ID" property="id" jdbcType="BIGINT" />
+		<result column="VERSION" property="version" jdbcType="BIGINT" />
+		<result column="SRC_NO" property="srcNo" jdbcType="VARCHAR" />
+		<result column="MOBILE_SECTION" property="mobileSection"
+			jdbcType="VARCHAR" />
+		<result column="FLUX_PLAT_CODE" property="fluxPlatCode"
+			jdbcType="VARCHAR" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="OPERATOR" property="operator" jdbcType="VARCHAR" />
+		<result column="LAST_UPDATE_TIME" property="lastUpdateTime"
+			jdbcType="TIMESTAMP" />
+	</resultMap>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		*
+		from TBL_ACTIVITY_SRC_FLOW_PLAT
+		where ID =
+		#{id,jdbcType=BIGINT}
+	</select>
+	<select id="selectBySrcNo" resultMap="BaseResultMap" parameterType="map">
+	select
+		*
+		from TBL_ACTIVITY_SRC_FLOW_PLAT
+		where SRC_NO = #{srcNo,jdbcType=VARCHAR} AND MOBILE_SECTION LIKE '%${mobileSection}%'
+	</select>
+	<select id="selectByParams" resultMap="BaseResultMap"
+		parameterType="map">
+		select
+		*
+		from TBL_ACTIVITY_SRC_FLOW_PLAT
+		where 1=1
+		<if test="id != null">
+			AND ID = #{id,jdbcType=BIGINT}
+		</if>
+		<if test="version != null">
+			AND VERSION = #{version,jdbcType=BIGINT}
+		</if>
+		<if test="srcNo != null">
+			AND SRC_NO = #{srcNo,jdbcType=VARCHAR}
+		</if>
+		<if test="mobileSection != null">
+			AND MOBILE_SECTION = #{mobileSection,jdbcType=VARCHAR}
+		</if>
+		<if test="fluxPlatCode !=null">
+			AND FLUX_PLAT_CODE = #{fluxPlatCode,jdbcType=VARCHAR}
+		</if>
+		<if test="createTime !=null">
+			AND CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="operator != null">
+			AND OPERATOR = #{operator,jdbcType=VARCHAR}
+		</if>
+		<if test="lastUpdateTime != null">
+			AND LAST_UPDATE_TIME = #{lastUpdateTime,jdbcType=TIMESTAMP}
+		</if>
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from
+		TBL_ACTIVITY_SRC_FLOW_PLAT
+		where ID = #{id,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert"
+		parameterType="com.yeepay.g3.core.activity.entity.ActivitySrcFlowPlat">
+		insert into TBL_ACTIVITY_SRC_FLOW_PLAT (SRC_NO,
+		MOBILE_SECTION, FLUX_PLAT_CODE,CREATE_TIME,OPERATOR,LAST_UPDATE_TIME)
+		values (#{srcNo,jdbcType=VARCHAR},
+		#{mobileSection,jdbcType=VARCHAR}, #{fluxPlatCode,jdbcType=VARCHAR},
+		current timestamp,#{operator,jdbcType=VARCHAR},#{lastUpdateTime,jdbcType=TIMESTAMP})
+	</insert>
+	<update id="update"
+		parameterType="com.yeepay.g3.core.activity.entity.ActivitySrcFlowPlat">
+		update TBL_ACTIVITY_SRC_FLOW_PLAT
+		<set>
+			<if test="version != null">
+	            VERSION = VERSION + 1,
+			</if>
+			<if test="srcNo != null">
+				SRC_NO = #{srcNo,jdbcType=VARCHAR},
+			</if>
+			<if test="mobileSection != null">
+				MOBILE_SECTION = #{mobileSection,jdbcType=VARCHAR},
+			</if>
+			<if test="fluxPlatCode != null">
+				FLUX_PLAT_CODE = #{fluxPlatCode,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="operator != null">
+				OPERATOR = #{operator,jdbcType=VARCHAR},
+			</if>
+			<if test="lastUpdateTime != null">
+				LAST_UPDATE_TIME = #{lastUpdateTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+    where ID = #{id,jdbcType=BIGINT} 
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.yeepay.g3.core.activity.entity.ActivitySrcFlowPlat">
+		update TBL_ACTIVITY_SRC_FLOW_PLAT
+		set VERSION =
+		#{version,jdbcType=BIGINT},
+		SRC_NO = #{srcNo,jdbcType=VARCHAR},
+		MOBILE_SECTION = #{mobileSection,jdbcType=VARCHAR},
+		FLUX_PLAT_CODE =
+		#{fluxPlatCode,jdbcType=VARCHAR},
+		CREATE_TIME =
+		#{createTime,jdbcType=TIMESTAMP},
+		OPERATOR =
+		#{operator,jdbcType=VARCHAR},
+		LAST_UPDATE_TIME =
+		#{lastUpdateTime,jdbcType=TIMESTAMP}
+		where ID = #{id,jdbcType=BIGINT}
+	</update>
+</mapper>

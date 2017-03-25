@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Branches-Name: 
+svn-revision: 
+Build-Jdk: 1.7.0_79
+Built-By: Admin
+YP3G-Version: 
+Created-By: Maven Integration for Eclipse
+

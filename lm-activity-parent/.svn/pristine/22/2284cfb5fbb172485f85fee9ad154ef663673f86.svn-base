@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ActivityPrize">
+  <resultMap id="BaseResultMap" type="com.yeepay.g3.core.activity.entity.ActivityPrize">
+    <id column="ID" jdbcType="BIGINT" property="id" />
+    <result column="VERSION" jdbcType="BIGINT" property="version" />
+    <result column="PRIZE_CODE" jdbcType="VARCHAR" property="prizeCode" />
+    <result column="PRIZE_NAME" jdbcType="VARCHAR" property="prizeName" />
+    <result column="PRIZE_TYPE" jdbcType="VARCHAR" property="prizeType" />
+    <result column="GRANT_WAY" jdbcType="VARCHAR" property="grantWay" />
+    <result column="PRIZE_STATUS" jdbcType="VARCHAR" property="prizeStatus" />
+    <result column="PRIZE_REMARK" jdbcType="VARCHAR" property="prizeRemark" />
+    <result column="RELA_GOODS_ID" jdbcType="BIGINT" property="relaGoodsId" />
+    <result column="ACTION_ID" jdbcType="BIGINT" property="actionId" />
+    <result column="PRIZE_TOTAL_COUNT" jdbcType="BIGINT" property="prizeTotalCount" />
+    <result column="PRIZE_GRANT_COUNT" jdbcType="BIGINT" property="prizeGrantCount" />
+    <result column="PRIZE_ODDS" jdbcType="DECIMAL" property="prizeOdds" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="CREATOR" jdbcType="VARCHAR" property="creator" />
+    <result column="CHECKED_TIME" jdbcType="TIMESTAMP" property="checkedTime" />
+    <result column="CHECKOR" jdbcType="VARCHAR" property="checkor" />
+     <result column="PRIZE_LEVEL" jdbcType="INTEGER" property="prizeLevel" />
+  </resultMap>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select * 
+    from TBL_ACTIVITY_PRIZE
+    where ID = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from TBL_ACTIVITY_PRIZE
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.yeepay.g3.core.activity.entity.ActivityPrize"  useGeneratedKeys="true" keyProperty="id">
+    insert into TBL_ACTIVITY_PRIZE (PRIZE_CODE, 
+      PRIZE_NAME, PRIZE_TYPE, GRANT_WAY, PRIZE_STATUS,
+      PRIZE_REMARK, RELA_GOODS_ID, ACTION_ID, 
+      PRIZE_TOTAL_COUNT, PRIZE_GRANT_COUNT, PRIZE_ODDS, 
+      CREATE_TIME, CREATOR, CHECKED_TIME, 
+      CHECKOR,PRIZE_LEVEL)
+    values (#{prizeCode,jdbcType=VARCHAR}, 
+      #{prizeName,jdbcType=VARCHAR}, #{prizeType,jdbcType=VARCHAR}, #{grantWay,jdbcType=VARCHAR}, #{prizeStatus,jdbcType=VARCHAR},
+      #{prizeRemark,jdbcType=VARCHAR}, #{relaGoodsId,jdbcType=BIGINT}, #{actionId,jdbcType=BIGINT}, 
+      #{prizeTotalCount,jdbcType=BIGINT}, #{prizeGrantCount,jdbcType=BIGINT}, #{prizeOdds,jdbcType=DECIMAL}, 
+      current timestamp, #{creator,jdbcType=VARCHAR}, #{checkedTime,jdbcType=TIMESTAMP}, 
+      #{checkor,jdbcType=VARCHAR}, #{prizeLevel,jdbcType=INTEGER})
+  </insert>
+  <update id="update" parameterType="com.yeepay.g3.core.activity.entity.ActivityPrize">
+    update TBL_ACTIVITY_PRIZE
+    <set>
+      <if test="version != null">
+        VERSION = VERSION + 1,
+      </if>
+      <if test="prizeCode != null">
+        PRIZE_CODE = #{prizeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="prizeName != null">
+        PRIZE_NAME = #{prizeName,jdbcType=VARCHAR},
+      </if>
+      <if test="prizeType != null">
+        PRIZE_TYPE = #{prizeType,jdbcType=VARCHAR},
+      </if>
+      <if test="grantWay != null">
+        GRANT_WAY = #{grantWay,jdbcType=VARCHAR},
+      </if>
+      <if test="prizeStatus != null">
+        PRIZE_STATUS = #{prizeStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="prizeRemark != null">
+        PRIZE_REMARK = #{prizeRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="relaGoodsId != null">
+        RELA_GOODS_ID = #{relaGoodsId,jdbcType=BIGINT},
+      </if>
+      <if test="actionId != null">
+        ACTION_ID = #{actionId,jdbcType=BIGINT},
+      </if>
+      <if test="prizeTotalCount != null">
+        PRIZE_TOTAL_COUNT = #{prizeTotalCount,jdbcType=BIGINT},
+      </if>
+      <if test="prizeGrantCount != null">
+        PRIZE_GRANT_COUNT = #{prizeGrantCount,jdbcType=BIGINT},
+      </if>
+      <if test="prizeOdds != null">
+        PRIZE_ODDS = #{prizeOdds,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        CREATOR = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="checkedTime != null">
+        CHECKED_TIME = #{checkedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkor != null">
+        CHECKOR = #{checkor,jdbcType=VARCHAR},
+      </if>
+       <if test="prizeLevel != null">
+        PRIZE_LEVEL = #{prizeLevel,jdbcType=INTEGER},
+      </if>
+    </set>
+    where 1=1 AND VERSION = #{version,jdbcType=BIGINT}
+    <if test="id !=null">
+    AND  ID = #{id,jdbcType=BIGINT} 
+    </if>
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yeepay.g3.core.activity.entity.ActivityPrize">
+    update TBL_ACTIVITY_PRIZE
+    set VERSION = #{version,jdbcType=BIGINT},
+      PRIZE_CODE = #{prizeCode,jdbcType=VARCHAR},
+      PRIZE_NAME = #{prizeName,jdbcType=VARCHAR},
+      PRIZE_TYPE = #{prizeType,jdbcType=VARCHAR},
+      GRANT_WAY = #{grantWay,jdbcType=VARCHAR},
+      PRIZE_REMARK = #{prizeRemark,jdbcType=VARCHAR},
+      RELA_GOODS_ID = #{relaGoodsId,jdbcType=BIGINT},
+      ACTION_ID = #{actionId,jdbcType=BIGINT},
+      PRIZE_TOTAL_COUNT = #{prizeTotalCount,jdbcType=BIGINT},
+      PRIZE_GRANT_COUNT = #{prizeGrantCount,jdbcType=BIGINT},
+      PRIZE_ODDS = #{prizeOdds,jdbcType=DECIMAL},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      CREATOR = #{creator,jdbcType=VARCHAR},
+      CHECKED_TIME = #{checkedTime,jdbcType=TIMESTAMP},
+      CHECKOR = #{checkor,jdbcType=VARCHAR},
+       PRIZE_LEVEL = #{prizeLevel,jdbcType=INTEGER}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  <!-- 自定义 -->
+   <select id="selectLeaveAll"  resultMap="BaseResultMap">
+    select * 
+    from TBL_ACTIVITY_PRIZE
+    where   (ACTION_ID is null or ACTION_ID = 0) and PRIZE_STATUS='EFFECTIVE' order by id DESC
+  </select>
+  <select id="selectByActionId"  resultMap="BaseResultMap" parameterType="java.lang.Long">
+  select * 
+  from TBL_ACTIVITY_PRIZE
+  where ACTION_ID=#{id,jdbcType=BIGINT} order by PRIZE_ODDS asc</select>
+  <select id="selectByActionCode"  resultMap="BaseResultMap" parameterType="java.lang.Long">
+  select t1.* 
+  from TBL_ACTIVITY_PRIZE t1,TBL_ACTIVITY_ACTION t2
+  where 
+  t1.ACTION_ID=t2.ID AND t1.PRIZE_STATUS='EFFECTIVE' AND t2.ACTION_CODE= #{actionCode,jdbcType=VARCHAR} order by t1.PRIZE_ODDS asc
+</select>
+</mapper>

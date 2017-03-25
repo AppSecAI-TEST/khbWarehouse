@@ -1,0 +1,43 @@
+/**
+ * @author cdt
+ * @date 2016-5-16
+ * @time 下午4:26:30
+ */
+package com.yeepay.g3.core.activity.service.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.yeepay.g3.core.activity.dao.ActivityPrizeDao;
+import com.yeepay.g3.core.activity.dao.ActivityUserPrizeDao;
+import com.yeepay.g3.core.activity.entity.ActivityPrize;
+import com.yeepay.g3.core.activity.entity.ActivityUserPrize;
+import com.yeepay.g3.core.activity.service.ActivityPrizeService;
+import com.yeepay.g3.core.activity.service.ActivityUserPrizeService;
+
+/**
+ * @author hongbin.kang
+ *
+ */
+@Service
+public class ActivityUserPrizeServiceImpl implements ActivityUserPrizeService {
+
+	@Autowired
+	private ActivityUserPrizeDao activityUserPrizeDaoImpl;
+	
+	@Override
+	public ActivityUserPrize selectUserPrizeById(Long id) {
+		ActivityUserPrize activityUserPrize = new ActivityUserPrize();
+		activityUserPrize = (ActivityUserPrize) activityUserPrizeDaoImpl.queryOne("selectByPrimaryKey", id);
+		return activityUserPrize;
+	}
+	@Override
+	public void updateActivityUserPrizeById(ActivityUserPrize activityUserPrize) {
+		activityUserPrizeDaoImpl.update(activityUserPrize);
+		
+	}
+	
+
+}

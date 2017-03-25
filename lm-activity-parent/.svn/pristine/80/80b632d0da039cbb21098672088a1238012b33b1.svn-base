@@ -1,0 +1,161 @@
+package com.yeepay.g3.core.activity.service.impl;
+
+import java.util.List;
+/**
+ * @Description 用户优惠券业务逻辑处理实现类
+ * @author ying.liu
+ * @CreateTime 2016-4-1
+ * @version 1.0
+ */
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.yeepay.g3.core.activity.dao.ActivityCouponDao;
+import com.yeepay.g3.core.activity.dao.ActivityUsercouponDao;
+import com.yeepay.g3.core.activity.dao.ActivityUsercouponRecordDao;
+import com.yeepay.g3.core.activity.entity.ActivityCoupon;
+import com.yeepay.g3.core.activity.entity.ActivityUsercoupon;
+import com.yeepay.g3.core.activity.entity.ActivityUsercouponRecord;
+import com.yeepay.g3.core.activity.service.ActivityUsercouponService;
+import com.yeepay.g3.facade.activity.enums.BizTypeEnum;
+import com.yeepay.g3.facade.activity.enums.CouponUseStatusEnum;
+/**
+ * 
+ * @Description 用户优惠券信息业务逻辑处理实现类
+ * @author zhenping.zhou
+ * @CreateTime 2016年4月4日 上午11:42:38
+ * @version 1.0
+ */
+@Service
+public class ActivityUsercouponServiceImpl implements ActivityUsercouponService {
+	
+	@Autowired
+	private ActivityCouponDao activityCouponDaoImpl;
+	
+	@Autowired
+	private ActivityUsercouponDao activityUsercouponDaoImpl;
+	
+	@Autowired
+	private ActivityUsercouponRecordDao activityUsercouponRecordDaoImpl;
+
+	@Override
+	public List<ActivityUsercoupon> selectTradeUsercouponList(Map<String, Object> params) {
+		
+		List<ActivityUsercoupon> list = activityUsercouponDaoImpl.selectByUserParam(params);
+		
+		return list;
+	}
+
+	@Override
+	public ActivityUsercoupon selectUsercouponById(Long id) {
+		return activityUsercouponDaoImpl.selectByPrimaryKey(id);
+	}
+
+	@Override
+	public void updateUserCouponByFrozen(ActivityUsercoupon usercoupon, String memberNo,
+			Long tradeId, BizTypeEnum bizType) {
+		//1 用户优惠券数量减1、使用数量加1
+		ActivityUsercoupon usercouponUpdate = new ActivityUsercoupon();
+		usercouponUpdate.setId(usercoupon.getId());
+		usercouponUpdate.setVersion(usercoupon.getVersion());
+		usercouponUpdate.setCouponCount(usercoupon.getCouponCount());
+		usercouponUpdate.setCouponUsedCount(usercoupon.getCouponUsedCount() + 1); 
+		
+		activityUsercouponDaoImpl.update(usercouponUpdate);
+		
+		//2 用户优惠券使用记录表新增一条冻结状态的操作记录
+		ActivityUsercouponRecord usercouponRecord = new ActivityUsercouponRecord();
+		usercouponRecord.setMemberNo(memberNo);
+		usercouponRecord.setCoupon(usercoupon.getCoupon());
+		usercouponRecord.setTradeId(tradeId);
+		usercouponRecord.setUsercoupon(usercoupon);
+		usercouponRecord.setUseStatus(CouponUseStatusEnum.FROZEN);// 冻结
+		usercouponRecord.setBizType(bizType); //业务类型
+		
+		activityUsercouponRecordDaoImpl.add(usercouponRecord);
+		
+	}
+
+	@Override
+	public void updateUserCouponByUnFrozen(
+			ActivityUsercoupon usercoupon, ActivityUsercouponRecord usercouponRecord) {
+		
+		//1 用户优惠券数量加1、使用数量减1
+		ActivityUsercoupon usercouponUpdate = new ActivityUsercoupon();
+		usercouponUpdate.setId(usercoupon.getId());
+		usercouponUpdate.setVersion(usercoupon.getVersion());
+		usercouponUpdate.setCouponCount(usercoupon.getCouponCount());
+		usercouponUpdate.setCouponUsedCount(usercoupon.getCouponUsedCount() - 1); 
+		
+		activityUsercouponDaoImpl.update(usercouponUpdate);
+		
+		//2 用户优惠券使用记录修改状态为已解冻
+		ActivityUsercouponRecord unfrozenUsercouponRecord = new ActivityUsercouponRecord();
+		unfrozenUsercouponRecord.setId(usercouponRecord.getId());
+		unfrozenUsercouponRecord.setVersion(usercouponRecord.getVersion());
+		unfrozenUsercouponRecord.setUseStatus(CouponUseStatusEnum.UNFROZEN);
+		
+		activityUsercouponRecordDaoImpl.update(unfrozenUsercouponRecord);
+		
+	}
+
+	@Override
+	public void updateUserCouponByConsume(
+			ActivityUsercouponRecord usercouponRecord) {
+		//1 用户优惠券使用记录修改状态为已消费
+		ActivityUsercouponRecord consumeUsercouponRecord = new ActivityUsercouponRecord();
+		consumeUsercouponRecord.setId(usercouponRecord.getId());
+		consumeUsercouponRecord.setVersion(usercouponRecord.getVersion());
+		consumeUsercouponRecord.setUseStatus(CouponUseStatusEnum.CONSUME);
+		
+		activityUsercouponRecordDaoImpl.update(consumeUsercouponRecord);
+	}
+
+	@Override
+	public List<ActivityUsercoupon> selectUserUnuseOrExpireCouponList(
+			Map<String, Object> params) {
+		
+		return activityUsercouponDaoImpl.query("selectUserUnuseOrExpireCouponList", params);
+	}
+
+	@Override
+	public void insertByUsercouponList(List<ActivityUsercoupon> usercouponList) {
+		if(usercouponList != null && usercouponList.size() > 0) {
+			for(ActivityUsercoupon usercoupon : usercouponList) {
+				
+				//更新优惠券发放数量
+				ActivityCoupon couponForUpdate = new ActivityCoupon();
+				couponForUpdate.setId(usercoupon.getCoupon().getId());
+				couponForUpdate.setVersion(usercoupon.getCoupon().getVersion());
+				couponForUpdate.setGrantCount(usercoupon.getCoupon().getGrantCount() == null ? 
+						1 : (usercoupon.getCoupon().getGrantCount() + 1));
+				activityCouponDaoImpl.update(couponForUpdate);
+				
+				activityUsercouponDaoImpl.add(usercoupon);
+			}
+		}
+	}
+
+	@Override
+	public void addUsercoupon(ActivityUsercoupon usercoupon) {
+		activityUsercouponDaoImpl.add(usercoupon);
+	}
+
+	@Override
+	public void updateCouponStatusByBatchId(Map<String, Object> params) {
+		activityUsercouponDaoImpl.update("updateByBatchId", params);
+	}
+
+	/* (non-Javadoc)
+	 * @see com.yeepay.g3.core.activity.service.ActivityUsercouponService#queryTradeUserCouponList(java.util.Map)
+	 */
+	@Override
+	public List<ActivityUsercoupon> queryTradeUserCouponList(
+			Map<String, Object> params) {
+		List<ActivityUsercoupon> result = activityUsercouponDaoImpl.query("queryTradeUserCouponList", params);
+		return result;
+	}
+
+}

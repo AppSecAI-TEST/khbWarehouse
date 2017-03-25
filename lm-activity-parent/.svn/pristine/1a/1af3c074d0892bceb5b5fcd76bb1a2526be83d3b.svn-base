@@ -1,0 +1,44 @@
+package com.yeepay.g3.core.activity.service.impl;
+
+import com.lanmao.consultant.facade.dto.TblLmUser;
+import com.lanmao.consultant.facade.enumtype.Enums.UserType;
+import com.lanmao.consultant.facade.service.UserFacade;
+import com.yeepay.g3.utils.rmi.RemoteServiceFactory;
+
+/**
+ * 
+ * @Description 线下理财顾问平台服务类
+ * @author zhenping.zhou
+ * @CreateTime 2016年5月31日 下午6:01:45
+ * @version 1.0
+ */
+public class LmUserServiceUtil {
+
+	/**
+	 * 查询当前用户是否为普通用户
+	 * @param memberNo
+	 * @return
+	 */
+	public static boolean isCommonUser(String memberNo) {
+		boolean commonUser = false;
+		
+		//查询用户身份（线下理财顾问使用）
+		UserFacade userFacade = RemoteServiceFactory.getService(UserFacade.class);
+		TblLmUser userBasic = userFacade.getUserBasic(memberNo);
+		//-1 userBasic null 成为推荐人
+		//0 - 未知 - 成为推荐人
+		//1 - 普通用户 - 成为推荐人
+		//2 - 推荐人 - 我的推荐
+		//3 - 顾问 - 我的客户
+		//4 - 销售 - 我的顾问
+		if(userBasic != null) {
+			Short userType = userBasic.getUserType();
+			if(UserType.NONE.getValue() == userType || UserType.USER.getValue() == userType) {
+				commonUser = true;
+			}
+		} else {
+			commonUser = true;
+		}
+		return commonUser;
+	}
+}

@@ -1,0 +1,199 @@
+package com.yeepay.g3.facade.activity.dto;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Date;
+
+import com.yeepay.g3.facade.activity.enums.PrizeGrantStatusEnum;
+import com.yeepay.g3.facade.activity.enums.PrizeGrantWayEnum;
+
+public class ActivityUserPrizeDTO implements Serializable {
+
+	private static final long serialVersionUID = 925592398336945518L;
+
+	private Long id;
+
+    private Long version;
+
+    /**用户抽奖券使用记录ID **/
+    private Long raffleTicketRecordId;
+    /**抽奖券ID **/
+    private Long raffleTicketId;
+    /**奖品ID **/
+    private Long prizeId;
+    /**	奖品名称 **/
+    private String prizeName;
+    /**会员编号 **/
+    private String memberNo;
+    /**会员手机号 **/
+    private String memberTel;
+    /**	发放状态 **/
+    private PrizeGrantStatusEnum grantStatus;
+    /**发放类型 **/
+    private PrizeGrantWayEnum grantType;
+    /**物流快递号 **/
+    private String trackingNumber;
+    /**备注说明 **/
+    private String memo;
+    /**创建时间 **/
+    private Date createTime;
+    /**操作时间 **/
+    private Date checkedTime;
+    /**操作人 **/
+    private String checkor;
+    /**奖品等级 **/
+    private Integer prizeLevel;
+    /**抽奖随机数 **/
+    private BigDecimal randomNum;
+
+    public Integer getPrizeLevel() {
+		return prizeLevel;
+	}
+
+	public void setPrizeLevel(Integer prizeLevel) {
+		this.prizeLevel = prizeLevel;
+	}
+
+	public BigDecimal getRandomNum() {
+		return randomNum;
+	}
+
+	public void setRandomNum(BigDecimal randomNum) {
+		this.randomNum = randomNum;
+	}
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
+    }
+
+    public Long getRaffleTicketRecordId() {
+        return raffleTicketRecordId;
+    }
+
+    public void setRaffleTicketRecordId(Long raffleTicketRecordId) {
+        this.raffleTicketRecordId = raffleTicketRecordId;
+    }
+
+    public Long getRaffleTicketId() {
+        return raffleTicketId;
+    }
+
+    public void setRaffleTicketId(Long raffleTicketId) {
+        this.raffleTicketId = raffleTicketId;
+    }
+
+    public Long getPrizeId() {
+        return prizeId;
+    }
+
+    public void setPrizeId(Long prizeId) {
+        this.prizeId = prizeId;
+    }
+
+    public String getPrizeName() {
+        return prizeName;
+    }
+
+    public void setPrizeName(String prizeName) {
+        this.prizeName = prizeName == null ? null : prizeName.trim();
+    }
+
+    public String getMemberNo() {
+        return memberNo;
+    }
+
+    public void setMemberNo(String memberNo) {
+        this.memberNo = memberNo == null ? null : memberNo.trim();
+    }
+
+    public String getMemberTel() {
+        return memberTel;
+    }
+
+    public void setMemberTel(String memberTel) {
+        this.memberTel = memberTel == null ? null : memberTel.trim();
+    }
+
+    public PrizeGrantStatusEnum getGrantStatus() {
+        return grantStatus;
+    }
+
+    public void setGrantStatus(PrizeGrantStatusEnum grantStatus) {
+        this.grantStatus = grantStatus;
+    }
+
+    public PrizeGrantWayEnum getGrantType() {
+        return grantType;
+    }
+
+    public void setGrantType(PrizeGrantWayEnum grantType) {
+        this.grantType = grantType;
+    }
+
+    public String getTrackingNumber() {
+        return trackingNumber;
+    }
+
+    public void setTrackingNumber(String trackingNumber) {
+        this.trackingNumber = trackingNumber == null ? null : trackingNumber.trim();
+    }
+
+    public String getMemo() {
+        return memo;
+    }
+
+    public void setMemo(String memo) {
+        this.memo = memo == null ? null : memo.trim();
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+	public Date getCheckedTime() {
+		return checkedTime;
+	}
+
+	public void setCheckedTime(Date checkedTime) {
+		this.checkedTime = checkedTime;
+	}
+
+	public String getCheckor() {
+		return checkor;
+	}
+
+	public void setCheckor(String checkor) {
+		this.checkor = checkor;
+	}
+
+	@Override
+	public String toString() {
+		return "ActivityUserPrizeDTO [id=" + id + ", version=" + version
+				+ ", raffleTicketRecordId=" + raffleTicketRecordId
+				+ ", raffleTicketId=" + raffleTicketId + ", prizeId=" + prizeId
+				+ ", prizeName=" + prizeName + ", memberNo=" + memberNo
+				+ ", memberTel=" + memberTel + ", grantStatus=" + grantStatus
+				+ ", grantType=" + grantType + ", trackingNumber="
+				+ trackingNumber + ", memo=" + memo + ", createTime="
+				+ createTime + ", checkedTime=" + checkedTime + ", checkor="
+				+ checkor + ", prizeLevel=" + prizeLevel + ", randomNum="
+				+ randomNum + "]";
+	}
+	
+}

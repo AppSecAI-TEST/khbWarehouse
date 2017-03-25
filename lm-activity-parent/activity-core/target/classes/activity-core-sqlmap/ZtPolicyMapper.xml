@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ZtPolicyMapper">
+  <resultMap id="BaseResultMap" type="com.yeepay.g3.core.zt.entity.ZtPolicy">
+    <id column="ID" jdbcType="BIGINT" property="id" />
+    <result column="VERSION" jdbcType="BIGINT" property="version" />
+    <result column="POLICY_NAME" jdbcType="VARCHAR" property="policyName" />
+    <result column="FLUCTUATE" jdbcType="VARCHAR" property="fluctuate" />
+    <result column="POLICY_TYPE" jdbcType="VARCHAR" property="policyType" />
+    <result column="POLICY_DESC" jdbcType="VARCHAR" property="policyDesc" />
+    <result column="COST_DESC" jdbcType="VARCHAR" property="costDesc" />
+    <result column="ATTENTION_DESC" jdbcType="VARCHAR" property="attentionDesc" />
+    <result column="MIN_PURCHASE_AMOUNT" jdbcType="DECIMAL" property="minPurchaseAmount" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="CREATOR" jdbcType="VARCHAR" property="creator" />
+    <result column="CHECK_STATUS" jdbcType="VARCHAR" property="checkStatus" />
+    <result column="CHECK_TIME" jdbcType="TIMESTAMP" property="checkTime" />
+    <result column="CHECKER" jdbcType="VARCHAR" property="checker" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, VERSION, POLICY_NAME, FLUCTUATE, POLICY_TYPE, POLICY_DESC, COST_DESC, ATTENTION_DESC, 
+    MIN_PURCHASE_AMOUNT, CREATE_TIME, CREATOR, CHECK_STATUS, CHECK_TIME, CHECKER
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ACTIVITY.TBL_ZT_POLICY
+    where ID = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from ACTIVITY.TBL_ZT_POLICY
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.yeepay.g3.core.zt.entity.ZtPolicy">
+    insert into ACTIVITY.TBL_ZT_POLICY (ID, VERSION, POLICY_NAME, 
+      FLUCTUATE, POLICY_TYPE, POLICY_DESC, 
+      COST_DESC, ATTENTION_DESC, MIN_PURCHASE_AMOUNT, 
+      CREATE_TIME, CREATOR, CHECK_STATUS, 
+      CHECK_TIME, CHECKER)
+    values (#{id,jdbcType=BIGINT}, #{version,jdbcType=BIGINT}, #{policyName,jdbcType=VARCHAR}, 
+      #{fluctuate,jdbcType=VARCHAR}, #{policyType,jdbcType=VARCHAR}, #{policyDesc,jdbcType=VARCHAR}, 
+      #{costDesc,jdbcType=VARCHAR}, #{attentionDesc,jdbcType=VARCHAR}, #{minPurchaseAmount,jdbcType=DECIMAL}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{creator,jdbcType=VARCHAR}, #{checkStatus,jdbcType=VARCHAR}, 
+      #{checkTime,jdbcType=TIMESTAMP}, #{checker,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yeepay.g3.core.zt.entity.ZtPolicy">
+    insert into ACTIVITY.TBL_ZT_POLICY
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="version != null">
+        VERSION,
+      </if>
+      <if test="policyName != null">
+        POLICY_NAME,
+      </if>
+      <if test="fluctuate != null">
+        FLUCTUATE,
+      </if>
+      <if test="policyType != null">
+        POLICY_TYPE,
+      </if>
+      <if test="policyDesc != null">
+        POLICY_DESC,
+      </if>
+      <if test="costDesc != null">
+        COST_DESC,
+      </if>
+      <if test="attentionDesc != null">
+        ATTENTION_DESC,
+      </if>
+      <if test="minPurchaseAmount != null">
+        MIN_PURCHASE_AMOUNT,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="creator != null">
+        CREATOR,
+      </if>
+      <if test="checkStatus != null">
+        CHECK_STATUS,
+      </if>
+      <if test="checkTime != null">
+        CHECK_TIME,
+      </if>
+      <if test="checker != null">
+        CHECKER,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=BIGINT},
+      </if>
+      <if test="policyName != null">
+        #{policyName,jdbcType=VARCHAR},
+      </if>
+      <if test="fluctuate != null">
+        #{fluctuate,jdbcType=VARCHAR},
+      </if>
+      <if test="policyType != null">
+        #{policyType,jdbcType=VARCHAR},
+      </if>
+      <if test="policyDesc != null">
+        #{policyDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="costDesc != null">
+        #{costDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="attentionDesc != null">
+        #{attentionDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="minPurchaseAmount != null">
+        #{minPurchaseAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="checkStatus != null">
+        #{checkStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="checkTime != null">
+        #{checkTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checker != null">
+        #{checker,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yeepay.g3.core.zt.entity.ZtPolicy">
+    update ACTIVITY.TBL_ZT_POLICY
+    <set>
+      <if test="version != null">
+        VERSION = #{version,jdbcType=BIGINT},
+      </if>
+      <if test="policyName != null">
+        POLICY_NAME = #{policyName,jdbcType=VARCHAR},
+      </if>
+      <if test="fluctuate != null">
+        FLUCTUATE = #{fluctuate,jdbcType=VARCHAR},
+      </if>
+      <if test="policyType != null">
+        POLICY_TYPE = #{policyType,jdbcType=VARCHAR},
+      </if>
+      <if test="policyDesc != null">
+        POLICY_DESC = #{policyDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="costDesc != null">
+        COST_DESC = #{costDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="attentionDesc != null">
+        ATTENTION_DESC = #{attentionDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="minPurchaseAmount != null">
+        MIN_PURCHASE_AMOUNT = #{minPurchaseAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        CREATOR = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="checkStatus != null">
+        CHECK_STATUS = #{checkStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="checkTime != null">
+        CHECK_TIME = #{checkTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checker != null">
+        CHECKER = #{checker,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yeepay.g3.core.zt.entity.ZtPolicy">
+    update ACTIVITY.TBL_ZT_POLICY
+    set VERSION = #{version,jdbcType=BIGINT},
+      POLICY_NAME = #{policyName,jdbcType=VARCHAR},
+      FLUCTUATE = #{fluctuate,jdbcType=VARCHAR},
+      POLICY_TYPE = #{policyType,jdbcType=VARCHAR},
+      POLICY_DESC = #{policyDesc,jdbcType=VARCHAR},
+      COST_DESC = #{costDesc,jdbcType=VARCHAR},
+      ATTENTION_DESC = #{attentionDesc,jdbcType=VARCHAR},
+      MIN_PURCHASE_AMOUNT = #{minPurchaseAmount,jdbcType=DECIMAL},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      CREATOR = #{creator,jdbcType=VARCHAR},
+      CHECK_STATUS = #{checkStatus,jdbcType=VARCHAR},
+      CHECK_TIME = #{checkTime,jdbcType=TIMESTAMP},
+      CHECKER = #{checker,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ActivityUserInfo" >
+  <resultMap id="BaseResultMap" type="com.yeepay.g3.core.activity.entity.ActivityUserInfo" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="VERSION" property="version" jdbcType="BIGINT" />
+    <result column="MEMBER_NO" property="memberNo" jdbcType="VARCHAR" />
+    <result column="OPEN_ID" property="openId" jdbcType="VARCHAR" />
+    <result column="UNION_ID" property="unionId" jdbcType="VARCHAR" />
+    <result column="WX_SUBSCRIBE" property="wxSubscribe" jdbcType="INTEGER" />
+    <result column="WX_SUBSCRIBE_TIME" property="wxSubscribeTime" jdbcType="TIMESTAMP" />
+    <result column="WX_SEX" property="wxSex" jdbcType="INTEGER" />
+    <result column="WX_NICK_NAME" property="wxNickName" jdbcType="VARCHAR" />
+    <result column="WX_HEAD_URL" property="wxHeadUrl" jdbcType="VARCHAR" />
+    <result column="WX_CITY" property="wxCity" jdbcType="VARCHAR" />
+    <result column="WX_COUNTRY" property="wxCountry" jdbcType="VARCHAR" />
+    <result column="WX_PROVINCE" property="wxProvince" jdbcType="VARCHAR" />
+    <result column="WX_LANGUAGE" property="wxLanguage" jdbcType="VARCHAR" />
+    <result column="WX_REMARK" property="wxRemark" jdbcType="VARCHAR" />
+    <result column="WX_GROUP_ID" property="wxGroupId" jdbcType="BIGINT" />
+    <result column="TOTAL_SCORE" property="totalScore" jdbcType="INTEGER" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select * 
+    from TBL_ACTIVITY_USER_INFO
+    where ID = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from TBL_ACTIVITY_USER_INFO
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.yeepay.g3.core.activity.entity.ActivityUserInfo" useGeneratedKeys="true" keyProperty="id">
+    insert into TBL_ACTIVITY_USER_INFO (MEMBER_NO, 
+      OPEN_ID, UNION_ID, WX_SUBSCRIBE, 
+      WX_SUBSCRIBE_TIME, WX_SEX, WX_NICK_NAME, 
+      WX_HEAD_URL, WX_CITY, WX_COUNTRY, 
+      WX_PROVINCE, WX_LANGUAGE, WX_REMARK, 
+      WX_GROUP_ID, TOTAL_SCORE, CREATE_TIME
+      )
+    values (#{memberNo,jdbcType=VARCHAR}, 
+      #{openId,jdbcType=VARCHAR}, #{unionId,jdbcType=VARCHAR}, #{wxSubscribe,jdbcType=INTEGER}, 
+      #{wxSubscribeTime,jdbcType=TIMESTAMP}, #{wxSex,jdbcType=INTEGER}, #{wxNickName,jdbcType=VARCHAR}, 
+      #{wxHeadUrl,jdbcType=VARCHAR}, #{wxCity,jdbcType=VARCHAR}, #{wxCountry,jdbcType=VARCHAR}, 
+      #{wxProvince,jdbcType=VARCHAR}, #{wxLanguage,jdbcType=VARCHAR}, #{wxRemark,jdbcType=VARCHAR}, 
+      #{wxGroupId,jdbcType=BIGINT}, #{totalScore,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <update id="update" parameterType="com.yeepay.g3.core.activity.entity.ActivityUserInfo" >
+    update TBL_ACTIVITY_USER_INFO
+    <set >
+      <if test="version != null" >
+        VERSION = VERSION + 1,
+      </if>
+      <if test="memberNo != null" >
+        MEMBER_NO = #{memberNo,jdbcType=VARCHAR},
+      </if>
+      <if test="openId != null" >
+        OPEN_ID = #{openId,jdbcType=VARCHAR},
+      </if>
+      <if test="unionId != null" >
+        UNION_ID = #{unionId,jdbcType=VARCHAR},
+      </if>
+      <if test="wxSubscribe != null" >
+        WX_SUBSCRIBE = #{wxSubscribe,jdbcType=INTEGER},
+      </if>
+      <if test="wxSubscribeTime != null" >
+        WX_SUBSCRIBE_TIME = #{wxSubscribeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="wxSex != null" >
+        WX_SEX = #{wxSex,jdbcType=INTEGER},
+      </if>
+      <if test="wxNickName != null" >
+        WX_NICK_NAME = #{wxNickName,jdbcType=VARCHAR},
+      </if>
+      <if test="wxHeadUrl != null" >
+        WX_HEAD_URL = #{wxHeadUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="wxCity != null" >
+        WX_CITY = #{wxCity,jdbcType=VARCHAR},
+      </if>
+      <if test="wxCountry != null" >
+        WX_COUNTRY = #{wxCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="wxProvince != null" >
+        WX_PROVINCE = #{wxProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="wxLanguage != null" >
+        WX_LANGUAGE = #{wxLanguage,jdbcType=VARCHAR},
+      </if>
+      <if test="wxRemark != null" >
+        WX_REMARK = #{wxRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="wxGroupId != null" >
+        WX_GROUP_ID = #{wxGroupId,jdbcType=BIGINT},
+      </if>
+      <if test="totalScore != null" >
+        TOTAL_SCORE = #{totalScore,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=BIGINT} AND VERSION = #{version,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yeepay.g3.core.activity.entity.ActivityUserInfo" >
+    update TBL_ACTIVITY_USER_INFO
+    set VERSION = #{version,jdbcType=BIGINT},
+      MEMBER_NO = #{memberNo,jdbcType=VARCHAR},
+      OPEN_ID = #{openId,jdbcType=VARCHAR},
+      UNION_ID = #{unionId,jdbcType=VARCHAR},
+      WX_SUBSCRIBE = #{wxSubscribe,jdbcType=INTEGER},
+      WX_SUBSCRIBE_TIME = #{wxSubscribeTime,jdbcType=TIMESTAMP},
+      WX_SEX = #{wxSex,jdbcType=INTEGER},
+      WX_NICK_NAME = #{wxNickName,jdbcType=VARCHAR},
+      WX_HEAD_URL = #{wxHeadUrl,jdbcType=VARCHAR},
+      WX_CITY = #{wxCity,jdbcType=VARCHAR},
+      WX_COUNTRY = #{wxCountry,jdbcType=VARCHAR},
+      WX_PROVINCE = #{wxProvince,jdbcType=VARCHAR},
+      WX_LANGUAGE = #{wxLanguage,jdbcType=VARCHAR},
+      WX_REMARK = #{wxRemark,jdbcType=VARCHAR},
+      WX_GROUP_ID = #{wxGroupId,jdbcType=BIGINT},
+      TOTAL_SCORE = #{totalScore,jdbcType=INTEGER},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+   
+  <!-- 根据会员编号查询用户的相关信息 -->
+  <select id="selectUserInfoByMemberNo" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select * 
+    from TBL_ACTIVITY_USER_INFO
+    where MEMBER_NO = #{memberNo,jdbcType=VARCHAR}
+  </select>
+</mapper>

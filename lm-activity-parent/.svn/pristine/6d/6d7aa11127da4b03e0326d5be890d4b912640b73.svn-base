@@ -1,0 +1,30 @@
+package com.yeepay.g3.core.zt.dao;
+
+import com.yeepay.g3.core.zt.entity.ZtPolicyFundShare;
+import com.yeepay.g3.core.zt.entity.ZtPolicyFundShareExample;
+import java.util.List;
+import org.apache.ibatis.annotations.Param;
+
+public interface ZtPolicyFundShareMapper {
+    int countByExample(ZtPolicyFundShareExample example);
+
+    int deleteByExample(ZtPolicyFundShareExample example);
+
+    int deleteByPrimaryKey(Long id);
+
+    int insert(ZtPolicyFundShare record);
+
+    int insertSelective(ZtPolicyFundShare record);
+
+    List<ZtPolicyFundShare> selectByExample(ZtPolicyFundShareExample example);
+
+    ZtPolicyFundShare selectByPrimaryKey(Long id);
+
+    int updateByExampleSelective(@Param("record") ZtPolicyFundShare record, @Param("example") ZtPolicyFundShareExample example);
+
+    int updateByExample(@Param("record") ZtPolicyFundShare record, @Param("example") ZtPolicyFundShareExample example);
+
+    int updateByPrimaryKeySelective(ZtPolicyFundShare record);
+
+    int updateByPrimaryKey(ZtPolicyFundShare record);
+}

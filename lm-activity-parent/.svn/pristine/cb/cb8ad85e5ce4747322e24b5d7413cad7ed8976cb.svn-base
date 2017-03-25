@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yeepay.g3.core.zt.dao.ZtPolicyInvestPlanHisMapper" >
+  <resultMap id="BaseResultMap" type="com.yeepay.g3.core.zt.entity.ZtPolicyInvestPlanHis" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="VERSION" property="version" jdbcType="BIGINT" />
+    <result column="INVEST_PLAN_ID" property="investPlanId" jdbcType="BIGINT" />
+    <result column="POLICY_ID" property="policyId" jdbcType="BIGINT" />
+    <result column="CHANGE_TIME" property="changeTime" jdbcType="TIMESTAMP" />
+    <result column="CHANGE_TYPE" property="changeType" jdbcType="VARCHAR" />
+    <result column="PER_INVEST_AMOUNT" property="perInvestAmount" jdbcType="DECIMAL" />
+    <result column="FUTURE_AMOUNT_MIN" property="futureAmountMin" jdbcType="DECIMAL" />
+    <result column="FUTURE_AMOUNT_MAX" property="futureAmountMax" jdbcType="DECIMAL" />
+    <result column="WISH_AMOUNT" property="wishAmount" jdbcType="DECIMAL" />
+    <result column="TOTAL_INVEST_AMOUNT" property="totalInvestAmount" jdbcType="DECIMAL" />
+    <result column="TOTAL_INVEST_TERM" property="totalInvestTerm" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, VERSION, INVEST_PLAN_ID, POLICY_ID, CHANGE_TIME, CHANGE_TYPE, PER_INVEST_AMOUNT, 
+    FUTURE_AMOUNT_MIN, FUTURE_AMOUNT_MAX, WISH_AMOUNT, TOTAL_INVEST_AMOUNT, TOTAL_INVEST_TERM
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yeepay.g3.core.zt.entity.ZtPolicyInvestPlanHisExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from TBL_ZT_POLICY_INVEST_PLAN_HIS
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from TBL_ZT_POLICY_INVEST_PLAN_HIS
+    where ID = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from TBL_ZT_POLICY_INVEST_PLAN_HIS
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yeepay.g3.core.zt.entity.ZtPolicyInvestPlanHisExample" >
+    delete from TBL_ZT_POLICY_INVEST_PLAN_HIS
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yeepay.g3.core.zt.entity.ZtPolicyInvestPlanHis" >
+    insert into TBL_ZT_POLICY_INVEST_PLAN_HIS (ID, VERSION, INVEST_PLAN_ID, 
+      POLICY_ID, CHANGE_TIME, CHANGE_TYPE, 
+      PER_INVEST_AMOUNT, FUTURE_AMOUNT_MIN, FUTURE_AMOUNT_MAX, 
+      WISH_AMOUNT, TOTAL_INVEST_AMOUNT, TOTAL_INVEST_TERM
+      )
+    values (#{id,jdbcType=BIGINT}, #{version,jdbcType=BIGINT}, #{investPlanId,jdbcType=BIGINT}, 
+      #{policyId,jdbcType=BIGINT}, #{changeTime,jdbcType=TIMESTAMP}, #{changeType,jdbcType=VARCHAR}, 
+      #{perInvestAmount,jdbcType=DECIMAL}, #{futureAmountMin,jdbcType=DECIMAL}, #{futureAmountMax,jdbcType=DECIMAL}, 
+      #{wishAmount,jdbcType=DECIMAL}, #{totalInvestAmount,jdbcType=DECIMAL}, #{totalInvestTerm,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yeepay.g3.core.zt.entity.ZtPolicyInvestPlanHis" >
+    insert into TBL_ZT_POLICY_INVEST_PLAN_HIS
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="version != null" >
+        VERSION,
+      </if>
+      <if test="investPlanId != null" >
+        INVEST_PLAN_ID,
+      </if>
+      <if test="policyId != null" >
+        POLICY_ID,
+      </if>
+      <if test="changeTime != null" >
+        CHANGE_TIME,
+      </if>
+      <if test="changeType != null" >
+        CHANGE_TYPE,
+      </if>
+      <if test="perInvestAmount != null" >
+        PER_INVEST_AMOUNT,
+      </if>
+      <if test="futureAmountMin != null" >
+        FUTURE_AMOUNT_MIN,
+      </if>
+      <if test="futureAmountMax != null" >
+        FUTURE_AMOUNT_MAX,
+      </if>
+      <if test="wishAmount != null" >
+        WISH_AMOUNT,
+      </if>
+      <if test="totalInvestAmount != null" >
+        TOTAL_INVEST_AMOUNT,
+      </if>
+      <if test="totalInvestTerm != null" >
+        TOTAL_INVEST_TERM,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="version != null" >
+        #{version,jdbcType=BIGINT},
+      </if>
+      <if test="investPlanId != null" >
+        #{investPlanId,jdbcType=BIGINT},
+      </if>
+      <if test="policyId != null" >
+        #{policyId,jdbcType=BIGINT},
+      </if>
+      <if test="changeTime != null" >
+        #{changeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="changeType != null" >
+        #{changeType,jdbcType=VARCHAR},
+      </if>
+      <if test="perInvestAmount != null" >
+        #{perInvestAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="futureAmountMin != null" >
+        #{futureAmountMin,jdbcType=DECIMAL},
+      </if>
+      <if test="futureAmountMax != null" >
+        #{futureAmountMax,jdbcType=DECIMAL},
+      </if>
+      <if test="wishAmount != null" >
+        #{wishAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="totalInvestAmount != null" >
+        #{totalInvestAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="totalInvestTerm != null" >
+        #{totalInvestTerm,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.yeepay.g3.core.zt.entity.ZtPolicyInvestPlanHisExample" resultType="java.lang.Integer" >
+    select count(*) from TBL_ZT_POLICY_INVEST_PLAN_HIS
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update TBL_ZT_POLICY_INVEST_PLAN_HIS
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.version != null" >
+        VERSION = #{record.version,jdbcType=BIGINT},
+      </if>
+      <if test="record.investPlanId != null" >
+        INVEST_PLAN_ID = #{record.investPlanId,jdbcType=BIGINT},
+      </if>
+      <if test="record.policyId != null" >
+        POLICY_ID = #{record.policyId,jdbcType=BIGINT},
+      </if>
+      <if test="record.changeTime != null" >
+        CHANGE_TIME = #{record.changeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.changeType != null" >
+        CHANGE_TYPE = #{record.changeType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.perInvestAmount != null" >
+        PER_INVEST_AMOUNT = #{record.perInvestAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.futureAmountMin != null" >
+        FUTURE_AMOUNT_MIN = #{record.futureAmountMin,jdbcType=DECIMAL},
+      </if>
+      <if test="record.futureAmountMax != null" >
+        FUTURE_AMOUNT_MAX = #{record.futureAmountMax,jdbcType=DECIMAL},
+      </if>
+      <if test="record.wishAmount != null" >
+        WISH_AMOUNT = #{record.wishAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.totalInvestAmount != null" >
+        TOTAL_INVEST_AMOUNT = #{record.totalInvestAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.totalInvestTerm != null" >
+        TOTAL_INVEST_TERM = #{record.totalInvestTerm,jdbcType=DECIMAL},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update TBL_ZT_POLICY_INVEST_PLAN_HIS
+    set ID = #{record.id,jdbcType=BIGINT},
+      VERSION = #{record.version,jdbcType=BIGINT},
+      INVEST_PLAN_ID = #{record.investPlanId,jdbcType=BIGINT},
+      POLICY_ID = #{record.policyId,jdbcType=BIGINT},
+      CHANGE_TIME = #{record.changeTime,jdbcType=TIMESTAMP},
+      CHANGE_TYPE = #{record.changeType,jdbcType=VARCHAR},
+      PER_INVEST_AMOUNT = #{record.perInvestAmount,jdbcType=DECIMAL},
+      FUTURE_AMOUNT_MIN = #{record.futureAmountMin,jdbcType=DECIMAL},
+      FUTURE_AMOUNT_MAX = #{record.futureAmountMax,jdbcType=DECIMAL},
+      WISH_AMOUNT = #{record.wishAmount,jdbcType=DECIMAL},
+      TOTAL_INVEST_AMOUNT = #{record.totalInvestAmount,jdbcType=DECIMAL},
+      TOTAL_INVEST_TERM = #{record.totalInvestTerm,jdbcType=DECIMAL}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yeepay.g3.core.zt.entity.ZtPolicyInvestPlanHis" >
+    update TBL_ZT_POLICY_INVEST_PLAN_HIS
+    <set >
+      <if test="version != null" >
+        VERSION = #{version,jdbcType=BIGINT},
+      </if>
+      <if test="investPlanId != null" >
+        INVEST_PLAN_ID = #{investPlanId,jdbcType=BIGINT},
+      </if>
+      <if test="policyId != null" >
+        POLICY_ID = #{policyId,jdbcType=BIGINT},
+      </if>
+      <if test="changeTime != null" >
+        CHANGE_TIME = #{changeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="changeType != null" >
+        CHANGE_TYPE = #{changeType,jdbcType=VARCHAR},
+      </if>
+      <if test="perInvestAmount != null" >
+        PER_INVEST_AMOUNT = #{perInvestAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="futureAmountMin != null" >
+        FUTURE_AMOUNT_MIN = #{futureAmountMin,jdbcType=DECIMAL},
+      </if>
+      <if test="futureAmountMax != null" >
+        FUTURE_AMOUNT_MAX = #{futureAmountMax,jdbcType=DECIMAL},
+      </if>
+      <if test="wishAmount != null" >
+        WISH_AMOUNT = #{wishAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="totalInvestAmount != null" >
+        TOTAL_INVEST_AMOUNT = #{totalInvestAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="totalInvestTerm != null" >
+        TOTAL_INVEST_TERM = #{totalInvestTerm,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yeepay.g3.core.zt.entity.ZtPolicyInvestPlanHis" >
+    update TBL_ZT_POLICY_INVEST_PLAN_HIS
+    set VERSION = #{version,jdbcType=BIGINT},
+      INVEST_PLAN_ID = #{investPlanId,jdbcType=BIGINT},
+      POLICY_ID = #{policyId,jdbcType=BIGINT},
+      CHANGE_TIME = #{changeTime,jdbcType=TIMESTAMP},
+      CHANGE_TYPE = #{changeType,jdbcType=VARCHAR},
+      PER_INVEST_AMOUNT = #{perInvestAmount,jdbcType=DECIMAL},
+      FUTURE_AMOUNT_MIN = #{futureAmountMin,jdbcType=DECIMAL},
+      FUTURE_AMOUNT_MAX = #{futureAmountMax,jdbcType=DECIMAL},
+      WISH_AMOUNT = #{wishAmount,jdbcType=DECIMAL},
+      TOTAL_INVEST_AMOUNT = #{totalInvestAmount,jdbcType=DECIMAL},
+      TOTAL_INVEST_TERM = #{totalInvestTerm,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

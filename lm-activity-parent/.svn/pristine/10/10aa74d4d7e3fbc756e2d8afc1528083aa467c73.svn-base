@@ -1,0 +1,176 @@
+package com.yeepay.g3.core.zt.entity;
+
+import java.math.BigDecimal;
+import java.util.Date;
+
+public class ZtPolicyOrder {
+    private Long id;
+
+    private Long version;
+
+    private Long sceneId;
+
+    private Long policyId;
+
+    private Long memberPolicyPlanId;
+
+    private String memberNo;
+
+    private BigDecimal totalInvestAmount;
+
+    private Integer totalInvestTerm;
+
+    private String lastInvestMonth;
+
+    private BigDecimal curTermInvestAmount;
+
+    private Integer totalInvestCount;
+
+    private Date orderCreateTime;
+
+    private BigDecimal totalFee;
+
+    private BigDecimal yesterdayIncome;
+
+    private BigDecimal totalIncome;
+
+    private Date updateTime;
+
+    private String policyStatus;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
+    }
+
+    public Long getSceneId() {
+        return sceneId;
+    }
+
+    public void setSceneId(Long sceneId) {
+        this.sceneId = sceneId;
+    }
+
+    public Long getPolicyId() {
+        return policyId;
+    }
+
+    public void setPolicyId(Long policyId) {
+        this.policyId = policyId;
+    }
+
+    public Long getMemberPolicyPlanId() {
+        return memberPolicyPlanId;
+    }
+
+    public void setMemberPolicyPlanId(Long memberPolicyPlanId) {
+        this.memberPolicyPlanId = memberPolicyPlanId;
+    }
+
+    public String getMemberNo() {
+        return memberNo;
+    }
+
+    public void setMemberNo(String memberNo) {
+        this.memberNo = memberNo == null ? null : memberNo.trim();
+    }
+
+    public BigDecimal getTotalInvestAmount() {
+        return totalInvestAmount;
+    }
+
+    public void setTotalInvestAmount(BigDecimal totalInvestAmount) {
+        this.totalInvestAmount = totalInvestAmount;
+    }
+
+    public Integer getTotalInvestTerm() {
+        return totalInvestTerm;
+    }
+
+    public void setTotalInvestTerm(Integer totalInvestTerm) {
+        this.totalInvestTerm = totalInvestTerm;
+    }
+
+    public String getLastInvestMonth() {
+        return lastInvestMonth;
+    }
+
+    public void setLastInvestMonth(String lastInvestMonth) {
+        this.lastInvestMonth = lastInvestMonth == null ? null : lastInvestMonth.trim();
+    }
+
+    public BigDecimal getCurTermInvestAmount() {
+        return curTermInvestAmount;
+    }
+
+    public void setCurTermInvestAmount(BigDecimal curTermInvestAmount) {
+        this.curTermInvestAmount = curTermInvestAmount;
+    }
+
+    public Integer getTotalInvestCount() {
+        return totalInvestCount;
+    }
+
+    public void setTotalInvestCount(Integer totalInvestCount) {
+        this.totalInvestCount = totalInvestCount;
+    }
+
+    public Date getOrderCreateTime() {
+        return orderCreateTime;
+    }
+
+    public void setOrderCreateTime(Date orderCreateTime) {
+        this.orderCreateTime = orderCreateTime;
+    }
+
+    public BigDecimal getTotalFee() {
+        return totalFee;
+    }
+
+    public void setTotalFee(BigDecimal totalFee) {
+        this.totalFee = totalFee;
+    }
+
+    public BigDecimal getYesterdayIncome() {
+        return yesterdayIncome;
+    }
+
+    public void setYesterdayIncome(BigDecimal yesterdayIncome) {
+        this.yesterdayIncome = yesterdayIncome;
+    }
+
+    public BigDecimal getTotalIncome() {
+        return totalIncome;
+    }
+
+    public void setTotalIncome(BigDecimal totalIncome) {
+        this.totalIncome = totalIncome;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    public String getPolicyStatus() {
+        return policyStatus;
+    }
+
+    public void setPolicyStatus(String policyStatus) {
+        this.policyStatus = policyStatus == null ? null : policyStatus.trim();
+    }
+}

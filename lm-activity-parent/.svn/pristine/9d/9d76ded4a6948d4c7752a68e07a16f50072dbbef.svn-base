@@ -1,0 +1,67 @@
+/**
+ * 
+ */
+package com.yeepay.g3.core.activity.queue;
+
+
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.yeepay.g3.core.activity.entity.ActivityMemberOperecord;
+import com.yeepay.g3.core.activity.service.ActivityMemberOperecordService;
+import com.yeepay.g3.core.activity.service.ActivitySrcFlowPlatService;
+import com.yeepay.g3.core.activity.service.ActivitySrcFlowRuleService;
+import com.yeepay.g3.facade.lmlc.async.event.LMTradeMessageEvent;
+import com.yeepay.g3.utils.async.rabbitmq.receive.EventProcessor;
+
+/**
+ * @Description 信托交易事件接收器
+ * @author zhenping.zhou
+ * @CreateTime 2016年5月16日 下午2:50:30
+ * @version 1.0
+ */
+public class LMTradeMessageProcessor implements EventProcessor {
+	
+	private static Logger logger = Logger.getLogger(LMTradeMessageProcessor.class);
+	
+	@Autowired
+	private ActivityMemberOperecordService activityMemberOperecordServiceImpl;
+	
+	@Autowired
+	private ActivitySrcFlowRuleService activitySrcFlowRuleServiceImpl;
+	
+	@Autowired
+	private ActivitySrcFlowPlatService activitySrcFlowPlatServiceImpl;
+
+	@Override
+	public void process(Object obj) {
+		logger.info("LMTradeMessageProcessor事件处理 : " + obj);
+		if(obj != null) {
+			LMTradeMessageEvent event = (LMTradeMessageEvent) obj;
+			
+			//会员操作
+			ActivityMemberOperecord memberOperecord = new ActivityMemberOperecord();
+			memberOperecord.setMemberNo(event.getMemberNo());
+			memberOperecord.setMemberTel(event.getMobileNo());
+			memberOperecord.setOperateAmount(event.getAmount());
+			memberOperecord.setOperateTime(event.getTradeTime());
+			memberOperecord.setOperateType(event.getType());
+			//用户操作时的ip地址
+			memberOperecord.setClientIp(event.getClientIp());
+			activityMemberOperecordServiceImpl.addActivityMemberOperecord(memberOperecord);
+			//发送抽奖券和幸运值
+			try{
+				activityMemberOperecordServiceImpl.addUserRaffleTicket(memberOperecord);
+			}catch(Exception e){
+				logger.error("[process] info=发送投资抽奖券和幸运值异常,ERROR={}",e);
+			}
+			//投资发流量
+			try {
+				activityMemberOperecordServiceImpl.sendInvestFlow(event, memberOperecord);
+			} catch (Exception e) {
+				logger.error("[process] info=投资发放流量异常,ERROR={}",e);
+			}
+		}
+	}
+}
+

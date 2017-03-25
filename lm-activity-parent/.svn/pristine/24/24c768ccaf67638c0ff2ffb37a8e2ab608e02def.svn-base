@@ -1,0 +1,576 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yeepay.g3.core.zt.dao.ZtPolicyFundOrderDetailMapper" >
+  <resultMap id="BaseResultMap" type="com.yeepay.g3.core.zt.entity.ZtPolicyFundOrderDetail" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="VERSION" property="version" jdbcType="BIGINT" />
+    <result column="MEMBER_NO" property="memberNo" jdbcType="VARCHAR" />
+    <result column="POLICY_ORDER_DETAIL_ID" property="policyOrderDetailId" jdbcType="BIGINT" />
+    <result column="MERCHANT_NO" property="merchantNo" jdbcType="VARCHAR" />
+    <result column="TRADE_FLOW_ID" property="tradeFlowId" jdbcType="VARCHAR" />
+    <result column="OPERATION_TYPE" property="operationType" jdbcType="VARCHAR" />
+    <result column="FUND_CODE" property="fundCode" jdbcType="VARCHAR" />
+    <result column="BALANCE" property="balance" jdbcType="DECIMAL" />
+    <result column="SHARES" property="shares" jdbcType="DECIMAL" />
+    <result column="SHARE_TYPE" property="shareType" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="ERROR_INFO" property="errorInfo" jdbcType="VARCHAR" />
+    <result column="ALLOT_NO" property="allotNo" jdbcType="VARCHAR" />
+    <result column="APPLY_TIME" property="applyTime" jdbcType="TIMESTAMP" />
+    <result column="IS_CONFIRMATION" property="isConfirmation" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="AFFIRM_TIME" property="affirmTime" jdbcType="TIMESTAMP" />
+    <result column="FAIL_CAUSE" property="failCause" jdbcType="VARCHAR" />
+    <result column="FARE_SX" property="fareSx" jdbcType="DECIMAL" />
+    <result column="NET_VALUE" property="netValue" jdbcType="DECIMAL" />
+    <result column="TRADE_CONFIRM_BALANCE" property="tradeConfirmBalance" jdbcType="DECIMAL" />
+    <result column="TRADE_CONFIRM_TYPE" property="tradeConfirmType" jdbcType="DECIMAL" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="CANCEL_ALLOT_NO" property="cancelAllotNo" jdbcType="VARCHAR" />
+    <result column="CANCEL_TIME" property="cancelTime" jdbcType="TIMESTAMP" />
+    <result column="CANCEL_SUCCESS_TYPE" property="cancelSuccessType" jdbcType="VARCHAR" />
+    <result column="CANCEL_ERROR_INFO" property="cancelErrorInfo" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, VERSION, MEMBER_NO, POLICY_ORDER_DETAIL_ID, MERCHANT_NO, TRADE_FLOW_ID, OPERATION_TYPE, 
+    FUND_CODE, BALANCE, SHARES, SHARE_TYPE, STATUS, ERROR_INFO, ALLOT_NO, APPLY_TIME, 
+    IS_CONFIRMATION, CREATE_TIME, AFFIRM_TIME, FAIL_CAUSE, FARE_SX, NET_VALUE, TRADE_CONFIRM_BALANCE, 
+    TRADE_CONFIRM_TYPE, UPDATE_TIME, CANCEL_ALLOT_NO, CANCEL_TIME, CANCEL_SUCCESS_TYPE, 
+    CANCEL_ERROR_INFO
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yeepay.g3.core.zt.entity.ZtPolicyFundOrderDetailExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from TBL_ZT_POLICY_FUND_ORDER_DETAIL
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from TBL_ZT_POLICY_FUND_ORDER_DETAIL
+    where ID = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from TBL_ZT_POLICY_FUND_ORDER_DETAIL
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yeepay.g3.core.zt.entity.ZtPolicyFundOrderDetailExample" >
+    delete from TBL_ZT_POLICY_FUND_ORDER_DETAIL
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yeepay.g3.core.zt.entity.ZtPolicyFundOrderDetail" >
+    insert into TBL_ZT_POLICY_FUND_ORDER_DETAIL (ID, VERSION, MEMBER_NO, 
+      POLICY_ORDER_DETAIL_ID, MERCHANT_NO, TRADE_FLOW_ID, 
+      OPERATION_TYPE, FUND_CODE, BALANCE, 
+      SHARES, SHARE_TYPE, STATUS, 
+      ERROR_INFO, ALLOT_NO, APPLY_TIME, 
+      IS_CONFIRMATION, CREATE_TIME, AFFIRM_TIME, 
+      FAIL_CAUSE, FARE_SX, NET_VALUE, 
+      TRADE_CONFIRM_BALANCE, TRADE_CONFIRM_TYPE, 
+      UPDATE_TIME, CANCEL_ALLOT_NO, CANCEL_TIME, 
+      CANCEL_SUCCESS_TYPE, CANCEL_ERROR_INFO)
+    values (#{id,jdbcType=BIGINT}, #{version,jdbcType=BIGINT}, #{memberNo,jdbcType=VARCHAR}, 
+      #{policyOrderDetailId,jdbcType=BIGINT}, #{merchantNo,jdbcType=VARCHAR}, #{tradeFlowId,jdbcType=VARCHAR}, 
+      #{operationType,jdbcType=VARCHAR}, #{fundCode,jdbcType=VARCHAR}, #{balance,jdbcType=DECIMAL}, 
+      #{shares,jdbcType=DECIMAL}, #{shareType,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
+      #{errorInfo,jdbcType=VARCHAR}, #{allotNo,jdbcType=VARCHAR}, #{applyTime,jdbcType=TIMESTAMP}, 
+      #{isConfirmation,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{affirmTime,jdbcType=TIMESTAMP}, 
+      #{failCause,jdbcType=VARCHAR}, #{fareSx,jdbcType=DECIMAL}, #{netValue,jdbcType=DECIMAL}, 
+      #{tradeConfirmBalance,jdbcType=DECIMAL}, #{tradeConfirmType,jdbcType=DECIMAL}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{cancelAllotNo,jdbcType=VARCHAR}, #{cancelTime,jdbcType=TIMESTAMP}, 
+      #{cancelSuccessType,jdbcType=VARCHAR}, #{cancelErrorInfo,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yeepay.g3.core.zt.entity.ZtPolicyFundOrderDetail" >
+    insert into TBL_ZT_POLICY_FUND_ORDER_DETAIL
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="version != null" >
+        VERSION,
+      </if>
+      <if test="memberNo != null" >
+        MEMBER_NO,
+      </if>
+      <if test="policyOrderDetailId != null" >
+        POLICY_ORDER_DETAIL_ID,
+      </if>
+      <if test="merchantNo != null" >
+        MERCHANT_NO,
+      </if>
+      <if test="tradeFlowId != null" >
+        TRADE_FLOW_ID,
+      </if>
+      <if test="operationType != null" >
+        OPERATION_TYPE,
+      </if>
+      <if test="fundCode != null" >
+        FUND_CODE,
+      </if>
+      <if test="balance != null" >
+        BALANCE,
+      </if>
+      <if test="shares != null" >
+        SHARES,
+      </if>
+      <if test="shareType != null" >
+        SHARE_TYPE,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="errorInfo != null" >
+        ERROR_INFO,
+      </if>
+      <if test="allotNo != null" >
+        ALLOT_NO,
+      </if>
+      <if test="applyTime != null" >
+        APPLY_TIME,
+      </if>
+      <if test="isConfirmation != null" >
+        IS_CONFIRMATION,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="affirmTime != null" >
+        AFFIRM_TIME,
+      </if>
+      <if test="failCause != null" >
+        FAIL_CAUSE,
+      </if>
+      <if test="fareSx != null" >
+        FARE_SX,
+      </if>
+      <if test="netValue != null" >
+        NET_VALUE,
+      </if>
+      <if test="tradeConfirmBalance != null" >
+        TRADE_CONFIRM_BALANCE,
+      </if>
+      <if test="tradeConfirmType != null" >
+        TRADE_CONFIRM_TYPE,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="cancelAllotNo != null" >
+        CANCEL_ALLOT_NO,
+      </if>
+      <if test="cancelTime != null" >
+        CANCEL_TIME,
+      </if>
+      <if test="cancelSuccessType != null" >
+        CANCEL_SUCCESS_TYPE,
+      </if>
+      <if test="cancelErrorInfo != null" >
+        CANCEL_ERROR_INFO,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="version != null" >
+        #{version,jdbcType=BIGINT},
+      </if>
+      <if test="memberNo != null" >
+        #{memberNo,jdbcType=VARCHAR},
+      </if>
+      <if test="policyOrderDetailId != null" >
+        #{policyOrderDetailId,jdbcType=BIGINT},
+      </if>
+      <if test="merchantNo != null" >
+        #{merchantNo,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeFlowId != null" >
+        #{tradeFlowId,jdbcType=VARCHAR},
+      </if>
+      <if test="operationType != null" >
+        #{operationType,jdbcType=VARCHAR},
+      </if>
+      <if test="fundCode != null" >
+        #{fundCode,jdbcType=VARCHAR},
+      </if>
+      <if test="balance != null" >
+        #{balance,jdbcType=DECIMAL},
+      </if>
+      <if test="shares != null" >
+        #{shares,jdbcType=DECIMAL},
+      </if>
+      <if test="shareType != null" >
+        #{shareType,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="errorInfo != null" >
+        #{errorInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="allotNo != null" >
+        #{allotNo,jdbcType=VARCHAR},
+      </if>
+      <if test="applyTime != null" >
+        #{applyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isConfirmation != null" >
+        #{isConfirmation,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="affirmTime != null" >
+        #{affirmTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="failCause != null" >
+        #{failCause,jdbcType=VARCHAR},
+      </if>
+      <if test="fareSx != null" >
+        #{fareSx,jdbcType=DECIMAL},
+      </if>
+      <if test="netValue != null" >
+        #{netValue,jdbcType=DECIMAL},
+      </if>
+      <if test="tradeConfirmBalance != null" >
+        #{tradeConfirmBalance,jdbcType=DECIMAL},
+      </if>
+      <if test="tradeConfirmType != null" >
+        #{tradeConfirmType,jdbcType=DECIMAL},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cancelAllotNo != null" >
+        #{cancelAllotNo,jdbcType=VARCHAR},
+      </if>
+      <if test="cancelTime != null" >
+        #{cancelTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cancelSuccessType != null" >
+        #{cancelSuccessType,jdbcType=VARCHAR},
+      </if>
+      <if test="cancelErrorInfo != null" >
+        #{cancelErrorInfo,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.yeepay.g3.core.zt.entity.ZtPolicyFundOrderDetailExample" resultType="java.lang.Integer" >
+    select count(*) from TBL_ZT_POLICY_FUND_ORDER_DETAIL
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update TBL_ZT_POLICY_FUND_ORDER_DETAIL
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.version != null" >
+        VERSION = #{record.version,jdbcType=BIGINT},
+      </if>
+      <if test="record.memberNo != null" >
+        MEMBER_NO = #{record.memberNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.policyOrderDetailId != null" >
+        POLICY_ORDER_DETAIL_ID = #{record.policyOrderDetailId,jdbcType=BIGINT},
+      </if>
+      <if test="record.merchantNo != null" >
+        MERCHANT_NO = #{record.merchantNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tradeFlowId != null" >
+        TRADE_FLOW_ID = #{record.tradeFlowId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.operationType != null" >
+        OPERATION_TYPE = #{record.operationType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fundCode != null" >
+        FUND_CODE = #{record.fundCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.balance != null" >
+        BALANCE = #{record.balance,jdbcType=DECIMAL},
+      </if>
+      <if test="record.shares != null" >
+        SHARES = #{record.shares,jdbcType=DECIMAL},
+      </if>
+      <if test="record.shareType != null" >
+        SHARE_TYPE = #{record.shareType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        STATUS = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.errorInfo != null" >
+        ERROR_INFO = #{record.errorInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.allotNo != null" >
+        ALLOT_NO = #{record.allotNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.applyTime != null" >
+        APPLY_TIME = #{record.applyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.isConfirmation != null" >
+        IS_CONFIRMATION = #{record.isConfirmation,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.affirmTime != null" >
+        AFFIRM_TIME = #{record.affirmTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.failCause != null" >
+        FAIL_CAUSE = #{record.failCause,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fareSx != null" >
+        FARE_SX = #{record.fareSx,jdbcType=DECIMAL},
+      </if>
+      <if test="record.netValue != null" >
+        NET_VALUE = #{record.netValue,jdbcType=DECIMAL},
+      </if>
+      <if test="record.tradeConfirmBalance != null" >
+        TRADE_CONFIRM_BALANCE = #{record.tradeConfirmBalance,jdbcType=DECIMAL},
+      </if>
+      <if test="record.tradeConfirmType != null" >
+        TRADE_CONFIRM_TYPE = #{record.tradeConfirmType,jdbcType=DECIMAL},
+      </if>
+      <if test="record.updateTime != null" >
+        UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.cancelAllotNo != null" >
+        CANCEL_ALLOT_NO = #{record.cancelAllotNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cancelTime != null" >
+        CANCEL_TIME = #{record.cancelTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.cancelSuccessType != null" >
+        CANCEL_SUCCESS_TYPE = #{record.cancelSuccessType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cancelErrorInfo != null" >
+        CANCEL_ERROR_INFO = #{record.cancelErrorInfo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update TBL_ZT_POLICY_FUND_ORDER_DETAIL
+    set ID = #{record.id,jdbcType=BIGINT},
+      VERSION = #{record.version,jdbcType=BIGINT},
+      MEMBER_NO = #{record.memberNo,jdbcType=VARCHAR},
+      POLICY_ORDER_DETAIL_ID = #{record.policyOrderDetailId,jdbcType=BIGINT},
+      MERCHANT_NO = #{record.merchantNo,jdbcType=VARCHAR},
+      TRADE_FLOW_ID = #{record.tradeFlowId,jdbcType=VARCHAR},
+      OPERATION_TYPE = #{record.operationType,jdbcType=VARCHAR},
+      FUND_CODE = #{record.fundCode,jdbcType=VARCHAR},
+      BALANCE = #{record.balance,jdbcType=DECIMAL},
+      SHARES = #{record.shares,jdbcType=DECIMAL},
+      SHARE_TYPE = #{record.shareType,jdbcType=VARCHAR},
+      STATUS = #{record.status,jdbcType=VARCHAR},
+      ERROR_INFO = #{record.errorInfo,jdbcType=VARCHAR},
+      ALLOT_NO = #{record.allotNo,jdbcType=VARCHAR},
+      APPLY_TIME = #{record.applyTime,jdbcType=TIMESTAMP},
+      IS_CONFIRMATION = #{record.isConfirmation,jdbcType=VARCHAR},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      AFFIRM_TIME = #{record.affirmTime,jdbcType=TIMESTAMP},
+      FAIL_CAUSE = #{record.failCause,jdbcType=VARCHAR},
+      FARE_SX = #{record.fareSx,jdbcType=DECIMAL},
+      NET_VALUE = #{record.netValue,jdbcType=DECIMAL},
+      TRADE_CONFIRM_BALANCE = #{record.tradeConfirmBalance,jdbcType=DECIMAL},
+      TRADE_CONFIRM_TYPE = #{record.tradeConfirmType,jdbcType=DECIMAL},
+      UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
+      CANCEL_ALLOT_NO = #{record.cancelAllotNo,jdbcType=VARCHAR},
+      CANCEL_TIME = #{record.cancelTime,jdbcType=TIMESTAMP},
+      CANCEL_SUCCESS_TYPE = #{record.cancelSuccessType,jdbcType=VARCHAR},
+      CANCEL_ERROR_INFO = #{record.cancelErrorInfo,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yeepay.g3.core.zt.entity.ZtPolicyFundOrderDetail" >
+    update TBL_ZT_POLICY_FUND_ORDER_DETAIL
+    <set >
+      <if test="version != null" >
+        VERSION = #{version,jdbcType=BIGINT},
+      </if>
+      <if test="memberNo != null" >
+        MEMBER_NO = #{memberNo,jdbcType=VARCHAR},
+      </if>
+      <if test="policyOrderDetailId != null" >
+        POLICY_ORDER_DETAIL_ID = #{policyOrderDetailId,jdbcType=BIGINT},
+      </if>
+      <if test="merchantNo != null" >
+        MERCHANT_NO = #{merchantNo,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeFlowId != null" >
+        TRADE_FLOW_ID = #{tradeFlowId,jdbcType=VARCHAR},
+      </if>
+      <if test="operationType != null" >
+        OPERATION_TYPE = #{operationType,jdbcType=VARCHAR},
+      </if>
+      <if test="fundCode != null" >
+        FUND_CODE = #{fundCode,jdbcType=VARCHAR},
+      </if>
+      <if test="balance != null" >
+        BALANCE = #{balance,jdbcType=DECIMAL},
+      </if>
+      <if test="shares != null" >
+        SHARES = #{shares,jdbcType=DECIMAL},
+      </if>
+      <if test="shareType != null" >
+        SHARE_TYPE = #{shareType,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="errorInfo != null" >
+        ERROR_INFO = #{errorInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="allotNo != null" >
+        ALLOT_NO = #{allotNo,jdbcType=VARCHAR},
+      </if>
+      <if test="applyTime != null" >
+        APPLY_TIME = #{applyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isConfirmation != null" >
+        IS_CONFIRMATION = #{isConfirmation,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="affirmTime != null" >
+        AFFIRM_TIME = #{affirmTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="failCause != null" >
+        FAIL_CAUSE = #{failCause,jdbcType=VARCHAR},
+      </if>
+      <if test="fareSx != null" >
+        FARE_SX = #{fareSx,jdbcType=DECIMAL},
+      </if>
+      <if test="netValue != null" >
+        NET_VALUE = #{netValue,jdbcType=DECIMAL},
+      </if>
+      <if test="tradeConfirmBalance != null" >
+        TRADE_CONFIRM_BALANCE = #{tradeConfirmBalance,jdbcType=DECIMAL},
+      </if>
+      <if test="tradeConfirmType != null" >
+        TRADE_CONFIRM_TYPE = #{tradeConfirmType,jdbcType=DECIMAL},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cancelAllotNo != null" >
+        CANCEL_ALLOT_NO = #{cancelAllotNo,jdbcType=VARCHAR},
+      </if>
+      <if test="cancelTime != null" >
+        CANCEL_TIME = #{cancelTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cancelSuccessType != null" >
+        CANCEL_SUCCESS_TYPE = #{cancelSuccessType,jdbcType=VARCHAR},
+      </if>
+      <if test="cancelErrorInfo != null" >
+        CANCEL_ERROR_INFO = #{cancelErrorInfo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yeepay.g3.core.zt.entity.ZtPolicyFundOrderDetail" >
+    update TBL_ZT_POLICY_FUND_ORDER_DETAIL
+    set VERSION = #{version,jdbcType=BIGINT},
+      MEMBER_NO = #{memberNo,jdbcType=VARCHAR},
+      POLICY_ORDER_DETAIL_ID = #{policyOrderDetailId,jdbcType=BIGINT},
+      MERCHANT_NO = #{merchantNo,jdbcType=VARCHAR},
+      TRADE_FLOW_ID = #{tradeFlowId,jdbcType=VARCHAR},
+      OPERATION_TYPE = #{operationType,jdbcType=VARCHAR},
+      FUND_CODE = #{fundCode,jdbcType=VARCHAR},
+      BALANCE = #{balance,jdbcType=DECIMAL},
+      SHARES = #{shares,jdbcType=DECIMAL},
+      SHARE_TYPE = #{shareType,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=VARCHAR},
+      ERROR_INFO = #{errorInfo,jdbcType=VARCHAR},
+      ALLOT_NO = #{allotNo,jdbcType=VARCHAR},
+      APPLY_TIME = #{applyTime,jdbcType=TIMESTAMP},
+      IS_CONFIRMATION = #{isConfirmation,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      AFFIRM_TIME = #{affirmTime,jdbcType=TIMESTAMP},
+      FAIL_CAUSE = #{failCause,jdbcType=VARCHAR},
+      FARE_SX = #{fareSx,jdbcType=DECIMAL},
+      NET_VALUE = #{netValue,jdbcType=DECIMAL},
+      TRADE_CONFIRM_BALANCE = #{tradeConfirmBalance,jdbcType=DECIMAL},
+      TRADE_CONFIRM_TYPE = #{tradeConfirmType,jdbcType=DECIMAL},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      CANCEL_ALLOT_NO = #{cancelAllotNo,jdbcType=VARCHAR},
+      CANCEL_TIME = #{cancelTime,jdbcType=TIMESTAMP},
+      CANCEL_SUCCESS_TYPE = #{cancelSuccessType,jdbcType=VARCHAR},
+      CANCEL_ERROR_INFO = #{cancelErrorInfo,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

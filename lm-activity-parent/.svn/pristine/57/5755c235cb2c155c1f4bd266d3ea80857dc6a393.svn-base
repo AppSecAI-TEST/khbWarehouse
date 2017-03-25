@@ -1,0 +1,29 @@
+package com.yeepay.g3.core.activity.service.impl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.yeepay.g3.core.activity.dao.ActivityMemberOperecordDao;
+import com.yeepay.g3.core.activity.entity.ActivityMemberOperecord;
+import com.yeepay.g3.core.activity.service.ActivityMemberOperecordService;
+/**
+ * @Title: 会员操作记录业务逻辑实现类
+ * @Description: 业务逻辑实现类
+ * @Copyright: 懒猫金服
+ * @author zhenping.zhou
+ * @createTime 2016-5-18 下午1:55:06
+ * @version 2016-5-4
+ */
+@Service
+public class ActivityMemberOperecordServiceImpl implements ActivityMemberOperecordService {
+
+	@Autowired
+	private ActivityMemberOperecordDao activityMemberOperecordImpl;
+
+	@Override
+	public void addActivityMemberOperecord(
+			ActivityMemberOperecord activityMemberOperecord) {
+		activityMemberOperecordImpl.add(activityMemberOperecord);
+	}
+	
+}

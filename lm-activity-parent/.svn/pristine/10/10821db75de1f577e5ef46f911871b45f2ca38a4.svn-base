@@ -1,0 +1,13 @@
+/**
+ * @author 陈大涛
+ * 2016-6-1下午4:05:33
+ */
+package com.yeepay.g3.facade.activity.facade;
+
+/**
+ * @author 陈大涛
+ * 2016-6-1下午4:05:33
+ */
+public interface ActivityDrawPrizeFacade {
+
+}

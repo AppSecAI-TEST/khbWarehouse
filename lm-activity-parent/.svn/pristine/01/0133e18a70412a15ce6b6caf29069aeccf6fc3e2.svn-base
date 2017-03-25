@@ -1,0 +1,236 @@
+package com.yeepay.g3.core.zt.entity;
+
+import java.math.BigDecimal;
+import java.util.Date;
+
+public class ZtPolicyFundShare {
+    private Long id;
+
+    private Long version;
+
+    private Long sceneId;
+
+    private Long policyId;
+
+    private Long memberPolicyPlanId;
+
+    private Long memberPolicyOrderId;
+
+    private String memberNo;
+
+    private String fundAccountNo;
+
+    private String fundCode;
+
+    private String fundType;
+
+    private String taAccount;
+
+    private BigDecimal currentShare;
+
+    private BigDecimal enableShare;
+
+    private String frozenShare;
+
+    private String autoBuy;
+
+    private BigDecimal businessFrozenAmount;
+
+    private BigDecimal unpaidIncome;
+
+    private BigDecimal availableDueShare;
+
+    private BigDecimal quickExceedEnableShare;
+
+    private BigDecimal worthValue;
+
+    private BigDecimal accumIncome;
+
+    private Date createTime;
+
+    private Date updateTime;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
+    }
+
+    public Long getSceneId() {
+        return sceneId;
+    }
+
+    public void setSceneId(Long sceneId) {
+        this.sceneId = sceneId;
+    }
+
+    public Long getPolicyId() {
+        return policyId;
+    }
+
+    public void setPolicyId(Long policyId) {
+        this.policyId = policyId;
+    }
+
+    public Long getMemberPolicyPlanId() {
+        return memberPolicyPlanId;
+    }
+
+    public void setMemberPolicyPlanId(Long memberPolicyPlanId) {
+        this.memberPolicyPlanId = memberPolicyPlanId;
+    }
+
+    public Long getMemberPolicyOrderId() {
+        return memberPolicyOrderId;
+    }
+
+    public void setMemberPolicyOrderId(Long memberPolicyOrderId) {
+        this.memberPolicyOrderId = memberPolicyOrderId;
+    }
+
+    public String getMemberNo() {
+        return memberNo;
+    }
+
+    public void setMemberNo(String memberNo) {
+        this.memberNo = memberNo == null ? null : memberNo.trim();
+    }
+
+    public String getFundAccountNo() {
+        return fundAccountNo;
+    }
+
+    public void setFundAccountNo(String fundAccountNo) {
+        this.fundAccountNo = fundAccountNo == null ? null : fundAccountNo.trim();
+    }
+
+    public String getFundCode() {
+        return fundCode;
+    }
+
+    public void setFundCode(String fundCode) {
+        this.fundCode = fundCode == null ? null : fundCode.trim();
+    }
+
+    public String getFundType() {
+        return fundType;
+    }
+
+    public void setFundType(String fundType) {
+        this.fundType = fundType == null ? null : fundType.trim();
+    }
+
+    public String getTaAccount() {
+        return taAccount;
+    }
+
+    public void setTaAccount(String taAccount) {
+        this.taAccount = taAccount == null ? null : taAccount.trim();
+    }
+
+    public BigDecimal getCurrentShare() {
+        return currentShare;
+    }
+
+    public void setCurrentShare(BigDecimal currentShare) {
+        this.currentShare = currentShare;
+    }
+
+    public BigDecimal getEnableShare() {
+        return enableShare;
+    }
+
+    public void setEnableShare(BigDecimal enableShare) {
+        this.enableShare = enableShare;
+    }
+
+    public String getFrozenShare() {
+        return frozenShare;
+    }
+
+    public void setFrozenShare(String frozenShare) {
+        this.frozenShare = frozenShare == null ? null : frozenShare.trim();
+    }
+
+    public String getAutoBuy() {
+        return autoBuy;
+    }
+
+    public void setAutoBuy(String autoBuy) {
+        this.autoBuy = autoBuy == null ? null : autoBuy.trim();
+    }
+
+    public BigDecimal getBusinessFrozenAmount() {
+        return businessFrozenAmount;
+    }
+
+    public void setBusinessFrozenAmount(BigDecimal businessFrozenAmount) {
+        this.businessFrozenAmount = businessFrozenAmount;
+    }
+
+    public BigDecimal getUnpaidIncome() {
+        return unpaidIncome;
+    }
+
+    public void setUnpaidIncome(BigDecimal unpaidIncome) {
+        this.unpaidIncome = unpaidIncome;
+    }
+
+    public BigDecimal getAvailableDueShare() {
+        return availableDueShare;
+    }
+
+    public void setAvailableDueShare(BigDecimal availableDueShare) {
+        this.availableDueShare = availableDueShare;
+    }
+
+    public BigDecimal getQuickExceedEnableShare() {
+        return quickExceedEnableShare;
+    }
+
+    public void setQuickExceedEnableShare(BigDecimal quickExceedEnableShare) {
+        this.quickExceedEnableShare = quickExceedEnableShare;
+    }
+
+    public BigDecimal getWorthValue() {
+        return worthValue;
+    }
+
+    public void setWorthValue(BigDecimal worthValue) {
+        this.worthValue = worthValue;
+    }
+
+    public BigDecimal getAccumIncome() {
+        return accumIncome;
+    }
+
+    public void setAccumIncome(BigDecimal accumIncome) {
+        this.accumIncome = accumIncome;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+}

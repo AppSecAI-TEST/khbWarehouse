@@ -1,0 +1,68 @@
+/**
+ * @author 陈大涛
+ * 2016-5-31下午4:02:14
+ */
+package com.yeepay.g3.core.activity.facade.impl;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.stereotype.Service;
+
+import com.yeepay.g3.core.activity.utils.WxUtil;
+import com.yeepay.g3.facade.activity.dto.ActivityWXSendMessageDTO;
+import com.yeepay.g3.facade.activity.dto.ActivityWXSendMessageResultDTO;
+import com.yeepay.g3.facade.activity.enums.ActivityWXSendMessageEnum;
+import com.yeepay.g3.facade.activity.facade.ActivityWXSendMessageFacade;
+import com.yeepay.g3.facade.lmportal.dto.MemberRelevanceDto;
+import com.yeepay.g3.facade.lmportal.enumtype.MemberRelevanceStatusEnum;
+import com.yeepay.g3.facade.lmportal.service.MemberManagementFacade;
+import com.yeepay.g3.utils.config.ConfigParam;
+import com.yeepay.g3.utils.config.ConfigurationUtils;
+import com.yeepay.g3.utils.rmi.RemoteServiceFactory;
+
+/**
+ * @author 陈大涛
+ * 2016-5-31下午4:02:14
+ */
+@Service
+public class ActivityWXSendMessageFacadeImpl implements
+		ActivityWXSendMessageFacade {
+
+	@Override
+	public ActivityWXSendMessageResultDTO sendWxMessage(
+			ActivityWXSendMessageEnum type, ActivityWXSendMessageDTO dataDto) {
+
+		WxUtil wxUtil = new WxUtil();
+		return wxUtil.sendWxMessage(type, dataDto);
+	}
+
+	@Override
+	public Map<String, Object> getWxUserInfo(String openId) {
+		WxUtil wxUtil = new WxUtil();
+		return wxUtil.getWxUserInfo(openId);
+	}
+
+	@Override
+	public void sendWxMessageForMemberNo(
+			ActivityWXSendMessageEnum type, ActivityWXSendMessageDTO dataDto,String memberNo) {
+		MemberManagementFacade memberManagementFacade = RemoteServiceFactory
+				.getService(MemberManagementFacade.class);
+		ConfigParam<Map<String,String>> config = ConfigurationUtils.getConfigParam("config_type_text_resources", "wx_send_message_activity_cash_success"); 
+		Map<String,String> map = config.getValue() == null ? new HashMap<String,String>() : config.getValue();
+		dataDto.setFirst(map.get("first"));
+		dataDto.setRemark(map.get("remark"));
+		dataDto.setUrl(map.get("url"));
+		WxUtil wxUtil = new WxUtil();
+		List<MemberRelevanceDto> result =  memberManagementFacade.obtainMemberRelevanceByMemberNo(memberNo);
+		for(MemberRelevanceDto item:result){
+			if(item.getStatus()==MemberRelevanceStatusEnum.ON){
+				dataDto.setOpenId(item.getOpenId());
+				wxUtil.sendWxMessage(type, dataDto);
+			}
+		}
+	}
+
+
+}

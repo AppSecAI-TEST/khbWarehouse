@@ -1,0 +1,19 @@
+/**
+ * @author 陈大涛
+ * 2016-6-7上午9:51:24
+ */
+package com.yeepay.g3.core.activity.utils;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+/**
+ * @author 陈大涛
+ * 2016-6-7上午9:51:24
+ */
+public class DateFormatUtil {
+
+	public static String  dateFormat( String pattern,Date date){
+		return  new SimpleDateFormat(pattern).format(date);
+	}
+}

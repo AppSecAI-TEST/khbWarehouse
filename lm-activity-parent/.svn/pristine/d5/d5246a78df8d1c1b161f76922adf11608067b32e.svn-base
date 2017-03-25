@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+
+	<!-- 会员操作处理器 -->
+	<bean id="activityMemberRecordsProcessor"
+		class="com.yeepay.g3.core.activity.queue.ActivityMemberOperecordProcessor" />
+	<!-- 信托交易处理器 -->
+	<bean id="lMTradeMessageProcessor"
+		class="com.yeepay.g3.core.activity.queue.LMTradeMessageProcessor" />
+	<!-- 接收器 -->
+	<bean id="rabbitMQReceiverManager"
+		class="com.yeepay.g3.utils.async.rabbitmq.receive.RabbitMQReceiverManager"
+		init-method="start">
+		<property name="queue2Delegater">
+			<map>
+				<!-- 会员操作队列 -->
+				<entry key="com.yeepay.lm.ActivityMemberRecords">
+					<bean class="com.yeepay.g3.utils.async.rabbitmq.receive.EventListenerDelegater">
+						<property name="processor" ref="activityMemberRecordsProcessor" />
+					</bean>
+				</entry>
+				<!-- 信托交易队列 -->
+				<entry key="com.yeepay.lm.LMTradeMessage">
+					<bean class="com.yeepay.g3.utils.async.rabbitmq.receive.EventListenerDelegater">
+						<property name="processor" ref="lMTradeMessageProcessor" />
+					</bean>
+				</entry>
+			</map>
+		</property>
+	</bean>
+</beans>

@@ -1,0 +1,258 @@
+<!--<?xml version="1.0" encoding="UTF-8"?>
+  <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ActivitySrcFlowPlat" >
+  <resultMap id="BaseResultMap" type="com.yeepay.g3.core.activity.entity.ActivitySrcFlowPlat" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="VERSION" property="version" jdbcType="BIGINT" />
+    <result column="SRC_NO" property="srcNo" jdbcType="VARCHAR" />
+    <result column="MOBILE_SECTION" property="mobileSection" jdbcType="VARCHAR" />
+    <result column="FLUX_PLAT_CODE" property="fluxPlatCode" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="OPERATOR" property="operator" jdbcType="VARCHAR" />
+    <result column="LAST_UPDATE_TIME" property="lastUpdateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, VERSION, SRC_NO, MOBILE_SECTION, FLUX_PLAT_CODE, CREATE_TIME, OPERATOR, LAST_UPDATE_TIME
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yeepay.g3.core.activity.entity.ActivitySrcFlowPlatExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from TBL_ACTIVITY_SRC_FLOW_PLAT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from TBL_ACTIVITY_SRC_FLOW_PLAT
+    where ID = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from TBL_ACTIVITY_SRC_FLOW_PLAT
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yeepay.g3.core.activity.entity.ActivitySrcFlowPlatExample" >
+    delete from TBL_ACTIVITY_SRC_FLOW_PLAT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yeepay.g3.core.activity.entity.ActivitySrcFlowPlat" >
+    insert into TBL_ACTIVITY_SRC_FLOW_PLAT (ID, VERSION, SRC_NO, 
+      MOBILE_SECTION, FLUX_PLAT_CODE, CREATE_TIME, 
+      OPERATOR, LAST_UPDATE_TIME)
+    values (#{id,jdbcType=BIGINT}, #{version,jdbcType=BIGINT}, #{srcNo,jdbcType=VARCHAR}, 
+      #{mobileSection,jdbcType=VARCHAR}, #{fluxPlatCode,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{operator,jdbcType=VARCHAR}, #{lastUpdateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yeepay.g3.core.activity.entity.ActivitySrcFlowPlat" >
+    insert into TBL_ACTIVITY_SRC_FLOW_PLAT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="version != null" >
+        VERSION,
+      </if>
+      <if test="srcNo != null" >
+        SRC_NO,
+      </if>
+      <if test="mobileSection != null" >
+        MOBILE_SECTION,
+      </if>
+      <if test="fluxPlatCode != null" >
+        FLUX_PLAT_CODE,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="operator != null" >
+        OPERATOR,
+      </if>
+      <if test="lastUpdateTime != null" >
+        LAST_UPDATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="version != null" >
+        #{version,jdbcType=BIGINT},
+      </if>
+      <if test="srcNo != null" >
+        #{srcNo,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileSection != null" >
+        #{mobileSection,jdbcType=VARCHAR},
+      </if>
+      <if test="fluxPlatCode != null" >
+        #{fluxPlatCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operator != null" >
+        #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="lastUpdateTime != null" >
+        #{lastUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.yeepay.g3.core.activity.entity.ActivitySrcFlowPlatExample" resultType="java.lang.Integer" >
+    select count(*) from TBL_ACTIVITY_SRC_FLOW_PLAT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update TBL_ACTIVITY_SRC_FLOW_PLAT
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.version != null" >
+        VERSION = #{record.version,jdbcType=BIGINT},
+      </if>
+      <if test="record.srcNo != null" >
+        SRC_NO = #{record.srcNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mobileSection != null" >
+        MOBILE_SECTION = #{record.mobileSection,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fluxPlatCode != null" >
+        FLUX_PLAT_CODE = #{record.fluxPlatCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.operator != null" >
+        OPERATOR = #{record.operator,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lastUpdateTime != null" >
+        LAST_UPDATE_TIME = #{record.lastUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update TBL_ACTIVITY_SRC_FLOW_PLAT
+    set ID = #{record.id,jdbcType=BIGINT},
+      VERSION = #{record.version,jdbcType=BIGINT},
+      SRC_NO = #{record.srcNo,jdbcType=VARCHAR},
+      MOBILE_SECTION = #{record.mobileSection,jdbcType=VARCHAR},
+      FLUX_PLAT_CODE = #{record.fluxPlatCode,jdbcType=VARCHAR},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      OPERATOR = #{record.operator,jdbcType=VARCHAR},
+      LAST_UPDATE_TIME = #{record.lastUpdateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yeepay.g3.core.activity.entity.ActivitySrcFlowPlat" >
+    update TBL_ACTIVITY_SRC_FLOW_PLAT
+    <set >
+      <if test="version != null" >
+        VERSION = #{version,jdbcType=BIGINT},
+      </if>
+      <if test="srcNo != null" >
+        SRC_NO = #{srcNo,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileSection != null" >
+        MOBILE_SECTION = #{mobileSection,jdbcType=VARCHAR},
+      </if>
+      <if test="fluxPlatCode != null" >
+        FLUX_PLAT_CODE = #{fluxPlatCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operator != null" >
+        OPERATOR = #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="lastUpdateTime != null" >
+        LAST_UPDATE_TIME = #{lastUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yeepay.g3.core.activity.entity.ActivitySrcFlowPlat" >
+    update TBL_ACTIVITY_SRC_FLOW_PLAT
+    set VERSION = #{version,jdbcType=BIGINT},
+      SRC_NO = #{srcNo,jdbcType=VARCHAR},
+      MOBILE_SECTION = #{mobileSection,jdbcType=VARCHAR},
+      FLUX_PLAT_CODE = #{fluxPlatCode,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      OPERATOR = #{operator,jdbcType=VARCHAR},
+      LAST_UPDATE_TIME = #{lastUpdateTime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>  -->

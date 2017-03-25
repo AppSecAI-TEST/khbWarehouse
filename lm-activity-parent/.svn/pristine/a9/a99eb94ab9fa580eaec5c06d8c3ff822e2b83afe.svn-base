@@ -1,0 +1,69 @@
+package com.yeepay.g3.core.activity.facade.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.yeepay.g3.core.activity.entity.ActivityCoupon;
+import com.yeepay.g3.core.activity.entity.ActivityRaffleTicket;
+import com.yeepay.g3.core.activity.service.ActivityRaffleTicketService;
+import com.yeepay.g3.core.activity.utils.EntityDTOConvert;
+import com.yeepay.g3.facade.activity.dto.ActivityRaffleTicketDTO;
+import com.yeepay.g3.facade.activity.enums.RaffleTicketStatusEnum;
+import com.yeepay.g3.facade.activity.facade.ActivityRaffleTicketFacade;
+import com.yeepay.g3.utils.common.StringUtils;
+import com.yeepay.g3.utils.persistence.Entity;
+@Service
+public class ActivityRaffleTicketFacadeImpl implements
+		ActivityRaffleTicketFacade {
+	
+	@Autowired
+	private ActivityRaffleTicketService activityRaffleTicketServiceImpl;
+
+	@Override
+	public ActivityRaffleTicketDTO selectRaffleTicketById(long id) {
+		ActivityRaffleTicket activityRaffleTicket = activityRaffleTicketServiceImpl.selectRaffleTicketById(id);
+		ActivityRaffleTicketDTO activityRaffleTicketDto = new ActivityRaffleTicketDTO();
+		activityRaffleTicketDto = EntityDTOConvert.toTarget(activityRaffleTicket, ActivityRaffleTicketDTO.class);
+		return activityRaffleTicketDto;
+	}
+
+	@Override
+	public void addActivityRaffleTicket(
+			ActivityRaffleTicketDTO activityRaffleTicketDto) {
+		ActivityRaffleTicket activityRaffleTicket = new ActivityRaffleTicket();
+		activityRaffleTicket = EntityDTOConvert.toTarget(activityRaffleTicketDto, ActivityRaffleTicket.class);
+		activityRaffleTicket.setCouponStatus(RaffleTicketStatusEnum.CHECKING);//将抽奖券的状态至为待审核
+		activityRaffleTicketServiceImpl.addActivityRaffleTicket(activityRaffleTicket);
+
+	}
+
+	@Override
+	public List<ActivityRaffleTicketDTO> selectListByParams(
+			ActivityRaffleTicketDTO activityRaffleTicketDto) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<ActivityRaffleTicketDTO> selectEffRaffleTicketList(
+			ActivityRaffleTicketDTO activityRaffleTicketDto) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void updateActivityRaffleTicketById(
+			ActivityRaffleTicketDTO activityRaffleTicketDto) {
+		if(activityRaffleTicketDto != null && activityRaffleTicketDto.getId() != null) {
+			//判断是否非法调用接口
+			ActivityRaffleTicket activityRaffleTicket = new ActivityRaffleTicket();
+			activityRaffleTicket = EntityDTOConvert.toTarget(activityRaffleTicketDto, ActivityRaffleTicket.class);
+			activityRaffleTicketServiceImpl.updateActivityRaffleTicketById(activityRaffleTicket);
+			
+			
+		}
+	}
+
+}

@@ -1,0 +1,165 @@
+package com.yeepay.g3.core.activity.entity;
+
+import java.util.Date;
+
+import com.yeepay.g3.facade.activity.enums.UserRaffleticketStatusEnum;
+import com.yeepay.g3.utils.persistence.EntityVersion;
+
+public class ActivityUserRaffleticket implements EntityVersion<Long> {
+
+	private static final long serialVersionUID = -568464778249113145L;
+
+	private Long id;
+
+    private Long version;
+
+    private Long raffleTicketId;
+
+    private Integer raffleTicketCount;
+
+    private Integer raffleTicketUsedCount;
+
+    private String memberNo;
+
+    private String memberTel;
+
+    private Date validityTimeStart;
+
+    private Date validityTimeEnd;
+
+    private Date receiveTime;
+
+    private Long actionId;
+
+    private Long activityId;
+
+    private String activityName;
+
+    private UserRaffleticketStatusEnum status;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
+    }
+
+    public Long getRaffleTicketId() {
+        return raffleTicketId;
+    }
+
+    public void setRaffleTicketId(Long raffleTicketId) {
+        this.raffleTicketId = raffleTicketId;
+    }
+
+    public Integer getRaffleTicketCount() {
+        return raffleTicketCount;
+    }
+
+    public void setRaffleTicketCount(Integer raffleTicketCount) {
+        this.raffleTicketCount = raffleTicketCount;
+    }
+
+    public Integer getRaffleTicketUsedCount() {
+        return raffleTicketUsedCount;
+    }
+
+    public void setRaffleTicketUsedCount(Integer raffleTicketUsedCount) {
+        this.raffleTicketUsedCount = raffleTicketUsedCount;
+    }
+
+    public String getMemberNo() {
+        return memberNo;
+    }
+
+    public void setMemberNo(String memberNo) {
+        this.memberNo = memberNo == null ? null : memberNo.trim();
+    }
+
+    public String getMemberTel() {
+        return memberTel;
+    }
+
+    public void setMemberTel(String memberTel) {
+        this.memberTel = memberTel == null ? null : memberTel.trim();
+    }
+
+    public Date getValidityTimeStart() {
+        return validityTimeStart;
+    }
+
+    public void setValidityTimeStart(Date validityTimeStart) {
+        this.validityTimeStart = validityTimeStart;
+    }
+
+    public Date getValidityTimeEnd() {
+        return validityTimeEnd;
+    }
+
+    public void setValidityTimeEnd(Date validityTimeEnd) {
+        this.validityTimeEnd = validityTimeEnd;
+    }
+
+    public Date getReceiveTime() {
+        return receiveTime;
+    }
+
+    public void setReceiveTime(Date receiveTime) {
+        this.receiveTime = receiveTime;
+    }
+
+    public Long getActionId() {
+        return actionId;
+    }
+
+    public void setActionId(Long actionId) {
+        this.actionId = actionId;
+    }
+
+    public Long getActivityId() {
+        return activityId;
+    }
+
+    public void setActivityId(Long activityId) {
+        this.activityId = activityId;
+    }
+
+    public String getActivityName() {
+        return activityName;
+    }
+
+    public void setActivityName(String activityName) {
+        this.activityName = activityName == null ? null : activityName.trim();
+    }
+
+	public UserRaffleticketStatusEnum getStatus() {
+		return status;
+	}
+
+	public void setStatus(UserRaffleticketStatusEnum status) {
+		this.status = status;
+	}
+
+	@Override
+	public String toString() {
+		return "ActivityUserRaffleticket [id=" + id + ", version=" + version
+				+ ", raffleTicketId=" + raffleTicketId + ", raffleTicketCount="
+				+ raffleTicketCount + ", raffleTicketUsedCount="
+				+ raffleTicketUsedCount + ", memberNo=" + memberNo
+				+ ", memberTel=" + memberTel + ", validityTimeStart="
+				+ validityTimeStart + ", validityTimeEnd=" + validityTimeEnd
+				+ ", receiveTime=" + receiveTime + ", actionId=" + actionId
+				+ ", activityId=" + activityId + ", activityName="
+				+ activityName + ", status=" + status + "]";
+	}
+
+}

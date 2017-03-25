@@ -1,0 +1,30 @@
+package com.yeepay.g3.core.zt.dao;
+
+import com.yeepay.g3.core.zt.entity.ZtPolicyInvestPlanHis;
+import com.yeepay.g3.core.zt.entity.ZtPolicyInvestPlanHisExample;
+import java.util.List;
+import org.apache.ibatis.annotations.Param;
+
+public interface ZtPolicyInvestPlanHisMapper {
+    int countByExample(ZtPolicyInvestPlanHisExample example);
+
+    int deleteByExample(ZtPolicyInvestPlanHisExample example);
+
+    int deleteByPrimaryKey(Long id);
+
+    int insert(ZtPolicyInvestPlanHis record);
+
+    int insertSelective(ZtPolicyInvestPlanHis record);
+
+    List<ZtPolicyInvestPlanHis> selectByExample(ZtPolicyInvestPlanHisExample example);
+
+    ZtPolicyInvestPlanHis selectByPrimaryKey(Long id);
+
+    int updateByExampleSelective(@Param("record") ZtPolicyInvestPlanHis record, @Param("example") ZtPolicyInvestPlanHisExample example);
+
+    int updateByExample(@Param("record") ZtPolicyInvestPlanHis record, @Param("example") ZtPolicyInvestPlanHisExample example);
+
+    int updateByPrimaryKeySelective(ZtPolicyInvestPlanHis record);
+
+    int updateByPrimaryKey(ZtPolicyInvestPlanHis record);
+}

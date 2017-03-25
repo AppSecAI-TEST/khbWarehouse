@@ -1,0 +1,17 @@
+/**
+ * @author 陈大涛
+ * 2016-6-2下午2:34:26
+ */
+package com.yeepay.g3.facade.activity.enums;
+
+/**
+ * @author 陈大涛
+ * 2016-6-2下午2:34:26
+ */
+public enum ActivityUserScoreRecordTypeEnum {
+
+	/**增加 **/
+	ADD,
+	/**扣除 **/
+	MOVE
+}
