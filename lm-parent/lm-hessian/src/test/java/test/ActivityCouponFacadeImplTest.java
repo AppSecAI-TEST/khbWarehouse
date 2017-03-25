@@ -13,10 +13,9 @@ import com.xinnet.facade.facade.UserInfoFacade;
 
 
 /**
- * @Description 
- * @author zhenping.zhou
- * @CreateTime 2015年12月7日 上午10:42:15
- * @version 1.0
+ * 
+ * @author hongbin.kang
+ * @date 2017年3月25日下午10:56:03
  */
 @RunWith(SpringJUnit4ClassRunner.class)  
 @ContextConfiguration(locations = {  
@@ -43,36 +42,9 @@ public class ActivityCouponFacadeImplTest {
      */
     @Test
     public void testfirst() throws Exception {
-//        activityCouponFacadeImpl = RemoteServiceFactory.getService(ActivityCouponFacade.class);
-
-        Long id = 35L;
         UserInfoDTO dto = userInfoFacadeImpl.selectUserInfoById("1");
         System.out.println(dto);
     }
     
-   /* *//**
-     * 测试保存优惠券信息
-     * @throws Exception
-     *//*
-//    @Test
-    public void testRepalOrder() throws Exception {
-    	activityCouponFacadeImpl = RemoteServiceFactory.getService(ActivityCouponFacade.class);
-    	
-//    	activityCouponFacadeImpl.addActivityCoupon(activityCouponDto);
-    }
-
-    *//**
-     * 测试冻结用户优惠券
-     * @throws Exception
-     *//*
-//    @Test
-    public void testFrozenUserCoupon() throws Exception {
-    	Long id = 61L;
-//    	String memberNo = "11";
-//    	Long tradeId = 1L;
-//    	BizTypeEnum bizType = BizTypeEnum.LM_LICAI;
-    	ActivityCouponDTO couponDto = activityCouponFacadeImpl.selectCouponById(id);
-    	
-    	System.out.println(couponDto);
-    }*/
+  
 }
