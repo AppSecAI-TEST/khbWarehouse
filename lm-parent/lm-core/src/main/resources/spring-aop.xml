@@ -48,7 +48,7 @@
     	<!-- <aop:pointcut id="pc" expression="execution(* com.xinnet.service..*.*(..))" />
     	<aop:advisor pointcut-ref="pc" advice-ref="txAdvice" /> -->
     	<!-- 切入点表达式  -->  
-	    <aop:pointcut id="txPointcut" expression="execution(* com.xinnet.service..*.*(..))"/>  
+	    <aop:pointcut id="txPointcut" expression="execution(* com.xinnet.core.service..*.*(..))"/>  
 	    <aop:advisor advice-ref="txAdvice" pointcut-ref="txPointcut"/>
     </aop:config>
   
