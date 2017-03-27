@@ -17,14 +17,14 @@ import org.springframework.stereotype.Service;
 import com.xinnet.core.dao.UserMapper;
 import com.xinnet.core.entity.User;
 import com.xinnet.core.entity.UserInfo;
-import com.xinnet.core.service.UserInfoService;
+import com.xinnet.core.service.IUserInfoService;
 
 /**
  * @author hongbin.kang
  *
  */
 @Service
-public class UserInfoServiceImpl implements UserInfoService {
+public class UserInfoServiceImpl implements IUserInfoService {
 
 	/*@Autowired
 	private UserInfoDao userInfoDao;*/

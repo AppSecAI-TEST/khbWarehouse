@@ -10,10 +10,10 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
+import com.xinnet.core.annotation.HessianService;
 import com.xinnet.core.entity.User;
-import com.xinnet.core.service.UserInfoService;
+import com.xinnet.core.service.IUserInfoService;
 import com.xinnet.core.utils.EntityDTOConvert;
 import com.xinnet.facade.dto.UserInfoDTO;
 import com.xinnet.facade.facade.UserInfoFacade;
@@ -26,11 +26,11 @@ import com.xinnet.facade.facade.UserInfoFacade;
  * @author hongbin.kang
  *
  */
-@Service
+@HessianService
 public class UserInfoFacadeImpl implements UserInfoFacade {
 	
 	@Autowired
-	private UserInfoService userInfoServiceImpl;
+	private IUserInfoService userInfoServiceImpl;
 	
 	private static final Logger logger = LoggerFactory.getLogger(UserInfoFacadeImpl.class);
 	@Override

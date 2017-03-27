@@ -5,7 +5,7 @@ import java.util.Map;
 import com.xinnet.core.entity.User;
 import com.xinnet.core.entity.UserInfo;
 
-public interface UserInfoService {
+public interface IUserInfoService {
 
 	/**
 	 * 会员编号查询用户活动详细信息
