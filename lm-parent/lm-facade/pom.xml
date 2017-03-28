@@ -7,10 +7,8 @@
     <artifactId>lm-parent</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
-  <groupId>com.xinnet.lanmao</groupId>
   <artifactId>lm-facade</artifactId>
   <packaging>jar</packaging>
-  <version>0.0.1-SNAPSHOT</version>
   <name>lm-facade</name>
   <url>http://maven.apache.org</url>
   <properties>
