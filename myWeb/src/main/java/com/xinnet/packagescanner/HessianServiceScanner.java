@@ -15,8 +15,8 @@ import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.remoting.caucho.HessianServiceExporter;
 import org.springframework.stereotype.Component;
   
-/*@Component*/ //注释掉，以后研究
-public class HessianServiceScanner implements BeanFactoryPostProcessor {  
+/*@Component*/ //注释掉，暂时不需要启动就扫描
+public class HessianServiceScanner /*implements BeanFactoryPostProcessor*/ {  
 	
 	private static final Logger logger = LoggerFactory.getLogger(HessianServiceScanner.class);
 	
