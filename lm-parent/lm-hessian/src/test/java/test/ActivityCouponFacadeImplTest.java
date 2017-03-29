@@ -19,7 +19,7 @@ import com.xinnet.facade.facade.UserInfoFacade;
  */
 @RunWith(SpringJUnit4ClassRunner.class)  
 @ContextConfiguration(locations = {  
-        "classpath:spring-appContext.xml"  
+        "classpath*:spring-appContext.xml"  
 }) 
 public class ActivityCouponFacadeImplTest {
 
