@@ -262,6 +262,19 @@
 		    <version>1.0.0.GA</version>
 		</dependency> -->
   </dependencies>
+  
+   <distributionManagement>
+	    <repository>
+	           <id>releases</id><!--这个ID需要与你的release仓库的Repository ID一致-->
+	           <url>http://localhost:8081/nexus/content/repositories/releases</url>
+	    </repository>
+	    <snapshotRepository>
+	        <id>snapshots</id><!--这个ID需要与你的snapshots仓库的Repository ID一致-->
+	        <url>http://localhost:8081/nexus/content/repositories/snapshots</url>
+	    </snapshotRepository>
+
+	</distributionManagement>
+   
   <build>
     <finalName>myWeb</finalName>
   </build>
