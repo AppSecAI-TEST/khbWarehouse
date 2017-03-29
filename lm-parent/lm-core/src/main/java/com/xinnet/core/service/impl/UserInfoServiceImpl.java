@@ -7,8 +7,6 @@ package com.xinnet.core.service.impl;
 
 import java.util.Map;
 
-import javax.annotation.Resource;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +27,7 @@ public class UserInfoServiceImpl implements IUserInfoService {
 	/*@Autowired
 	private UserInfoDao userInfoDao;*/
 	
-	@Resource
+	@Autowired
 	private UserMapper userMapper;
 	
 	

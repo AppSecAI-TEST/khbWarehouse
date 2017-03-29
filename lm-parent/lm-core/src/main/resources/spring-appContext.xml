@@ -21,11 +21,6 @@
         class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">  
         <property name="location" value="classpath:jdbc.properties" />  
     </bean>  -->
-    <!-- 和aop加载到一个文件里面，否则aop无效 -->
-    <!-- 自动扫描该包，扫描所有的组件 -->  
-    <context:annotation-config />
-	<mvc:annotation-driven />
-	<context:component-scan base-package="com.xinnet"></context:component-scan>
     <!-- 多个文件 -->
     <bean id="propertyConfigurer"  
         class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">  
@@ -41,6 +36,10 @@
     <import resource="classpath:spring-mybatis.xml"/>
     <import resource="classpath:spring-aop.xml"/>
     <import resource="classpath:spring-redis.xml"/>
-    
+    <!-- 和aop加载到一个文件里面，否则aop无效 -->
+    <!-- 自动扫描该包，扫描所有的组件 -->  
+    <context:annotation-config />
+	<mvc:annotation-driven />
+	<context:component-scan base-package="com.xinnet"></context:component-scan>
 	
 </beans>
