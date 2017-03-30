@@ -4,7 +4,7 @@
   <groupId>com.xinnet.lanmao</groupId>
   <artifactId>lm-parent</artifactId>
   <packaging>pom</packaging>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.0.1-RELEASE</version>
   <name>lm-parent Maven Webapp</name>
   <url>http://maven.apache.org</url>
   <dependencies>
