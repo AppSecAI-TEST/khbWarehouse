@@ -33,6 +33,14 @@ public class DataSourceConfig {
 		return dataSource;
 	}
 	
+	/**
+	 * SqlSessionFactory  PlatformTransactionManager  使用已经注册的source才能使用事务管理
+	 * @author hongbin.kang
+	 * @date 2017年4月1日 上午3:00:38
+	 * @param dataSource
+	 * @return
+	 * @throws Exception
+	 */
 	@Bean
 	public SqlSessionFactory sqlSessionFactoryBean(DataSource dataSource) throws Exception {
 		SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
@@ -43,6 +51,14 @@ public class DataSourceConfig {
 		return sqlSessionFactoryBean.getObject();
 	}
 	
+	/**
+	 * SqlSessionFactory  PlatformTransactionManager  使用已经注册的source才能使用事务管理
+	 * @author hongbin.kang
+	 * @date 2017年4月1日 上午3:00:38
+	 * @param dataSource
+	 * @return
+	 * @throws Exception
+	 */
 	@Bean
 	public PlatformTransactionManager transactionManager(DataSource dataSource) {
 		DataSourceTransactionManager manager = new DataSourceTransactionManager();  
