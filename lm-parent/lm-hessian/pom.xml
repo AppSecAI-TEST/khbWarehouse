@@ -5,11 +5,9 @@
   <parent>
     <groupId>com.xinnet.lanmao</groupId>
     <artifactId>lm-parent</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1-RELEASE</version>
   </parent>
-  <groupId>com.xinnet.lanmao</groupId>
   <artifactId>lm-hessian</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
   <packaging>war</packaging>
   <name>lm-hessian Maven Webapp</name>
   <url>http://maven.apache.org</url>
@@ -23,7 +21,7 @@
     <dependency>
 		  <groupId>com.xinnet.lanmao</groupId>
 		  <artifactId>lm-core</artifactId>
-		  <version>0.0.1-SNAPSHOT</version>
+		  <version>0.0.1-RELEASE</version>
 	</dependency>
 	<!-- <dependency>
 		<groupId>org.springframework</groupId>

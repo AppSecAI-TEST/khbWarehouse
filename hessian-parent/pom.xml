@@ -14,7 +14,7 @@
             <id>releases</id>
             <name>Team Nexus Release Repository</name>
             <url>http://localhost:8081/nexus/content/repositories/releases/</url>
-        </repository>
+        </repository> 
 
         <snapshotRepository>
             <id>snapshots</id> <!-- 此id要与上面setting.xml中的server中的配置一致 -->

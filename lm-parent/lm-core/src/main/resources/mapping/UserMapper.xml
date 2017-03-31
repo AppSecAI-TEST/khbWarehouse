@@ -7,7 +7,7 @@
     <result column="pass_word" property="passWord" jdbcType="VARCHAR" />
     <result column="email" property="email" jdbcType="VARCHAR" />
     <result column="creat_time" property="creatTime" jdbcType="TIMESTAMP" />
-  </resultMap>
+  </resultMap> 
   <resultMap id="ResultMapWithBLOBs" type="com.xinnet.core.entity.User" extends="BaseResultMap" >
     <result column="head_portrait" property="headPortrait" jdbcType="LONGVARBINARY" />
   </resultMap>

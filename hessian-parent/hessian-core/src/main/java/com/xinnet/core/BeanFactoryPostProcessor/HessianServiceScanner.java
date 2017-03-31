@@ -31,9 +31,9 @@ public class HessianServiceScanner implements BeanFactoryPostProcessor {
   
             BeanDefinitionBuilder builder = BeanDefinitionBuilder  
                     .rootBeanDefinition(HessianServiceExporter.class);  
-            builder.addPropertyReference("service", beanName);  
-            builder.addPropertyValue("serviceInterface",  
-                    clasz.getInterfaces()[0].getName());  
+            builder.addPropertyReference("service", beanName);
+            String serviceInterface = clasz.getInterfaces()[0].getName();
+            builder.addPropertyValue("serviceInterface",serviceInterface);  
             ((BeanDefinitionRegistry) beanFactory).registerBeanDefinition(  
                     hessianServiceBeanName, builder.getBeanDefinition());  
         }  

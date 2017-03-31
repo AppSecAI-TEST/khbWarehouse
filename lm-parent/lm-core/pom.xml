@@ -5,12 +5,10 @@
   <parent>
     <groupId>com.xinnet.lanmao</groupId>
     <artifactId>lm-parent</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1-RELEASE</version>
   </parent>
-  <groupId>com.xinnet.lanmao</groupId>
   <artifactId>lm-core</artifactId>
   <packaging>jar</packaging>
-  <version>0.0.1-SNAPSHOT</version>
   <name>lm-core</name>
   <url>http://maven.apache.org</url>
   <properties>  
@@ -65,7 +63,7 @@
             <scope>test</scope>  
         </dependency>  
         <!-- spring核心包 -->  
-        <dependency>  
+        <dependency>
             <groupId>org.springframework</groupId>  
             <artifactId>spring-core</artifactId>  
             <version>${spring.version}</version>  
@@ -253,14 +251,7 @@
 	
         
   </dependencies>
-  <build>  
-        <finalName>lm-core</finalName>  
-        <plugins>  
-            <plugin>  
-                <groupId>org.mortbay.jetty</groupId>  
-                <artifactId>jetty-maven-plugin</artifactId>  
-                <version>8.1.12.v20130726</version>  
-            </plugin>  
-        </plugins>  
-    </build>
+  <!-- <build>  
+        <finalName>lm-core</finalName>
+    </build> -->
 </project>
