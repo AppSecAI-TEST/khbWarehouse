@@ -2,90 +2,47 @@ package com.xinnet.service;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import com.xinnet.entity.Student;
 import com.xinnet.entity.Class;
-import com.xinnet.mapper.ClassMapper;
+import com.xinnet.entity.Student;
 
 /**
  * 班级操作service
  * @author fan
  *
  */
-@Service
-@Transactional
-public class ClassService {
-	
-	@Autowired
-	private ClassMapper classMapper;
+public interface ClassService {
 	/**
 	 * 添加班级
 	 * @param cls
 	 * @return
 	 */
-	public Boolean addStudent(Class cls){
-		Boolean flag = true;
-		Integer sqlFlag = classMapper.addClass(cls);
-		if(sqlFlag != 1){
-			flag = false;
-		}
-		return flag;
-	}
+	public Boolean addStudent(Class cls);
 	/**
 	 * 查询所有班级
 	 * @return
 	 */
-	public List<Class> searchAllClass() {
-		return classMapper.searchAllClass();
-		
-	}
+	public List<Class> searchAllClass();
 	/**
 	 * 修改班级
 	 * @param cls
 	 * @return
 	 */
-	public Boolean editClass(Class cls) {
-		Boolean flag = true;
-		Integer sqlFlag = classMapper.editClass(cls);
-		if(sqlFlag != 1){
-			flag = false;
-		}
-		return flag;
-	}
+	public Boolean editClass(Class cls);
 	/**
 	 * 删除班级
 	 * @param cId
 	 * @return
 	 */
-	public Boolean deleteClass(Long cId) {
-		Boolean flag = true;
-		Integer studentCount = classMapper.searchIsExistStudentByClass(cId);
-		if(studentCount != 0){
-			flag = false;
-		}else{
-			Integer sqlFlag = classMapper.deleteClass(cId);
-			if(sqlFlag != 1 || studentCount > 0){
-				flag = false;
-			}
-		}
-		return flag;
-	}
+	public Boolean deleteClass(Long cId);
 	/**
 	 * 查询未添加班级的学生
 	 * @return
 	 */
-	public List<Student> searchNoCheckedClassStudent() {
-		return classMapper.searchNoCheckedClassStudent();
-	}
+	public List<Student> searchNoCheckedClassStudent();
 	/**
 	 * 保存修改学生的班级信息
 	 * @param student
 	 * @return
 	 */
-	public Boolean updateStudentClass(Student student) {
-		return classMapper.updateStudentClass(student);
-	}
+	public Boolean updateStudentClass(Student student);
 }

@@ -37,7 +37,7 @@ var studentUtils = {
 		//添加学生
 		$.ajax({
 			type : "POST",
-			url :"/student/addStudent",
+			url : ctx + "/student/addStudent",
 			dataType:"JSON",  
 			contentType: "application/json;charset=utf-8",
 			data: JSON.stringify(student),//将对象序列化成JSON字符串  
@@ -60,7 +60,7 @@ var studentUtils = {
 	 * 查询学生
 	 */
 	searchStudent:function(cId){
-		var url = "/student/searchAllStudent";
+		var url = ctx + "/student/searchAllStudent";
 		$.ajax({
 			type : "GET",
 			url :url,
@@ -111,7 +111,7 @@ var studentUtils = {
 	initClassCheckBox:function(){
 		$.ajax({
 			type : "GET",
-			url :"/student/getClassList",
+			url : ctx + "/student/getClassList",
 			dataType:"JSON",  
 			data: {},
 			success : function(data) {
@@ -145,7 +145,7 @@ var studentUtils = {
 			$student.name = $(obj).prev().prev().val();
 			$.ajax({
 				type : "POST",
-				url :"/student/editStudent",
+				url : ctx + "/student/editStudent",
 				dataType:"JSON",  
 				contentType: "application/json;charset=utf-8",
 				data: JSON.stringify($student),
@@ -167,7 +167,7 @@ var studentUtils = {
 		var $s_Id = $(obj).parent().attr("id").replace("student_","");
 		$.ajax({
 			type : "GET",
-			url :"/student/deleteStudent",
+			url : ctx + "/student/deleteStudent",
 			dataType:"JSON",  
 			data: {
 				sId:$s_Id
@@ -189,7 +189,7 @@ var studentUtils = {
 		var $student_name = $("input[name='search_student_name']").val();
 		$.ajax({
 			type : "GET",
-			url :"/student/searchStudentByName",
+			url : ctx + "/student/searchStudentByName",
 			dataType:"JSON",  
 			data: {
 				name:$student_name
