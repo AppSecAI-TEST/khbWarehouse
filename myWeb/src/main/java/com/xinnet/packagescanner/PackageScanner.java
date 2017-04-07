@@ -28,7 +28,7 @@ public class PackageScanner {
         this.cl = getClass().getClassLoader();
 
     }
-    
+     
     public PackageScanner(String basePackage, ClassLoader cl) {
         this.basePackage = basePackage;
         this.cl = cl;
