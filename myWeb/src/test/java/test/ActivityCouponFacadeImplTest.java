@@ -1,7 +1,5 @@
 package test;
 
-
-
 import javax.annotation.Resource;
 
 import org.junit.Test;
