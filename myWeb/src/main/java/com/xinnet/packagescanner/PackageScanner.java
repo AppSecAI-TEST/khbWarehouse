@@ -14,12 +14,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * This scanner is used to find out all classes in a package.
- * Created by whf on 15-2-26.
+ * 扫描包的工具类
+ * @author hongbin.kang
+ * @date 2017年4月7日下午6:54:30
  */
 public class PackageScanner {
     private Logger logger = LoggerFactory.getLogger(PackageScanner.class);
-
+ 
     private String basePackage;
     private ClassLoader cl;
 
