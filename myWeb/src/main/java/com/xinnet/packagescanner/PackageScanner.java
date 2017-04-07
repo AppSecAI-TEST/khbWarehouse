@@ -139,7 +139,7 @@ public class PackageScanner {
         JarInputStream jarIn = new JarInputStream(new FileInputStream(jarPath));
         JarEntry entry = jarIn.getNextJarEntry();
 
-        List<String> nameList = new ArrayList<>();
+        List<String> nameList = new ArrayList<String>();
         while (null != entry) {
             String name = entry.getName();
             if (name.startsWith(splashedPackageName) && isClassFile(name)) {
