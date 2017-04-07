@@ -7,7 +7,7 @@
   <version>0.0.1-SNAPSHOT</version>
   <name>myWeb Maven Webapp</name>
   <url>http://maven.apache.org</url>
-  <properties>  
+  <properties>   
         <!-- spring版本号 -->  
         <spring.version>4.0.2.RELEASE</spring.version>  
         <!-- mybatis版本号 -->  
