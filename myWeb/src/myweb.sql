@@ -4,13 +4,13 @@ Navicat MySQL Data Transfer
 Source Server         : khbmysql
 Source Server Version : 50173
 Source Host           : 103.42.29.142:3306
-Source Database       : investtest
+Source Database       : myweb
 
 Target Server Type    : MYSQL
 Target Server Version : 50173
 File Encoding         : 65001
 
-Date: 2017-04-08 12:50:43
+Date: 2017-04-08 13:01:43
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -44,7 +44,7 @@ CREATE TABLE `student` (
 -- ----------------------------
 DROP TABLE IF EXISTS `t_identifying_code`;
 CREATE TABLE `t_identifying_code` (
-  `id` int(10) NOT NULL,
+  `id` int(10) NOT NULL AUTO_INCREMENT,
   `mode` varchar(255) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
   `code` varchar(255) DEFAULT NULL,
@@ -59,12 +59,12 @@ CREATE TABLE `t_identifying_code` (
 -- ----------------------------
 DROP TABLE IF EXISTS `t_order`;
 CREATE TABLE `t_order` (
-  `id` int(10) NOT NULL,
+  `id` int(10) NOT NULL AUTO_INCREMENT,
   `water_num` varchar(255) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
   `amout` decimal(10,4) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for t_user

@@ -1,5 +1,7 @@
 package test;
 
+import java.math.BigDecimal;
+
 import javax.annotation.Resource;
 
 import org.junit.Test;
@@ -7,7 +9,9 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.xinnet.entity.Order;
 import com.xinnet.entity.User;
+import com.xinnet.service.IOrderService;
 import com.xinnet.service.IUserService;
 
 
@@ -25,6 +29,9 @@ public class ActivityCouponFacadeImplTest {
 
 	@Resource
 	private IUserService userService;
+	@Resource
+	private IOrderService orderService;
+	
 	
     /*@Before
     public void setUp() throws Exception {
@@ -45,6 +52,11 @@ public class ActivityCouponFacadeImplTest {
 //        activityCouponFacadeImpl = RemoteServiceFactory.getService(ActivityCouponFacade.class);
 
         Long id = 35L;
+        Order order = new Order();
+        order.setAmout(BigDecimal.ZERO);
+        order.setUserId(1);
+        order.setWaterNum("康洪彬");
+        orderService.insertSelective(order);
         User dto = userService.getUserById(1);
         System.out.println(dto);
     }
