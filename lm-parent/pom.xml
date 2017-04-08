@@ -94,7 +94,7 @@
   </modules>
   
   <!-- 发布到私服使用 -->
-  <!-- <distributionManagement>
+  <distributionManagement>
         <repository>
             <id>releases</id>
             <name>Team Nexus Release Repository</name>
@@ -102,11 +102,11 @@
         </repository> 
 
         <snapshotRepository>
-            <id>snapshots</id> 此id要与上面setting.xml中的server中的配置一致
+            <id>snapshots</id> <!-- 此id要与上面setting.xml中的server中的配置一致 -->
             <name>Team Nexus distribution snapshot repository</name>
             <url>http://localhost:8081/nexus/content/repositories/snapshots</url>
             <uniqueVersion>false</uniqueVersion>
         </snapshotRepository>
-    </distributionManagement> -->
+    </distributionManagement>
     
 </project>
