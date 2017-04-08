@@ -26,7 +26,7 @@ public class DataSourceConfig {
 	@Bean
 	public DataSource dataSource() {
 		DataSource dataSource = new DataSource();
-		dataSource.setUrl("jdbc:mysql://localhost:3306/investtest");
+		dataSource.setUrl("jdbc:mysql://localhost:3306/myweb");
 		dataSource.setUsername("root");
 		dataSource.setPassword("123456");
 		dataSource.setDriverClassName("com.mysql.jdbc.Driver");
