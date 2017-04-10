@@ -7,3 +7,11 @@ var ctx = "<%=basePath %>";
 </script>
 <script type="text/javascript" src="<%=basePath %>/static/js/plugin/jquery2.1.4.js"></script>
 <script type="text/javascript" src="<%=basePath %>/static/js/common/common.js"></script>
+	<script type="text/javascript">
+	$(document ).ajaxComplete(function(event,xhr,settings){
+	  if(xhr.getResponseHeader("sessionstatus") == "timeout"){
+	    location.href = location.href;
+	  }
+	});
+	
+	</script>
