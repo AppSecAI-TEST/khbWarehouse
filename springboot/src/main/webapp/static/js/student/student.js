@@ -216,7 +216,7 @@ function getStudentForm(){
  * 跳转班级操作
  */
 function returnClassHandle(){
-	window.location.href="/class/index";
+	window.location.href=ctx+"/class/index";
 }
 
 

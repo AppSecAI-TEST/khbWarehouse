@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.xinnet.annotation.NotLogin;
 import com.xinnet.entity.Class;
 import com.xinnet.entity.Student;
 import com.xinnet.entity.StudentVo;
@@ -24,6 +25,7 @@ public class StudentController extends BaseController {
 	private StudentService studentService;
 
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
+	@NotLogin
 	public String index() {
 		return "student";
 	}
@@ -35,6 +37,7 @@ public class StudentController extends BaseController {
 	 * @param student 客户端传递封装好的学生对象
 	 */
 	@RequestMapping(value = "/addStudent"/*,method = RequestMethod.POST*/)
+	@NotLogin
 	public void addStudent(HttpServletRequest request,HttpServletResponse response) {
 		Boolean flag = studentService.addStudent(null);
 		this.printJson(flag, response);
@@ -45,6 +48,7 @@ public class StudentController extends BaseController {
 	 * @param response
 	 */
 	@RequestMapping(value = "/searchAllStudent",method = RequestMethod.GET)
+	@NotLogin
 	public void getAllStudent(HttpServletRequest request,HttpServletResponse response,Integer cId){
 		List<StudentVo> studentList = studentService.searchAllStudent(cId);
 		this.printJson(studentList, response);
@@ -55,6 +59,7 @@ public class StudentController extends BaseController {
 	 * @param response
 	 */
 	@RequestMapping(value = "/getClassList",method = RequestMethod.GET)
+	@NotLogin
 	public void getClassList(HttpServletRequest request,HttpServletResponse response){
 		List<Class> classList = studentService.getClassList();
 		this.printJson(classList, response);
@@ -63,6 +68,7 @@ public class StudentController extends BaseController {
 	 * 修改学生姓名
 	 */
 	@RequestMapping(value = "/editStudent",method = RequestMethod.POST)
+	@NotLogin
 	public void editStudent(HttpServletRequest request,HttpServletResponse response,@RequestBody Student student){
 		Boolean flag = studentService.editStudent(student);
 		this.printJson(flag, response);
@@ -71,6 +77,7 @@ public class StudentController extends BaseController {
 	 * 删除学生
 	 */
 	@RequestMapping(value = "/deleteStudent",method = RequestMethod.GET)
+	@NotLogin
 	public void deleteStudent(HttpServletRequest request,HttpServletResponse response,Long sId){
 		Boolean flag = studentService.deleteStudent(sId);
 		this.printJson(flag, response);
@@ -79,6 +86,7 @@ public class StudentController extends BaseController {
 	 * 根据学生姓名模糊查询
 	 */
 	@RequestMapping(value = "/searchStudentByName",method = RequestMethod.GET)
+	@NotLogin
 	public void searchStudentByName(HttpServletRequest request,HttpServletResponse response,String name){
 		List<StudentVo> studentList = studentService.searchStudentByName(name);
 		this.printJson(studentList, response);
