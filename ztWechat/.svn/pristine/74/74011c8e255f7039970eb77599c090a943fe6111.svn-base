@@ -1,0 +1,325 @@
+package com.yeepay.g3.app.lmweChat.action.zt;
+
+
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import javax.servlet.http.HttpSession;
+
+import org.springframework.stereotype.Controller;
+
+import com.lanmao.fund.facade.fundsales.service.FundTradeManagementFacade;
+import com.yeepay.g3.app.lmweChat.action.BaseAction;
+import com.yeepay.g3.app.lmweChat.utils.GetParamUtils;
+import com.yeepay.g3.app.lmweChat.utils.PageShowUtils;
+import com.yeepay.g3.app.lmweChat.utils.SecretUtils;
+import com.yeepay.g3.facade.activity.dto.ZtMemberWealthInfoDTO;
+import com.yeepay.g3.facade.lmportal.dto.MemberDto;
+import com.yeepay.g3.facade.zt.dto.ZtAssetOrderInfoDTO;
+import com.yeepay.g3.facade.zt.dto.ZtPolicyFundOrderDetailDTO;
+import com.yeepay.g3.facade.zt.dto.ZtPolicyFundShareAndPolicyProductDTO;
+import com.yeepay.g3.facade.zt.dto.ZtPolicyIncomePageDTO;
+import com.yeepay.g3.facade.zt.dto.ZtPolicyOrderDetailDTO;
+import com.yeepay.g3.facade.zt.dto.ZtPolicyOrderDetailPageDTO;
+import com.yeepay.g3.facade.zt.dto.ZtPurFeeDetailDTO;
+import com.yeepay.g3.facade.zt.dto.ZtUserPolicyFundPropertionDTO;
+import com.yeepay.g3.facade.zt.enums.PolicyOrderDetailOrderStatusEnum;
+import com.yeepay.g3.facade.zt.facade.ZtMemberIncomeRecordFacade;
+import com.yeepay.g3.facade.zt.facade.ZtPolicyFundOrderDetailFacade;
+import com.yeepay.g3.facade.zt.facade.ZtPolicyFundShareFacade;
+import com.yeepay.g3.facade.zt.facade.ZtPolicyOrderDetailFacade;
+import com.yeepay.g3.facade.zt.facade.ZtPolicyOrderFacade;
+import com.yeepay.g3.facade.zt.facade.ZtPurchaseFacade;
+import com.yeepay.g3.utils.common.log.Logger;
+import com.yeepay.g3.utils.common.log.LoggerFactory;
+import com.yeepay.g3.utils.rmi.RemoteServiceFactory;
+import com.yeepay.g3.utils.web.emvc.annotation.Param;
+/**
+ * @Title: 策略投资的财富相关action
+ * @Description: 描述
+ * @Copyright: 懒猫金服
+ * @author ying.liu
+ * @createTime 2016年10月27日 下午1:41:38
+ * @version 2016年10月27日
+ */
+@Controller
+public class MyPolicyInvestAssetAction extends BaseAction{
+
+	private Logger logger = LoggerFactory.getLogger(MyPolicyInvestAssetAction.class);
+	
+	private ZtPolicyFundShareFacade ztPolicyFundShareFacade = RemoteServiceFactory.getService(ZtPolicyFundShareFacade.class);
+	
+	private ZtPolicyOrderDetailFacade ztPolicyOrderDetailFacade = RemoteServiceFactory.getService(ZtPolicyOrderDetailFacade.class);
+	
+	private ZtPolicyFundOrderDetailFacade ztPolicyFundOrderDetailFacade = RemoteServiceFactory.getService(ZtPolicyFundOrderDetailFacade.class);
+	
+	private ZtMemberIncomeRecordFacade ztMemberIncomeRecordFacade = RemoteServiceFactory.getService(ZtMemberIncomeRecordFacade.class);
+	
+	private ZtPolicyOrderFacade ztPolicyOrderFacade = RemoteServiceFactory.getService(ZtPolicyOrderFacade.class);
+	
+	private ZtPurchaseFacade ztPurchaseFacade = RemoteServiceFactory.getService(ZtPurchaseFacade.class);
+	
+	/**
+	 * 查询用户交易记录
+	 */
+	protected FundTradeManagementFacade fundTradeManagementFacade = RemoteServiceFactory.getService(FundTradeManagementFacade.class);
+	
+//	private ZtPolicyFundShareFacade ztPolicyFundShareFacade = RemoteServiceFactory.getService("http://localhost:8080/activity-hessian/hessian", RemotingProtocol.HESSIAN,ZtPolicyFundShareFacade.class);
+//	
+//	private ZtPolicyOrderDetailFacade ztPolicyOrderDetailFacade = RemoteServiceFactory.getService("http://localhost:8080/activity-hessian/hessian", RemotingProtocol.HESSIAN,ZtPolicyOrderDetailFacade.class);
+//	
+//	private ZtMemberIncomeRecordFacade ztMemberIncomeRecordFacade = RemoteServiceFactory.getService("http://localhost:8080/activity-hessian/hessian", RemotingProtocol.HESSIAN,ZtMemberIncomeRecordFacade.class);
+//	
+//	private ZtPolicyOrderFacade ztPolicyOrderFacade = RemoteServiceFactory.getService("http://localhost:8099/activity-hessian/hessian", RemotingProtocol.HESSIAN,ZtPolicyOrderFacade.class);
+//	
+//	private ZtPolicyFundOrderDetailFacade ztPolicyFundOrderDetailFacade = RemoteServiceFactory.getService("http://localhost:8080/activity-hessian/hessian", RemotingProtocol.HESSIAN,ZtPolicyFundOrderDetailFacade.class);
+	
+	/**
+	 * 查询用户的灵机一投账户中心
+	 * @author hongbin.kang
+	 * @date 2016年11月3日 上午10:02:42
+	 * @return
+	 * @throws Exception 
+	 */
+	public String toMyPolicyInvest() throws Exception{
+		HttpSession session = getMvcFacade().getHttpSession();
+		MemberDto memberDto = (MemberDto) session.getAttribute("member");
+		List<ZtAssetOrderInfoDTO> assetOrderList = ztPolicyOrderFacade.queryOrderInfoByMemberNo(memberDto.getMemberNo());
+		
+		ZtMemberWealthInfoDTO ztMemberWealthInfoDTO= ztPolicyOrderFacade.queryZtWealthInfoByMemberNo(memberDto.getMemberNo());
+		addModelObject("ztMemberWealthInfoDTO", ztMemberWealthInfoDTO);
+		addModelObject("assetOrderList", assetOrderList);
+		addModelObject("riskLevel", getUserRisk(memberDto.getMemberNo()));
+		return SUCCESS;
+	}
+	
+	
+	/**
+	 * @Description: 跳转投资计划详情
+	 * @param poicyOrderId 策略交易汇总记录id
+	 * @return String    返回类型 
+	 * @throws
+	 */
+	public String toPolicyInvestDetail(@Param("policyOrderId") Long poicyOrderId){
+		if(poicyOrderId == null){
+			logger.info("[toPolicyInvestDetail] info={}","策略汇总id为null");
+			return SYSTEM_EXCEPTION;
+		}
+		HttpSession session = getMvcFacade().getHttpSession();
+		MemberDto memberDto = (MemberDto) session.getAttribute("member");
+		try{
+			//（1）加密用户编码
+			String ascMemberNo = null ;
+			if(null != memberDto) {
+				ascMemberNo =  SecretUtils.secretData(memberDto.getMemberNo());
+			}
+			//（2）获取基金的url，用于跳转基金详情页面
+			String fundSalesUrl = GetParamUtils.getfundSalesUrl();
+			addModelObject("fundSalesUrl", fundSalesUrl);// 基金的域名地址
+			addModelObject("ascMemberNo", ascMemberNo);// 加密的用户编码
+		}catch(Exception e){
+			logger.error("[toPolicyInvestDetail] info={}","获取基金工程链接失败",e);
+		}
+		String memberNo = memberDto.getMemberNo();
+//		String memberNo = "871234567362";
+		//根据策略汇总id查询投资计划详情
+		try{
+			ZtAssetOrderInfoDTO ztAssetOrderInfoDTO = ztPolicyOrderFacade.queryInfoByPolicyOrderId(poicyOrderId, memberNo);
+			if(ztAssetOrderInfoDTO == null){
+				ztAssetOrderInfoDTO = new ZtAssetOrderInfoDTO();
+			}
+			//根据策略汇总id查询该策略下的基金交易汇总信息
+			List<ZtPolicyFundShareAndPolicyProductDTO> fundSharelist = ztPolicyFundShareFacade.queryFundAndPolicyProductList(Long.valueOf(poicyOrderId),memberNo);
+			logger.info("[toPolicyInvestDetail] ztAssetOrderInfoDTO={},fundSharelist.size()={}",ztAssetOrderInfoDTO,fundSharelist.size());
+			addModelObject("ztAssetOrderInfoDTO",ztAssetOrderInfoDTO);
+			addModelObject("fundSharelist", fundSharelist);
+		}catch(Exception e){
+			logger.error("[toPolicyInvestDetail] info={},ERROR={}","查询投资计划详情失败",e);
+			return SYSTEM_EXCEPTION;
+		}
+		
+		return SUCCESS;
+	}
+	/**
+	 * @Description: 跳转组合交易记录页面
+	 * @param poicyOrderId 用户的策略汇总订单id 允许为空
+	 * @return String    返回类型 
+	 * @throws
+	 */
+	public String toPolicyOrderDetail(@Param("policyOrderId") Long policyOrderId){
+		addModelObject("policyOrderId", policyOrderId);
+		return SUCCESS;
+	}
+	/**
+	 * @Title: queryPolicyTradeRecord 
+	 * @Description: 查询用户策略交易记录
+	 * @param 
+	 * @return String   
+	 * @throws
+	 */
+	public String queryPolicyTradeRecord(@Param("policyOrderId") Long policyOrderId,
+			@Param("pageIndex") Integer pageIndex,
+			@Param("orderType") String orderType,
+			@Param("orderStatus") String orderStatus){
+		logger.info("[queryPolicyTradeRecord] policyOrderId={},pageIndex={},orderType={},orderStatus={}",policyOrderId,pageIndex,orderType,orderStatus);
+		HttpSession session = getMvcFacade().getHttpSession();
+		MemberDto memberDto = (MemberDto) session.getAttribute("member");
+		pageIndex = pageIndex == null || pageIndex == 0 ? 1 : pageIndex;
+		ZtPolicyOrderDetailPageDTO ztPolicyOrderDetailPageDTO = null;
+		try{
+			ztPolicyOrderDetailPageDTO= ztPolicyOrderDetailFacade.queryUserPolOrdDetailByPage(memberDto.getMemberNo(), policyOrderId, orderType, orderStatus, PAGE_SIZE, pageIndex);
+//			ztPolicyOrderDetailPageDTO= ztPolicyOrderDetailFacade.queryUserPolOrdDetailByPage("871234567362", policyOrderId, orderType, orderStatus, PAGE_SIZE, pageIndex);
+			setJsonModel(ztPolicyOrderDetailPageDTO);
+		}catch(Exception e){
+			logger.error("[queryPolicyTradeRecord] info={},ERROR={}","分页查询组合详情失败",e);
+			e.printStackTrace();
+			setJsonModel(SYSTEM_EXCEPTION);
+		}
+		return "json";
+	}
+	/**
+	 * @Description: 跳转组合交易记录详情页面 
+	 * @param policyOrderDetailId 策略交易明细id
+	 * @return String   
+	 * @throws
+	 */
+	public String toPolicyFundOrderDetail(@Param("policyOrderDetailId") Long policyOrderDetailId){
+		HttpSession session = getMvcFacade().getHttpSession();
+		MemberDto memberDto = (MemberDto) session.getAttribute("member");
+		BigDecimal fee = BigDecimal.ZERO;
+		if(policyOrderDetailId == null){
+			return SYSTEM_EXCEPTION;
+		}
+		ZtPolicyOrderDetailDTO ztPolicyOrderDetailDTO = null;
+		List<ZtPolicyFundOrderDetailDTO> list = null;
+		List<ZtPurFeeDetailDTO> resultList = null;
+		List<ZtUserPolicyFundPropertionDTO> fundList = new ArrayList<ZtUserPolicyFundPropertionDTO>();
+		String confirmDate = null;
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		try{
+			//根据策略交易明细id，查询策略明细交易记录  表6
+			ztPolicyOrderDetailDTO =  ztPolicyOrderDetailFacade.queryPolicyOrderDetailById(policyOrderDetailId,memberDto.getMemberNo());
+			//根据策略交易明细id，查询基金交易记录明细  表8
+			list = ztPolicyFundOrderDetailFacade.queryFundDetailByPolOrdDetialId(policyOrderDetailId,memberDto.getMemberNo());
+			for(ZtPolicyFundOrderDetailDTO dto : list){
+				if(dto.getAffirmTime() != null){
+					Date affirmDate = dto.getAffirmTime();
+					confirmDate = sdf.format(affirmDate);
+					break;
+				}
+				ZtUserPolicyFundPropertionDTO zpfpDto = new ZtUserPolicyFundPropertionDTO();
+				zpfpDto.setFundCode(dto.getFundCode());
+				zpfpDto.setAdditionalAmount(dto.getBalance());
+				fundList.add(zpfpDto);
+			}
+			if(ztPolicyOrderDetailDTO != null){
+				//策略订单没有完全确认，预估手续费
+				if(!PolicyOrderDetailOrderStatusEnum.CONFIRMED.equals(ztPolicyOrderDetailDTO.getOrderStatus())){
+					resultList = ztPurchaseFacade.queryPurchaseFeeDetail(fundList);
+				}
+			}
+			//不为null，说明策略订单未完全确认
+			if(resultList != null){
+				for(ZtPurFeeDetailDTO ztfeeDto : resultList){
+					fee = fee.add(ztfeeDto.getRealFareSx());
+				}
+			}else{
+				//为null，可能策略订单完全确认或查询预估手续费失败，这是手续费都以策略订单手续费为准
+				fee = ztPolicyOrderDetailDTO.getFee();
+			}
+			addModelObject("fee", fee);
+		}catch(Exception e){
+//			e.printStackTrace();
+			logger.error("[toPolicyFundOrderDetail] info={},ERROR={}","查询接口失败",e);
+			return SYSTEM_EXCEPTION;
+		}
+		
+		addModelObject("ztPolicyOrderDetailDTO", ztPolicyOrderDetailDTO);
+		addModelObject("list", list);
+		addModelObject("confirmDate", confirmDate);
+		logger.info("[toPolicyFundOrderDetail] ztPolicyOrderDetailDTO={},list={},confirmDate={}",ztPolicyOrderDetailDTO,list,confirmDate);
+		return SUCCESS;
+	}
+	
+	/**
+	 * @Title: toYesAndTotalIncome 
+	 * @Description: 查看灵机一投昨日收益和累计收益
+	 * @param @return   
+	 * @throws
+	 */
+	public String toYesAndTotalIncome(@Param("type") String type){
+		HttpSession session = getMvcFacade().getHttpSession();
+		MemberDto memberDto = (MemberDto) session.getAttribute("member");
+		String memberNo = memberDto.getMemberNo();
+//		String memberNo = "123456";
+		//查询用户昨日收益列表和累计收益
+		BigDecimal yesterdayIncome = BigDecimal.ZERO;
+		BigDecimal totalIncome = BigDecimal.ZERO;
+		try{
+			yesterdayIncome = ztMemberIncomeRecordFacade.queryYesterdyIncome(memberNo);
+			//sum函数有可能返回null
+			if(yesterdayIncome == null){
+				yesterdayIncome = BigDecimal.ZERO;
+			}
+			
+		}catch(Exception e){
+			yesterdayIncome = BigDecimal.ZERO;
+			logger.error("[toYesAndTotalIncome] info={},ERROR={}","查询用户昨日收益失败",e);
+		}
+		try{
+			totalIncome = ztMemberIncomeRecordFacade.queryTotalIncome(memberNo);
+			if(totalIncome == null){
+				totalIncome = BigDecimal.ZERO;
+			}
+		}catch(Exception e){
+			totalIncome = BigDecimal.ZERO;
+			logger.error("[toYesAndTotalIncome] info={},ERROR={}","查询用户累计收益失败",e);
+		}
+		addModelObject("type", type);
+		addModelObject("yesterdayIncome", yesterdayIncome);
+		addModelObject("totalIncome", totalIncome);
+		return SUCCESS;
+	}
+	
+	/**
+	 * @Title: queryInvestIncome 
+	 * @Description: 分页查询灵机一投收益
+	 * @param pageIndex 页数
+	 * @return “json”
+	 * @throws
+	 */
+	public String queryInvestIncome(@Param("pageIndex") Integer pageIndex){
+		HttpSession session = getMvcFacade().getHttpSession();
+		MemberDto memberDto = (MemberDto) session.getAttribute("member");
+		String memberNo = memberDto.getMemberNo();
+//		String memberNo = "123456";
+//		ztMemberIncomeRecordFacade.queryMemberIncomeList(memberDto.getMemberNo());
+		try{
+			ZtPolicyIncomePageDTO ztPolicyIncomePageDTO = ztMemberIncomeRecordFacade.queryMemberIncomeList(memberNo, pageIndex, PAGE_SIZE);
+			logger.info("[queryInvestIncome] 结果集数量={}",ztPolicyIncomePageDTO.getIncomeList().size());
+			setJsonModel(ztPolicyIncomePageDTO);
+		}catch(Exception e){
+			logger.error("[queryInvestIncome] info={},ERROR={}","查询收益列表异常",e);
+			setJsonModel(SYSTEM_EXCEPTION);
+		}
+		
+		return "json";
+	}
+	
+	/**
+	 * 获取用户风险等级
+	 * 
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
+	protected String getUserRisk(String memberNo) throws Exception {
+		return PageShowUtils.getRiskString(fundTradeManagementFacade
+				.queryUserRiskTolerance(memberNo));
+	}
+	
+}

@@ -1,0 +1,129 @@
+<%@page import="com.yeepay.g3.app.lmweChat.service.RequestParamBuilderService"%>
+<%@page import="com.yeepay.g3.facade.activity.enums.ShareBizTypeEnum" %> 
+<%@page import="com.yeepay.g3.app.lmweChat.utils.WXAPIUtils,java.util.Map" %>
+<%@page import="com.yeepay.g3.app.lmweChat.utils.LmConstants" %>
+<%@page language="java" contentType="text/html; charset=UTF-8"
+  pageEncoding="UTF-8"%>
+ <%@ taglib prefix="e" uri="/emvc-tags" %>
+ <%
+ String path = request.getContextPath();
+ String basePath = request.getScheme() + "://"+ request.getServerName(); 
+ if(request.getServerPort()!=80){
+   basePath = basePath + ":" + request.getServerPort(); 
+ }      
+ basePath = basePath + path + "/";
+ String sysVersion = LmConstants.sysVersion;
+%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>风险测评</title>
+<link rel="stylesheet" href="static/css/LM-common.css?v=<%=sysVersion %>">
+<link rel="stylesheet" href="static/css/LM-app.css?v=<%=sysVersion %>">
+<link rel="stylesheet" href="static/css/LM-funds.css?v=<%=sysVersion %>">
+<script type="text/javascript" src="static/js/common/format_common.js?v=<%=sysVersion %>"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+ 
+  var errorMsg,moneyFlag,yearsFlag;
+  $("#years").keyup(function() {
+    var yearsFil=/^\d+$/;
+    var yearsFilter=yearsFil.test($("#years").val());
+    if(yearsFilter == false) {
+      errorMsg="年数应为整数"; 
+      $("#yearsError").html('<i class="icon icon-error2"></i>'+errorMsg);
+      $("#submitBtn").addClass("submitBtn-gray");
+      yearsFlag = false;
+    } else if($("#years").val() > 200){
+      errorMsg="预计年数不能大于200年"; 
+      $("#yearsError").html('<i class="icon icon-error2"></i>'+errorMsg);
+      $("#submitBtn").addClass("submitBtn-gray");
+      yearsFlag = false;
+    }else if($("#years").val() < 1){
+      errorMsg="预计年数不能小于1年"; 
+      $("#yearsError").html('<i class="icon icon-error2"></i>'+errorMsg);
+      $("#submitBtn").addClass("submitBtn-gray");
+      yearsFlag = false;
+    } else {
+      $("#yearsError").html('');
+      yearsFlag = true;
+    }
+    if(yearsFlag && moneyFlag) {
+      $("#submitBtn").removeClass("submitBtn-gray");
+    }
+  });
+  
+  
+  $("#totalMoney").keyup(function() {
+    var moneyString =  $("#totalMoney").val();
+    if(moneyString.indexOf(".")>0 && moneyString.length > moneyString.indexOf(".")+3) {
+      $("#totalMoney").val(moneyString.substring(0,moneyString.length-1));
+    }
+    
+    var filterMoney=/^[0-9]+\.{0,1}[0-9]{0,2}$/;
+    var flagFilter=filterMoney.test($("#totalMoney").val());
+    if(false==flagFilter){ //输入金额是否满足数字并小数点不超过后俩位
+      errorMsg="购买金额必须为数字，小数点不能超过2位"; 
+      $("#moneyError").html('<i class="icon icon-error2"></i>'+errorMsg);
+      $("#submitBtn").addClass("submitBtn-gray");
+      moneyFlag = false;
+    }else if ($("#totalMoney").val() == null || $("#totalMoney").val() == '') {
+      errorMsg = "请输入购买金额";
+      $("#moneyError").html('<i class="icon icon-error2"></i>'+errorMsg);
+      $("#submitBtn").addClass("submitBtn-gray");
+      moneyFlag = false;
+    }else if($("#totalMoney").val() < 500){
+      errorMsg = "每月可投入金额需大于500元";
+      $("#moneyError").html('<i class="icon icon-error2"></i>'+errorMsg);
+      $("#submitBtn").addClass("submitBtn-gray");
+      moneyFlag = false;
+    } else {
+      $("#moneyError").html('');
+      moneyFlag = true;
+    }
+    if(yearsFlag && moneyFlag) {
+      $("#submitBtn").removeClass("submitBtn-gray");
+    }
+  });
+  
+ $("#submitBtn").click(function() {
+   if(yearsFlag && moneyFlag) {
+     $("#form").submit();
+   }
+  });
+});
+
+</script>
+</head>
+<!-- 头部结束 -->
+<body>
+<div class="evaluationArea">
+    <form action="zt/risk/doWishQuestions" id="form" method="get">
+    	<input type="text" id="sceneId" name="sceneId" value="${sceneId}" style="display:none" />
+	    <div class="evaluation-list">
+	        <p>预计需要多少钱买房或购车？</p>
+	        <div class="input-wrap">
+	            <span class="evaluation-input pr">
+	                <input type="number" class="input-text" iqd="" id="totalMoney" name="totalMoney" placeholder=""/>
+	                <span class="evaluation-text pa">元</span>
+	            </span>
+	        </div>
+	        <div class="error-tips red" id="moneyError"></div>
+	    </div>
+	    <div class="evaluation-list">
+	        <p>几年后用到这笔钱？</p>
+	        <div class="input-wrap">
+	            <span class="evaluation-input pr">
+	                <input type="number" class="input-text" iqd="" id="years" name="years" placeholder=""/>
+	                <span class="evaluation-text pa">年</span>
+	            </span>
+	        </div>
+	        <div class="error-tips red" id="yearsError"></div>
+	    </div>
+    </form>
+    <div class="submitBtn submitBtn-gray" id="submitBtn">
+        <a href="javascript:viod(0)">提交</a>
+    </div>
+</div>
+</body>
+</html>

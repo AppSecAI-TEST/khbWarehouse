@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+    http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
+    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+
+	<bean id="rabbitMQManager" class="com.yeepay.g3.utils.async.rabbitmq.RabbitMQManager">
+		<property name="exchage2queue">
+			<!-- 定义RabbitMQ exchange，queue,已经二者的绑定关系 -->
+			<map>
+				<entry key="com.yeepay.lm.app_exchangeAppMemberOperecord" value="com.yeepay.lm.AppMemberOperecord" />
+				
+			</map>
+		</property>
+	</bean>
+
+	<bean id="rabbitMQSender"
+		class="com.yeepay.g3.utils.async.rabbitmq.send.DefaultRabbitMQSender">
+		<property name="rabbitMQManager" ref="rabbitMQManager"></property>
+	</bean>
+
+		<bean class="com.yeepay.g3.utils.async.send.AsyncEventSender">
+         <property name="guaranteeName" value="lmportal" /><!--  建议使用你应用的名字，以便区分不同应用，因为大家用的是一个redis，避免key相同  -->
+         <property name="rabbitMQSender" ref="rabbitMQSender" />
+ 	</bean>
+
+</beans>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:emvc="http://www.yeepay.com/schema/emvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+				http://www.yeepay.com/schema/emvc http://www.yeepay.com/schema/emvc.xsd">
+
+
+	<emvc:package name="/old">
+	    <!-- 跳转老系统账单查询页面 -->
+		<emvc:action name="toRecord" class="com.yeepay.g3.app.lmweChat.action.old.AccountController" method="toRecord">
+			<emvc:result name="success" value="/WEB-INF/pages/account/old/record.jsp" />
+		</emvc:action>
+		<!-- 购买未付产品 -->
+		<emvc:action name="purchaseUnPayProduct" class="com.yeepay.g3.app.lmweChat.action.old.FixedController" method="purchaseUnPayProduct"
+			interceptors="exceptionInterceptor,LoggerInterceptor,LoginInterceptorJson">
+		</emvc:action>
+		<!-- 查询scb交易记录 -->
+		<emvc:action name="queryScbRecord" class="com.yeepay.g3.app.lmweChat.action.old.ScbController" method="queryScbRecord"
+			interceptors="exceptionInterceptor,LoggerInterceptor,LoginInterceptorJson">
+		</emvc:action>
+		<!-- 查询懒猫账户交易记录-->
+		<emvc:action name="queryLmRecord" class="com.yeepay.g3.app.lmweChat.action.old.AccountController" method="queryLmRecord"
+			interceptors="exceptionInterceptor,LoggerInterceptor,LoginInterceptorJson">
+		</emvc:action>
+		<!-- 查询固收理财交易记录-->
+		<emvc:action name="queryFixedTrade" class="com.yeepay.g3.app.lmweChat.action.old.FixedController" method="queryFixedTrade"
+			interceptors="exceptionInterceptor,LoggerInterceptor,LoginInterceptorJson">
+		</emvc:action>
+	</emvc:package>
+</beans> 

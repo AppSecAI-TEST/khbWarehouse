@@ -1,0 +1,177 @@
+package com.yeepay.g3.app.lmweChat.action.zt;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpSession;
+
+import org.apache.commons.collections.map.HashedMap;
+import org.springframework.stereotype.Controller;
+
+import com.yeepay.g3.app.lmweChat.action.BaseAction;
+import com.yeepay.g3.facade.lmportal.dto.AccountInfoQueryResultDto;
+import com.yeepay.g3.facade.lmportal.dto.MemberDto;
+import com.yeepay.g3.facade.lmportal.service.LanmaoDemandFacade;
+import com.yeepay.g3.facade.zt.dto.ZtPolicyDTO;
+import com.yeepay.g3.facade.zt.dto.ZtPolicyOrderAndPlanDTO;
+import com.yeepay.g3.facade.zt.dto.ZtPolicyProductDTO;
+import com.yeepay.g3.facade.zt.dto.ZtPurFeeDetailDTO;
+import com.yeepay.g3.facade.zt.dto.ZtPurchaseParamDTO;
+import com.yeepay.g3.facade.zt.dto.ZtUserPolicyFundPropertionDTO;
+import com.yeepay.g3.facade.zt.facade.ZtPolicyFacade;
+import com.yeepay.g3.facade.zt.facade.ZtPolicyProductFacade;
+import com.yeepay.g3.facade.zt.facade.ZtPurchaseFacade;
+import com.yeepay.g3.utils.common.CheckUtils;
+import com.yeepay.g3.utils.rmi.RemoteServiceFactory;
+import com.yeepay.g3.utils.web.emvc.annotation.Param;
+
+
+/**
+ * 智能投资购买Action
+ * 
+ * @Copyright: Copyright (c)2011
+ * @company 懒猫金服
+ * @author ping.zhu
+ * @since 2016-10-26
+ * @version 1.0
+ */
+@Controller
+public class PurchaseAction extends BaseAction{
+	
+	/**
+	 * 策略下产品详情服务类
+	 */
+	protected ZtPolicyProductFacade ztPolicyProductFacade = RemoteServiceFactory
+			.getService(ZtPolicyProductFacade.class);
+	
+	/**
+	 * 策略详情服务类
+	 */
+	protected ZtPolicyFacade ztPolicyFacade=RemoteServiceFactory
+			.getService(ZtPolicyFacade.class);
+	
+	/**
+	 * 智能投资申购服务类
+	 */
+	protected ZtPurchaseFacade ztPurchaseFacade=RemoteServiceFactory
+			.getService(ZtPurchaseFacade.class);
+	
+	protected LanmaoDemandFacade lanmaoDemandFacade=RemoteServiceFactory.getService(LanmaoDemandFacade.class);
+	
+	/**
+	 * 去购买组合页面
+	 * @param policyId
+	 * @param isFirstBuyThisPolicy 是否第一次购买这个策略id
+     * @author ping.zhu
+	 */
+	public String toPurchase(@Param("sceneId") Long sceneId,
+			@Param("policyId") Long policyId,
+			@Param("policyOrderId") Long policyOrderId,
+			@Param("purAmount") BigDecimal purAmount) {
+		/**
+		 * 懒猫账户余额
+		 */
+		String accountBalance=null;
+		HttpSession session = getMvcFacade().getHttpSession();
+		MemberDto memberDto = (MemberDto) session.getAttribute("member");
+//		List<Map<String,Object>> productResultList=new ArrayList<Map<String,Object>>();
+//		Map<String,Object> productMap=new HashMap<String, Object>();
+		//1.查询懒猫账户余额
+		try {
+			AccountInfoQueryResultDto accountInfoQueryResultDto = lanmaoDemandFacade
+					.queryAccount(memberDto.getMemberNo(), new Date());
+			accountBalance = accountInfoQueryResultDto == null
+					|| accountInfoQueryResultDto.getAmount() == null ? "0"
+					: accountInfoQueryResultDto.getAmount().toString();
+		} catch (Exception e) {
+			logger.error("[toPurchase] info={},ERROR={}", "查询用户"+memberDto.getMemberNo()+"懒猫账户余额时异常",
+					e.getMessage());
+		}
+		addModelObject("accountBalance", accountBalance);
+		List<ZtUserPolicyFundPropertionDTO> resultlist=null;
+		BigDecimal fee=new BigDecimal(0);
+		ZtUserPolicyFundPropertionDTO fundProDto=null;
+		//2.判断用户是否是首次购买这个策略id，如果是：不用重新计算基金占比
+		if(null!=policyId&&null!=sceneId){
+			//(1).根据策略id查询当前策略的各个产品占比和
+			List<ZtPolicyProductDTO> productList=ztPolicyProductFacade.selectPolicyProductList(policyId);
+			//(2).根据策略id查询当前策略名称，起投金额
+			ZtPolicyDTO policy=ztPolicyFacade.selectPolicyByPrimaryKey(policyId);
+			resultlist=new ArrayList<ZtUserPolicyFundPropertionDTO>();
+			for(ZtPolicyProductDTO item:productList){
+				fundProDto=new ZtUserPolicyFundPropertionDTO();
+				fundProDto.setAdditionalAmount(purAmount.multiply(item.getProductProportion()));
+				fundProDto.setAdditionalProportion(item.getProductProportion());
+				fundProDto.setFundCode(item.getProductCode());
+				fundProDto.setFundName(item.getProductName());
+				fundProDto.setFundMinAmount(item.getProductMinAmount());
+				resultlist.add(fundProDto);
+			}
+			addModelObject("resultList", resultlist);
+			addModelObject("policyName", policy.getPolicyName());
+			addModelObject("purAmount", purAmount);
+			addModelObject("sceneId", sceneId);
+			}
+		//3.已经购买过这个策略的用户
+		else if(null!=policyOrderId){
+			BigDecimal amount=null;
+			//根据会员策略交易汇总id查询
+			//查询用户策略投资计划表每月需要投多少钱，本月已经投资了多少钱  参数：会员编号 策略id
+			ZtPolicyOrderAndPlanDTO ztPolicyOrderAndPlanDTO=ztPurchaseFacade.getUserPolicyOrderAndPlan(policyOrderId, memberDto.getMemberNo());
+			BigDecimal perInvestAmount=ztPolicyOrderAndPlanDTO.getZtPolicyInvestPlanDTO().getPerInvestAmount();
+			BigDecimal curTermInvestAmount=ztPolicyOrderAndPlanDTO.getZtPolicyOrderDTO().getCurTermInvestAmount();
+			ZtPolicyDTO policy=ztPolicyFacade.selectPolicyByPrimaryKey(ztPolicyOrderAndPlanDTO.getZtPolicyInvestPlanDTO().getPolicyId());
+			addModelObject("policyName", policy.getPolicyName());
+			//(1).如果本月投资金额为0  investAmount 是指本月剩余应投金额  并带入购买页面
+			if(curTermInvestAmount.compareTo(BigDecimal.ZERO)==0){
+				amount=perInvestAmount;
+			//(2).当月累计投资金额<每月定投金额
+			}else if(perInvestAmount.compareTo(curTermInvestAmount)>0){
+				//投资金额=计划投资金额-当月累计投资金额 
+				amount=perInvestAmount.subtract(curTermInvestAmount);
+			}
+			addModelObject("purAmount",amount);
+			resultlist=ztPurchaseFacade.calculatePolicyFundProportionBalance(amount, policyOrderId);
+			addModelObject("resultlist", resultlist);
+		}else{
+			//系统异常
+			return FAILED;
+		}
+		//查询预估手续费
+		List<ZtPurFeeDetailDTO> feeList=ztPurchaseFacade.queryPurchaseFeeDetail(resultlist);
+		if(!CheckUtils.isEmpty(feeList)){
+			for(ZtPurFeeDetailDTO item:feeList){
+				//TODO 折扣前手续费没有添加
+				fee=fee.add(item.getRealFareSx());
+			}
+		}
+		addModelObject("fee", fee);
+		
+		return SUCCESS;
+	}
+	
+	
+	public String calculateProportion(@Param("policyOrderId") Long policyOrderId,
+			@Param("purAmount") BigDecimal purAmount){
+		if(CheckUtils.isEmpty(purAmount)&&CheckUtils.isEmpty(policyOrderId)){
+			return JSON;
+		}
+		Map<String,List<ZtUserPolicyFundPropertionDTO>> map=new HashMap<String, List<ZtUserPolicyFundPropertionDTO>>();
+		try{
+			List<ZtUserPolicyFundPropertionDTO> list=ztPurchaseFacade.calculatePolicyFundProportionBalance(purAmount, policyOrderId);
+			map.put("proportion", list);
+			setJsonModel(list);
+		}catch(Exception e){
+			logger.error("[calculateProportion] info={},ERROR={}", "计算基金占比时异常",e.getMessage());
+		}
+		return JSON;
+	}
+	
+	public String toPurchaseFeeDetail(){
+		return SUCCESS;
+	}
+}

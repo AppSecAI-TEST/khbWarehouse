@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:emvc="http://www.yeepay.com/schema/emvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+				http://www.yeepay.com/schema/emvc http://www.yeepay.com/schema/emvc.xsd">
+
+
+	<emvc:package name="/seckillActivity">
+		<!-- 秒杀页面跳转 -->
+		<emvc:action name="toSeckillPro" ref="seckillActivityAction" method="toSeckillPro" interceptors="exceptionInterceptor,LoggerInterceptor">
+			<emvc:result name="success" value="/WEB-INF/pages/seckillActivity/seckillActivity.jsp" />
+		</emvc:action>
+		<!-- 跳转秒杀记录 -->
+		<emvc:action name="toSeckillRecord" ref="seckillActivityAction" method="toSeckillRecord" interceptors="exceptionInterceptor,LoggerInterceptor">
+			<emvc:result name="success" value="/WEB-INF/pages/seckillActivity/seckillRecord.jsp" />
+		</emvc:action>
+		<!-- 查询秒杀记录 -->
+		<emvc:action name="querySeckillRecord" ref="seckillActivityAction" method="querySeckillRecord" interceptors="exceptionInterceptor,LoggerInterceptor">
+			<emvc:result name="success" type="none" />
+		</emvc:action>
+	</emvc:package>
+</beans> 

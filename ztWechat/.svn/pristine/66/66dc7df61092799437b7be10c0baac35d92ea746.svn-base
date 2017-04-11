@@ -1,0 +1,94 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ page import="com.yeepay.g3.app.lmweChat.utils.LmConstants" %>
+<%@ taglib prefix="e" uri="/emvc-tags" %>
+<%
+    String path = request.getContextPath();
+    String basePath = request.getScheme() + "://"
+            + request.getServerName() + ":" + request.getServerPort()
+            + path + "/";
+    String sysVersion = LmConstants.sysVersion;
+%>
+<html>
+<head lang="en">
+ <title>我的灵机一投</title>
+    <link rel="stylesheet" href="static/css/LM-invest.css">
+    <link rel="stylesheet" href="static/css/LM-funds.css">
+</head>
+<body>
+   <div id="box" class="scb">
+    <div class="layout-wrap scbCard investCard1 font-white tc">
+        <div class="layou-up assetArea pr">
+            <a href="zt/risk/toRiskTestStart" class="radius1 btn-small-w pa">重新测评</a>
+            <a href="zt/asset/toPolicyOrderDetail" class="icon icon-record pa"></a>
+            <span class="invest-type font-white pa">${riskLevel }</span>
+            <a href="javascript:void(0)" class="font-white pr">
+                <span class="font-45">${ztMemberWealthInfoDTO.wealth }</span>
+                <p class="font-14">灵机一投总额（元）<i class="icon icon-questionmark flip"></i></p>
+                <div class="panel pa" style="display: none">
+                    <span class="profitTip tc pr">
+                        <i class="icon-arrow triangle-top"></i>
+                        灵机一投总额=全部投资计划的最新持仓市值（不包括申购待确认金额）
+                    </span>
+                </div>
+            </a>
+        </div>
+        <div class="layou-down tc clearfix">
+            <a class="layou-down-left" href="zt/asset/toYesAndTotalIncome?type=yesterdayIncome">
+                <span class="font-20">${ztMemberWealthInfoDTO.yesterdayIncome }</span>
+                <p class="font-10">&nbsp;&nbsp;&nbsp;昨日总收益（元）</p>
+                <i class="icon-arrow triangle-right pa"></i>
+            </a>
+            <a class="layou-down-right" href="zt/asset/toYesAndTotalIncome?type=totalIncome">
+                <span class="font-20">${ztMemberWealthInfoDTO.totalIncome }</span>
+                <p class="font-10">&nbsp;&nbsp;&nbsp;累计总收益（元）</p>
+                <i class="icon-arrow triangle-right pa"></i>
+            </a>
+        </div>
+    </div>
+    <e:if test="${empty assetOrderList }">
+    	<div class="currentC tc">没有投资计划</div>
+    </e:if>
+    <e:iterator list="@assetOrderList" var="item">
+	    <div class="myInvest bg-white radius1">
+	        <a href="zt/asset/toPolicyInvestDetail?poicyOrderId=<e:property value="@item.policyOrderId"/>"><h3 class="investTitle br-bottom"><e:property value="@item.sceneName"/>· <e:property value="@item.policyName"/>投资计划 <i class="icon icon-arrow-right fr"></i></h3>
+	        </a>
+	        <a href="zt/asset/toPolicyInvestDetail?poicyOrderId=<e:property value="@item.policyOrderId"/>">
+		        <div class="investCon">
+		            <div class="totalValue br-right fl tc">
+		                <p class="orange"><span class="font-tit"><e:property value="@item.intString"/></span>.<e:property value="@item.decimalString"/></p>
+		                <p>总市值  (元)</p>
+		            </div>
+		            <div class="profit fl">
+		                <p>昨日收益：<span class="orange"><e:property value="@item.yesterdayIncome"/>元</span></p>
+		                <p>累计收益：<span class="orange"><e:property value="@item.totalIncome"/>元</span></p>
+		            </div>
+		        </div>
+	        </a>
+	        <a href="zt/asset/toPolicyInvestDetail?poicyOrderId=<e:property value="@item.policyOrderId"/>">
+		        <div class="clearfix"></div>
+		        <div class="investInfo tc">
+		        <e:if test='@item.totalPurchasing==0'>
+		            <e:if test="@item.totalRedeeming==0">
+			            <e:if test='@item.currentMonthAmount <= 0 '>
+			      		  您下月还需申购 <span class="orange"><e:property value="@item.perInvestAmount"/></span>元
+			      		</e:if>
+			      		<e:if test='@item.currentMonthAmount > 0 '>
+			      		  您本月还需申购 <span class="orange"><e:property value="@item.currentMonthAmount"/></span>元
+			      		</e:if>
+		      		</e:if>
+		        </e:if>
+		        <e:if test='@item.totalPurchasing > 0'>
+		        	申购中 <span class="orange"><e:property value="@item.totalPurchasing"/></span>元<br>
+		        </e:if>
+		        <e:if test='@item.totalRedeeming > 0'>
+		      		 赎回中 <span class="orange"><e:property value="@item.totalRedeeming"/></span>元
+		        </e:if>
+		        </div>
+	        </a>
+	        <div class="btns"><a class="btn-small fr" href="zt/groupPurchase/toPurchase?policyOrderId=<e:property value="@item.policyOrderId"/>">追加投资</a><a class="btnUncard orange fr" href="zt/redeem/toRedeem?policyOrderId=<e:property value="@item.policyOrderId"/>">赎回</a></div>
+	    </div>
+    </e:iterator>
+</div>
+</body>
+</html>

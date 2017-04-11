@@ -1,0 +1,125 @@
+<%@page import="com.yeepay.g3.app.lmweChat.service.RequestParamBuilderService"%>
+<%@page import="com.yeepay.g3.facade.activity.enums.ShareBizTypeEnum" %> 
+<%@page import="com.yeepay.g3.app.lmweChat.utils.WXAPIUtils,java.util.Map" %>
+<%@page import="com.yeepay.g3.app.lmweChat.utils.LmConstants" %>
+<%@page language="java" contentType="text/html; charset=UTF-8"
+  pageEncoding="UTF-8"%>
+ <%@ taglib prefix="e" uri="/emvc-tags" %>
+ <%
+ String path = request.getContextPath();
+ String basePath = request.getScheme() + "://"+ request.getServerName(); 
+ if(request.getServerPort()!=80){
+   basePath = basePath + ":" + request.getServerPort(); 
+ }      
+ basePath = basePath + path + "/";
+ String sysVersion = LmConstants.sysVersion;
+%>
+<html>
+<head lang="en">
+    <link rel="stylesheet" href="static/css/LM-invest.css?v=<%=sysVersion %>">
+    <script type="text/javascript" src="static/js/LM-invest.js?v=<%=sysVersion %>"></script>
+    <script type="text/javascript" src="static/js/zt/purchase.js?v=<%=sysVersion %>"></script>
+    <title>组合购买</title>
+</head>
+<body>
+<input type="hidden" id="token" value="<e:property value="@token"/>">
+<input type="hidden" id="fee" value="<e:property value="@fee"/>">
+<input type="hidden" id="minBuy" value="<e:property value="@minBuy"/>">
+<input type="hidden" id="accountBalance" value="<e:property value="@accountBalance"/>">
+<input type="hidden" id="policyOrderId" value="<e:property value="@policyOrderId"/>">
+<input type="hidden" id="purAmount" value="<e:property value="@purAmount"/>">
+<input type="hidden" id="sceneId" value="<e:property value="@sceneId"/>">
+<input type="hidden" id="policyId" value="<e:property value="@policyId"/>">
+<div class="redemption-Area">
+    <div class="main">
+        <div class="redemptionMain redemptionMain-page bg-white">
+            <div class="groupTitle">
+                <p class="name">策略名称：<e:property value="@policyName"/></p>
+                <p class="particulars">策略详情</p>
+            </div>
+				<table width="100%"
+					class="redemptionTable redemptionTable-page redemptionTable-group" id="proportionTable">
+					<tr>
+						<th class="tc" width="40%">基金名称</th>
+						<th class="tc" width="30%">占比(%)</th>
+						<th class="tc">申购金额(元)</th>
+					</tr>
+					<e:if test="${!empty resultList}">
+						<e:iterator list="@resultList" var="items">
+						<tr>
+							<td class="tc t-1"><e:property value="@items.fundName"/></td>
+							<td class="tc"><e:property value="@_formater.formatNumber(items.additionalProportion*100)"/></td>
+							<td class="tc"><e:property value="@items.additionalAmount"/></td>
+							<td style="display:none"><e:property value="@items.fundCode"/>;<e:property value="@items.fundType"/></td>
+ 						</tr>
+						</e:iterator>
+					</e:if>
+				</table>
+			</div>
+        <div class="investBox bg-white">
+            <ul class="input-area">
+                <li><label class="inputLabel">账户余额</label><e:property value="@accountBalance"/> 元</li>
+                <li class="input-wrap-error">
+                    <label class="inputLabel orange">购买金额</label>
+                    <span class="amount-text inp-text fl">
+                        <input  onblur="calculateProportion()" class="" id="purchase" type="number" name="" placeholder="起购金额<e:property value="@minBuy"/>元"/>
+                    </span>
+                    <span class="orange">元</span>
+                    <div class="clearfix"></div>
+                    <p class="modTips font-10 red" id="errorMsg"><i class="icon icon-error2 font-12"></i> 余额不足</p>
+                    <!--<p class="modTips font-10"><i class="icon icon-tips font-12"></i> 请直接输入转入金额，账户余额不足将先进行充值</p>-->
+                    <p class="modTips font-10"><i class="icon icon-tips font-12"></i> 预估手续费 <span class="line-through">18.87</span> <e:property value="@fee"/>元 <a class="blue fr" id="toFeeDetail">查看费率明细</a></p>
+                </li>
+            </ul>
+        </div>
+        <div class="investBox bg-white" id="pwdArea">
+            <ul class="input-area">
+                <li class="forgetPassword pb">
+                    <label class="inputLabel">交易密码</label>
+                    <span class="amount-text inp-text fl">
+                        <input type="password" class="" id="pwd" name="" placeholder="请输入交易密码"/>
+                        <a id="cleanPwd" class="icon icon-error fr"></a>
+                    </span>
+                    <a id="seePwd" class="icon icon-unlook fl"></a>
+                    <div class="error-tips red">
+                        <div class="forget-field fl">
+                            <a href="account/toResetTradePwd" class="forgetCode fr">忘记密码</a>
+                           <p id="errorInfo"></p>
+                        </div>
+                    </div>
+                    <div class="checkedBox fl font-text-note light-gray">
+                        <input type="checkbox" class="agree-box" id="agreeBox" checked="checked"/>
+                        <i class="icon icon-checkbox orange"></i>
+                        我已阅读并同意遵守<a href="javascript:(void)" class="orange">《懒猫金服基金网上交易协议》</a>
+                    </div>
+                    <div class="clearfix"></div>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+</div>
+<div class="identifier">
+    <p class="tc">持牌销售机构 基金代销牌照编号 000000383</p>
+    <p class="tc">由中国证监会和民生银行全程监督</p>
+</div>
+<div class="redemptionBtn btnBot btnBot-new">
+<input type="button" value="确认购买" class="btnBuy" id="button"/>
+<input style="display:none" type="button" value="去充值" class="btnBuy" id="recharge"/>
+</div>
+<!--弹出层-->
+<div id="mask"></div>
+<div id="alertLayer" class="bg-white" style="display: none; width: 90%; min-height: 33%;">
+    <div class="withdrawIntro withdrawText">
+        <div>
+            <p>为了保证您现有资产的股债平衡</p>
+            <p>股票型基金：债券型基金=7：3</p>
+            <p>正在为您重新调整各基金占比</p>
+        </div>
+        <div class="elastic">
+            <img src="static/images/invest/elastic.gif" alt=""/>
+        </div>
+    </div>
+</div>
+</body>
+</html>

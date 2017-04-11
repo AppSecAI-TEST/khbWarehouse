@@ -1,0 +1,131 @@
+var pageIndex = 1;
+var pageTotal = 1;
+var policyOrderId = null;
+$(function(){
+  policyOrderId = $("#policyOrderId").val();
+  loaded(); //加载框架
+  $.post("zt/asset/queryPolicyTradeRecord",{policyOrderId:policyOrderId,pageIndex:pageIndex},function(data){
+    
+      //返回数据后做的操作：显示数据
+      if(data != '' && data != null){
+          //系统异常，接口调用失败
+          if(data == 'SYSTEM_EXCEPTION'){
+              $("#tradeRecord").append("<div class=\"tc\"><p class=\"pullUpLabel\">网络异常，请稍后重试...</p></div>");
+          }else if(data == "\"noLogin\""){
+            location.href = "account/toLogin";
+          }else{
+              pageTotal = data.pageTotal;//返回一共多少页
+              if(data.orderList != '' && data.orderList != null && data.orderList.length != 0){
+                if(pageTotal > pageIndex){   //当前页不是最后一页，显示字样“上拉加载。。”
+                  $("#pullUp").attr("style","");
+                }
+                //显示查询出的数据
+                eachFuc(data);
+                myScroll.refresh();
+              }else{
+                $("#tradeRecord").append("<div class=\"tc\"><p class=\"pullUpLabel\">未查询到相关记录</p></div>");
+              }
+          }
+      }else{
+        $("#tradeRecord").append("<div class=\"tc\"><p class=\"pullUpLabel\">未查询到相关记录</p></div>");
+      }
+  });
+  
+  $('body').delegate('.detail-list-main li','click',function(){
+      var liId = this.id;
+      //点击的是交易类型
+      if($(this).parent('ul').parent().hasClass('style-list')){
+        $("#orderType").val(liId);
+      }else{
+        //点击的是订单状态
+        $("#orderStatus").val(liId);
+      }
+      //带查询条件的查询
+      var orderType = $("#orderType").val();
+      var orderStatus = $("#orderStatus").val();
+      pageIndex = 1; //从第一页开始
+      $.post("zt/asset/queryPolicyTradeRecord",{policyOrderId:policyOrderId,pageIndex:pageIndex,orderType:orderType,orderStatus:orderStatus},function(data){
+          $("#scroller").css("top", "0px");
+          $("#tradeRecord").html("");
+          $("#pullUp").attr("style","display:none;");
+          $(".pullUpLabel").html("上拉加载更多...");
+          if(data != '' && data != null){
+              pageTotal = data.pageTotal;//总页数
+              if(data.orderList != '' && data.orderList != null && data.orderList.length != 0){
+                  if(pageTotal > pageIndex){
+                      $("#pullUp").attr("style","");
+                  }
+                  //显示查询出的数据
+                  eachFuc(data);
+                  myScroll.refresh();
+              }else{
+                  $("#tradeRecord").append("<div class=\"tc\"><p class=\"pullUpLabel\">未查询到相关记录</p></div>");
+              }
+            }else{
+                $("#tradeRecord").append("<div class=\"tc\"><p class=\"pullUpLabel\">未查询到相关记录</p></div>");
+            }
+        });
+    });
+});
+function pullUpAction(){
+  queryRecordNextPage(++pageIndex);
+}
+function queryRecordNextPage(pageIndex){
+  if(pageTotal >= pageIndex){
+    var orderType = $("#orderType").val();
+    var orderStatus = $("#orderStatus").val();
+    $.post("zt/asset/queryPolicyTradeRecord",{policyOrderId:policyOrderId,pageIndex:pageIndex,orderType:orderType,orderStatus:orderStatus},function(data){
+        if(data != '' && data != null){
+            if(data.orderList != '' && data.orderList != null && data.orderList.length != 0){
+                //显示查询出的数据
+                eachFuc(data);
+                myScroll.refresh();
+            }else{
+              $("#tradeRecord").append("<div class=\"tc\"><p class=\"pullUpLabel\">未查询到相关记录</p></div>");
+            }
+        }else{
+          $("#tradeRecord").append("<div class=\"tc\"><p class=\"pullUpLabel\">未查询到相关记录</p></div>");
+        }
+      
+    });
+  }else{
+    $('.pullUpLabel').html('亲，没有更多记录了!');
+    $('.pullUpIcon').hide();
+  }
+}
+
+function eachFuc(data){
+  $.each(data.orderList,function(n,value){
+    $("#tradeRecord").append("<div id=\"policyOrder"+value.id+"\" onclick=\"window.location.href='zt/asset/toPolicyFundOrderDetail?policyOrderDetailId="+value.id+"'\" class=\"detailContent bg-white\">" +
+        "<p class=\"detailPlan\">"+value.ztSceneDto.sceneName+"·" + value.ztPolicyDTO.policyName +
+        "<span class=\"fr\">"+value.orderTime + 
+            "<i class=\"icon icon-arrow-right fr\"></i></a></span></p></div>");
+    //确认成功的金额
+    if(value.confirmBalance != null && value.confirmBalance != 0){
+        if(value.orderType == 'PURCHASE'){
+          $("#policyOrder"+value.id+"").append("<p class=\"detailConfirm\"><span class=\"orange\">+<i class=\"sum\">"+parseFloat(value.confirmBalance).toFixed(2)+"</i></span><i class=\"fr\">申购成功</i></p></div></div>");
+        }else if(value.orderType == 'REDEEM'){
+          $("#policyOrder"+value.id+"").append("<p class=\"detailConfirm\"><span class=\"orange\">-<i class=\"sum\">"+parseFloat(value.confirmBalance).toFixed(2)+"</i></span><i class=\"fr\">赎回成功</i></p></div></div>");
+        }
+    }
+    //失败金额
+    if(value.unConfirmBalance != null && value.unConfirmBalance != 0){
+        if(value.orderType == 'PURCHASE'){
+          $("#policyOrder"+value.id+"").append("<p class=\"detailConfirm\"><span class=\"orange\">+<i class=\"sum\">"+parseFloat(value.unConfirmBalance).toFixed(2)+"</i></span><i class=\"fr\">申购失败</i></p></div></div>");
+        }else if(value.orderType == 'REDEEM'){
+          $("#policyOrder"+value.id+"").append("<p class=\"detailConfirm\"><span class=\"orange\">-<i class=\"sum\">"+parseFloat(value.unConfirmBalance).toFixed(2)+"</i></span><i class=\"fr\">赎回失败</i></p></div></div>");
+        }
+    }
+  //确认中金额,如果状态不是已确认，就显示确认中的金额
+    if(value.orderStatus.toString() != "CONFIRMED"){
+        var confirmingBalance = value.orderAmount - value.confirmBalance - value.unConfirmBalance;
+        if(confirmingBalance != 0){
+            if(value.orderType == 'PURCHASE'){
+              $("#policyOrder"+value.id+"").append("<p class=\"detailConfirm\"><span class=\"orange\">+<i class=\"sum\">"+parseFloat(confirmingBalance).toFixed(2)+"</i></span><i class=\"fr\">申购中</i></p></div></div>");
+            }else if(value.orderType == 'REDEEM'){
+              $("#policyOrder"+value.id+"").append("<p class=\"detailConfirm\"><span class=\"orange\">-<i class=\"sum\">"+parseFloat(confirmingBalance).toFixed(2)+"</i></span><i class=\"fr\">赎回中</i></p></div></div>");
+            }
+        }
+    }
+  });
+}

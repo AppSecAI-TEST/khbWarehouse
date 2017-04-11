@@ -1,0 +1,31 @@
+#control the log level and appender
+log4j.rootLogger=info,stdout,errorLogfile
+#log4j.rootLogger=debug,stdout
+
+### log to stdout ###
+log4j.appender.stdout=org.apache.log4j.ConsoleAppender
+log4j.appender.stdout.Target=System.out
+log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
+log4j.appender.stdout.layout.ConversionPattern=%d{ABSOLUTE} %5p %c{1}:%L - %m%n
+
+#error log to errorLogfile
+log4j.appender.errorLogfile=org.apache.log4j.DailyRollingFileAppender
+#log4j.appender.errorLogfile.File=${catalina.base}/logs/prop_errorLog.log
+log4j.appender.errorLogfile.Threshold = ERROR
+log4j.appender.errorLogfile.DatePattern='.'yyyy-MM-dd
+log4j.appender.errorLogfile.layout=org.apache.log4j.PatternLayout
+log4j.appender.errorLogfile.layout.ConversionPattern=%d{yyyy-MM-dd HH\:mm\:ss} [%c]:%L %p -%m%n
+
+#other log control
+log4j.logger.com.yeepay.g3=info
+
+log4j.logger.java.sql=debug
+log4j.logger.com.springframework=info
+log4j.logger.com.ibatis=debug
+log4j.logger.com.ibatis.common.jdbc.SimpleDataSource=debug
+log4j.logger.com.ibatis.common.jdbc.ScriptRunner=debug
+log4j.logger.com.ibatis.sqlmap.engine.impl.SqlMapClientDelegate=debug
+log4j.logger.java.sql.Connection=info
+log4j.logger.java.sql.Statement=info
+log4j.logger.java.sql.PreparedStatement=info
+log4j.logger.java.sql.ResultSet=info

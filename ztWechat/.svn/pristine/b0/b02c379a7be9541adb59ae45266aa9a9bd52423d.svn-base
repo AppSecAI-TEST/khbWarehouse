@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:emvc="http://www.yeepay.com/schema/emvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+				http://www.yeepay.com/schema/emvc http://www.yeepay.com/schema/emvc.xsd">
+	<emvc:package name="/zt">
+		<emvc:action name="toRedeem" 
+			class="com.yeepay.g3.app.lmweChat.action.zt.RedeemAction" method="toRedeem">
+			<emvc:result name="success" value="/WEB-INF/pages/zt/redeem.jsp"></emvc:result>
+		</emvc:action>
+		<emvc:action name="toConfirmRedeem" 
+			class="com.yeepay.g3.app.lmweChat.action.zt.RedeemAction" method="toConfirmRedeem">
+			<emvc:result name="success" value="/WEB-INF/pages/zt/toConfirmRedeem.jsp"></emvc:result>
+		</emvc:action>
+		<emvc:action name="toRedeemSuccess" 
+			class="com.yeepay.g3.app.lmweChat.action.zt.RedeemAction" method="toRedeemSuccess">
+			<emvc:result name="success" value="/WEB-INF/pages/zt/toRedeemSuccess.jsp"></emvc:result>
+		</emvc:action>
+		<emvc:action name="redeem" 
+			class="com.yeepay.g3.app.lmweChat.action.zt.RedeemAction" method="redeem" interceptors="exceptionInterceptor,LoggerInterceptor,LoginInterceptorJson">
+		</emvc:action>
+		
+	</emvc:package>
+</beans> 

@@ -1,0 +1,61 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="e" uri="/emvc-tags" %>
+<html>
+    <head lang="en">
+        <link rel="stylesheet" href="static/css/LM-invest.css">
+        <script type="text/javascript" src="static/js/LM-invest.js"></script>
+        <title>组合交易记录</title>
+    </head>
+    <body>
+        <div class="tran-detail-Area">
+    <div class="detail-list bg-white pr">
+        <ul>
+            <li class="fl pr">
+                <span id="aSelectedText">全部交易类型</span>
+                <i class="trigger trigger-bottom"></i>
+            </li>
+            <li class="fl pr">
+                <span id="bSelectedText">是否已确认</span>
+                <i class="trigger trigger-bottom"></i>
+            </li>
+        </ul>
+        <div class="detail-list-main bg-white pa">
+            <div class="style-list label">
+                <ul class="tc" onclick="">
+                    <li>全部交易类型</li>
+                    <li>申购</li>
+                    <li>赎回</li>
+                    <li>撤单</li>
+                </ul>
+            </div>
+            <div class="confirm-list label">
+                <ul class="tc">
+                    <li>所有</li>
+                    <li>全部已确认</li>
+                    <li>部分已确认</li>
+                    <li>全部未确认</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="detailContent bg-white">
+        <p class="detailPlan">购房购车 · 金石之策投资计划 <span class="fr">2016/09/22 08:24</span></p>
+        <p class="detailConfirm">+<span>1000000</span>.00<a class="fr" href="#">申购成功<i class="icon icon-arrow-right fr"></i></a></p>
+    </div>
+    <div class="detailContent bg-white">
+        <p class="detailPlan">购房购车 · 金石之策投资计划 <span class="fr">2016/09/22 08:24</span></p>
+        <p class="detailConfirm">+<span>1000</span>.00<a class="fr" href="#">申购中...<i class="icon icon-arrow-right fr"></i></a></p>
+    </div>
+    <div class="detailContent bg-white">
+        <p class="detailPlan">购房购车 · 金石之策投资计划 <span class="fr">2016/09/22 08:24</span></p>
+        <div class="detailConfirm-list">
+            <p class="detailConfirm">+<span>3000</span>.00<a class="fr" href="#">申购中...<i class="icon icon-arrow-right fr"></i></a></p>
+            <p class="detailConfirm">+<span>1000</span>.00<a class="fr fail" href="#">申购失败<i class="icon icon-arrow-right fr"></i></a></p>
+            <p class="detailConfirm">+<span>1000</span>.00<a class="fr" href="#">申购成功<i class="icon icon-arrow-right fr"></i></a></p>
+        </div>
+    </div>
+</div>
+    </body>
+</html>

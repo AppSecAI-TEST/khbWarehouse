@@ -1,0 +1,53 @@
+@charset "utf-8";
+
+/*底部*/
+.foo{
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    height: 1.2rem;
+    width: 100%;
+    background: #fff;
+    color: #7a7e83;
+    z-index: 999;
+    border-top: .02rem solid #ddd;
+    display: block;
+}
+.mainmenu{
+    width: 100%;
+    font-size: .2rem;
+    padding-top: .18rem;
+}
+.mainmenu li{
+    float: left;
+    width: 25%;
+    height: 1rem;
+    text-align: center;
+    position: relative;
+    font-size: .28rem;
+}
+.mainmenu .icon_menu{
+    color: #7a7e83;
+}
+.mainmenu .cur_menu{
+    color: #f46e26;
+}
+.icon-cat,.icon-purse,.icon-focus,.icon-aboutus,.icon-service{
+    font-size: .6rem;
+    line-height: .5rem;
+    display: inline-block;
+}
+.icon_font{
+    margin-top: -.08rem;
+}
+.icon_menu{
+    display: block;
+}
+
+
+
+
+
+
+
+

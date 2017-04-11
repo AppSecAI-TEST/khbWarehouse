@@ -1,0 +1,835 @@
+@charset "utf-8";
+.b{
+    font-weight: bold;
+}
+.blue{
+    color: #2a6496;
+}
+.through{
+    text-decoration:line-through;
+}
+/*基金列表*/
+.headFix{
+    width: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 9;
+}
+.fundproArea{
+    margin-top: 2.4rem;
+}
+.fundproArea2{
+    margin-top: 3.6rem;
+}
+.fundNav{
+    padding-top: .3rem;
+    margin-top: 0;
+    height: 1.2rem;
+}
+.fundNav .tab_nav {
+    width: 70%;
+    margin: 0 auto .2rem;
+}
+.fundNav .tab_nav li{
+    width: 50%;
+    height: .8rem;
+    line-height: .7rem;
+    font-size: .3rem;
+}
+.icon-search{
+    font-size: .5rem;
+    top: .45rem;
+    right: .2rem
+}
+.fundSelectBar{
+    height: 1rem;
+    border-top: .02rem solid #ddd;
+    border-bottom: .02rem solid #ddd;
+    clear: both;
+}
+.fundSelectBar li{
+    float: left;
+    width: 50%;
+    text-align: center;
+    line-height: 1rem;
+}
+.fundproList{
+    margin-top: 0;
+}
+.fundproList .titlePro .font-12{
+    display: block;
+}
+.fundproList .proCon{
+    margin-bottom: 0;
+    padding: 3% 0 1%;
+    color: #888;
+}
+.fundproList .proCon table{
+    margin: 0 auto;
+}
+.preference {
+    background: url(../images/fund/preference.png) no-repeat;
+    background-size: 98%;
+    right: -.01rem;
+}
+.fundproList .icon-round{
+    top: 0;
+    right: 0;
+    display: inline-block;
+    width: 4px;
+    height: 4px;
+    background:#888;
+    vertical-align: middle;
+}
+.fundproList td .fundDot:last-child{
+    margin-left: .4rem;
+}
+/*基金nav弹窗*/
+.filter-nav-1{
+    padding: 1% 4%;
+    text-align: left;
+    font-family: 'Microsoft Yahei', 'Helvetica Neue', Helvetica, STHeiTi, Arial, sans-serif;
+}
+.arrowUp{
+    background: url(../images/fund/arrowUp.png) no-repeat;
+    background-size: 80%;
+    width: .5rem;
+    height: .5rem;
+    top: -.3rem;
+    display: inline-block;
+    z-index: 3;
+    left: 20%;
+}
+.filter-nav-2 .arrowUp{
+    right: 20%;
+    left: auto;
+}
+.filter-nav-1 li{
+    padding-left: 11%;
+    width: 90%;
+    float: left;
+    line-height: .9rem;
+    color: #444;
+    border-bottom: .02rem solid #ddd;
+}
+.filter-nav-1 li:last-child{
+    border-bottom: none;
+}
+.filter-nav-2 li a{
+    display: inline-block;
+    width: 25%;
+}
+/*搜索弹窗*/
+.searchArea{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 10;
+    display: none;
+}
+.searchContent{
+    width: 96%;
+    margin: .2rem auto;
+}
+.searchContent h3{
+    width: 100%;
+    height: .6rem;
+    line-height: .6rem;
+    font-size: .32rem;
+    color: #444;
+}
+.searchContent ul{
+    width: 100%;
+    overflow: hidden;
+    margin-top: .2rem;
+}
+.searchContent ul li{
+    width:30%;
+    height: .8rem;
+    line-height:.8rem;
+    text-align: center;
+    border: .02rem solid #ddd;
+    float: left;
+    margin-left: 4%;
+    border-radius: .15rem;
+    font-size: .3rem;
+    color: #444;
+}
+.searchContent ul li a{
+    display: block;
+}
+.searchContent ul li:first-child{
+    margin-left:0;
+}
+.searchHeader{
+    width: 100%;
+    height:1.5rem;
+    border-bottom:.02rem solid #ddd;
+    overflow: hidden;
+}
+.searchHeader2{
+    border-bottom: none;
+    margin-top: -.3rem;
+}
+.input-wrap-search{
+    width: 90%;
+    height: .8rem;
+    line-height: .8rem;
+    border-radius: .4rem;
+    border: none;
+    padding: 0 3%;
+    background: #f3f3f3;
+    margin: .3rem auto .1rem;
+}
+.input-wrap-search .input-text{
+    width: 70%;
+    background: #f3f3f3;
+    padding: 0;
+    height: .6rem;
+    line-height: .6rem;
+    font-size: .3rem;
+}
+.input-wrap-search .icon-search{
+    font-size: .4rem;
+    color: #b0b0b0;
+    margin-left: .08rem;
+    margin-right: .08rem;
+    vertical-align: -.1rem;
+}
+.input-wrap-search  .icon-error {
+    font-size: .4rem;
+    color: #dadada;
+    margin-right: .08rem;
+}
+.searchBorder{
+    width: 100%;
+    height: .3rem;
+    background: -webkit-linear-gradient(bottom, #f3f3f3,#fff );
+    background: -o-linear-gradient(bottom, #f3f3f3,#fff );
+    background: -moz-linear-gradient(bottom, #f3f3f3,#fff );
+    background: linear-gradient(bottom, #f3f3f3,#fff );
+}
+
+/*基金收益*/
+.fundsCard{
+    background: url(../images/bg-scb.jpg) 60% 70%;
+}
+.fundsCard .layou-up a.font-white {
+    padding: .3rem 0;
+}
+.fundsCard .triangle-right {
+    top: 1.2rem;
+}
+.fundsNav a, .fundsNav li{
+    width: 25%;
+}
+/*申购成功*/
+.applyFlow{
+    font-size: .34rem;
+    color: #444;
+}
+.applyFlow p{
+    font-size: .28rem;
+    color: #666;
+    padding-top: .1rem;
+}
+.flowList .applyFlow .icon-circle{
+    font-size: .3rem;
+}
+.flowList .applyFlow .on .icon-circle{
+    color: #ff7126;
+}
+/*购买赎回*/
+.buyInfo2 .dot {
+    margin-right: .08rem;
+    vertical-align: .03rem;
+}
+.buyInfo2 li{
+    padding: .15rem 0;
+}
+.fundBox{
+    padding: 4%;
+    width: 84%;
+    margin: 4% auto 0;
+    font-size: .32rem;
+    overflow: hidden;
+}
+.fundBox p{
+    line-height: .7rem;
+}
+.fundBox p.moderror{
+    margin-top: -.1rem;
+    font-size: .28rem;
+}
+.fundBar{
+    margin: .4rem auto .2rem;
+    color: #666;
+}
+.fundBar td{
+    height: .5rem;
+    padding-top: .4rem;
+    border-top: .02rem solid #ddd;
+}
+.fundBar .tl{
+    text-align: left;
+}
+.fundBar .tr{
+    text-align: right;
+}
+.fundBar .circleList{
+    top: -.18rem;
+    z-index: 3;
+}
+.fundBar .circleList li{
+    width: 33.2%;
+    color: #bbb;
+}
+.fundBar .br-bottom{
+    width: 49%;
+    left: 0;
+    top: -.001rem;
+    border-bottom: .02rem solid #fe7422;
+    z-index: 2;
+}
+.fundBar .br-bottom2{
+    width: 98%;
+}
+.redeemDiv,.redeemDiv2{
+    padding: .3rem 0 .15rem;
+    border-top: .02rem solid #ddd;
+    margin-top: .2rem;
+}
+.redeemDiv .amount-text {
+    border: .02rem solid #ddd;
+    color: #888;
+}
+.redeemDiv input.amount-text:-ms-input-placeholder{
+    color: #888;
+}
+.redeemDiv input.amount-text::-webkit-input-placeholder {
+    color: #888;
+}
+.fundBox .applyFlow p{
+    padding-top: 0;
+    line-height: .6rem;
+}
+.fundBox .flowList ul{
+    margin-left: 7vw;
+}
+.fundBox .bg-t,.fundBox .bg-b{
+    left: 7vw;
+}
+.fundBox .bg-b{
+    height: 1.13rem;
+}
+/*基金详情页*/
+.detailContent{
+    background: #fff;
+    margin-top: .2rem;
+}
+.productTitle{
+    width: 94%;
+    margin: 0 auto;
+    overflow: hidden;
+    border-bottom: .02rem solid #d3d3d3;
+}
+.productTitle h2{
+    height: .8rem;
+    line-height: .8rem;
+    font-size: .4rem;
+    color: #fe7422;
+    margin-top: .1rem;
+}
+.productTitle p{
+    margin-bottom: .2rem;
+}
+.productData{
+    margin-top: .1rem;
+    padding: 0 3%;
+}
+.productData p{
+    padding: .1rem 0;
+}
+.productData .net{
+    color: #444;
+}
+.productData .net span{
+    font-size:.4rem;
+    color: #fe7422;
+    margin-left: .2rem;
+}
+.productData .amount{
+    color: #888;
+}
+.productData .amount span{
+    color: #25ae00;
+}
+.productData .amount .left{
+    margin-right: .2rem;
+}
+.productContent .chart-wrap{
+    padding: 0 4%;
+}
+.briefTitle{
+    height:1rem;
+    line-height: 1rem;
+    padding: 0 3%;
+    border-bottom: .02rem solid #ddd;
+    font-size: .32rem;
+    color: #fe7f33;
+}
+.briefMain{
+    padding: .2rem 3%;
+}
+.briefMain ul li{
+    line-height: .55rem;
+}
+.briefMain ul li img{
+    width: 1.6rem;
+}
+.starArea{
+    width: 50%;
+    display: inline;
+}
+.icon-star{
+    font-size: .28rem;
+    color: #ddd;
+    display: inline-block;
+}
+.starArea .orange{
+    color: #fe7f33;
+}
+/*.content{*/
+    /*display: none;*/
+/*}*/
+.briefText .text,.briefCon p{
+    line-height: .45rem;
+}
+.briefText .text a{
+    color: #888;
+    display: inline-block;
+}
+.briefText .text .icon{
+    font-size: .25rem;
+}
+.briefText .name{
+    height: .5rem;
+    line-height: .5rem;
+}
+.briefText{
+    padding: .15rem 3% .5rem;
+}
+.detailTab{
+    border-bottom: .02rem solid #ddd;
+}
+.detailTab ul li{
+    float: left;
+    width: 25%;
+    height: 1rem;
+    position: relative;
+}
+.detailTab ul li .detailRate{
+    height: .4rem;
+    line-height: .4rem;
+    text-align: center;
+    font-size: .32rem;
+    margin-top: .3rem;
+    border-right: .02rem solid #ddd;
+}
+.detailTab ul li:last-child .detailRate{
+    border-right: none;
+}
+.detailTab .arrowUp{
+    top: .72rem;
+    left: 38%;
+    display: none;
+}
+.detailTab .active{
+    color: #fe7f33;
+}
+.detailTab .active .arrowUp{
+    display: block;
+}
+.detailBox .chart{
+    padding: .4rem 3% .4rem;
+}
+.lastContent{
+    margin-bottom: 1.2rem;
+}
+.detailBox .rate .rateTitle {
+    border-right: .02rem solid #ddd;
+    background-color: white;
+    padding: 0 !important;
+}
+.detailBox .rate table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+.detailBox .rate table th {
+    width: 34%;
+    padding: 5%;
+}
+.detailBox .rate table td {
+    width: 33%;
+    height: 1rem;
+    line-height: 1rem;
+}
+.detailBox .rate .rateTable {
+    width: 100%;
+    border: .02rem solid #ddd;
+}
+.detailBox .rate .rateTable tr td {
+    padding:0 2%;
+    border: .02rem solid #ddd;
+    text-align: center;
+    font-size: .25rem;
+    color: #444;
+}
+.detailBox .rate .tiltArea {
+    background-image: url('../images/fund/rate-line.png');
+    background-size: 100% 100%;
+}
+.detailBox .rate .tiltArea table{
+    width: 100%;
+}
+.detailBox .rate .tiltArea tr{
+    width: 100%;
+}
+.detailBox .rate .tiltArea th{
+    width: 50%;
+    color: #888;
+}
+.detailBox .rate .th-1{
+    text-align: center;
+}
+.detailBox .rate .rateTable tr .rateFirst{
+    text-align: left;
+}
+.detailBox .rate .actual{
+    border-right: .02rem solid #ddd;
+}
+.detailBox .rate span{
+    width: 1.8rem;
+    display: block;
+    position: relative;
+    margin: 0 auto;
+}
+.detailBox .rate img{
+    width: 1.2rem;
+    position: absolute;
+    top: 50%;
+    left: .3rem;
+}
+.detailBox .chart p{
+    padding: .1rem 0;
+    line-height: .45rem;
+}
+/*基金理财*/
+.proText a{
+    color: #666;
+}
+.proText .icon-arrow-right{
+    color: #888;
+}
+.riskArea{
+    margin: 4% 0;
+    padding: .4rem;
+    font-size: .32rem;
+}
+.riskArea p{
+    padding: .12rem 0;
+}
+.riskArea p span{
+    color: #444;
+}
+.btnRisk{
+    background: #ff7126;
+    color: #fff;
+    font-size: 4.2vw;
+    height: 10vw;
+    line-height: 10vw;
+    text-align: center;
+    display: inline-block;
+    border-radius: .1rem;
+    width: 28vw;
+    margin: 0 2vw;
+}
+
+
+
+
+.fundProCon .detailTab ul li{
+    width: 33%;
+}
+.fundProCon .proList{
+    border: .02rem solid #ddd;
+}
+.fundProCon .vouchers2{
+    z-index: 3;
+}
+.fundProCon .vouchers2 span{
+    line-height: .45rem;
+}
+
+.holding{
+    background: url("../images/fund/holding.png") no-repeat;
+    background-size: 90%;
+}
+.dealing{
+    background: url("../images/fund/dealing.png") no-repeat;
+    background-size: 90%;
+}
+.finished{
+    background: url("../images/fund/finished.png") no-repeat;
+    background-size: 90%;
+}
+/*测评开始页*/
+.coverArea{
+    width: 100%;
+    height: 100%;
+}
+.evaluation{
+    width: 100%;
+    height: 13vw;
+    line-height: 13vw;
+    text-align: center;
+    font-size: 4.5vw;
+    color: #fe7422;
+    background: #fff8ca;
+}
+.evaluationHeader{
+    font-size: 6.25vw;
+    text-align: center;
+    margin-top: 9vw;
+    color: #000;
+}
+.evaluationImg{
+    padding: 12.5vw 0;
+}
+.evaluationImg img{
+    width:55%;
+    margin: 0 auto;
+    display: block;
+}
+.skip{
+    text-align: center;
+}
+.skip a{
+    color: #fe7422;
+    font-size:.28rem;
+}
+.skip img{
+    vertical-align:bottom;
+    margin-bottom:.09rem;
+    width: .2rem;
+}
+.evaluationBtn a{
+    width: 94%;
+    display: block;
+    background: #fe7422;
+    color: #fff;
+    font-size: 5vw;
+    text-align: center;
+    margin: 0 auto;
+    height: 13vw;
+    line-height:13vw;
+    border-radius: .08rem;
+}
+.evaluationBtn{
+    padding:.4rem 0;
+}
+.accord{
+    padding:0 3%;
+    text-indent: .4rem;
+    font-size:.28rem;
+}
+.accord a{
+    color: #fe7422;
+}
+.prompt{
+    width: 100%;
+    height: 11vw;
+    line-height: 11vw;
+    text-align: center;
+    margin-top: 4vw;
+}
+/*测试结束页*/
+.progressBar{
+    width: 100%;
+    height: .1rem;
+    background:#fff8ca;
+}
+.evolve{
+    width: 100%;
+    height: .1rem;
+    background: #fe7422;
+}
+.resultHeader{
+    margin-top:18.75vw;
+}
+.resultHeader p{
+    font-size: 6.25vw;
+}
+.resultHeader .style{
+    font-size: 9vw;
+    color: #fe7422;
+    margin-top: .1rem;
+}
+.resultBtn{
+    padding: 21.8vw 0 3.1vw;
+}
+.resultPrompt{
+    margin-top: 3.1vw;
+}
+/*题目页*/
+.subjectArea{
+    width: 100%;
+    height: 100%;
+}
+/*进度条开始*/
+.evolve-1{
+    width: 11%;
+}
+.evolve-2{
+    width: 22%;
+}
+.evolve-3{
+    width: 33%;
+}
+.evolve-4{
+    width: 44%;
+}
+.evolve-5{
+    width: 55%;
+}
+.evolve-6{
+    width: 66%;
+}
+.evolve-7{
+    width: 77%;
+}
+.evolve-8{
+    width: 88%;
+}
+.evolve-9{
+    width: 100%;
+}
+/*进度条结束*/
+body{
+    width: 100%;
+}
+.subjectHeader{
+    padding: 0 3%;
+    overflow: hidden;
+}
+.subjectHeader .question{
+    height: .8rem;
+    line-height: .8rem;
+    font-size: .4rem;
+    margin-top: .4rem;
+    color: #000;
+}
+.subjectHeader .subjectBar{
+    height: .6rem;
+    line-height: .6rem;
+    overflow: hidden;
+    margin-top: .1rem;
+}
+.subjectHeader .subjectBar a{
+    color:#666;
+    font-size: .32rem;
+}
+.answer i{
+    color: #fe7422;
+}
+.answer li{
+    width: 94%;
+    background: #fff;
+    margin-top: .1rem;
+    padding: .35rem 3%;
+    font-size: .32rem;
+}
+.answer li div{
+    width: 86%;
+    text-indent: -.3rem;
+    padding-left: .3rem;
+}
+.answer .active{
+    background:#fff url('../images/fund/correct.png') no-repeat 97% center;
+    background-size: .5rem;
+}
+.subjectPrompt{
+    bottom:0;
+    left: 0;
+    height: .8rem;
+    line-height: .8rem;
+}
+.hopArea{
+    width: 94%;
+    margin: 0 auto;
+    height: 2.5rem;
+    padding-bottom: .2rem;
+    background: #fff;
+    border-radius: .1rem;
+    overflow: hidden;
+}
+.hopArea p{
+    height: .8rem;
+    line-height: .8rem;
+    margin-top: .4rem;
+    text-align: center;
+    font-size: .32rem;
+}
+.hopBtn{
+    padding: .1rem;
+    overflow: hidden;
+    margin-top: .2rem;
+    text-align: center;
+}
+.hopArea a{
+    display: inline-block;
+    width: 45%;
+    height: .8rem;
+    line-height: .8rem;
+    margin-right: 4%;
+    background: #ddd;
+    text-align: center;
+    color: #444;
+    font-size: .32rem;
+    border-radius: .1rem;
+}
+.hopArea a:first-child{
+    background: #fe7422;
+    color: #fff;
+}
+.hopArea a:last-child{
+    margin: 0;
+}
+/*风险评测说明*/
+.protocol-con .p-1{
+    text-indent: .4rem;
+}
+.protocol-con li{
+    margin-top: .2rem;
+    line-height: .4rem;
+
+}
+
+
+
+@media screen and (max-width: 320px) {
+    p.proText{
+        font-size: .24rem;
+    }
+    .fundproList .proCon td{
+        font-size: .26rem;
+    }
+    .fundproList .proCon td .font-30{
+        font-size: .48rem;
+    }
+}
+
+

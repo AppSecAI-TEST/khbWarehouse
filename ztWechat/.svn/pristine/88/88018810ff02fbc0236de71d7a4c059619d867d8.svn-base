@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:emvc="http://www.yeepay.com/schema/emvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+				http://www.yeepay.com/schema/emvc http://www.yeepay.com/schema/emvc.xsd">
+	<emvc:package name="/zt/groupPurchase">
+	    <!--到购买页面-->
+		<emvc:action name="toPurchase" class="com.yeepay.g3.app.lmweChat.action.zt.PurchaseAction" method="toPurchase">
+		<emvc:result name="success" value="/WEB-INF/pages/zt/groupPurchase.jsp"></emvc:result>
+		</emvc:action>
+		<!--计算基金占比-->
+	    <emvc:action name="calculateProportion"
+		class="com.yeepay.g3.app.lmweChat.action.zt.PurchaseAction" method="calculateProportion" interceptors="exceptionInterceptor,LoggerInterceptor,LoginInterceptorJson">
+		</emvc:action>
+		<!--购买-->
+		<emvc:action name="purchase"
+		class="com.yeepay.g3.app.lmweChat.action.zt.PurchaseAction" method="purchase" interceptors="exceptionInterceptor,LoggerInterceptor,LoginInterceptorJson">
+		</emvc:action>
+		<!--购买成功页面-->
+		<emvc:action name="toPurchaseSuccess"
+		class="com.yeepay.g3.app.lmweChat.action.zt.PurchaseAction" method="toPurchaseSuccess">
+		<emvc:result name="success" value="/WEB-INF/pages/zt/purchaseSuccess.jsp"></emvc:result>
+		</emvc:action>
+		<!--申购费率详情页面-->
+		<emvc:action name="toPurchaseFeeDetail"
+		class="com.yeepay.g3.app.lmweChat.action.zt.PurchaseAction" method="toPurchaseFeeDetail">
+		<emvc:result name="success" value="/WEB-INF/pages/zt/feeDetail.jsp"></emvc:result>
+		</emvc:action>
+		<!--计算申购费率-->
+		<emvc:action name="calculateFee"
+		class="com.yeepay.g3.app.lmweChat.action.zt.PurchaseAction" method="calculateFee" interceptors="exceptionInterceptor,LoggerInterceptor,LoginInterceptorJson">
+		</emvc:action>
+		<!--去申购单只基金-->
+		<emvc:action name="toFundPurchase"
+		class="com.yeepay.g3.app.lmweChat.action.zt.PurchaseAction" method="toFundPurchase">
+		<emvc:result name="success" value="/WEB-INF/pages/zt/toPurchase.jsp"></emvc:result>
+		</emvc:action>
+		<!--申购单只基金-->
+		<emvc:action name="doFundPurchase"
+		class="com.yeepay.g3.app.lmweChat.action.zt.PurchaseAction" method="doFundPurchase">
+		</emvc:action>
+		<!--申购单只基金-->
+		<emvc:action name="computeFareSx"
+		class="com.yeepay.g3.app.lmweChat.action.zt.PurchaseAction" method="computeFareSx">
+		</emvc:action>
+	</emvc:package>
+</beans> 

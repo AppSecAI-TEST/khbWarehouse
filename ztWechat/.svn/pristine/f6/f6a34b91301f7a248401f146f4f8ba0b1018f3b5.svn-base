@@ -1,0 +1,180 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ page import="com.yeepay.g3.app.lmweChat.utils.LmConstants" %>
+<%@ taglib prefix="e" uri="/emvc-tags" %>
+<%
+    String path = request.getContextPath();
+    String basePath = request.getScheme() + "://"
+            + request.getServerName() + ":" + request.getServerPort()
+            + path + "/";
+    String sysVersion = LmConstants.sysVersion;
+%>
+<html>
+<head lang="en">
+    <link rel="stylesheet" href="static/css/swiper.min.css?v=<%=sysVersion %>">
+    <link rel="stylesheet" href="static/css/zt/incomePull.css?v=<%=sysVersion %>"/>
+    <script type="text/javascript" src="static/js/scb/iScroll.js?v=<%=sysVersion %>"></script>
+    <script type="text/javascript" src="static/js/zt/incomePull.js?v=<%=sysVersion %>"></script>
+    <script type="text/javascript" src="static/js/common/format_common.js?v=<%=sysVersion %>"></script>
+    <script type="text/javascript" src="static/js/zt/policyIncomeDetail.js?v=<%=sysVersion %>"></script>
+    <title>灵机一投收益</title>
+    <!-- <script>
+        $(function(){
+            $.ajax({
+                type : "post",
+                url : "../json/meterdata.json",
+                dataType : "json",
+                success : function (data) {
+                    var maxvalue = 0;
+                    for( var i=0; i<data.length-1; i++){
+                        if(data[i].money > data[i+1].money){
+                            if(data[i].money>maxvalue){
+                                maxvalue = data[i].money;
+                            }
+                        }
+                    }
+                    $('meter').eq(0).prop('optimum',maxvalue);
+                    $.each(data, function (i, item) {
+                        var per = item.money/maxvalue;
+                        var meterwidth = $('meter').width();
+                        var bgper = 124/meterwidth;
+                        $('meter').eq(i).prop('max',maxvalue);
+                        $('meter').eq(i).next('p').children('span.cur-date').html(item.date);
+                        $('meter').eq(i).next('p').children('span.cur-money').html(item.money);
+                        if(per < bgper){
+                            $('meter').eq(i).val(maxvalue*0.42);
+                            $('meter').eq(i).next('p').width('42%');
+                        }else{
+                            $('meter').eq(i).val(item.money);
+                            $('meter').eq(i).next('p').width(per*100+'%');
+                        }
+                    });
+                },
+                error : function(){
+                    console.log('error')
+                }
+            });
+
+            for( var i=0; i<$('meter').length; i++ ) {
+                var val = $('meter').eq(i).val();
+                $('meter').eq(i).next('p').width(val+'%');
+            }
+
+            /*计算区域高度*/
+            var bodyH = $(document.body).height();
+            var meterH = $('.deal-meter').height();
+            meterH = bodyH-40 > meterH ? bodyH-40 : meterH;
+            $('.deal-meter').height(meterH);
+        })
+    </script> -->
+</head>
+<body>
+<div id="box">
+    <div class="bg-white">
+        <div class="tabNav tabNav tabs">
+            <ul>
+                <li class="on">昨日收益</li>
+                <li>累计收益</li>
+            </ul>
+        </div>
+    </div>
+    <div class="tab_con pb15">
+        <blockquote style="display: block;">
+            <div class="incomeCard bg-white tc">
+                <p class="font-14">灵机一投昨日收益（元）<i class="icon icon-questionmark flip"></i></p>
+                <span class="font-40 orange"><e:property value="@_formater.formatNumber(yesterdayIncome)"/></span>
+                <div class="panel pa" style="display: none">
+                        <span class="profitTip tc pr">
+                            <i class="icon-arrow triangle-top"></i>
+                            单个投资计划收益详情请至【我的总财富-我的灵机一投】中查看
+                        </span>
+                </div>
+            </div>
+        </blockquote>
+        <blockquote style="display: none;">
+            <div class="incomeCard bg-white tc">
+                <p class="font-14">灵机一投累计收益（元）<i class="icon icon-questionmark flip"></i></p>
+                <span class="font-40 orange"><e:property value="@_formater.formatNumber(totalIncome)"/></span>
+                <div class="panel pa" style="display: none">
+                        <span class="profitTip tc pr">
+                            <i class="icon-arrow triangle-top"></i>
+                            单个投资计划收益详情请至【我的总财富-我的灵机一投】中查看
+                        </span>
+                </div>
+            </div>
+        </blockquote>
+        <!-- <div class="layou-04 pt10 pb10" style="dispaly:block">
+            <div class="deal-meter">
+                <div class="meter-wrap">
+                    <meter low="0" high="0" min="0" max="100" optimum="0" value="88"></meter>
+                    <p class="value-wrap"><span class="cur-date">2015-07-10</span><span class="cur-money">0.88</span></p>
+                </div>
+                <div class="meter-wrap">
+                    <meter low="0" high="0" max="100" optimum="0" value="60"></meter>
+                    <p class="value-wrap"><span class="cur-date">2015-07-10</span><span class="cur-money">0.60</span></p>
+                </div>
+                <div class="meter-wrap">
+                    <meter low="0" high="0" max="100" optimum="0" value="99"></meter>
+                    <p class="value-wrap"><span class="cur-date">2015-07-10</span><span class="cur-money">0.99</span></p>
+                </div>
+                <div class="meter-wrap">
+                    <meter low="0" high="0" max="100" optimum="0" value="52"></meter>
+                    <p class="value-wrap"><span class="cur-date">2015-07-10</span><span class="cur-money">0.52</span></p>
+                </div>
+                <div class="meter-wrap">
+                    <meter low="0" high="0" max="100" optimum="0" value="52"></meter>
+                    <p class="value-wrap"><span class="cur-date">2015-07-10</span><span class="cur-money">0.52</span></p>
+                </div>
+                <div class="meter-wrap">
+                    <meter low="0" high="0" max="100" optimum="0" value="52"></meter>
+                    <p class="value-wrap"><span class="cur-date">2015-07-10</span><span class="cur-money">0.52</span></p>
+                </div>
+                <div class="meter-wrap">
+                    <meter low="0" high="0" max="100" optimum="0" value="52"></meter>
+                    <p class="value-wrap"><span class="cur-date">2015-07-10</span><span class="cur-money">0.52</span></p>
+                </div>
+                <div class="meter-wrap">
+                    <meter low="0" high="0" max="100" optimum="0" value="52"></meter>
+                    <p class="value-wrap"><span class="cur-date">2015-07-10</span><span class="cur-money">0.52</span></p>
+                </div>
+                <div class="meter-wrap">
+                    <meter low="0" high="0" max="100" optimum="0" value="52"></meter>
+                    <p class="value-wrap"><span class="cur-date">2015-07-10</span><span class="cur-money">0.52</span></p>
+                </div>
+                <div class="meter-wrap">
+                    <meter low="0" high="0" max="100" optimum="0" value="52"></meter>
+                    <p class="value-wrap"><span class="cur-date">2015-07-10</span><span class="cur-money">0.52</span></p>
+                </div>
+                <div class="meter-wrap">
+                    <meter low="0" high="0" max="100" optimum="0" value="52"></meter>
+                    <p class="value-wrap"><span class="cur-date">2015-07-10</span><span class="cur-money">0.52</span></p>
+                </div>
+                <div class="meter-wrap">
+                    <meter low="0" high="0" max="100" optimum="0" value="52"></meter>
+                    <p class="value-wrap"><span class="cur-date">2015-07-10</span><span class="cur-money">0.52</span></p>
+                </div>
+            </div>
+        </div> -->
+        <div class="layou-04 pt10 pb10" style="dispaly:block">
+            <div class="deal-meter">
+                <div id="wrapper">
+                  <div id="scroller">
+                    <!-- <div id="pullDown" style="display:none;" align="center">
+                        <span class="pullDownIcon"></span>
+                        <span class="pullDownLabel">下拉刷新...</span>
+                    </div> -->
+                    <div id="incomeRecord"></div>
+                    <!-- 上拉加载更多  start-->
+                    <div id="pullUp" style="display:none;" align="center">
+                        <span class="pullUpIcon"></span>
+                        <span class="pullUpLabel">上拉加载更多...</span>
+                    </div>
+                    <!-- 上拉加载更多  end-->
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

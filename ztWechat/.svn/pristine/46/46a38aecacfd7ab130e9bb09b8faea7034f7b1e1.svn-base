@@ -1,0 +1,81 @@
+/**
+ * @author 陈大涛
+ * 2016-10-27上午11:31:03
+ */
+package com.yeepay.g3.app.lmweChat.action.zt;
+
+import java.util.List;
+
+import javax.servlet.http.HttpSession;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.yeepay.g3.app.lmweChat.action.BaseAction;
+import com.yeepay.g3.facade.lmportal.dto.MemberDto;
+import com.yeepay.g3.facade.zt.dto.ZtMemberRetreatRecordDTO;
+import com.yeepay.g3.facade.zt.dto.ZtPolicyDTO;
+import com.yeepay.g3.facade.zt.dto.ZtPolicyProductDTO;
+import com.yeepay.g3.facade.zt.facade.ZtPolicyFacade;
+import com.yeepay.g3.facade.zt.facade.ZtPolicyProductFacade;
+import com.yeepay.g3.facade.zt.facade.ZtRetreatRecordFacade;
+import com.yeepay.g3.utils.common.log.Logger;
+import com.yeepay.g3.utils.common.log.LoggerFactory;
+import com.yeepay.g3.utils.rmi.RemoteServiceFactory;
+import com.yeepay.g3.utils.rmi.RemotingProtocol;
+import com.yeepay.g3.utils.web.emvc.annotation.Param;
+
+/**
+ * 策略组合
+ * @Description
+ * @author 陈大涛
+ * 2016-10-27上午11:31:03
+ */
+@RequestMapping("/policy")
+@Controller
+public class PolicyAction  extends BaseAction {
+	private Logger logger = LoggerFactory.getLogger(PolicyAction.class);
+	
+	//本地
+	/*private ZtPolicyFacade ztPolicyFacadeImpl = RemoteServiceFactory.getService("http://localhost:8080/activity-hessian/", RemotingProtocol.HESSIAN, ZtPolicyFacade.class);
+	private ZtPolicyProductFacade ztPolicyProductFacadeImpl = RemoteServiceFactory.getService("http://localhost:8080/activity-hessian/", RemotingProtocol.HESSIAN, ZtPolicyProductFacade.class);
+	private ZtRetreatRecordFacade ZtRetreatRecordFacadeImpl = RemoteServiceFactory.getService("http://localhost:8080/activity-hessian/", RemotingProtocol.HESSIAN, ZtRetreatRecordFacade.class);*/
+	//线上
+	private ZtPolicyFacade ztPolicyFacadeImpl = RemoteServiceFactory.getService(ZtPolicyFacade.class);
+	private ZtPolicyProductFacade ztPolicyProductFacadeImpl = RemoteServiceFactory.getService(ZtPolicyProductFacade.class);
+	private ZtRetreatRecordFacade ZtRetreatRecordFacadeImpl = RemoteServiceFactory.getService(ZtRetreatRecordFacade.class);
+	
+	/**
+	 * 跳转策略详情页
+	 * @author 陈大涛
+	 * 2016-10-27上午11:34:44
+	 */
+	@RequestMapping("toPolicyInfo")
+	public String toPolicyInfo(@Param("policyId") Long policyId){
+		logger.info("[toPolicyInfo] policyId={}",policyId);
+		HttpSession session = getMvcFacade().getHttpSession();
+		MemberDto memberDto = (MemberDto)session.getAttribute("memberDto");
+		ZtPolicyDTO ztPolicyDto=null;
+		List<ZtPolicyProductDTO> policyProductList =null;	
+		ZtMemberRetreatRecordDTO ztMemberRetreatRecordDto=null;
+		try {
+			//1.查询策略信息
+			 ztPolicyDto =  ztPolicyFacadeImpl.selectPolicyByPrimaryKey(policyId);
+			//2.查询策略对应基金列表
+			 policyProductList = ztPolicyProductFacadeImpl.selectPolicyProductList(policyId);
+			//3.查询用户最大回撤率
+			  ztMemberRetreatRecordDto = ZtRetreatRecordFacadeImpl.selectRetreatRecordByMemberNo(memberDto.getMemo());
+			//4.收益曲线	
+			 //TODO
+		} catch (Exception e) {
+			logger.error("[toPolicyInfo] 远程调用接口异常 e={}",e);
+		}
+		addModelObject("ztPolicyDto", ztPolicyDto);//策略信息
+		addModelObject("policyProductList", policyProductList);//策略对应基金列表
+		addModelObject("recordRate", ztMemberRetreatRecordDto==null?"":ztMemberRetreatRecordDto.getRecordRate());//用户最大回撤率
+		//TODO 
+		return SUCCESS;
+	}
+	
+	
+}

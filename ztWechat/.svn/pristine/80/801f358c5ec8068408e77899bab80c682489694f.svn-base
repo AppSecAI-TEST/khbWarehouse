@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:emvc="http://www.yeepay.com/schema/emvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+				http://www.yeepay.com/schema/emvc http://www.yeepay.com/schema/emvc.xsd">
+	<emvc:package name="/zt/risk">
+		<!-- 开始基金测评页 -->
+		<emvc:action name="toRiskTestStart" ref="riskAndRetreatAction"
+			method="toRiskTestStart">
+			<emvc:result name="success" value="/WEB-INF/pages/zt/startRisk.jsp"></emvc:result>
+		</emvc:action>
+		<emvc:action name="scenePicture" ref="riskAndRetreatAction"
+			method="scenePicture" interceptors="exceptionInterceptor,LoggerInterceptor">
+		</emvc:action>
+		<emvc:action name="questionsPage" ref="riskAndRetreatAction"
+			method="questionsPage">
+			<emvc:result name="success" value="/WEB-INF/pages/zt/sceneList.jsp"></emvc:result>
+		</emvc:action>
+		<emvc:action name="toRiskTest" ref="riskAndRetreatAction"
+			method="toRiskTest">
+			<emvc:result name="success" value="/WEB-INF/pages/zt/sceneList.jsp"></emvc:result>
+		</emvc:action>
+		<emvc:action name="goJumpRisk" ref="riskAndRetreatAction"
+			method="goJumpRisk">
+			<emvc:result name="success" value="/WEB-INF/pages/zt/sceneList.jsp"></emvc:result>
+		</emvc:action>
+		<emvc:action name="doRiskTest" ref="riskAndRetreatAction"
+			method="doRiskTest">
+			<emvc:result name="success" value="/WEB-INF/pages/zt/sceneList.jsp"></emvc:result>
+		</emvc:action>
+		<emvc:action name="toRetreatTest" ref="riskAndRetreatAction"
+			method="toRetreatTest">
+			<emvc:result name="success" value="/WEB-INF/pages/zt/sceneList.jsp"></emvc:result>
+		</emvc:action>
+		<emvc:action name="doRetreatTest" ref="riskAndRetreatAction"
+			method="doRetreatTest">
+			<emvc:result name="success" value="/WEB-INF/pages/zt/sceneList.jsp"></emvc:result>
+		</emvc:action>
+		
+	</emvc:package>
+</beans> 

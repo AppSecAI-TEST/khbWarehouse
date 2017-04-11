@@ -1,0 +1,205 @@
+package com.yeepay.g3.app.lmweChat.utils;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.apache.commons.lang3.StringUtils;
+
+public class StringProcessorUtils {
+
+	public static String desensitizedMobileNo(String mobileNo) {
+		if (StringUtils.isEmpty(mobileNo)) {
+			return null;
+		}
+		return mobileNo.substring(0, 3) + "****"
+				+ mobileNo.substring(mobileNo.length() - 4);
+	}
+
+	public static String desensitizedIdNumber(String idNumber) {
+		if (StringUtils.isEmpty(idNumber)) {
+			return null;
+		}
+		return idNumber.substring(0, 6) + "********"
+				+ idNumber.substring(idNumber.length() - 3);
+	}
+
+	public static String desensitizedCardNo(String cardNo) {
+		if (StringUtils.isEmpty(cardNo)) {
+			return null;
+		}
+		return cardNo.substring(0, 4) + "********"
+				+ cardNo.substring(cardNo.length() - 4);
+	}
+
+	public static String desensitizedRealName(String realName) {
+		if (StringUtils.isEmpty(realName)) {
+			return null;
+		}
+		StringBuilder desensitizedRealName;
+		int index;
+		if (realName.length() >= 4) {
+			desensitizedRealName = new StringBuilder(realName.substring(0, 2));
+			index = 2;
+		} else {
+			desensitizedRealName = new StringBuilder(realName.substring(0, 1));
+			index = 1;
+		}
+		for (; index <= realName.length() - 1; index++) {
+			desensitizedRealName.append("*");
+		}
+		return desensitizedRealName.toString();
+	}
+
+	public static String honorificRealName(String realName, boolean isMale) {
+		if (StringUtils.isEmpty(realName)) {
+			return null;
+		}
+		StringBuilder honorificRealName;
+		if (realName.length() >= 4) {
+			honorificRealName = new StringBuilder(realName.substring(0, 2));
+		} else {
+			honorificRealName = new StringBuilder(realName.substring(0, 1));
+		}
+		if (isMale) {
+			honorificRealName.append("先生");
+		} else {
+			honorificRealName.append("女士");
+		}
+		return honorificRealName.toString();
+	}
+
+	/**
+	 * 获取银行卡后四位
+	 * 
+	 * @author cdt
+	 * @date 2016-3-28
+	 * @time 下午2:52:55
+	 */
+	public static String getFourCardNo(String cardNo) {
+		if (StringUtils.isEmpty(cardNo)) {
+			return null;
+		}
+		return cardNo.substring(cardNo.length() - 4);
+	}
+
+	/**
+	 * 计算传入时间的下一天
+	 * 
+	 * @author ping.zhu
+	 * @param 接受需要的时间
+	 *            "yyyy-MM-dd"
+	 * @return 接收时间的后一天"yyyy-MM-dd"
+	 * @throws ParseException
+	 */
+	public static String getNextDay(String dt) throws ParseException {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Calendar c = Calendar.getInstance();
+		c.setTime(sdf.parse(dt));
+		c.add(Calendar.DATE, 1);
+		dt = sdf.format(c.getTime());
+		return dt.toString();
+	}
+	public static String getNextDays(String dt)  throws ParseException{
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat adf = new SimpleDateFormat("MM月dd日");
+		Calendar c = Calendar.getInstance();
+		c.setTime(sdf.parse(dt));
+		c.add(Calendar.DATE, 1);
+		dt = adf.format(c.getTime());
+		return dt.toString();
+	}
+	/**
+	 * @author ping.zhu
+	 * @param pTime
+	 * @return
+	 * @throws Exception
+	 */
+	public static int dayForWeek(String pTime) throws Exception {  
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");  
+		 Calendar c = Calendar.getInstance();  
+		 c.setTime(format.parse(pTime));  
+		 int dayForWeek = 0;  
+		 if(c.get(Calendar.DAY_OF_WEEK) == 1){  
+		  dayForWeek = 7;  
+		 }else{  
+		  dayForWeek = c.get(Calendar.DAY_OF_WEEK) - 1;  
+		 }  
+		 return dayForWeek;  
+		}  
+	
+	public static String getChineseNumber(int number){
+        String[] str = {"零", "一", "二", "三", "四", "五", "六", "日"};
+        	return str[number];
+	}
+	/**
+	 * 获取两个时间的时间差
+	 * @return 分钟
+	 * @throws ParseException 
+	 */
+	public static String  getTimeDefference(Date start,Date end) throws ParseException{
+//		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		    long diff = end.getTime() - start.getTime();
+		    String days;
+		    if((diff/1000)<60){
+		    days=String.valueOf(diff/(1000))+"秒";	
+		    }else if((diff/1000)>=60&&(diff/(1000*60))<60){
+		    	days=String.valueOf(diff/(1000*60))+"分";
+		    }else if((diff/(1000*60))>=60&&(diff/(1000*60*60))<24){
+		    	days=String.valueOf(diff/(1000*60*60))+"小时"+String.valueOf(diff%(1000*60*60)/(1000*60))+"分";
+		    }else{
+		    	days=String.valueOf(diff/(1000*60*60*24))+"天";
+		    }
+		return days;
+	}
+
+	/**
+	 * 比较时间d1是否比d2大
+	 * 
+	 * @author ping.zhu
+	 * @param 需要比较的两个Date
+	 * @return boolean
+	 */
+	public static boolean compireToTime(Date d1, Date d2) {
+		if(d1==null){
+			return false;
+		}
+		SimpleDateFormat f = new SimpleDateFormat("hhmmss"); // 格式化为 hhmmss
+		int d1Number = Integer.parseInt(f.format(d1).toString()); // 将第一个时间格式化后转为int
+		int d2Number = Integer.parseInt(f.format(d2).toString()); // 将第二个时间格式化后转为int
+		if (d1Number > d2Number)
+			return true;
+		else
+			return false;
+	}
+	public static void main(String args[]){
+		Date date = new Date();
+		Calendar c = Calendar.getInstance();
+		c.setTime(date);
+		c.add(Calendar.HOUR,3);
+		date = c.getTime();
+		try {
+			System.out.print(getTimeDefference(new Date(),date));
+		} catch (ParseException e) {
+
+		}
+	}
+	
+	/**
+	 * 页面换行回车处理
+	 * @param str
+	 * @return
+	 */
+	public static String replaceRN(String src){  
+        String target = src;  
+        Pattern CRLF = Pattern.compile("(\r\n|\r|\n|\n\r)");  
+        Matcher m = CRLF.matcher(src);  
+        if (m.find()) {  
+        	target = m.replaceAll("<br>");  
+        }  
+        return target;  
+    }
+}

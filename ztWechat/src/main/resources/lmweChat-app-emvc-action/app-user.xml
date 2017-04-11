@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:emvc="http://www.yeepay.com/schema/emvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+				http://www.yeepay.com/schema/emvc http://www.yeepay.com/schema/emvc.xsd">
+
+	<emvc:package name="/user">
+		<!-- 跳转登录页面 -->
+		<emvc:action name="login" ref="userAction" method="login"
+			interceptors="exceptionInterceptor,LoggerInterceptor">
+			<emvc:result name="success" type="json" />
+		</emvc:action>
+		<!-- 验证手机号是否已经注册 -->
+		<emvc:action name="mobileIsRegister" ref="userAction" method="mobileIsRegister"
+			interceptors="exceptionInterceptor,LoggerInterceptor">
+			<emvc:result name="success" type="json" />
+		</emvc:action>
+		<!-- 注册 -->
+		<emvc:action name="register" ref="userAction" method="register"
+			interceptors="exceptionInterceptor,LoggerInterceptor">
+			<emvc:result name="success" type="json" />
+		</emvc:action>
+	</emvc:package>
+</beans>

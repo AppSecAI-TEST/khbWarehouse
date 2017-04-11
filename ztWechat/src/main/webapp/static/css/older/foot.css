@@ -1,0 +1,17 @@
+/*---底部菜单栏---*/
+html { font-size: 50px; color: #a2a2a2; font-family: 'Microsoft Yahei', 'Helvetica Neue', Helvetica, STHeiTi, Arial, sans-serif; min-width: 320px; height: 100%; -webkit-tap-highlight-color: transparent;}
+body{ height: 100%; overflow-x: hidden; -webkit-user-select: none; -webkit-text-size-adjust: none; -webkit-overflow-scrolling: touch; -moz-user-select: none; font-size: 14px; background-color: #fff;}
+a { color: #333; text-decoration: none; outline: none; -webkit-tap-highlight-color: transparent;}
+.foo{ position: fixed; left: 0; bottom: 0; height: 51px; width: 100%; background: #fff; color: #7a7e83; z-index: 99999999999;}
+.mainmenu{ width: 100%; border-top: 1px solid #b2b2b2; font-size: .2rem;}
+.mainmenu li{ float: left; width: 42%; height: 1.02rem; text-align: center; background: #f3f3f3; position: relative;}
+.mainmenu li.logo{ line-height: 1.02rem; background: #e8e8e8; width: 16%; text-align: center;}
+.mainmenu li.logo img{ display: inline-block; margin-top: .06rem;}
+.cur_menu{ color: #f46e26;}
+.submenu{ position: absolute; bottom: 1.22rem; left: 0; width: 100%; border: .02rem solid #bfbfbf; border-radius: .06rem; display: none; font-size: .28rem; background: #f3f3f3;}
+.submenu:after{ content: ""; display: inline-block; position: absolute; left: 50%; bottom: -.12rem; border-left: .04rem solid #bfbfbf; border-bottom: .04rem solid #bfbfbf; -webkit-transform: scaleX(0.7) rotateZ(-45deg); -moz-transform: scaleX(0.7) rotateZ(-45deg); width: .16rem; height: .16rem; background: #f3f3f3; margin-left: -4px;}
+.submenu li{ float: none; background: #f3f3f3; padding: 0 8%; width: 84%; height: auto; line-height: .84rem;}
+.submenu li a{ border-bottom: .02rem solid #ccc; height: 100%; display: inline-block; width: 100%; color: #7a7e83;}
+.submenu li:last-child a{ border: 0;}
+.icon-package,.icon-mao,.icon-packageactive,.icon-maoactive{ font-size: .40rem; line-height: .40rem; margin: .16rem 0 .08rem; display: inline-block;}
+.icon_font{ font-size: .18rem;}

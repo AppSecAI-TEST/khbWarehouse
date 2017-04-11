@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:emvc="http://www.yeepay.com/schema/emvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+				http://www.yeepay.com/schema/emvc http://www.yeepay.com/schema/emvc.xsd">
+
+
+	<emvc:package name="/fixed">
+		<!-- 去信托理财账单 -->
+		<emvc:action name="toBill"
+			class="com.yeepay.g3.app.lmweChat.action.fixed.FixedAction" method="toBill">
+			<emvc:result name="success" value="/WEB-INF/pages/fixed/bill.jsp" />
+		</emvc:action>
+		<!-- banner页，新用户活动页面 -->
+		<emvc:action name="toNewManActivity"
+			class="com.yeepay.g3.app.lmweChat.action.fixed.FixedAction" method="toNewManActivity"
+			interceptors="exceptionInterceptor,LoggerInterceptor">
+			<emvc:result name="success"
+				value="/WEB-INF/pages/fixed/beginner-activity.jsp" />
+		</emvc:action>
+		<!-- 获取产品合同 -->
+		<emvc:action name="toProductContract"
+			class="com.yeepay.g3.app.lmweChat.action.fixed.FixedAction" method="toProductContract">
+			<emvc:result name="success" type="none"></emvc:result>
+		</emvc:action>
+		<!-- 获取购买成功产品合同 -->
+		<emvc:action name="toFinishedContact"
+			class="com.yeepay.g3.app.lmweChat.action.fixed.FixedAction" method="toFinishedContact">
+			<emvc:result name="success" type="none"></emvc:result>
+		</emvc:action>
+		<!-- 懒猫服务协议 -->
+		<emvc:action name="toLmProtocol"
+			class="com.yeepay.g3.app.lmweChat.action.fixed.FixedAction" method="toLmProtocol">
+			<emvc:result name="success" value="/WEB-INF/pages/inc/lm_protocol.jsp" />
+		</emvc:action>
+		<!-- 查询信托理财账单 -->
+		<emvc:action name="bill"
+			class="com.yeepay.g3.app.lmweChat.action.fixed.FixedAction" method="bill"
+			interceptors="exceptionInterceptor,LoggerInterceptor,LoginInterceptorJson">
+		</emvc:action>
+		<!-- 去产品信息页 -->
+		<emvc:action name="toPurchaseProduct"
+			class="com.yeepay.g3.app.lmweChat.action.fixed.FixedAction" method="toPurchaseProduct"
+			interceptors="exceptionInterceptor,LoggerInterceptor">
+			<emvc:result name="freshManNoLogin"
+				value="/WEB-INF/pages/fixed/freshManNoLogin.jsp" />
+			<emvc:result name="freshManLogined"
+				value="/WEB-INF/pages/fixed/freshManLogined.jsp" />
+			<emvc:result name="shortNoLogin" value="/WEB-INF/pages/fixed/shortNoLogin.jsp" />
+			<emvc:result name="shortLogined" value="/WEB-INF/pages/fixed/shortLogined.jsp" />
+			<emvc:result name="fixedNoLogin" value="/WEB-INF/pages/fixed/fixedNoLogin.jsp" />
+			<emvc:result name="fixedLogined" value="/WEB-INF/pages/fixed/fixedLogined.jsp" />
+		</emvc:action>
+		<!-- 去购买产品信息页 -->
+		<emvc:action name="toBuyProductInfo"
+			class="com.yeepay.g3.app.lmweChat.action.fixed.FixedAction" method="toBuyProductInfo">
+			<emvc:result name="success" value="/WEB-INF/pages/fixed/buyProduct.jsp" />
+		</emvc:action>
+		<!-- 去产品详情页 -->
+		<emvc:action name="productDetailInfo"
+			class="com.yeepay.g3.app.lmweChat.action.fixed.FixedAction" method="productDetailInfo"
+			interceptors="exceptionInterceptor,LoggerInterceptor">
+			<emvc:result name="repository"
+				value="/WEB-INF/pages/fixed/product_info_repository.jsp" />
+			<emvc:result name="repositoryNoLogin"
+				value="/WEB-INF/pages/fixed/product_info_repository_no_login.jsp" />
+		</emvc:action>
+		<emvc:action name="ProductInvRecord"
+			class="com.yeepay.g3.app.lmweChat.action.fixed.FixedAction" method="ProductInvRecord"
+			interceptors="exceptionInterceptor,LoggerInterceptor">
+		</emvc:action>
+		<!-- 获取购买信托理财产品信息 -->
+		<emvc:action name="getSecondColumn"
+			class="com.yeepay.g3.app.lmweChat.action.fixed.FixedAction" method="getSecondColumn"
+			interceptors="exceptionInterceptor,LoggerInterceptor">
+		</emvc:action>
+		<!-- 购买信托理财产品 -->
+		<emvc:action name="purchaseProduct"
+			class="com.yeepay.g3.app.lmweChat.action.fixed.FixedAction" method="purchaseProduct"
+			interceptors="exceptionInterceptor,LoggerInterceptor,LoginInterceptorJson">
+		</emvc:action>
+		<!-- 选择购买成功的跳转页面 -->
+		<emvc:action name="toSwitchBuySuccess"
+			class="com.yeepay.g3.app.lmweChat.action.fixed.FixedAction" method="toSwitchBuySuccess">
+			<emvc:result name="success" type="none"></emvc:result>
+		</emvc:action>
+		<!-- 多啦宝用户购买成功页面 -->
+		<emvc:action name="toDLBaoBuySuccess"
+			class="com.yeepay.g3.app.lmweChat.action.fixed.FixedAction" method="toDLBaoBuySuccess">
+			<emvc:result name="success"
+				value="/WEB-INF/pages/fixed/buyDLBaoSuccess.jsp"></emvc:result>
+		</emvc:action>
+		<!-- 天翼用户购买成功页面 -->
+		<emvc:action name="toTYBuySuccess"
+			class="com.yeepay.g3.app.lmweChat.action.fixed.FixedAction" method="toTYBuySuccess">
+			<emvc:result name="success" value="/WEB-INF/pages/fixed/buyTYSuccess.jsp"></emvc:result>
+		</emvc:action>
+		<!-- 够旅游购买成功页面 -->
+		<emvc:action name="toTourBuySuccess"
+			class="com.yeepay.g3.app.lmweChat.action.fixed.FixedAction" method="toTourBuySuccess">
+			<emvc:result name="success"
+				value="/WEB-INF/pages/fixed/buyTourSuccess.jsp"></emvc:result>
+		</emvc:action>
+		<emvc:action name="toBuySuccess"
+			class="com.yeepay.g3.app.lmweChat.action.fixed.FixedAction" method="toBuySuccess">
+			<emvc:result name="success" value="/WEB-INF/pages/fixed/buySuccess.jsp"></emvc:result>
+		</emvc:action>
+		<!-- 获取产品相关信息 -->
+		<emvc:action name="getProductInfo"
+			class="com.yeepay.g3.app.lmweChat.action.fixed.FixedAction" method="getProductInfo"
+			interceptors="exceptionInterceptor,LoggerInterceptor">
+		</emvc:action>
+		<!-- 根据id查询信托理财产品 -->
+		<emvc:action name="getProductById"
+			class="com.yeepay.g3.app.lmweChat.action.fixed.FixedAction" method="getProductById"
+			interceptors="exceptionInterceptor,LoggerInterceptor">
+		</emvc:action>
+		<!-- 查询未使用优惠券 -->
+		<emvc:action name="toMyCoupons"
+			class="com.yeepay.g3.app.lmweChat.action.fixed.FixedAction" method="toMyCoupons">
+			<emvc:result name="success" value="/WEB-INF/pages/fixed/unuseCoupon.jsp"></emvc:result>
+		</emvc:action>
+		<!-- 查询已使用优惠券 -->
+		<emvc:action name="toUsedCoupon"
+			class="com.yeepay.g3.app.lmweChat.action.fixed.FixedAction" method="toUsedCoupon">
+			<emvc:result name="success" value="/WEB-INF/pages/fixed/usedCoupon.jsp"></emvc:result>
+		</emvc:action>
+		<!-- 查询已过期优惠券 -->
+		<emvc:action name="toExpiredCoupon"
+			class="com.yeepay.g3.app.lmweChat.action.fixed.FixedAction" method="toExpiredCoupon">
+			<emvc:result name="success"
+				value="/WEB-INF/pages/fixed/expiredCoupon.jsp"></emvc:result>
+		</emvc:action>
+		<!-- 查询优惠券所使用的产品 -->
+		<emvc:action name="queryProductByTrustOrderId"
+			class="com.yeepay.g3.app.lmweChat.action.fixed.FixedAction" method="queryProductByTrustOrderId"></emvc:action>
+		<!-- 信托理财产品可用优惠券查询 -->
+		<emvc:action name="queryPromotionInfomations"
+			class="com.yeepay.g3.app.lmweChat.action.fixed.FixedAction" method="queryPromotionInfomations"
+			interceptors="exceptionInterceptor,LoggerInterceptor,LoginInterceptorJson"></emvc:action>
+		<!-- 使用优惠券，预核算 -->
+		<emvc:action name="calculatePromotion"
+			class="com.yeepay.g3.app.lmweChat.action.fixed.FixedAction" method="calculatePromotion"
+			interceptors="exceptionInterceptor,LoggerInterceptor,LoginInterceptorJson"></emvc:action>
+		<emvc:action name="toCouponDetail" method="toCouponDetail"
+			class="com.yeepay.g3.app.lmweChat.action.fixed.FixedAction">
+			<emvc:result name="success" value="/WEB-INF/pages/fixed/couponDetail.jsp"></emvc:result>
+		</emvc:action>
+		<!-- 跳转理财顾问产品详情 -->
+		<emvc:action name="toRedPacketsDetail" method="toRedPacketsDetail"
+			class="com.yeepay.g3.app.lmweChat.action.fixed.FixedAction">
+			<emvc:result name="success"
+				value="/WEB-INF/pages/fixed/redPacketsDetail.jsp"></emvc:result>
+			<emvc:result name="failed" value="/WEB-INF/pages/account/login.jsp"></emvc:result>
+		</emvc:action>
+	
+		<emvc:action name="toNewerBeginner" method="toNewerBeginner"
+			class="com.yeepay.g3.app.lmweChat.action.fixed.FixedAction"
+			interceptors="exceptionInterceptor,LoggerInterceptor">
+			<emvc:result name="success" type="none"></emvc:result>
+		</emvc:action>
+	</emvc:package>
+</beans> 

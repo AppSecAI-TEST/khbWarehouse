@@ -1,0 +1,222 @@
+<%@page import="com.yeepay.g3.app.lmweChat.utils.LmConstants" %>
+<%@page language="java" contentType="text/html; charset=UTF-8"
+  pageEncoding="UTF-8"%>
+ <%@ taglib prefix="e" uri="/emvc-tags" %>
+ <%
+ String path = request.getContextPath();
+ String basePath = request.getScheme() + "://"+ request.getServerName(); 
+ if(request.getServerPort()!=80){
+   basePath = basePath + ":" + request.getServerPort(); 
+ }      
+ basePath = basePath + path + "/";
+ String sysVersion = LmConstants.sysVersion;
+%>
+<html>
+<head lang="en">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <!--优先使用 IE 最新版本和 Chrome-->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="viewport" content="width=device-width, maximum-scale=1.0, initial-scale=1.0, user-scalable=0" />
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <!--设置苹果工具栏颜色-->
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+   <%--  <link rel="stylesheet" href="static/css/LM-common.css?v=<%=sysVersion %>">
+    <link rel="stylesheet" href="static/css/LM-app.css?v=<%=sysVersion %>">
+    <link rel="stylesheet" href="static/css/LM-funds.css?v=<%=sysVersion %>">
+    <link rel="stylesheet" href="static/css/icon-style.css?v=<%=sysVersion %>"> --%>
+    
+     
+   <%--  <link rel="stylesheet" href="static/css/LM-invest.css?v=<%=sysVersion %>"> 
+    <script type="text/javascript" src="static/js/jquery-1.8.3.min.js?v=<%=sysVersion %>"></script>
+    <script type="text/javascript" src="static/js/LM-app.js?v=<%=sysVersion %>"></script> --%>
+    
+     <script src="static/js/highcharts.js?v=<%=sysVersion %>" type="text/javascript"></script>
+     
+    <%-- <script src="static/js/fund_detail_current.js?v=<%=sysVersion %>" type="text/javascript"></script> --%>
+    
+    
+    <script type="text/javascript" src="static/js/zt/policyDetailInfo.js?v=<%=sysVersion %>"></script>
+    <title>策略详情</title>
+</head>
+<body>
+<input type="hidden" value="<e:property value="@ztPolicyDto.id"/>" id="policyId" />
+<input type="hidden" value="<e:property value="@ztPolicyCalculateRecordDto.minYieldRate"/>" id="minYieldRate" />
+<input type="hidden" value="<e:property value="@ztMemberRetreatRecordDto.recordRate"/>" id="recordRate" />
+<div class="detailArea" style="position: initial;">
+    <div class="rubList bg-white pr">
+        <div class="rubText pa">
+            <p>为了实现您的愿望</p>
+            <p>您需投入：<span class="orange"><e:property value="@_formater.formateMoney(ztPolicyCalculateRecordDto.perInvestAmount)"/></span> 元/月</p>
+            <p>连续投资：<span class="orange"><e:property value="@ztPolicyCalculateRecordDto.totalInvestTerm"/></span> 年</p>
+            <p>预期市值：<span class="orange"><e:property value="@_formater.formateMoney(ztPolicyCalculateRecordDto.futureAmountMin)"/>~<e:property value="@_formater.formateMoney(ztPolicyCalculateRecordDto.futureAmountMax)"/></span> 元</p>
+            <p><a href="zt/policy/toQuestion" class="btn-small-w btn-small-orange">常见问题</a> </p>
+        </div>
+        <img class="repeatImg fr" src='zt/introduce/scenePicture?id=<e:property value="@sceneId"/>' alt=""/>
+    </div>
+    <div class="detailContent-1 bg-white">
+        <div class="increaseArea combinationArea pr">
+            <div class="bg-white tr">
+                <p class="combinationIcon font-14 pa">
+                    <i class="icon icon-questionmark flip"></i>
+                </p>
+                <div class="panel pa" style="display: none">
+                    <span class="detailTip tc pr">
+                        <i class="icon-arrow triangle-top"></i>
+                        过去*年回报率=（过去*年每月投资该策略至今的总市值/过去*年总投资额-1）*100%<br/>
+                        过去*年回报率=（过去*年每月投资该策略至今的总市值/过去*年总投资额-1）*100%<br/>
+                       （假设条件：过去*年的定投时间均为当月的第一个交易日，每月投资的金额相同。）
+                    </span>
+                </div>
+            </div>
+            <div class="net-worth fl">
+                <p class="num-1 orange"><span>+</span><e:property value="@_formater.formatNumber(ztPolicyCalculateRecordDto.totalYieldRate*100)"/><span>%</span></p>
+                <p>过去<e:property value="@ztPolicyCalculateRecordDto.lastTerm"/>年回报率</p>
+            </div>
+            <div class="net-worth-right fl">
+                <table class="increase" width="100%">
+                    <tr class="tr-1">
+                        <td width="55%" class="tc num td-1 td-2">过去<e:property value="@ztPolicyCalculateRecordDto.lastTerm"/>年回撤率</td>
+                        <td class="tc num td-2">净值(<e:property value="@date"/>)</td>
+                    </tr>
+                    <tr>
+                        <td width="55%" class="tc num-2 td-1 td-2 size"><e:property value="@_formater.formatNumber(ztPolicyCalculateRecordDto.minYieldRate*100)"/>%</td>
+                        <td class="color-num tc td-2 size"><e:property value="@_formater.formatNumber(netValue)"/></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="purchase-amount">
+            <ul>
+                <li><e:property value="@_formater.formateMoney(ztPolicyDto.minPurchaseAmount)"/>元起购</li>
+                <li>波动<e:property value="@ztPolicyDto.fluctuate"/></li>
+            </ul>
+        </div>
+    </div>
+    <!-- 曲线图 -->
+    <div class="chart-wrap chart-wrap-new">
+         <div class="combination-Title">
+            <p class="p-1">收益曲线</p>
+
+            <div class="tabs">
+                <a href="javascript:changeType(1);" data-profit_type="1" class="on" >一次性投入</a>
+                <a href="javascript:changeType(2);" data-profit_type="2" >每月定投</a>
+            </div>
+
+            <div class="profit pr">
+                <div class="profit-left fl">
+                    <span class="dot-1 orange">●</span>
+                    策略收益率：
+                    <span class="orange num-1" id="incomePolicy"></span>
+                </div>
+                <div class="profit-right evalCard fr">
+                    <p class="expect expect-new">
+                        <span class="dot-2">●</span>
+                        比较基准
+                        <i class="icon icon-questionmark flip"></i>：
+                        <span class="green" id="incomeCompare"></span>
+                    </p>
+                    <div class="panel pa" style="display: none">
+                        <span class="profitTip tc pr">
+                        <i class="icon-arrow triangle-top pa"></i>
+                        如果您每月投入<e:property value="@_formater.formateMoney(ztPolicyCalculateRecordDto.totalInvestTerm)"/>元，建议连续投资<e:property value="@ztPolicyCalculateRecordDto.TOTAL_INVEST_TERM"/>年
+                        </span>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <div class="chart-cnt">
+            <div class="chart" id="chart" style="width:100%; data-highcharts-chart="0">
+                <div class="highcharts-container" id="highcharts-0" style="position: relative; overflow: hidden; width: 100%; height: 270px; text-align: left; line-height: normal; z-index: 0; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">
+                
+            </div>
+            <div class="chart-tab chart-tab-new">
+                <a class="on" href="javascript:changeYearData(1);" data-duration="30" >一年</a>
+                <a href="javascript:changeYearData(2);" data-duration="90" class="">两年</a>
+                <a href="javascript:changeYearData(3);" data-duration="180">三年</a>
+                <a href="javascript:changeYearData(4);" data-duration="365">四年</a>
+                <a href="javascript:changeYearData(5);" data-duration="365">五年</a>
+            </div>
+            <p class="note">注：基金的过往业绩并不预示其未来表现</p>
+        </div>
+    </div> 
+    
+    </div> 
+    <div class="detailContent briefContent">
+        <h3 class="briefTitle-new">策略详情</h3>
+        <div class="combinationMain pr">
+            <div class="proportion">
+                <ul>
+                    <li class="fl">
+                        <p class="num"><e:property value="@bond*100"/>%</p>
+                        <p class="text">债基</p>
+                    </li>
+                    <li class="fl">
+                        <p class="num"><e:property value="@stock*100"/>%</p>
+                        <p class="text">股基</p>
+                    </li>
+                </ul>
+            </div>
+            <div id="fundcontainer" class="chart-round pa"></div>
+
+
+        </div>
+        <div class="ratioArea">
+            <div class="ratio-title">配置比例</div>
+            <div class="ratioContent">
+            <e:iterator list="@policyProductList" var="items">
+            <div class="ratioList">
+                    <h3><span class="fl label-title ratioTitle-<e:property value="@(policyProductList.indexOf(items)%4)+1"/>">
+                    <e:if test="@items.productType.toString()=='STOCK'">
+                    股票型
+                    </e:if><e:else>
+                    债权型
+                    </e:else></span>
+                        <span class="name fl" href="#"><e:property value="@items.productName"/>  <e:property value="@items.productCode"/></span>
+                        <span class="num fr"><e:property value="@items.productProportion*100"/>%</span></h3>
+                    <div class="scaleBox pr">
+                        <div class="scale scale-1 pa" style="width: <e:property value="@items.productProportion*100"/>%;"></div>
+                    </div>
+                </div>
+            </e:iterator>
+            </div>
+        </div>
+    </div>
+    <div class="detailContent briefContent">
+        <h3 class="briefTitle-new">动态策略</h3>
+        <div class="briefText briefText-new">
+            <p class="text"><e:property value="@ztPolicyDto.policyDesc"/> </p>
+            <p class="tr more"><a href="zt/policy/toPolicyInfoMoreDetail?policyId=<e:property value="@ztPolicyDto.id"/>&type=policyDesc">查看更多</a></p>
+        </div>
+    </div>
+    <div class="detailContent briefContent">
+        <h3 class="briefTitle-new">相关费用</h3>
+        <div class="briefText briefText-new">
+            <p class="text"><e:property value="@ztPolicyDto.costDesc"/></p>
+            <p class="tr more"><a href="zt/policy/toPolicyInfoMoreDetail?policyId=<e:property value="@ztPolicyDto.id"/>&type=costDesc">查看更多</a></p>
+        </div>
+    </div>
+    <div class="detailContent briefContent">
+        <h3 class="briefTitle-new">注意事项</h3>
+        <div class="briefText briefText-new">
+            <p class="text"><e:property value="@ztPolicyDto.attentionDesc"/></p>
+            <p class="tr more"><a href="zt/policy/toPolicyInfoMoreDetail?policyId=<e:property value="@ztPolicyDto.id"/>&type=attentionDesc">查看更多</a></p>
+        </div>
+    </div>
+    <div class="h1-2"></div>
+    <div class="redemptionBtn btnBot btnBot-new"><input type="button" value="立即购买" class="btnBuy"/></div>
+ 
+<!--弹出层-->
+<div id="mask"></div>
+<div id="alertLayer" class="bg-white" style="display: none; width: 90%; min-height: 20%;">
+    <div class="withdrawIntro detailIntro">
+        <div class="text pb15">此策略超过您风险承受能力，是否继续购买？</div>
+        <div class="btnArea btnArea-new tc">
+            <a href="javascript:void(0)" class="btnClosed singleBtn singleBtn-new fl">取消</a>
+            <a href="zt/groupPurchase/toPurchase?sceneId=<e:property value="@sceneId"/>&policyId=<e:property value="@ztPolicyDto.id"/>&purAmount=<e:property value="@ztPolicyCalculateRecordDto.perInvestAmount"/>" class="singleBtn fl">继续购买</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

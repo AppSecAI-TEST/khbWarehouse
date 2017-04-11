@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:emvc="http://www.yeepay.com/schema/emvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+				http://www.yeepay.com/schema/emvc http://www.yeepay.com/schema/emvc.xsd">
+	<emvc:package name="/scb">
+		<emvc:action name="toScb" interceptors="exceptionInterceptor,LoggerInterceptor"
+			class="com.yeepay.g3.app.lmweChat.action.scb.ScbAction" method="toScb">
+			<emvc:result name="unSignScb" value="/WEB-INF/pages/scb/unSignUpScb.jsp"></emvc:result>
+			<emvc:result name="scb" value="/WEB-INF/pages/scb/scb.jsp"></emvc:result>
+		</emvc:action>
+			<!-- 签约生财宝  -->
+		<emvc:action name="toRegistScb"
+			class="com.yeepay.g3.app.lmweChat.action.scb.ScbAction" method="toRegistScb">
+			<emvc:result name="registScb" value="/WEB-INF/pages/scb/signUpScb.jsp"></emvc:result>
+			<emvc:result name="scb" value="/WEB-INF/pages/scb/scb.jsp"></emvc:result>
+		</emvc:action>
+		<emvc:action name="toTransferIn"
+			class="com.yeepay.g3.app.lmweChat.action.scb.ScbAction" method="toTransferIn">
+			<emvc:result name="success" value="/WEB-INF/pages/scb/transferIn.jsp"></emvc:result>
+		</emvc:action>
+		<emvc:action name="queryScb"
+			class="com.yeepay.g3.app.lmweChat.action.scb.ScbAction" method="queryScb"></emvc:action>
+		<emvc:action name="toTransferOut"
+			class="com.yeepay.g3.app.lmweChat.action.scb.ScbAction" method="toTransferOut">
+			<emvc:result name="success" value="/WEB-INF/pages/scb/transferOut.jsp"></emvc:result>
+		</emvc:action>
+		<emvc:action name="transferIn"
+			class="com.yeepay.g3.app.lmweChat.action.scb.ScbAction" method="transferIn" interceptors="exceptionInterceptor,LoggerInterceptor,LoginInterceptorJson"></emvc:action>
+		<emvc:action name="transferOut"
+			class="com.yeepay.g3.app.lmweChat.action.scb.ScbAction" method="transferOut" interceptors="exceptionInterceptor,LoggerInterceptor,LoginInterceptorJson"></emvc:action>
+		<emvc:action name="queryIncome"
+			class="com.yeepay.g3.app.lmweChat.action.scb.ScbAction" method="queryIncome" interceptors="exceptionInterceptor,LoggerInterceptor"></emvc:action>
+	<emvc:action name="toConfirmTransferIn" class="com.yeepay.g3.app.lmweChat.action.scb.ScbAction" method="toConfirmTransferIn">
+<emvc:result name="success" value="/WEB-INF/pages/scb/confirmTransferIn.jsp"></emvc:result>
+	</emvc:action>
+	<emvc:action name="toConfirmTransferOut" class="com.yeepay.g3.app.lmweChat.action.scb.ScbAction" method="toConfirmTransferOut">
+	<emvc:result name="success" value="/WEB-INF/pages/scb/confirmTransferOut.jsp"></emvc:result></emvc:action>
+	<emvc:action name="getRedeemType" class="com.yeepay.g3.app.lmweChat.action.scb.ScbAction" method="getRedeemType"></emvc:action>
+	<emvc:action name="toScbDetail" class="com.yeepay.g3.app.lmweChat.action.scb.ScbAction" method="toScbDetail" interceptors="exceptionInterceptor,LoggerInterceptor">
+	<emvc:result name="success" value="/WEB-INF/pages/scb/scbDetail.jsp"></emvc:result></emvc:action>
+	<emvc:action name="toTransferOutSuccess" class="com.yeepay.g3.app.lmweChat.action.scb.ScbAction" method="toTransferOutSuccess">
+	<emvc:result name="success" value="/WEB-INF/pages/scb/transferOutSuccess.jsp"></emvc:result></emvc:action>
+	<emvc:action name="toTransferInSuccess" method="toTransferInSuccess" class="com.yeepay.g3.app.lmweChat.action.scb.ScbAction">
+<emvc:result name="success" value="/WEB-INF/pages/scb/transferInSuccess.jsp"></emvc:result></emvc:action>
+<emvc:action name="toScbAccumulate" class="com.yeepay.g3.app.lmweChat.action.scb.ScbAction" method="toScbAccumulate">
+<emvc:result name="success" value="/WEB-INF/pages/scb/accumulate.jsp"></emvc:result></emvc:action>
+<emvc:action name="toScbBill" method="toScbBill" class="com.yeepay.g3.app.lmweChat.action.scb.ScbAction">
+<emvc:result name="success" value="/WEB-INF/pages/scb/scbBill.jsp"></emvc:result></emvc:action>
+<emvc:action name="toScbProtocol" method="toScbProtocol" class="com.yeepay.g3.app.lmweChat.action.scb.ScbAction">
+<emvc:result name="success" value="/WEB-INF/pages/scb/scbProtocol.jsp"></emvc:result></emvc:action>
+<emvc:action name="tohxProtocol" method="tohxProtocol" class="com.yeepay.g3.app.lmweChat.action.scb.ScbAction">
+<emvc:result name="success" value="/WEB-INF/pages/scb/hxProtocol.jsp"></emvc:result></emvc:action>
+<emvc:action name="queryScbRecord" method="queryScbRecord" class="com.yeepay.g3.app.lmweChat.action.scb.ScbAction"></emvc:action>
+<emvc:action name="toTestWXJSSDK" method="toTestWXJSSDK" class="com.yeepay.g3.app.lmweChat.action.scb.ScbAction" interceptors="exceptionInterceptor,LoggerInterceptor">
+<emvc:result name="success" value="/WEB-INF/pages/scb/testWS.jsp"></emvc:result></emvc:action>
+	</emvc:package>
+</beans> 

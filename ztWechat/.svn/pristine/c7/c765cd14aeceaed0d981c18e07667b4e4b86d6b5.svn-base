@@ -1,0 +1,89 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ page import="com.yeepay.g3.app.lmweChat.utils.LmConstants" %>
+<%@ taglib prefix="e" uri="/emvc-tags" %>
+<%
+    String path = request.getContextPath();
+    String basePath = request.getScheme() + "://"
+            + request.getServerName() + ":" + request.getServerPort()
+            + path + "/";
+    String sysVersion = LmConstants.sysVersion;
+%>
+<html>
+<head lang="en">
+ <title>我的灵机一投</title>
+    <link rel="stylesheet" href="static/css/LM-invest.css">
+    <link rel="stylesheet" href="static/css/LM-funds.css">
+</head>
+<body>
+<div class="pr">
+    <div class="financial-ad">
+        <img class="repeatImg" src="static/images/invest/financial-ad-1.jpg">
+        <a href="javascript:void(0)" class="a-ad pa"></a>
+        <a href="javascript:void(0)" class="financialClosed pa"></a>
+    </div>
+</div>
+<div class="evalContent">
+    <p class="evalTitle">根据您的风险承受能力，推荐投资策略如下：</p>
+    <div class="evalMain evalMain-1 bg-white">
+        <h3><a href="javascript:void(0)">磐石之安·策略<span class="fr wish-title">愿望:购车购房</span></a></h3>
+        <img src="static/images/invest/evaLine.jpg" alt=""/>
+        <div class="evalDetail">
+            <p class="wish-text">您需投入<span class="wish-num orange">2000</span>元/月，连续投资<span class="wish-num-1 orange">2</span>年</p>
+            <div class="invest wish-invest">
+                <p class="total">预期未来总市值(元)</p>
+                <p>18,507 ~ 38,090</p>
+            </div>
+            <div class="rate pr">
+                <ul>
+                    <li class="fl">
+                        <p class="orange num">8.84%</p>
+                        <div class="evalCard">
+                            <p class="expect expect-new">过去2年回报率</p>
+                        </div>
+                    </li>
+                    <li class="fl">
+                        <p class="orange num">保守型</p>
+                        <p class="expect-new">波动性非常小</p>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <div class="evalMain evalMain-1 bg-white">
+        <h3><a href="javascript:void(0)">金石之策·策略<span class="fr wish-title">愿望:购车购房</span></a></h3>
+        <img src="static/images/invest/evaLine.jpg" alt=""/>
+        <div class="evalDetail">
+            <p class="wish-text">您需投入<span class="wish-num orange">2000</span>元/月，连续投资<span class="wish-num-1 orange">2</span>年</p>
+            <div class="invest wish-invest">
+                <p class="total">预期未来总市值(元)</p>
+                <p>18,507 ~ 38,090</p>
+            </div>
+            <div class="rate pr">
+                <ul>
+                    <li class="fl">
+                        <p class="orange num">8.84%</p>
+                        <div class="evalCard">
+                            <p class="expect expect-new">过去2年回报率</p>
+                        </div>
+                    </li>
+                    <li class="fl">
+                        <p class="orange num">稳健型</p>
+                        <p class="expect-new">波动性较小</p>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <div class="btnArea">
+        <a class="singleBtn singleBtn-1 fl" href="javascript:void(0)">重选心愿</a>
+        <a class="singleBtn singleBtn-1 fl" href="javascript:void(0)">重新答题</a>
+        <a class="singleBtn singleBtn-1 fl" href="javascript:void(0)">查看全部</a>
+    </div>
+</div>
+</body>
+</html>

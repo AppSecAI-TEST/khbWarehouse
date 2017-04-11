@@ -1,0 +1,58 @@
+
+function commonParamForTable(redeemMoney,totalEnableMoney,type){
+  //动态改变每只基金的赎回份额
+  var leastRedeemList=$("#leastRedeemList").find('input');//最低赎回份额集合
+  var netValueList=$("#netValueList").find('input');//组合净值集合
+  var trs = $('.redemptionTable.redemptionTable-page').find('tr');
+  var needMoney=0;var fundStr='';
+  for(var i=1;i<trs.length;i++){
+    //每个基金总份额
+    var totalRedeem =$('.redemptionTable.redemptionTable-page').find('tr').eq(i).find('td').eq(1).html();
+    //赎回份额=每只基金的持有份额*赎回金额/总市值
+    var redeem=(parseFloat(totalRedeem)*parseFloat(redeemMoney)/parseFloat(totalEnableMoney)).toFixed(2);//每个基金赎回份额
+    var resultShares=calcShares(parseFloat(totalRedeem), redeem, parseFloat(leastRedeemList.eq(i-1).val()));
+    if(type=='redeem'){
+      $('.redemptionTable.redemptionTable-page').find('tr').eq(i).find('td').eq(2).html(resultShares.toFixed(2));
+    }else{
+      $('.redemptionTable.redemptionTable-page').find('tr').eq(i).find('td').eq(1).html(resultShares.toFixed(2));
+      $('.redemptionTable.redemptionTable-page').find('tr').eq(i).find('td').eq(2).html((resultShares.toFixed(2)*parseFloat(netValueList.eq(i-1).val())).toFixed(2));
+    }
+    //判断是否份额有改变
+    if(resultShares!=redeem){
+      needMoney+=resultShares*parseFloat(totalEnableMoney)/parseFloat(totalRedeem);
+      fundStr+= $('.redemptionTable.redemptionTable-page').find('tr').eq(i).find('td').eq(0).html()+',';
+    }
+}
+  //显示提示,赎回页面
+  if(fundStr!=''){
+    if(type=='redeem'){
+      $(".identifier-page").find('p').html('由于'+fundStr.substring(0, fundStr.length-1)+'基金小于起赎份额，需增加总赎回金额至'+needMoney.toFixed(2)+'元');
+      $(".identifier-page").show();
+  }
+  }
+  //@_formater.formatNumber((items.ztPolicyFundShareDto.enableShare*redeemMoney/totalEnableMoney)*items.ztPolicyFundShareDto.netValue)
+}
+/**
+ * 公用赎回份额算法
+ * @param totalRedeem
+ * @param redeem
+ * @param leastRedeem
+ * @returns
+ */
+function calcShares(totalRedeem,redeem,leastRedeem){
+  var resultShares=redeem;//最终赎回份额
+  //当用户赎回份额大于或等于最低赎回份额时，比较剩余份额与最低赎回份额
+  if(redeem >= leastRedeem){
+    if(totalRedeem-redeem<leastRedeem){// 若剩余份额小于最低赎回份额时,全部赎回
+      resultShares=totalRedeem;
+    }
+  }else{//当用户赎回份额小于最低赎回份额时，比较可赎份额与最低赎回份额
+    if(totalRedeem >= leastRedeem){// 若可赎份额大于或等于最低赎回份额时，赎回最低份额
+      resultShares=leastRedeem;
+    }else{// 若可赎份额小于最低赎回份额时，全部赎回
+      resultShares=totalRedeem;
+    }
+  }
+  return resultShares.toFixe(2);
+  
+}

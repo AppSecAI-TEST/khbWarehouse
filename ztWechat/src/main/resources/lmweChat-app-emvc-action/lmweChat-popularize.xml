@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:emvc="http://www.yeepay.com/schema/emvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+				http://www.yeepay.com/schema/emvc http://www.yeepay.com/schema/emvc.xsd">
+
+
+	<emvc:package name="/popularize">
+		<!-- 购买理财快速登录 -->
+		<emvc:action name="fastToPopularize" ref="popularizeAction" method="fastToPopularize" interceptors="exceptionInterceptor,LoggerInterceptor">
+			<emvc:result name="success" type="none"></emvc:result>
+		</emvc:action>
+		<!-- 我的懒猫快速登录 -->
+		<emvc:action name="fastToAsset" ref="popularizeAction" method="fastToAsset" interceptors="exceptionInterceptor,LoggerInterceptor">
+			<emvc:result name="success" type="none"></emvc:result>
+		</emvc:action>
+		<!-- 购买理财首页  旧的 -->
+		<emvc:action name="newToPopularize" ref="popularizeAction" method="newToPopularize" interceptors="exceptionInterceptor,LoggerInterceptor">
+			<emvc:result name="success" value="/WEB-INF/pages/popularize/default.jsp"></emvc:result>
+		</emvc:action>
+		<!-- 微信首页  新的 -->
+		<emvc:action name="toPopularize" ref="popularizeAction" method="toPopularize" interceptors="exceptionInterceptor,LoggerInterceptor">
+			<emvc:result name="success" value="/WEB-INF/pages/popularize/newWxIndex.jsp"></emvc:result>
+		</emvc:action>
+		<emvc:action name="queryFixedProcduct" ref="popularizeAction" method="queryFixedProcduct" interceptors="exceptionInterceptor,LoggerInterceptor">
+		</emvc:action>
+		<!-- 购买理财快速登录 -->
+		<emvc:action name="quickLoginByChannel" ref="popularizeAction" method="quickLoginByChannel" interceptors="exceptionInterceptor,LoggerInterceptor">
+			<emvc:result name="success" type="none"></emvc:result>
+		</emvc:action>
+		<!-- 购买理财快速登录 -->
+		<emvc:action name="quickLoginToSpecifyPage" ref="popularizeAction" method="quickLoginToSpecifyPage" interceptors="exceptionInterceptor,LoggerInterceptor">
+			<emvc:result name="success" type="none"></emvc:result>
+		</emvc:action>
+		<!-- 购买流程引导 -->
+		<emvc:action name="toGuide" ref="popularizeAction" method="toGuide" interceptors="exceptionInterceptor,LoggerInterceptor">
+			<emvc:result name="success" value="/WEB-INF/pages/popularize/guide.jsp"></emvc:result>
+		</emvc:action>
+		<!-- 奥运活动快速登录 -->
+		<emvc:action name="fastToOlympicActivity" ref="popularizeAction" method="fastToOlympicActivity" interceptors="exceptionInterceptor,LoggerInterceptor">
+			<emvc:result name="success" type="none"></emvc:result>
+		</emvc:action>
+		<!-- 助威奥运拿奖活动快速登录 -->
+		<emvc:action name="fastToCheerOlympic" ref="popularizeAction" method="fastToCheerOlympic" interceptors="exceptionInterceptor,LoggerInterceptor">
+			<emvc:result name="success" type="none"></emvc:result>
+		</emvc:action>
+		<!-- 投资换产品活动快速登录 -->
+		<emvc:action name="fastToInvForProActivity" ref="popularizeAction" method="fastToInvForProActivity" interceptors="exceptionInterceptor,LoggerInterceptor">
+			<emvc:result name="success" type="none"></emvc:result>
+		</emvc:action>
+		<!-- 旅游送京东卡活动快速登录 -->
+		<emvc:action name="fastToTourHalfActivity" ref="popularizeAction" method="fastToTourHalfActivity" interceptors="exceptionInterceptor,LoggerInterceptor">
+			<emvc:result name="success" type="none"></emvc:result>
+		</emvc:action>
+		<!-- 中秋活动快速登录 -->
+		<emvc:action name="fastToMidAutumnActivity" ref="popularizeAction" method="fastToMidAutumnActivity" interceptors="exceptionInterceptor,LoggerInterceptor">
+			<emvc:result name="success" type="none"></emvc:result>
+		</emvc:action>
+	</emvc:package>
+</beans> 

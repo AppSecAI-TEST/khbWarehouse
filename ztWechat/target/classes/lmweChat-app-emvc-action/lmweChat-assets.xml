@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:emvc="http://www.yeepay.com/schema/emvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+				http://www.yeepay.com/schema/emvc http://www.yeepay.com/schema/emvc.xsd">
+
+
+	<emvc:package name="/asset">
+		<!--我的懒猫 -->
+		<emvc:action name="toMyLM" ref="assetAction" method="toMyLM" interceptors="exceptionInterceptor,LoggerInterceptor">
+			<emvc:result name="success" value="/WEB-INF/pages/assets/myLM.jsp" />
+			<emvc:result name="failed" type="redirect" value="toAsset" />
+		</emvc:action>
+		<emvc:action name="toAsset" ref="assetAction" method="toAsset">
+			<emvc:result name="success" value="/WEB-INF/pages/assets/assets_info.jsp" />
+		</emvc:action>
+		<emvc:action name="getConsultantUserUrl" ref="assetAction" method="getConsultantUserUrl">
+		</emvc:action>
+		<!--充值 -->
+		<emvc:action name="toRecharge" ref="assetAction" method="toRecharge">
+			<emvc:result name="recharge" value="/WEB-INF/pages/assets/recharge.jsp" />
+			<emvc:result name="addCard" type="none" ></emvc:result>
+<!-- 			<emvc:result name="addCardApp" type="none" ></emvc:result> -->
+			<emvc:result name="addCardApp" type="dispatcher" value="../account/card/toBindCard"  ></emvc:result>
+		</emvc:action>
+		<emvc:action name="recharge" ref="assetAction" method="recharge"
+			interceptors="exceptionInterceptor,LoggerInterceptor,LoginInterceptorJson">
+		</emvc:action>
+		<emvc:action name="selectRechargeResult" ref="assetAction" method="selectRechargeResult"
+			interceptors="exceptionInterceptor,LoggerInterceptor,LoginInterceptorJson">
+		</emvc:action>
+		<!-- 获取uuid -->
+		<emvc:action name="toGetUUID" ref="assetAction" method="toGetUUID"
+			interceptors="exceptionInterceptor,LoggerInterceptor,LoginInterceptorJson">
+		</emvc:action>
+		<!-- 提现 -->
+		<emvc:action name="toCashIn" ref="assetAction" method="toCashIn">
+			<emvc:result name="cashIn" value="/WEB-INF/pages/assets/cash_in.jsp" />
+			<emvc:result name="addCard" type="dispatcher" value="../account/card/toGOBindCard"/>
+			<emvc:result name="addCardApp" type="dispatcher" value="../account/card/toBindCard" ></emvc:result>
+		</emvc:action>
+		<emvc:action name="toCashOnTheWay" ref="assetAction"
+			method="toCashOnTheWay">
+			<emvc:result name="success" value="/WEB-INF/pages/assets/cash_on_the_way.jsp" />
+		</emvc:action>
+		<!--查询可提金额 -->
+		<emvc:action name="queryAvailableCashIn" ref="assetAction"
+			method="queryAvailableCashIn">
+			<emvc:result name="success" value="/WEB-INF/pages/assets/cash_in.jsp"></emvc:result>
+		</emvc:action>
+		<!-- 提现 -->
+		<emvc:action name="cashIn" ref="assetAction" method="cashIn"
+			interceptors="exceptionInterceptor,LoggerInterceptor,LoginInterceptorJson">
+		</emvc:action>
+		<!-- 我的总资产 -->
+		<emvc:action name="myTotalWealth" ref="assetAction"
+			method="myTotalWealth">
+			<emvc:result name="success"
+				value="/WEB-INF/pages/assets/total_wealth.jsp" />
+		</emvc:action>
+		<!-- 累计收益 -->
+		<emvc:action name="toTotalIncome" ref="assetAction"
+			method="toTotalIncome">
+			<emvc:result name="totalIncome"
+				value="/WEB-INF/pages/assets/total_income.jsp" />
+		</emvc:action>
+		<!-- 昨日最新收益 -->
+		<emvc:action name="toTodayIncome" ref="assetAction"
+			method="toTodayIncome">
+			<emvc:result name="goIncome" value="/WEB-INF/pages/assets/go_income.jsp" />
+		</emvc:action>
+		<!--我的懒猫账户余额 -->
+		<emvc:action name="toMyAcount" ref="assetAction" method="toMyAcount">
+			<emvc:result name="myAcount" value="/WEB-INF/pages/assets/my_account.jsp" />
+		</emvc:action>
+		<!--去账户明细 -->
+		<emvc:action name="toBillInfo" ref="assetAction" method="toBillInfo">
+			<emvc:result name="billInfo" value="/WEB-INF/pages/assets/bill_info.jsp" />
+		</emvc:action>
+		<!--查询账户明细 -->
+		<emvc:action name="billInfo" ref="assetAction" method="billInfo"
+			interceptors="exceptionInterceptor,LoggerInterceptor,LoginInterceptorJson">
+		</emvc:action>
+		<!-- 查询用户昨日收益记录相关接口 -->
+		<emvc:action name="toMyIncome" ref="assetAction" method="toMyIncome">
+			<emvc:result name="success" value="/WEB-INF/pages/assets/my_income.jsp" />
+		</emvc:action>
+		<emvc:action name="toMyIncomeForYesterday" ref="assetAction"
+			method="toMyIncomeForYesterday">
+			<emvc:result name="success"
+				value="/WEB-INF/pages/assets/my_income_yesterday.jsp" />
+		</emvc:action>
+		<emvc:action name="queryAccumulativeIncome" ref="assetAction"
+			method="queryAccumulativeIncome" interceptors="exceptionInterceptor,LoggerInterceptor,LoginInterceptorJson">
+		</emvc:action>
+		<emvc:action name="queryTrustIncome" ref="assetAction"
+			method="queryTrustIncome" interceptors="exceptionInterceptor,LoggerInterceptor,LoginInterceptorJson">
+		</emvc:action>
+		<emvc:action name="queryTotalIncome" ref="assetAction"
+			method="queryTotalIncome" interceptors="exceptionInterceptor,LoggerInterceptor,LoginInterceptorJson">
+		</emvc:action>
+		<emvc:action name="queryFundIncome" ref="assetAction"
+			method="queryFundIncome" interceptors="exceptionInterceptor,LoggerInterceptor,LoginInterceptorJson">
+		</emvc:action>
+		<emvc:action name="fastToIncomeList" ref="assetAction"
+			method="fastToIncomeList" interceptors="exceptionInterceptor,LoggerInterceptor">
+		</emvc:action>
+		<emvc:action name="fastLoginByFundSales" ref="assetAction"
+			method="fastLoginByFundSales" interceptors="exceptionInterceptor,LoggerInterceptor">
+		</emvc:action>
+		<emvc:action name="appFastLoginFundDetail" ref="assetAction"
+			method="appFastLoginFundDetail">
+		</emvc:action>
+		<emvc:action name="appFastLoginBindCardSuccess" ref="assetAction"
+			method="appFastLoginBindCardSuccess">
+		</emvc:action>
+		<emvc:action name="appFastLoginJumpFund" ref="assetAction"
+			method="appFastLoginJumpFund">
+		</emvc:action>
+	</emvc:package>
+</beans> 

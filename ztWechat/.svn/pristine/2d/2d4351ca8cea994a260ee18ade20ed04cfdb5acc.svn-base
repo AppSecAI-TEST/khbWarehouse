@@ -1,0 +1,99 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ page import="com.yeepay.g3.app.lmweChat.utils.LmConstants" %>
+<%@ taglib prefix="e" uri="/emvc-tags" %>
+<%
+    String path = request.getContextPath();
+    String basePath = request.getScheme() + "://"
+            + request.getServerName() + ":" + request.getServerPort()
+            + path + "/";
+    String sysVersion = LmConstants.sysVersion;
+%>
+<html>
+<head lang="en">
+ <title>灵机一投</title>
+    <link rel="stylesheet" href="static/css/LM-invest.css?v=<%=sysVersion %>">
+    <link rel="stylesheet" href="static/css/LM-funds.css?v=<%=sysVersion %>">
+    <script type="text/javascript">
+    $(document).ready(function() {
+      $(".rubList").click(function() {
+        if($("#loginFalg").val() == "1") {
+          var url = $(this).data('href');
+          location.href = url;
+        } else {
+	      //APP端不弹出蒙层，直接被原生登录拦截
+	       var u = navigator.userAgent;
+	       var isApp = /lanmao/i.test(u);
+	       if(isApp) {
+	    		location.href ="account/toLogin?returnUrl=zt/introduce/sceneList";
+	    		return;
+	       }
+	      $("#alertLayer-5 .pr a").eq(2).attr('href',
+	          "account/toLogin?returnFlag=toSceneList");
+	      $("#alertLayer-5 .pr a").eq(1).attr('href',
+	          "account/toRegister?returnFlag=toSceneList");
+	      $("#mask").show();
+	      $("#alertLayer-5").show();
+          
+      }
+    });
+    });
+    
+    </script>
+</head>
+<body>
+<div class="rubArea">
+<input id="loginFalg" value="${loginFalg }" style="display:none">
+    <div class="pr">
+        <img class="repeatImg" src="static/images/invest/rub-problem-1.png" alt=""/>
+    </div>
+    <div class="rubContent">
+     	<e:iterator list="@sceneList" var="item">
+	        <div class="rubList bg-white pr" data-href='zt/risk/questionsPage?sceneId=<e:property value="@item.id"/>'>
+     	   	 	<a href='javascript:void(0)'>
+		            <div class="rubText pa">
+		                <p class="answer-1"><e:property value="@item.sceneName"/></p>
+		                <p ><e:property value="@item.sceneDesc" escape="false"/></p>
+		            </div>
+		            <img class="repeatImg fr" src="zt/introduce/scenePicture?id=<e:property value="@item.id"/>" alt=""/>
+	        	</a>
+	        </div>
+        </e:iterator>
+        
+        <e:if test="${!empty personCustom }">
+	        <div class="pr">
+	            <img class="repeatImg" src="static/images/invest/rub-problem-2.png" alt=""/>
+	        </div>
+	        <div class="rubList rubList-1 bg-white pr" data-href='zt/risk/questionsPage?sceneId=<e:property value="@personCustom.id"/>'>
+	            <div class="fl">
+	            <a href='javascript:void(0)'>
+	                <img class="repeatImg" src="zt/introduce/scenePicture?id=<e:property value="@personCustom.id"/>" alt=""/>
+	           </a>
+	            </div>
+	            <a href='javascript:void(0)'>
+		            <div class="rubLeft fr">
+		                <div class="rubText-1 pa">
+		                    <p class="answer-1"><e:property value="@personCustom.sceneName"/></p>
+		                	<p class="tr"><e:property value="@personCustom.sceneDesc" escape="false"/></p>
+		                </div>
+		            </div>
+	            </a>
+	        </div>
+        </e:if>
+    </div>
+</div>
+
+<!--未登录弹出层-->
+<div id="mask"></div>
+<div id="alertLayer-5" class="unloginMask  radius1"
+  style="display: none; width: 100%; height: 100%;">
+  <div class="pr">
+    <img src="static/images/unloginMask.png" class="repeatImg" alt="" />
+    <a class="btnClosed font-white pa" href="javascript:void(0)"><i
+      class="icon icon-error2" onclick="clean()"></i></a> <a
+      href="javascript:void(0)" class="btnReg pa"></a> <a
+      href="javascript:void(0)" class="btnLogin pa"></a>
+  </div>
+</div>
+</body>
+</html>

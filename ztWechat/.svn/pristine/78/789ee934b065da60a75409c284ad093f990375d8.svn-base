@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:emvc="http://www.yeepay.com/schema/emvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+				http://www.yeepay.com/schema/emvc http://www.yeepay.com/schema/emvc.xsd">
+
+	<emvc:package name="/home">
+		<!-- 跳转登录页面 -->
+		<emvc:action name="newToHome" ref="homeAction" method="newToHome"
+			interceptors="exceptionInterceptor,LoggerInterceptor">
+			<emvc:result name="success" value="/WEB-INF/pages/popularize/app.jsp" />
+		</emvc:action>
+		<emvc:action name="toHome" ref="homeAction" method="toHome"
+			interceptors="exceptionInterceptor,LoggerInterceptor">
+			<emvc:result name="success" value="/WEB-INF/pages/popularize/newAppIndex.jsp" />
+		</emvc:action>
+	</emvc:package>
+</beans>

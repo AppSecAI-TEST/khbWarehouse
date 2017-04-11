@@ -1,0 +1,92 @@
+/******************
+     基金介绍页
+*******************/
+.wrap{margin:22px auto 0;}
+.detail-top{margin-bottom:5px;background:#fff;border:2px solid #f0f0f0;}
+/* 皮肤 - 红 */
+.skin-red .tab-nav a.on{color: #ff5d5b;border-top-color:#ff5d5b;}
+.skin-red .tab-cnt .title i{color:#ff5d5b;}
+.skin-red .chart-tab a.on{color: #ff5d5b;border-color: #ff5d5b;}
+
+/* 皮肤 - 蓝 */
+.skin-blue .tab-nav a.on{color: #228bff;border-top-color:#228bff;}
+.skin-blue .tab-cnt .title i,.skin-blue .chart-top .chart-nav a.on{color:#228bff;}
+.skin-blue .chart-tab a.on{color: #228bff;border-color: #228bff;}
+
+/* 皮肤 - 橙 */
+.skin-orange .tab-nav a.on{color: #ff8f00;border-top-color:#ff8f00;}
+.skin-orange .tab-cnt .title i,.skin-orange .chart-top .chart-nav a.on{color:#ff8f00;}
+.skin-orange .chart-tab a.on{color: #ff8f00;border-color: #ff8f00;}
+
+/* 基本资料 */
+.fund-basic{float: right;padding:22px 20px 30px 0;width: 550px;}
+.fund-basic .basic-list{padding-top: 18px}
+.fund-basic .basic-list .num{width: 122px;}
+.fund-title{font-size: 28px;font-weight: normal;color: #404040;display: inline-block;vertical-align: middle;}
+.fund-basic .buy-btn{padding-top: 25px}
+.fund-tip{font-size: 14px;color: #a0a0a0;}
+.fund-basic .buy-btn .sell-tips{padding-left: 15px;color: #999;display:inline-block;width:230px;vertical-align:middle;margin-top:-12px;}
+.fund-basic .buy-btn .btn-link{font-size: 16px;display: inline-block;vertical-align: middle;padding-left: 20px;}
+.coupon-tips{display: inline-block;vertical-align: middle;font-weight: normal;}
+#coupon_tips{color:#ff5d5b !important;}
+.coupon-tips .tip-txt{display: inline-block;vertical-align: middle;}
+.add-fake-slt .basic-list li.border{margin-bottom: 8px;padding-bottom: 10px;}
+.add-fake-slt .buy-btn{padding-top: 14px;}
+.fund-basic .single{ position: relative;}
+.rewardtips{ position: absolute; left: 230px;top:5px; color: #fa4e4e}
+.rewardtips a{ display: inline-block; width:20px;height: 20px; background:  url(/web/v2/img/i_epred.png) 0 0 no-repeat;vertical-align: sub; }
+
+/* 曲线图 */
+.chart-wrap{float: left;padding:36px 0 0 20px;width: 580px;}
+.chart-wrap .fund-pic-area{height: 100%;position: relative;padding-left: 35px;}
+.chart-wrap .fund-pic-cont{position: absolute;width: 100%;height: 100%;top: 0;left: 35px;color: #FFF;}
+.chart-wrap .fund-pic-cont .fund-pic-title{display:inline-block;margin-top: 78px;font-size: 25px;background: url(/web/v2/img/detail/guangda.png) no-repeat left center;padding-left: 48px;}
+.chart-wrap .fund-pic-cont .fund-pic-sub-title{margin-top: 10px;}
+.chart-wrap .fund-pic-cont .fund-rate span{font-size: 84px;}
+.chart-top{height: 36px;line-height: 36px;border-bottom: 1px solid #e0e0e0;font-size: 16px;}
+.chart-top .chart-nav a{float: left;display:block;color: #404040}
+.chart-top .chart-nav span{float: left;display:block;padding:0 8px;color: #e0e0e0}
+.chart-top .link-history{float: right;}
+.chart-cnt{padding-top:16px;}
+.chart-cnt .net-value{color: #999}
+.chart-cnt .chart{margin:0 0 2px -10px}
+.chart-tab a{display: inline-block;margin-right:20px;width: 95px;height: 26px;line-height: 26px;border:1px solid #e0e0e0;text-align: center;color: #7d7d7d;border-radius: 4px}
+
+/* 详细资料 */
+.detail-tab{margin:30px 0 80px;padding:0 0 30px;min-height:440px;background:#fff;border:2px solid #f0f0f0}
+.tab-nav{height:58px;background-color:#f3f3f3;border-bottom: 1px solid #e5e5e5;font-size: 0}
+.tab-nav a{display: inline-block;margin:14px 0;padding:0 35px;height: 30px;line-height: 30px;font-size: 16px;color: #404040;border-right: 1px solid #e5e5e5;vertical-align: top}
+.tab-nav-narrow a{padding:0 28px;}
+.tab-nav a:last-child{border-right: 0;}
+.tab-nav a.on{margin:0 0 0 -1px;height:56px;line-height:52px;background-color: #fff;border: 1px solid #e5e5e5;border-width:3px 1px 0;}
+.tab-cnt{padding:50px 20px 0;}
+.tab-cnt .title{margin-bottom:16px;padding:0 0 10px 17px;line-height:1;font-size: 24px;color: #404040;font-weight: normal;border-bottom: 1px solid #e0e0e0;}
+.tab-cnt .title i{font-style: normal;padding-right: 5px}
+.tab-cnt .title a{padding-left:8px;font-size: 16px;}
+.tab-cnt .sub-title{padding:10px 0 6px}
+.tab-txt{padding:0 30px 35px}
+.tab-txt p{padding: 10px 0;color: #333;}
+.tab-txt .tel-num{color: #017bff;}
+.tab-cnt .rule-table-tips{padding: 0 0 20px 0;margin-top: -10px;}
+/*  基金公告  */
+.pdf-list li{margin:8px 0;padding-left: 27px;background: url(/web/v2/img/pdf.png) no-repeat 0 center;}
+.pdf-list li a{text-decoration: underline;}
+
+/* 跟踪指数 */
+.tracking{padding:30px;}
+.track-top .f-gray{padding-right: 10px}
+.track-chart{padding:20px 0;}
+.track-chart .chart{margin-left: -10px}
+.chart-tips{padding-bottom:10px;}
+.chart-tips>div{display: inline-block;padding-right: 20px}
+.line-blue,.line-orange{display: inline-block;margin-right:5px;width: 30px;height: 2px;vertical-align: middle;}
+.line-blue{background-color: #0079ff;}
+.line-orange{background-color: #f8b551;}
+
+/* 定期周期 */
+.period-time{padding:14px 0;}
+.period-time li{float:left;padding:8px 0;height:48px;text-align: center;}
+.period-time li.bd{padding-left:15px;padding-right:15px;border:1px solid #e0e0e0;border-radius: 4px}
+.period-time li.single{line-height: 48px;position: relative;}
+.period-time li.single .s-txt{position: absolute;bottom: 0;left: 0;width: 100%; text-align:center;color: #a0a0a0;font-size: 16px;height: 25px;line-height: 25px;}
+.period-time li i{color: #e0e0e0}

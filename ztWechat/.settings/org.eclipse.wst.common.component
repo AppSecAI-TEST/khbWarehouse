@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="ztWechat">
+        <wb-resource deploy-path="/WEB-INF/web.xml" source-path="/src/main/webapp/WEB-INF/web.xml"/>
+        <wb-resource deploy-path="/" source-path="/target/m2e-wtp/web-resources"/>
+        <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/test/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/test/resources"/>
+        <dependent-module archiveName="lmportal-facade-1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/lmportal-facade/lmportal-facade">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="lmlc-facade-1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/lmlc-facade/lmlc-facade">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="lm-consultant-facade-1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/lm-consultant-facade/lm-consultant-facade">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="activity-facade-1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/activity-facade/activity-facade">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="lmact-facade-1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/lmact-facade/lmact-facade">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <property name="context-root" value="lmweChat"/>
+        <property name="java-output-path" value="/ztWechat/target/classes"/>
+    </wb-module>
+</project-modules>

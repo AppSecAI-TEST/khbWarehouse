@@ -1,0 +1,394 @@
+$(function(){
+  $("#checked").mousedown(function(){
+    if($("#agreeBox").attr('checked')!='checked'){
+      $("#sumbit").attr('class','btn-login');
+      $("#sumbit").attr('disabled',false);
+    }else{
+      $("#sumbit").attr('class','btn-login-gray');
+      $("#sumbit").attr('disabled',true);
+    }
+    });
+  $("#sumbit").click(function(){
+    $('#sumbit').attr("disabled", true);
+    $('#sumbit').val("处理中...");
+    var checkFlag=$("#agreeBox").attr('checked');
+    var tradePwd = $("#tradePwd").val();
+    var productId=$("#productId").val();
+//    var promoType=$("#promoType").val();
+    var amount=$("#totalPays").val();
+    var ArrivalAmount=$("#ArrivalAmount").val();
+    var periodNo=$("#periodNo").val();
+    var promoNo=$("#promoNo").val();
+    var expectType=$("#expectType").val();
+    var orderNum=$("#orderNum").val();
+    var contractUrl=$("#contractUrl").val();
+    var token = $("#token").val();
+    var usePromotion=true;
+    if(promoNo==null||promoNo==''){//优惠券类型为空
+      usePromotion=false;
+    }
+    if(checkFlag!='checked'){
+      $("#error").html(" <i class=\"icon icon-error2\"></i> 请阅读并同意遵守《懒猫金服服务协议》和《产品合同》");
+      $("#error").css("display","block");
+      $('#sumbit').attr("disabled", false);
+      $('#sumbit').val("确认购买");
+       return false;
+    }else if (tradePwd == '' || tradePwd.length < 6 || tradePwd.length > 20) {
+       $("#error").html(" <i class=\"icon icon-error2\"></i> 请输入6-20位的交易密码");
+       $("#error").css("display","block");
+       $('#sumbit').attr("disabled", false);
+       $('#sumbit').val("确认购买");
+        return false;
+      }
+      //无错误清除错误提示
+     $("#error").html(" <i class=\"icon icon-error2\"></i> ");
+     $("#error").css("display","none");
+    $.ajax({
+        url:'fixed/purchaseProduct', 
+        type:'post',
+        dataType:'json',
+        data:{amount:amount,tradePwd:tradePwd,productId:productId,
+              usePromotion:usePromotion,signatured:true,contractUrl:contractUrl,
+              promotionFlow:promoNo,periodNo:periodNo,
+              expectType:expectType,
+              orderNum:orderNum,token:token},
+        error: function(){
+          //系统异常 
+          $("#mask").show();
+          $("#failTitle").remove();//去掉“绑卡失败”字样
+          $("#errorMsgMask").remove();//去掉错误信息
+          $("#btnLayer").addClass("pb50");
+          $("#layerBody").append("<p id='failTitle' class='failTitle'>购买失败</p>");
+          $("#layerBody").append("<p id='errorMsgMask' class='orange'>系统异常，请稍后重试哦</p>");
+          $("#btnLayer").append("<div class='btnMaskArea tc pa'><a href='javascript:void(0)' class='btnBig' onclick='clean()'>OK</a></div>");
+          $("#failMask").show();
+//          $("#alertLayer-8").show();
+        }, 
+        success: function(data){
+            if(data.result == 'success'){
+              //清除
+              clean();
+              var str='';
+              if(data.couponType=='addRate'){
+                str="&addRate="+data.addRate;
+               }
+              location.href="fixed/toSwitchBuySuccess?productId="+data.productId+"&amount="+data.amount
+            +str+
+              "&addIncome="+data.addIncome
+              +"&couponType="+data.couponType+"&ArrivalAmount="+ArrivalAmount
+              +"&promoPrincipal="+data.promoPrincipal+"&expectType="+data.expectType+"&orderNum="+data.orderNum;
+              return;
+            }else if(data.result=='SYSTEM_EXCEPTION'){
+              $("#token").val(data.token);
+              //系统异常
+              $("#mask").show();
+//              $("#alertLayer-8").show();
+              $("#failTitle").remove();//去掉“绑卡失败”字样
+              $("#errorMsgMask").remove();//去掉错误信息
+              $("#btnLayer").addClass("pb50");
+              $("#layerBody").append("<p id='failTitle' class='failTitle'>购买失败</p>");
+              $("#layerBody").append("<p id='errorMsgMask' class='orange'>系统异常，请稍后重试哦</p>");
+              $("#btnLayer").append("<div class='btnMaskArea tc pa'><a href='javascript:void(0)' class='btnBig' onclick='clean()'>OK</a></div>");
+              $("#failMask").show();
+            }else if(data.result=='noMatch'){
+              $("#token").val(data.token);
+              $("#alertLayer-7 .withdrawIntro .proTimeout.orange").html("<div class=\"pb10\">"+data.periodNoOld+"产品已过期!</div>" +
+              		"现有相同资产的"+data.periodNoNew+"产品，<br/><span class=\"font-16\">"+data.incomeDay+"</span> 开始计息。</div>");
+              $("#mask").show();
+              $("#alertLayer-7").show();
+            }else if(data.result=='WRONG_PWD'){
+              $("#token").val(data.token);
+              //交易密码错误弹层不改
+              if(data.description.overPlusCount==0){
+                $("#alertLayer-6Message").html("<i class=\"icon icon-tips\"></i> 账号已冻结,解冻日期 "+ data.description.lockedEndTime);
+                $("#mask").show();
+                $("#alertLayer-6").show();
+                $('#sumbit').attr("disabled", false);
+                $('#sumbit').val("确认购买"); 
+              }else{
+                $("#alertLayer-5Message").html("<i class=\"icon icon-tips\"></i> 交易密码输入错误，您还可再输入"+data.description.overPlusCount+"次");
+                $("#mask").show();
+                $("#alertLayer").show();
+                $('#sumbit').attr("disabled", false);
+                $('#sumbit').val("确认购买"); 
+              }
+               return false;
+            }else if(data.result == 'sale_finish'){
+              $("#token").val(data.token);
+              //弹层 TODO
+//              $(".errorCon.red.pa").remove();
+//              $("#layerBody").append("<p class='errorCon red pa'>"+data.description+"</p>");
+              $("#mask").show();
+              $("#failTitle").remove();//去掉“绑卡失败”字样
+              $("#errorMsgMask").remove();//去掉错误信息
+              $("#btnLayer").addClass("pb50");
+              $("#layerBody").append("<p id='failTitle' class='failTitle'>购买失败</p>");
+              $("#layerBody").append("<p id='errorMsgMask' class='orange'>"+data.description+"</p>");
+              $("#btnLayer").append("<div class='btnMaskArea tc pa'><a href='fixed/toPurchaseProduct'>去看看其他产品</a></div>");
+              $("#failMask").show();
+//              $("#alertLayer-3").show();
+              $('#sumbit').attr("disabled", false);
+              $('#sumbit').val("确认购买");
+              return false;
+            }else if(data.result == 'sale_no_enough'){
+              $("#token").val(data.token);
+              //弹层
+             /*$(".errorCon.red.pa").remove();
+              $("#layerBody").append("<p class='errorCon red pa'>"+data.description+"</p>");
+              $("#mask").show();
+              $("#alertLayer-3").show();*/
+              $("#mask").show();
+              $("#failTitle").remove();//去掉“绑卡失败”字样
+              $("#errorMsgMask").remove();//去掉错误信息
+              $("#btnLayer").addClass("pb50");
+              $("#layerBody").append("<p id='failTitle' class='failTitle'>购买失败</p>");
+              $("#layerBody").append("<p id='errorMsgMask' class='orange'>"+data.description+"</p>");
+              $("#btnLayer").append("<div class='btnMaskArea tc pa'><a href='fixed/toPurchaseProduct'>去看看其他产品</a></div>");
+              $("#failMask").show();
+              $('#sumbit').attr("disabled", false);
+              $('#sumbit').val("确认购买");
+              return false;
+            }
+            else{
+              $("#token").val(data.token);
+              /*$(".errorCon.red.pa").remove();
+              $("#layerBody1").append("<p class='errorCon red pa'>"+data.description+"</p>");
+              $("#mask").show();
+              $("#alertLayer-4").show();*/
+              var channel = $("#channel").val();
+              var orderNum = $("#orderNum").val();
+              var productId = $("#productId").val();
+              $("#mask").show();
+              $("#failTitle").remove();//去掉“绑卡失败”字样
+              $("#errorMsgMask").remove();//去掉错误信息
+              $("#btnLayer").addClass("pb50");
+              $("#layerBody").append("<p id='failTitle' class='failTitle'>购买失败</p>");
+              $("#layerBody").append("<p id='errorMsgMask' class='orange'>"+data.description+"</p>");
+              if(channel == "ADVISOR"){
+                $("#btnLayer").append("<div class='btnMaskArea tc pa'><a href='fixed/toRedPacketsDetail'>重新购买</a></div>");
+              }else if(channel == "SECKILL"){
+                $("#btnLayer").append("<div class='btnMaskArea tc pa'><a href='seckillActivity/toSeckillPro'>重新购买</a></div>");
+              }else{
+                if(orderNum != null && orderNum != ''){
+                  $("#btnLayer").append("<div class='btnMaskArea tc pa'><a href='invForPro/toInvestForTravelList'>重新购买</a></div>");
+                }else{
+                  $("#btnLayer").append("<div class='btnMaskArea tc pa'><a href='fixed/toPurchaseProduct?productId="+productId+"'>重新购买</a></div>");
+                }
+              }
+              /*if(channel != "ADVISOR"){
+                if(orderNum != null && orderNum != ''){
+                  $("#btnLayer").append("<div class='btnMaskArea tc pa'><a href='invForPro/toInvestForTravelList'>重新购买</a></div>");
+                }else{
+                  $("#btnLayer").append("<div class='btnMaskArea tc pa'><a href='fixed/toPurchaseProduct?productId="+productId+"'>重新购买</a></div>");
+                }
+              }//秒杀
+              else if(channel == "SECKILL"){
+                $("#btnLayer").append("<div class='btnMaskArea tc pa'><a href='seckillActivity/toSeckillPro'>重新购买</a></div>");
+              }else{
+                $("#btnLayer").append("<div class='btnMaskArea tc pa'><a href='fixed/toRedPacketsDetail'>重新购买</a></div>");
+              }*/
+              $("#failMask").show();
+              $('#sumbit').attr("disabled", false);
+              $('#sumbit').val("确认购买");
+            }
+          }
+      });
+  });
+//恢复清除图标
+  $('.input-text').keyup(function(){
+    $(this).parent().siblings('.icon.icon-error.fr').show();
+  });
+});
+/**
+*显示 隐藏密码
+*/
+function changePasswordType(id){
+  var classType=$("#look").attr('class');
+  if(classType!='icon icon-unlook fr'){
+    document.getElementById(id).type="password";
+    $("#look").attr('class','icon icon-unlook fr');
+  }else{
+    document.getElementById(id).type="text";
+    $("#look").attr('class','icon icon-look orange fr');
+  }
+}
+/**
+ * 错误信息清空
+*/
+function pwdClick(){
+  //清除错误提示
+  $("#pwdMessage").html('');
+  $("#pwdMessage").removeClass("icon icon-error2");
+  $("#pwdLi").removeClass("input-wrap-error");
+   //清除内容
+  $("#tradePwd").val('');
+  $("#tradePwd").focus();
+  $("#errorPwd").hide();
+}
+/**
+*监听复选框
+*/
+function changeCheckBox(){
+  if($("#target").checked==checked){
+    $("#sumbit").attr('class','btn-login');
+    $("#sumbit").attr('disabled',false);
+  }else{
+    $("#sumbit").attr('class','btn-login-gray');
+    $("#sumbit").attr('disabled',true);
+  }
+}
+/**
+*除去蒙层
+*/
+function clean(){
+  $("#mask").hide();
+  /*$("#alertLayer-3").hide();
+  $("#alertLayer-4").hide();*/
+  $("#alertLayer").hide();
+  $("#alertLayer-6").hide();
+  $("#alertLayer-7").hide();
+//  $("#alertLayer-8").hide();
+  $("#failMask").hide();
+  $("#tradePwd").val('');
+  $("#sumbit").attr('disabled',false);
+  $("#sumbit").val('确认购买');
+}
+/**
+*
+*/
+function buyAgain(){
+  clean();
+  var tradePwd = $("#tradePwd").val();
+  var productId=$("#productId").val();
+//  var promoType=$("#promoType").val();
+  var amount=$("#totalPays").val();
+  var periodNo=$("#periodNo").val();
+  var promoNo=$("#promoNo").val();
+  var contractUrl='';
+  var usePromotion=true;
+  if(promoNo==null||promoNo==''){//优惠券类型为空
+    usePromotion=false;
+  }
+  $.ajax({
+    url:'fixed/purchaseProduct', 
+    type:'post',
+    dataType:'json',
+    data:{amount:amount,tradePwd:tradePwd,productId:productId,usePromotion:usePromotion,signatured:true,contractUrl:contractUrl,promotionFlow:promoNo,periodNo:periodNo},
+    error: function(){
+     /* $("#mask").show();
+      $("#alertLayer-8").show();*/
+      $("#mask").show();
+      $("#failTitle").remove();//去掉“绑卡失败”字样
+      $("#errorMsgMask").remove();//去掉错误信息
+      $("#btnLayer").addClass("pb50");
+      $("#layerBody").append("<p id='failTitle' class='failTitle'>购买失败</p>");
+      $("#layerBody").append("<p id='errorMsgMask' class='orange'>系统异常，请稍后重试哦</p>");
+      $("#btnLayer").append("<div class='btnMaskArea tc pa'><a href='javascript:void(0)' class='btnBig' onclick='clean()'>OK</a></div>");
+      $("#failMask").show();
+    }, 
+    success: function(data){
+        if(data.result == 'success'){
+          var str='';
+          if(data.couponType=='addRate'){
+            str="&addRate="+data.addRate;
+           }
+          location.href="fixed/toBuySuccess?productId="+data.productId+"&amount="+data.amount
+        +str+
+          "&addIncome="+data.addIncome+"&couponType="+data.couponType+"&ArrivalAmount="+ArrivalAmount+"&promoPrincipal="+data.promoPrincipal;
+        }else if(data.result=='SYSTEM_EXCEPTION'){
+//          $("#mask").show();
+//          $("#alertLayer-8").show();
+          $("#mask").show();
+          $("#failTitle").remove();//去掉“绑卡失败”字样
+          $("#errorMsgMask").remove();//去掉错误信息
+          $("#btnLayer").addClass("pb50");
+          $("#layerBody").append("<p id='failTitle' class='failTitle'>购买失败</p>");
+          $("#layerBody").append("<p id='errorMsgMask' class='orange'>系统异常，请稍后重试哦</p>");
+          $("#btnLayer").append("<div class='btnMaskArea tc pa'><a href='javascript:void(0)' class='btnBig' onclick='clean()'>OK</a></div>");
+          $("#failMask").show();
+        }else if(data.result=='noMatch'){
+          $("#alertLayer-7 .withdrawIntro .proTimeout.orange").html("<div class=\"pb10\">"+data.periodNoOld+"产品已过期!</div>" +
+              "现有相同资产的"+data.periodNoNew+"产品，<br/><span class=\"font-16\">"+data.incomeDay+"</span> 开始计息。</div>");
+          $("#mask").show();
+          $("#alertLayer-7").show();
+        }
+          else if(data.result=='WRONG_PWD'){
+               if(data.description.overPlusCount==0){
+            $("#alertLayer-6Message").html("<i class=\"icon icon-tips\"></i> 账号已冻结,解冻日期 "+ data.description.lockedEndTime);
+            $("#mask").show();
+            $("#alertLayer-6").show();
+            $('#sumbit').attr("disabled", false);
+            $('#sumbit').val("确认购买"); 
+          }else{
+            $("#alertLayer-5Message").html("<i class=\"icon icon-tips\"></i> 交易密码输入错误，您还可再输入"+data.description.overPlusCount+"次");
+            $("#mask").show();
+            $("#alertLayer").show();
+            $('#sumbit').attr("disabled", false);
+            $('#sumbit').val("确认购买"); 
+          }
+           return false;
+        }else if(data.result == 'sale_finish'){
+          //弹层 
+          /*$(".errorCon.red.pa").remove();
+          $("#layerBody").append("<p class='errorCon red pa'>"+data.description+"</p>");
+          $("#mask").show();
+          $("#alertLayer-3").show();*/
+          $("#mask").show();
+          $("#failTitle").remove();//去掉“绑卡失败”字样
+          $("#errorMsgMask").remove();//去掉错误信息
+          $("#btnLayer").addClass("pb50");
+          $("#layerBody").append("<p id='failTitle' class='failTitle'>购买失败</p>");
+          $("#layerBody").append("<p id='errorMsgMask' class='orange'>"+data.description+"</p>");
+          $("#btnLayer").append("<div class='btnMaskArea tc pa'><a href='fixed/toPurchaseProduct'>去看看其他产品</a></div>");
+          $("#failMask").show();
+          $('#sumbit').attr("disabled", false);
+          $('#sumbit').val("确认购买");
+          return false;
+        }else if(data.result == 'sale_no_enough'){
+          //弹层 TODO
+          /*$(".errorCon.red.pa").remove();
+          $("#layerBody").append("<p class='errorCon red pa'>"+data.description+"</p>");
+          $("#mask").show();
+          $("#alertLayer-3").show();*/
+          $("#mask").show();
+          $("#failTitle").remove();//去掉“绑卡失败”字样
+          $("#errorMsgMask").remove();//去掉错误信息
+          $("#btnLayer").addClass("pb50");
+          $("#layerBody").append("<p id='failTitle' class='failTitle'>购买失败</p>");
+          $("#layerBody").append("<p id='errorMsgMask' class='orange'>"+data.description+"</p>");
+          $("#btnLayer").append("<div class='btnMaskArea tc pa'><a href='fixed/toPurchaseProduct'>去看看其他产品</a></div>");
+          $("#failMask").show();
+          $('#sumbit').attr("disabled", false);
+          $('#sumbit').val("确认购买");
+          return false;
+        }
+        else{
+          /*$(".errorCon.red.pa").remove();
+          $("#layerBody1").append("<p class='errorCon red pa'>"+data.description+"</p>");
+          $("#mask").show();
+          $("#alertLayer-4").show();*/
+          var channel = $("#channel").val();
+          var orderNum = $("#orderNum").val();
+          var productId = $("#productId").val();
+          $("#mask").show();
+          $("#failTitle").remove();//去掉“绑卡失败”字样
+          $("#errorMsgMask").remove();//去掉错误信息
+          $("#btnLayer").addClass("pb50");
+          $("#layerBody").append("<p id='failTitle' class='failTitle'>购买失败</p>");
+          $("#layerBody").append("<p id='errorMsgMask' class='orange'>"+data.description+"</p>");
+          if(channel != "ADVISOR"){
+            if(orderNum != null && orderNum != ''){
+              $("#btnLayer").append("<div class='btnMaskArea tc pa'><a href='invForPro/toInvestForTravelList'>重新购买</a></div>");
+            }else{
+              $("#btnLayer").append("<div class='btnMaskArea tc pa'><a href='fixed/toPurchaseProduct?productId="+productId+"'>重新购买</a></div>");
+            }
+          }else{
+            $("#btnLayer").append("<div class='btnMaskArea tc pa'><a href='fixed/toRedPacketsDetail'>重新购买</a></div>");
+          }
+          $("#failMask").show();
+          $('#sumbit').attr("disabled", false);
+          $('#sumbit').val("确认购买");
+        }
+      }
+  });
+}

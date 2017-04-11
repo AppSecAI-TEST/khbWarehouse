@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:emvc="http://www.yeepay.com/schema/emvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+				http://www.yeepay.com/schema/emvc http://www.yeepay.com/schema/emvc.xsd">
+
+
+	<emvc:package name="/account/card">
+		<!-- 跳转我的银行卡 -->
+		<emvc:action name="toCard" ref="cardAction" method="toCard">
+			<emvc:result name="success" value="/WEB-INF/pages/account/card_info.jsp" />
+		</emvc:action>
+		<!-- 跳转银行卡限额 -->
+		<emvc:action name="toBankLimit" ref="cardAction" method="toBankLimit">
+			<emvc:result name="success" value="/WEB-INF/pages/account/bank_limit.jsp" />
+		</emvc:action>
+		 <!-- 我的银行跳转绑卡页面 -->
+		<!--  <emvc:action name="toAddCard" ref="cardAction" method="toAddCard">
+			<emvc:result name="success" value="/WEB-INF/pages/account/add_card.jsp" />
+		</emvc:action> -->
+		<!-- 下发绑卡的短信验证码 -->
+		<emvc:action name="sendBindBankCardCode" ref="cardAction"
+			method="sendBindBankCardCode" interceptors="exceptionInterceptor,LoginInterceptorJson">
+		</emvc:action>
+
+		<!-- 跳转去绑卡页面 -->
+		<emvc:action name="toGOBindCard" ref="cardAction" method="toGOBindCard">
+			<emvc:result name="success"  value="/WEB-INF/pages/account/to_bind_card.jsp"></emvc:result>
+		</emvc:action>
+		<!-- 跳转绑卡页面 -->
+		<emvc:action name="toBindCard" ref="cardAction" method="toBindCard">
+			<emvc:result name="success" value="/WEB-INF/pages/account/add_card.jsp"></emvc:result>
+			<emvc:result name="failed" type="none" ></emvc:result>
+		</emvc:action>
+		<!-- 选择跳转绑卡成功页面 -->
+		<emvc:action name="toSwitchBindCardSuc" ref="cardAction" method="toSwitchBindCardSuc">
+			<emvc:result name="success" type="none"></emvc:result>
+		</emvc:action>
+		
+		<!-- 跳转绑卡成功页面 -->
+		<emvc:action name="toBindCardSuc" ref="cardAction" method="toBindCardSuc">
+			<emvc:result name="success"
+				value="/WEB-INF/pages/account/add_card_suc.jsp"></emvc:result>
+		</emvc:action>
+		<!-- 跳转活动绑卡成功页面 -->
+		<emvc:action name="toRaffleBindCardSuc" ref="cardAction" method="toRaffleBindCardSuc">
+			<emvc:result name="success"
+				value="/WEB-INF/pages/activity/add_card_suc_raffle.jsp"></emvc:result>
+		</emvc:action>
+		<!-- 跳转送流量活动绑卡成功页面 -->
+		<emvc:action name="toFluxBindCardSuc" ref="cardAction" method="toFluxBindCardSuc">
+			<emvc:result name="success"
+				value="/WEB-INF/pages/activity/add_card_suc_flux.jsp"></emvc:result>
+		</emvc:action>
+		<!-- 跳转多啦宝送流量活动绑卡成功页面 -->
+		<emvc:action name="toDLBaoFluxBindCardSuc" ref="cardAction" method="toDLBaoFluxBindCardSuc">
+			<emvc:result name="success"
+				value="/WEB-INF/pages/activity/add_card_dlbao_suc_flux.jsp"></emvc:result>
+		</emvc:action>
+		<!-- 验证交易密码和登录密码 -->
+		<emvc:action name="verTradePwd" ref="cardAction" method="verTradePwd"
+			interceptors="exceptionInterceptor,LoggerInterceptor,LoginInterceptorJson">
+		</emvc:action>
+		<!-- 验证绑卡手机验证码 -->
+		<emvc:action name="verDynamicCode" ref="cardAction"
+			method="verDynamicCode">
+		</emvc:action>
+		<!-- 验证身份证是否在平台注册过 -->
+		<emvc:action name="verIdCard" ref="cardAction" method="verIdCard" interceptors="exceptionInterceptor,LoggerInterceptor,LoginInterceptorJson">
+		</emvc:action>
+		<!-- 绑卡并设置交易密码 -->
+		<emvc:action name="addBankCard" ref="cardAction" method="addBankCard" interceptors="exceptionInterceptor,LoggerInterceptor,LoginInterceptorJson">
+		</emvc:action>
+		<!-- 判断银行卡是否是信用卡及银行类型 -->
+		<emvc:action name="verifyCardInfo" ref="cardAction"
+			method="verifyCardInfo" interceptors="exceptionInterceptor,LoggerInterceptor,LoginInterceptorJson">
+		</emvc:action>
+		<!-- 判断银行卡是否是信用卡及银行类型 -->
+		<emvc:action name="verifyCard" ref="cardAction"
+			method="verifyCard" interceptors="exceptionInterceptor,LoggerInterceptor,LoginInterceptorJson">
+		</emvc:action>
+	</emvc:package>
+</beans> 

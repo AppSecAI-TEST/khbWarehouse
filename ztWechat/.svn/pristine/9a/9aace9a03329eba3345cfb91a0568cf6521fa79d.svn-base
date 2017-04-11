@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:emvc="http://www.yeepay.com/schema/emvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.yeepay.com/schema/emvc http://www.yeepay.com/schema/emvc.xsd">
+
+	<emvc:global>
+		<emvc:property name="extensions" value="action" />
+		<emvc:property name="defaultEncoding" value="utf-8" />
+		<emvc:property name="resourceFiles"
+			value="properties/error-message.properties" />
+		<emvc:interceptor name="exceptionInterceptor" ref="exceptionInterceptor" />
+		<!-- 登录拦截 -->
+		<emvc:interceptor name="LoginInterceptor"
+			class="com.yeepay.g3.app.lmweChat.interceptor.LoginInterceptor" />
+		<emvc:interceptor name="LoginInterceptorJson"
+			class="com.yeepay.g3.app.lmweChat.interceptor.LoginInterceptorJson" />
+		<!-- 日志拦截 -->
+		<emvc:interceptor name="LoggerInterceptor"
+			class="com.yeepay.g3.app.lmweChat.interceptor.LoggerInterceptor" />
+		<emvc:interceptorStack name="lmweChatInterceptorStack"
+			interceptors="exceptionInterceptor,LoginInterceptor,LoggerInterceptor" />
+
+		<!-- <emvc:result name="success" value="/index.jsp" /> <emvc:result name="result_null" 
+			value="/WEB-INF/jsp/result_null.js" /> -->
+		<!-- <emvc:result name="error" value="/WEB-INF/pages/common/error.jsp" 
+			/> -->
+		<emvc:result name="SYSTEM_EXCEPTION"
+			value="/WEB-INF/pages/common/system_exception.jsp" />
+
+		<emvc:defaultInterceptors ref="lmweChatInterceptorStack" />
+	</emvc:global>
+
+	<import resource="classpath:lmweChat-app-emvc-action/lmweChat-assets.xml" />
+	<import resource="classpath:lmweChat-app-emvc-action/lmweChat-account.xml" />
+	<import resource="classpath:lmweChat-app-emvc-action/lmweChat-card.xml" />
+	<import resource="classpath:lmweChat-app-emvc-action/lmweChat-fixed.xml" />
+	<import resource="classpath:lmweChat-app-emvc-action/lmweChat-scb.xml" />
+	<import resource="classpath:lmweChat-app-emvc-action/lmweChat-popularize.xml" />
+	<import resource="classpath:lmweChat-app-emvc-action/lmweChat-activity.xml" />
+	<import resource="classpath:lmweChat-app-emvc-action/lmweChat-invForPro.xml" />
+    <import resource="classpath:lmweChat-app-emvc-action/lmweChat-focus.xml" />
+	<import resource="classpath:lmweChat-app-emvc-action/lmweChat-old.xml" />
+	<import resource="classpath:lmweChat-app-emvc-action/lmweChat-fundActivity.xml" />
+	
+	<!-- app action -->
+	<import resource="classpath:lmweChat-app-emvc-action/app-user.xml" />
+	<import resource="classpath:lmweChat-app-emvc-action/app-sendCode.xml" />
+	<import resource="classpath:lmweChat-app-emvc-action/app-home.xml"/>
+	<import resource="classpath:lmweChat-app-emvc-action/app-userCard.xml" />
+	<import resource="classpath:lmweChat-app-emvc-action/app-personalCenter.xml" />
+	<import resource="classpath:lmweChat-app-emvc-action/app-ad.xml" />
+	<import resource="classpath:lmweChat-app-emvc-action/app-aboutUs.xml" />
+	<!-- 智能投资 action -->
+	<import resource="classpath:lmweChat-app-emvc-action/lmweChat-zt-redeem.xml" />
+	<import resource="classpath:lmweChat-app-emvc-action/lmweChat-zt-policyInvestAsset.xml" />
+	<import resource="classpath:lmweChat-app-emvc-action/lmweChat-zt-ristAndRetreat.xml" />
+	<import resource="classpath:lmweChat-app-emvc-action/lmweChat-zt-introduce.xml" />
+	
+</beans>

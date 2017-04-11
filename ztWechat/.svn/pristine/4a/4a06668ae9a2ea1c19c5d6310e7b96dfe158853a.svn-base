@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:emvc="http://www.yeepay.com/schema/emvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+				http://www.yeepay.com/schema/emvc http://www.yeepay.com/schema/emvc.xsd">
+
+
+	<emvc:package name="/invForPro">
+
+		<!-- 去换旅游的列表页面 -->
+		<emvc:action name="toInvestForTravelList"
+			class="com.yeepay.g3.app.lmweChat.action.invForPro.InvForProAction" method="toInvestForTravelList" interceptors="exceptionInterceptor,LoggerInterceptor">
+			<emvc:result name="success" value="/WEB-INF/pages/invForPro/tourActivity.jsp" />
+		</emvc:action>
+		<!-- 去换旅游的详细信息页 -->
+		<emvc:action name="toFreeTraveInfo"
+			class="com.yeepay.g3.app.lmweChat.action.invForPro.InvForProAction" method="toFreeTraveInfo" interceptors="exceptionInterceptor,LoggerInterceptor">
+			<emvc:result name="bali" value="/WEB-INF/pages/invForPro/bali.jsp" />
+			<emvc:result name="hongkong" value="/WEB-INF/pages/invForPro/hongkong.jsp" />
+			<emvc:result name="jzd" value="/WEB-INF/pages/invForPro/jzd.jsp" />
+			<emvc:result name="yz" value="/WEB-INF/pages/invForPro/yz.jsp" />
+		</emvc:action>
+		<!-- 生成订单 -->
+		<emvc:action name="toCreateOrder"
+			class="com.yeepay.g3.app.lmweChat.action.invForPro.InvForProAction" method="toCreateOrder" interceptors="exceptionInterceptor,LoggerInterceptor,LoginInterceptorJson">
+			<emvc:result name="success" type="none" />
+		</emvc:action>
+		<!-- 去立即购买的页面 -->
+		<emvc:action name="toFreeProcuctOrderDetail"
+			class="com.yeepay.g3.app.lmweChat.action.invForPro.InvForProAction" method="toFreeProcuctOrderDetail">
+			<emvc:result name="success" value="/WEB-INF/pages/invForPro/freeProcuctOrderDetail.jsp" />
+		</emvc:action>
+		<!-- 查看图片 -->
+		<emvc:action name="lookInvForProImg"
+			class="com.yeepay.g3.app.lmweChat.action.invForPro.InvForProAction" method="lookInvForProImg">
+			<emvc:result name="success" type="none" />
+		</emvc:action>
+
+		<!-- 去订单页面 -->
+		<emvc:action name="toOrderList"
+			class="com.yeepay.g3.app.lmweChat.action.invForPro.InvForProAction" method="toOrderList">
+			<emvc:result name="success" value="/WEB-INF/pages/invForPro/touOrderList.jsp" />
+		</emvc:action>
+		<!-- 查询订单 -->
+		<emvc:action name="myOrderList" method="myOrderList" class="com.yeepay.g3.app.lmweChat.action.invForPro.InvForProAction" interceptors="exceptionInterceptor,LoggerInterceptor,LoginInterceptorJson">
+		</emvc:action>
+		<emvc:action name="lookProductImg" method="lookProductImg" class="com.yeepay.g3.app.lmweChat.action.invForPro.InvForProAction" interceptors="exceptionInterceptor,LoggerInterceptor">
+		<emvc:result name="success"  type="none" />
+		</emvc:action>
+
+	</emvc:package>
+</beans> 

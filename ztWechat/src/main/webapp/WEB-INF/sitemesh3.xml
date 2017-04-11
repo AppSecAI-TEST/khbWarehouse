@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sitemesh>
+	<!-- <mapping decorator="/default-decorator.html"/> -->
+
+	<mapping path="/*" decorator="/WEB-INF/pages/inc/taglibs.jsp"></mapping>
+<!-- 	<mapping path="/asset/myTotalWealth" decorator="/WEB-INF/pages/inc/navigation_account.jsp"></mapping> -->
+<!-- 	<mapping path="/fixed/toBill" decorator="/WEB-INF/pages/inc/navigation_account.jsp"></mapping> -->
+<!-- 	<mapping path="/asset/toMyAcount" decorator="/WEB-INF/pages/inc/navigation_account.jsp"></mapping> -->
+	<mapping path="/asset/toTodayIncome" decorator="/WEB-INF/pages/inc/navigation_account.jsp"></mapping>
+	<mapping path="/asset/toTotalIncome" decorator="/WEB-INF/pages/inc/navigation_account.jsp"></mapping>
+<!-- 	<mapping path="/fixed/toBuySuccess" decorator="/WEB-INF/pages/inc/navigation_buy.jsp"></mapping> -->
+	<mapping path="/popularize/toPopularize" decorator="/WEB-INF/pages/inc/navigation_buy.jsp"></mapping>
+	<mapping path="/asset/toAsset" decorator="/WEB-INF/pages/inc/navigation_account.jsp"></mapping>
+	<mapping path="/account/toAccount" decorator="/WEB-INF/pages/inc/navigation_account.jsp"></mapping>
+	<mapping path="/account/card/toCard" decorator="/WEB-INF/pages/inc/navigation_account.jsp"></mapping>
+	<mapping path="/fixed/toMyCoupons" decorator="/WEB-INF/pages/inc/navigation_account.jsp"></mapping>
+	<mapping path="/fixed/toUsedCoupon" decorator="/WEB-INF/pages/inc/navigation_account.jsp"></mapping>
+	<mapping path="/fixed/toExpiredCoupon" decorator="/WEB-INF/pages/inc/navigation_account.jsp"></mapping>
+	<mapping path="/fixed/toCouponDetail" decorator="/WEB-INF/pages/inc/navigation_account.jsp"></mapping>
+	<mapping path="/scb/toScbBill" decorator="/WEB-INF/pages/scb/scbBill.jsp"></mapping>
+	<mapping path="/foucs/toFocus" decorator="/WEB-INF/pages/inc/navigation_focus.jsp"></mapping>
+	<mapping path="/old/toRecord" decorator="/WEB-INF/pages/account/old/record.jsp"></mapping>
+	<mapping path="/asset/toMyLM" decorator="/WEB-INF/pages/assets/myLM.jsp"></mapping>
+	<mapping path="/focus/toFocus" decorator="/WEB-INF/pages/inc/navigation_about.jsp"></mapping>
+	<mapping path="/zt/policy/toQuestion" decorator="/WEB-INF/pages/zt/question.jsp"></mapping>
+	<!-- <mapping path="/invForPro/toOrderList" decorator="/WEB-INF/pages/inc/navigation_about.jsp"></mapping> -->
+<!-- 	<mapping path="/focus/toAboutUs" decorator="/WEB-INF/pages/inc/navigation_focus.jsp"></mapping> -->
+	<mapping path="*.json" exclue="true"/>
+</sitemesh>

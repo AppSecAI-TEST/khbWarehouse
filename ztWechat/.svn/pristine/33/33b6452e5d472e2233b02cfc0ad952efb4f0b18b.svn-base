@@ -1,0 +1,59 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ page import="com.yeepay.g3.app.lmweChat.utils.LmConstants" %>
+<%@ taglib prefix="e" uri="/emvc-tags" %>
+<%
+    String path = request.getContextPath();
+    String basePath = request.getScheme() + "://"
+            + request.getServerName() + ":" + request.getServerPort()
+            + path + "/";
+    String sysVersion = LmConstants.sysVersion;
+%>
+<html>
+<head lang="en">
+ <title>灵机一投</title>
+    <link rel="stylesheet" href="static/css/LM-invest.css?v=<%=sysVersion %>">
+    <link rel="stylesheet" href="static/css/LM-funds.css?v=<%=sysVersion %>">
+</head>
+<body>
+<div class="rubArea">
+    <div class="pr">
+        <img class="repeatImg" src="static/images/invest/rub-problem-1.png" alt=""/>
+    </div>
+    <div class="rubContent">
+     	<e:iterator list="@sceneList" var="item">
+	        <div class="rubList bg-white pr">
+     	   	 	<a href='zt/risk/questionsPage?sceneId=<e:property value="@item.id"/>'>
+		            <div class="rubText pa">
+		                <p class="answer-1"><e:property value="@item.sceneName"/></p>
+		                <p ><e:property value="@item.sceneDesc" escape="false"/></p>
+		            </div>
+		            <img class="repeatImg fr" src="zt/introduce/scenePicture?id=<e:property value="@item.id"/>" alt=""/>
+	        	</a>
+	        </div>
+        </e:iterator>
+        
+        <e:if test="${!empty personCustom }">
+	        <div class="pr">
+	            <img class="repeatImg" src="static/images/invest/rub-problem-2.png" alt=""/>
+	        </div>
+	        <div class="rubList rubList-1 bg-white pr">
+	            <div class="fl">
+	            <a href='zt/risk/questionsPage?sceneId=<e:property value="@personCustom.id"/>'>
+	                <img class="repeatImg" src="zt/introduce/scenePicture?id=<e:property value="@personCustom.id"/>" alt=""/>
+	           </a>
+	            </div>
+	            <a href='zt/risk/questionsPage?sceneId=<e:property value="@personCustom.id"/>'>
+		            <div class="rubLeft fr">
+		                <div class="rubText-1 pa">
+		                    <p class="answer-1"><e:property value="@personCustom.sceneName"/></p>
+		                	<p><e:property value="@personCustom.sceneDesc" escape="false"/></p>
+		                </div>
+		            </div>
+	            </a>
+	        </div>
+        </e:if>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:emvc="http://www.yeepay.com/schema/emvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+				http://www.yeepay.com/schema/emvc http://www.yeepay.com/schema/emvc.xsd">
+
+	<emvc:package name="/personalCenter">
+		<!-- 跳转个人中心 -->
+		<emvc:action name="toPersonalCenter" ref="personalCenterAction" method="toPersonalCenter"
+			interceptors="exceptionInterceptor,LoggerInterceptor">
+			<emvc:result name="success" type="json" />
+		</emvc:action>
+		<!-- 修改交易密码 -->
+		<emvc:action name="modifyTradePwd" ref="personalCenterAction" method="modifyTradePwd"
+			interceptors="exceptionInterceptor,LoggerInterceptor">
+			<emvc:result name="success" type="json" />
+		</emvc:action>
+	    <!-- 重置交易密码 -->
+	    <emvc:action name="resetTradePwd" ref="personalCenterAction"
+		     method="resetTradePwd" interceptors="exceptionInterceptor,LoggerInterceptor">
+		     <emvc:result name="success" type="json" />
+	    </emvc:action>
+		<!-- 验证就手机号 -->
+		<emvc:action name="verifyOldMobileNoCode" ref="personalCenterAction" method="verifyOldMobileNoCode"
+			interceptors="exceptionInterceptor,LoggerInterceptor">
+			<emvc:result name="success" type="json" />
+		</emvc:action>
+		<!-- 修改手机 -->
+		<emvc:action name="modifyMobileNo" ref="personalCenterAction" method="modifyMobileNo"
+			interceptors="exceptionInterceptor,LoggerInterceptor">
+			<emvc:result name="success" type="json" />
+		</emvc:action>
+	    <!-- 修改登录密码 -->
+	    <emvc:action name="modifyLoginPwd" ref="personalCenterAction"
+		     method="modifyLoginPwd" interceptors="exceptionInterceptor,LoggerInterceptor">
+		     <emvc:result name="success" type="json" />
+		</emvc:action>
+		<!-- 重置登录密码 -->
+	    <emvc:action name="resetLoginPwd" ref="personalCenterAction"
+		     method="resetLoginPwd" interceptors="exceptionInterceptor,LoggerInterceptor">
+		     <emvc:result name="success" type="json" />
+		</emvc:action>
+		<!-- 退出登录 -->
+	    <emvc:action name="unBindAccount" ref="personalCenterAction"
+		     method="unBindAccount" interceptors="exceptionInterceptor,LoggerInterceptor">
+		     <emvc:result name="success" type="json" />
+		</emvc:action>
+		<!-- 添加反馈信息 -->
+	    <emvc:action name="addUserSuggestion" ref="personalCenterAction"
+		     method="addUserSuggestion" interceptors="exceptionInterceptor,LoggerInterceptor">
+		     <emvc:result name="success" type="json" />
+		</emvc:action>
+		<!-- 判断用户是否绑卡鉴权 -->
+	    <emvc:action name="isAuthenticated" ref="personalCenterAction"
+		     method="isAuthenticated" interceptors="exceptionInterceptor,LoggerInterceptor">
+		     <emvc:result name="success" type="json" />
+		</emvc:action>
+	</emvc:package>
+</beans>

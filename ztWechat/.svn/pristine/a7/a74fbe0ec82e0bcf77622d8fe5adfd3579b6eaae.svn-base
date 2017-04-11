@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:emvc="http://www.yeepay.com/schema/emvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+				http://www.yeepay.com/schema/emvc http://www.yeepay.com/schema/emvc.xsd">
+
+
+	<emvc:package name="/focus">
+	<emvc:action name="toFocus" method="toFocus" class="com.yeepay.g3.app.lmweChat.action.focus.FocusAction" interceptors="exceptionInterceptor,LoggerInterceptor">
+	<emvc:result name="success" value="/WEB-INF/pages/focus/focus.jsp"></emvc:result>
+	</emvc:action>
+	<emvc:action name="toAboutUs" method="toAboutUs" class="com.yeepay.g3.app.lmweChat.action.focus.FocusAction" interceptors="exceptionInterceptor,LoggerInterceptor">
+	<emvc:result name="aboutCompany" value="/WEB-INF/pages/focus/aboutCompany.jsp"></emvc:result>
+		<emvc:result name="mamageTeam" value="/WEB-INF/pages/focus/manageTeam.jsp"></emvc:result>
+		<emvc:result name="companyEvent" value="/WEB-INF/pages/focus/companyEvent.jsp"></emvc:result>
+		<emvc:result name="cooperation" value="/WEB-INF/pages/focus/cooperation.jsp"></emvc:result>
+		<emvc:result name="aptitude" value="/WEB-INF/pages/focus/aptitude.jsp"></emvc:result>
+		<emvc:result name="contactUs" value="/WEB-INF/pages/focus/contactUs.jsp"></emvc:result>
+	</emvc:action>
+	<!-- 联系客服  -->
+	<emvc:action name="toContactService" method="toContactService" class="com.yeepay.g3.app.lmweChat.action.focus.FocusAction" interceptors="exceptionInterceptor,LoggerInterceptor">
+	<emvc:result name="success" value="/WEB-INF/pages/focus/contactService.jsp"></emvc:result>
+	</emvc:action>
+	</emvc:package>
+	</beans>

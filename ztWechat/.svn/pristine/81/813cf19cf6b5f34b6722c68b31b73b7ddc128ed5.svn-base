@@ -1,0 +1,29 @@
+/**
+ * @author 陈大涛
+ * 2016-10-26下午3:45:23
+ */
+package com.yeepay.g3.app.lmweChat.action.zt;
+
+import org.springframework.stereotype.Controller;
+
+import com.yeepay.g3.app.lmweChat.action.BaseAction;
+
+/**
+ * 赎回action
+ * @Description
+ * @author 陈大涛
+ * 2016-10-26下午3:45:23
+ */
+@Controller
+public class RedeemAction extends BaseAction{
+
+	/**
+	 * 跳转到赎回页面
+	 * @author 陈大涛
+	 * 2016-10-26下午3:47:58
+	 */
+	public String toRedeem(){
+		
+		return SUCCESS;
+	}
+}

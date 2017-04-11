@@ -1,0 +1,45 @@
+/**
+ * 初始化参数
+ */
+$(function(){
+  //本月应投金额
+  var purAmount=$("#purAmount").val();
+  $("#purchase").val(purAmount);
+});
+
+
+function calculateProportion(){
+  //有sceneId说明用户还没有购买过此策略，不需要重新计算
+  if(sceneId!=null){
+    return;
+  }
+  $.ajax({
+    url:'zt/groupPurchase/calculateProportion',
+    type:'post',
+    dataType:'text',
+    data:{policyOrderId:policyOrderId,purAmount:purAmount},
+    error:function(){
+    },
+    success:function(data){
+      var i=0;
+      $("#proportionTable tr").each(function(){
+        if($("#proportionTable tr").index(this)=='0'){
+         }else{
+           $(this).find("td").each(function(){
+             if($(this).index(this)==0){
+               //基金名称
+               $(this).text(data[$("#proportionTable tr").index(i)].fundName);
+             }else if($(this).index(this)==1){
+               //基金占比
+               $(this).text(data[$("#proportionTable tr").index(i)].additionalProportion);
+             }else{
+               //买入金额
+               $(this).text(data[$("#proportionTable tr").index(i)].additionalAmount);
+             }
+        });
+           i++;
+           }
+        });
+    }
+});
+}

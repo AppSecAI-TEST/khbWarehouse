@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:emvc="http://www.yeepay.com/schema/emvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+				http://www.yeepay.com/schema/emvc http://www.yeepay.com/schema/emvc.xsd">
+	<emvc:package name="/zt/asset">
+		<!-- 灵机一投账户中心 -->
+		<emvc:action name="toMyPolicyInvest"  ref="myPolicyInvestAssetAction" method="toMyPolicyInvest">
+			<emvc:result name="success" value="/WEB-INF/pages/zt/myPolicyInvest.jsp"></emvc:result>
+		</emvc:action>
+		<!-- 跳转投资计划详情 -->
+		<emvc:action name="toPolicyInvestDetail"
+			ref="myPolicyInvestAssetAction" method="toPolicyInvestDetail">
+			<emvc:result name="success" value="/WEB-INF/pages/zt/policyInvestPlanDetail.jsp"></emvc:result>
+		</emvc:action>
+		<!-- 跳转组合交易记录详情页 -->
+		<emvc:action name="toPolicyOrderDetail"
+			ref="myPolicyInvestAssetAction" method="toPolicyOrderDetail">
+			<emvc:result name="success" value="/WEB-INF/pages/zt/policyTradeRecord.jsp"></emvc:result>
+		</emvc:action>
+		<!-- 查询组合交易记录 -->
+		<emvc:action name="queryPolicyTradeRecord" interceptors="exceptionInterceptor,LoggerInterceptor,exceptionInterceptor,LoggerInterceptor,LoginInterceptorJson"
+			ref="myPolicyInvestAssetAction" method="queryPolicyTradeRecord">
+			<emvc:result name="success" type="none"></emvc:result>
+		</emvc:action>
+		<!-- 跳转组合交易记录详情页 -->
+		<emvc:action name="toPolicyFundOrderDetail"
+			ref="myPolicyInvestAssetAction" method="toPolicyFundOrderDetail">
+			<emvc:result name="success" value="/WEB-INF/pages/zt/policyFundTradeRecord.jsp"></emvc:result>
+		</emvc:action>
+		<!-- 跳转灵机一投收益页面 -->
+		<emvc:action name="toYesAndTotalIncome"
+			ref="myPolicyInvestAssetAction" method="toYesAndTotalIncome">
+			<emvc:result name="success" value="/WEB-INF/pages/zt/policyIncomeDetail.jsp"></emvc:result>
+		</emvc:action>
+		<!-- 分页查询灵机一投收益 -->
+		<emvc:action name="queryInvestIncome" interceptors="exceptionInterceptor,LoggerInterceptor,exceptionInterceptor,LoggerInterceptor,LoginInterceptorJson"
+			ref="myPolicyInvestAssetAction" method="queryInvestIncome">
+			<emvc:result name="success" type="none"></emvc:result>
+		</emvc:action>
+		
+	</emvc:package>
+</beans> 

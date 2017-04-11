@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+
+<!-- 	<bean id="configurationUtils" class="com.yeepay.g3.utils.config.ConfigurationUtils" init-method="init"></bean> -->
+	<!-- <bean id="remoteServiceFactory" class="com.yeepay.g3.utils.rmi.RemoteServiceFactory" init-method="init"></bean> -->
+	    <!-- 该 BeanPostProcessor 将自动对标注 @Autowired 的 Bean 进行注入 -->     
+      <bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>  
+	   <context:component-scan base-package="com.yeepay.g3.app"></context:component-scan>  
+<!-- 	<bean id="configurationUtils" class="com.yeepay.g3.utils.config.ConfigurationUtils" init-method="init"></bean> -->
+	<!-- <bean id="remoteServiceFactory" class="com.yeepay.g3.utils.rmi.RemoteServiceFactory" init-method="init"></bean> -->
+	
+	   <!-- <context:component-scan base-package="com.yeepay.g3.app.lmweChat"></context:component-scan> -->  
+	   <context:component-scan base-package="com.yeepay.g3.app"></context:component-scan>  
+	 <!--    <bean id="syncBankCardTradeLimit" class="com.yeepay.g3.app.lmweChat.timer.SyncBankCardTradeLimit"></bean>
+	       <bean id="syncBankCardTradeLimitTask" class="com.yeepay.g3.app.lmweChat.timer.task.SyncBankCardTradeLi mitTask"></bean>
+	       <bean id="syncRechargeRetrict" class="com.yeepay.g3.app.lmweChat.utils.SyncRechargeRetrict">
+	     </bean>  -->
+<bean id="exceptionInterceptor" class="com.yeepay.g3.app.lmweChat.interceptor.ExceptionInterceptor"></bean>
+	<import resource="classpath:lmweChat-app-emvc-spring/spring-async-send.xml"/> 
+	</beans>

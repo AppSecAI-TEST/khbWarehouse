@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:emvc="http://www.yeepay.com/schema/emvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+				http://www.yeepay.com/schema/emvc http://www.yeepay.com/schema/emvc.xsd">
+	<emvc:package name="/zt/policy">
+		<!-- 策略详情页 -->
+		<emvc:action name="toPolicyInfo" 
+			class="com.yeepay.g3.app.lmweChat.action.zt.PolicyAction" method="toPolicyInfo">
+			<emvc:result name="success" value="/WEB-INF/pages/zt/policyDetailInfo.jsp"></emvc:result>
+		</emvc:action>
+		<!-- 查询策略详情简单页 -->
+		<emvc:action name="toPolicyDetailForAgainQuery" 
+			class="com.yeepay.g3.app.lmweChat.action.zt.PolicyAction" method="toPolicyDetailForAgainQuery">
+			<emvc:result name="success" value="/WEB-INF/pages/zt/queryPolicyDetailInfoAgain.jsp"></emvc:result>
+		</emvc:action>
+		<!-- 策略详情页查询曲线数据 -->
+		<emvc:action name="queryPolicyFundIncomeList" 
+			class="com.yeepay.g3.app.lmweChat.action.zt.PolicyAction" method="queryPolicyFundIncomeList">
+		</emvc:action>
+		<!-- 常见问题页 -->
+		<emvc:action name="toQuestion" 
+			class="com.yeepay.g3.app.lmweChat.action.zt.PolicyAction" method="toQuestion">
+			<emvc:result name="success" value="/WEB-INF/pages/zt/question.jsp"></emvc:result>
+		</emvc:action>
+		<!-- 策略详情查看更多页 -->
+		<emvc:action name="toPolicyInfoMoreDetail" 
+			class="com.yeepay.g3.app.lmweChat.action.zt.PolicyAction" method="toPolicyInfoMoreDetail">
+			<emvc:result name="success" value="/WEB-INF/pages/zt/policyInfoMoreDetail.jsp"></emvc:result>
+		</emvc:action>
+	</emvc:package>
+</beans> 

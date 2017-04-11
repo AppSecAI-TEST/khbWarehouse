@@ -1,0 +1,91 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="e" uri="/emvc-tags" %>
+<html>
+<head lang="en">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="static/css/LM-invest.css">
+    <title>费率明细</title>
+</head>
+<body>
+<div class="scb">
+    <div class="layout-wrap scbCard rateCard font-white tc">
+        <div class="layou-up assetArea pr">
+            <a href="#" class="font-white pr">
+                <span class="font-45">0.62</span>
+                <p class="font-14">预估手续费（元）</p>
+                <p class="font-text-note">该数值仅为预估值，实际费用请以基金公司为准</p>
+            </a>
+        </div>
+    </div>
+    <div class="myInvest groupList bg-white radius1">
+        <h3 class="investTitle"><a href="#">华安黄金易ETF联接C(000217)</a></h3>
+        <div class="rateSum br-bottom">
+            申购金额：<i class="orange">25.00</i>元
+            <span class="fr">预估手续费：<i class="orange">0.00</i>元</span>
+        </div>
+    </div>
+    <div class="myInvest groupList bg-white radius1">
+        <h3 class="investTitle"><a href="#">华安黄金易ETF联接C(000217)</a></h3>
+        <div class="rateSum br-bottom">
+            申购金额：<i class="orange">25.00</i>元
+            <span class="fr">预估手续费：<i class="orange">0.00</i>元</span>
+        </div>
+        <div class="rateCon">
+            <h3>申购费率</h3>
+            <div class="rateTable light-gray tc radius1">
+                <table cellpadding="0" cellspacing="0" width="100%">
+                    <tbody>
+                    <tr>
+                        <th>申购金额(RMB)</th>
+                        <th>费率</th>
+                    </tr>
+                    <tr>
+                        <td>--</td>
+                        <td><span class="font-text-note line-through">0.00%</span> 0.00%</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="myInvest groupList bg-white radius1">
+        <h3 class="investTitle"><a href="#">华安黄金易ETF联接C(000217)</a></h3>
+        <div class="rateSum br-bottom">
+            申购金额：<i class="orange">25.00</i>元
+            <span class="fr">预估手续费：<i class="orange">0.00</i>元</span>
+        </div>
+        <div class="rateCon">
+            <h3>申购费率</h3>
+            <div class="rateTable light-gray tc radius1">
+                <table cellpadding="0" cellspacing="0" width="100%">
+                    <tbody>
+                    <tr>
+                        <th>申购金额(RMB)</th>
+                        <th>费率</th>
+                    </tr>
+                    <tr>
+                        <td>RMB<100万元</td>
+                        <td><span class="font-text-note line-through">1.20%</span>0.60%</td>
+                    </tr>
+                    <tr>
+                        <td>100万元<=RMB<300万元</td>
+                        <td><span class="font-text-note line-through"> 0.00%</span>0.80%</td>
+                    </tr>
+                    <tr>
+                        <td>300万元<=RMB<500万元</td>
+                        <td><span class="font-text-note line-through"> 0.00%</span>0.40%</td>
+                    </tr>
+                    <tr>
+                        <td>RMB>=500万元</td>
+                        <td><span class="font-text-note line-through"> 0.00%</span>1000元/笔</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="rateTips light-gray tc">基金费率由基金公司提供，请以基金公司官网公布的数据为准</div>
+</body>
+</html>

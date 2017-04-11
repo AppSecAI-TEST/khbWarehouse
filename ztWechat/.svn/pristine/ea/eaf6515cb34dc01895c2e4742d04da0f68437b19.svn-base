@@ -1,0 +1,144 @@
+package com.yeepay.g3.app.lmweChat.action.zt;
+
+
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.stereotype.Controller;
+
+import com.yeepay.g3.app.lmweChat.action.BaseAction;
+import com.yeepay.g3.facade.lmportal.dto.MemberDto;
+import com.yeepay.g3.facade.zt.dto.ZtMemberIncomeRecordDTO;
+import com.yeepay.g3.facade.zt.dto.ZtPolicyFundOrderDetailDTO;
+import com.yeepay.g3.facade.zt.dto.ZtPolicyFundShareAndPolicyProductDTO;
+import com.yeepay.g3.facade.zt.dto.ZtPolicyOrderDetailDTO;
+import com.yeepay.g3.facade.zt.facade.ZtMemberIncomeRecordFacade;
+import com.yeepay.g3.facade.zt.facade.ZtPolicyFundOrderDetailFacade;
+import com.yeepay.g3.facade.zt.facade.ZtPolicyFundShareFacade;
+import com.yeepay.g3.facade.zt.facade.ZtPolicyOrderDetailFacade;
+import com.yeepay.g3.utils.common.log.Logger;
+import com.yeepay.g3.utils.common.log.LoggerFactory;
+import com.yeepay.g3.utils.rmi.RemoteServiceFactory;
+import com.yeepay.g3.utils.rmi.RemotingProtocol;
+import com.yeepay.g3.utils.web.emvc.annotation.Param;
+/**
+ * @Title: 策略投资的财富相关action
+ * @Description: 描述
+ * @Copyright: 懒猫金服
+ * @author ying.liu
+ * @createTime 2016年10月27日 下午1:41:38
+ * @version 2016年10月27日
+ */
+@Controller
+public class MyPolicyInvestAssetAction extends BaseAction{
+
+	private Logger logger = LoggerFactory.getLogger(MyPolicyInvestAssetAction.class);
+	
+//	private ZtPolicyFundShareFacade ztPolicyFundShareFacade = RemoteServiceFactory.getService(ZtPolicyFundShareFacade.class);
+//	
+//	private ZtPolicyOrderDetailFacade ztPolicyOrderDetailFacade = RemoteServiceFactory.getService(ZtPolicyOrderDetailFacade.class);
+//	
+//	private ZtPolicyFundOrderDetailFacade ztPolicyFundOrderDetailFacade = RemoteServiceFactory.getService(ZtPolicyFundOrderDetailFacade.class);
+//	
+//	private ZtMemberIncomeRecordFacade ztMemberIncomeRecordFacade = RemoteServiceFactory.getService(ZtMemberIncomeRecordFacade.class);
+	
+	private ZtPolicyFundShareFacade ztPolicyFundShareFacade = RemoteServiceFactory.getService("http://localhost:8080/activity-hessian/hessian", RemotingProtocol.HESSIAN,ZtPolicyFundShareFacade.class);
+	
+	private ZtPolicyOrderDetailFacade ztPolicyOrderDetailFacade = RemoteServiceFactory.getService("http://localhost:8080/activity-hessian/hessian", RemotingProtocol.HESSIAN,ZtPolicyOrderDetailFacade.class);
+	
+	private ZtPolicyFundOrderDetailFacade ztPolicyFundOrderDetailFacade = RemoteServiceFactory.getService("http://localhost:8080/activity-hessian/hessian", RemotingProtocol.HESSIAN,ZtPolicyFundOrderDetailFacade.class);
+	
+	private ZtMemberIncomeRecordFacade ztMemberIncomeRecordFacade = RemoteServiceFactory.getService("http://localhost:8080/activity-hessian/hessian", RemotingProtocol.HESSIAN,ZtMemberIncomeRecordFacade.class);
+	/**
+	 * @Description: 跳转组合详情
+	 * @param 参数待定
+	 * @return String    返回类型 
+	 * @throws
+	 */
+	public String toPolicyDetail(@Param("policyId") String poicyId){
+		
+		//根据策略id查询该策略下的基金交易汇总信息
+		List<ZtPolicyFundShareAndPolicyProductDTO> fundSharelist = ztPolicyFundShareFacade.queryFundAndPolicyProductList(Long.valueOf(poicyId));
+		addModelObject("fundSharelist", fundSharelist);
+		return SUCCESS;
+	}
+	/**
+	 * @Description: 跳转组合交易记录页面
+	 * @param poicyOrderId 用户的策略汇总订单id 允许为空
+	 * @return String    返回类型 
+	 * @throws
+	 */
+	//TODO
+	public String toPolicyOrderDetail(@Param("policyOrderId") Long poicyOrderId){
+		/*HttpSession session = getMvcFacade().getHttpSession();
+		HttpServletRequest request = getMvcFacade().getRequest();
+		MemberDto memberDto = (MemberDto) session.getAttribute("member");
+		Map<String,Object> map = new LinkedHashMap<String,Object>();
+		map.put("poicyOrderId", poicyOrderId);
+		map.put("memberNo", memberDto.getMemberNo());
+		List<ZtPolicyOrderDetailDTO> list = ztPolicyOrderDetailFacade.queryUserPolOrdDetail(map);
+		addModelObject("list", list);*/
+		return SUCCESS;
+	}
+	/**
+	 * @Title: queryPolicyTradeRecord 
+	 * @Description: 查询用户策略交易记录明细
+	 * @param 
+	 * @return String   
+	 * @throws
+	 */
+	public String queryPolicyTradeRecord(@Param("policyOrderId") Long poicyOrderId){
+		HttpSession session = getMvcFacade().getHttpSession();
+		MemberDto memberDto = (MemberDto) session.getAttribute("member");
+		//应该把接口改为map参数传递 
+		Map<String,Object> map = new LinkedHashMap<String,Object>();
+		map.put("memberNo", memberDto.getMemberNo());
+		map.put("poicyOrderId", poicyOrderId);
+		List<ZtPolicyOrderDetailDTO> list = ztPolicyOrderDetailFacade.queryUserPolOrdDetail(map);
+		addModelObject("list", list);
+		return SUCCESS;
+	}
+	/**
+	 * @Description: 跳转组合交易记录详情页面 
+	 * @param policyOrderDetailId 策略交易明细id
+	 * @return String   
+	 * @throws
+	 */
+	public String toPolicyFundOrderDetail(@Param("policyOrderDetailId") Long policyOrderDetailId){
+		ZtPolicyOrderDetailDTO ztPolicyOrderDetailDTO = null;
+		List<ZtPolicyFundOrderDetailDTO> list = null;
+		
+		try{
+			//根据策略交易明细id，查询策略明细交易记录  表6
+			ztPolicyOrderDetailDTO =  ztPolicyOrderDetailFacade.queryPolicyOrderDetailById(policyOrderDetailId);
+			//根据策略交易明细id，查询基金交易记录明细  表8
+			list = ztPolicyFundOrderDetailFacade.queryFundDetailByPolOrdDetialId(policyOrderDetailId);
+		}catch(Exception e){
+			e.printStackTrace();
+			logger.error("[toPolicyFundOrderDetail] info={},ERROR={}","查询接口失败",e);
+		}
+		
+		addModelObject("ztPolicyOrderDetailDTO", ztPolicyOrderDetailDTO);
+		addModelObject("list", list);
+		return SUCCESS;
+	}
+	
+	/**
+	 * @Title: toYesAndTotalIncome 
+	 * @Description: 查看昨日收益个累计收益
+	 * @param @return   
+	 * @throws
+	 */
+	public String toYesAndTotalIncome(){
+		HttpSession session = getMvcFacade().getHttpSession();
+		MemberDto memberDto = (MemberDto) session.getAttribute("member");
+		//1.查询用户昨日收益列表和累计收益
+		List<ZtMemberIncomeRecordDTO> list = ztMemberIncomeRecordFacade.queryMemberIncomeList(memberDto.getMemberNo());
+		addModelObject("list", list);
+		return SUCCESS;
+	}
+}

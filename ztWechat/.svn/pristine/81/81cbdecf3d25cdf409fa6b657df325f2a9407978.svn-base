@@ -1,0 +1,187 @@
+/**
+ * @author 陈大涛
+ * 2016-10-26下午3:45:23
+ */
+package com.yeepay.g3.app.lmweChat.action.zt;
+
+import java.math.BigDecimal;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.yeepay.g3.app.lmweChat.action.BaseAction;
+import com.yeepay.g3.app.lmweChat.utils.LmConstants;
+import com.yeepay.g3.facade.lmportal.dto.MemberDto;
+import com.yeepay.g3.facade.zt.dto.ZtPolicyDTO;
+import com.yeepay.g3.facade.zt.dto.ZtPolicyFundShareAndPolicyProductDTO;
+import com.yeepay.g3.facade.zt.dto.ZtPolicyOrderDTO;
+import com.yeepay.g3.facade.zt.dto.ZtRedeemParamDTO;
+import com.yeepay.g3.facade.zt.dto.ZtSceneDTO;
+import com.yeepay.g3.facade.zt.enums.ZtPolicyOrderStatusEnum;
+import com.yeepay.g3.facade.zt.facade.ZtPolicyFacade;
+import com.yeepay.g3.facade.zt.facade.ZtPolicyFundShareFacade;
+import com.yeepay.g3.facade.zt.facade.ZtPolicyOrderFacade;
+import com.yeepay.g3.facade.zt.facade.ZtPurchaseFacade;
+import com.yeepay.g3.facade.zt.facade.ZtSceneFacade;
+import com.yeepay.g3.utils.common.log.Logger;
+import com.yeepay.g3.utils.common.log.LoggerFactory;
+import com.yeepay.g3.utils.rmi.RemoteServiceFactory;
+import com.yeepay.g3.utils.web.IpUtils;
+import com.yeepay.g3.utils.web.emvc.annotation.Param;
+
+/**
+ * 赎回action
+ * @Description
+ * @author 陈大涛
+ * 2016-10-26下午3:45:23
+ */
+@Controller
+public class RedeemAction extends BaseAction{
+	
+	private Logger logger = LoggerFactory.getLogger(RedeemAction.class);
+	
+	//本地
+//	private ZtPolicyOrderFacade ztPolicyOrderFacadeImpl = RemoteServiceFactory.getService("localhost:8080/activity-hession/", RemotingProtocol.HESSIAN, ZtPolicyOrderFacade.class);
+//	
+//	private ZtPolicyFacade ztPolicyFacadeImpl = RemoteServiceFactory.getService("localhost:8080/activity-hessian/", RemotingProtocol.HESSIAN, ZtPolicyFacade.class);
+//
+//	private ZtPolicyFundShareFacade ztPolicyFundShareFacadeImpl = RemoteServiceFactory.getService("http://localhost:8080/activity-hessian/", RemotingProtocol.HESSIAN, ZtPolicyFundShareFacade.class);
+//	
+//	private ZtSceneFacade ztSceneFacadeImpl = RemoteServiceFactory.getService("http://localhost:8080/activity-hessian/", RemotingProtocol.HESSIAN, ZtSceneFacade.class);
+
+//	private ZtPurchaseFacade ztPurchaseFacadeImpl = RemoteServiceFactory.getService("http://localhost:8080/activity-hessian/", RemotingProtocol.HESSIAN, ZtPurchaseFacade.class);
+	
+	
+	//线上
+	private ZtPolicyOrderFacade ztPolicyOrderFacadeImpl = RemoteServiceFactory.getService(ZtPolicyOrderFacade.class);
+	private ZtPolicyFacade ztPolicyFacadeImpl = RemoteServiceFactory.getService(ZtPolicyFacade.class);
+	private ZtPolicyFundShareFacade ztPolicyFundShareFacadeImpl = RemoteServiceFactory.getService(ZtPolicyFundShareFacade.class);
+	private ZtSceneFacade ztSceneFacadeImpl = RemoteServiceFactory.getService(ZtSceneFacade.class);
+	private ZtPurchaseFacade ztPurchaseFacadeImpl = RemoteServiceFactory.getService(ZtPurchaseFacade.class);
+	/**
+	 * 跳转到赎回页面
+	 * @author 陈大涛
+	 * 2016-10-26下午3:47:58
+	 */
+	public String toRedeem(@Param("policyOrderId") Long policyOrderId){
+		logger.info("[toRedeem] policyOrderId={}",policyOrderId);
+		ZtPolicyDTO ztPolicyDto=null;
+		List<ZtPolicyFundShareAndPolicyProductDTO>  fundAndPolicyDtoList=null;
+		BigDecimal totalMoney =null;
+		try {
+			//1.查询会员策略交易汇总表是否有有效数据
+			ZtPolicyOrderDTO ztPolicyOrderDTO = ztPolicyOrderFacadeImpl.queryZtPolicyOrderById(policyOrderId);
+			if(ztPolicyOrderDTO==null||ztPolicyOrderDTO.getPolicyStatus()==ZtPolicyOrderStatusEnum.END){
+				logger.info("[toRedeem] 会员策略交易汇总没有此有效记录");
+				return null;
+			}
+			//2.查询策略信息
+			 ztPolicyDto =  ztPolicyFacadeImpl.selectPolicyByPrimaryKey(ztPolicyOrderDTO.getPolicyId());
+			//3.查询策略交易记录中基金交易持有汇总
+			 fundAndPolicyDtoList = ztPolicyFundShareFacadeImpl.queryFundAndPolicyProductList(policyOrderId);
+			//4.持仓总市值
+				for(ZtPolicyFundShareAndPolicyProductDTO items:fundAndPolicyDtoList){
+					totalMoney=totalMoney.add(items.getZtPolicyFundShareDto().getWorthValue());
+				}
+		} catch (Exception e) {
+			logger.error("[toRedeem] 调用远程接口异常 e={}",e);
+		}
+		
+		
+		addModelObject("ztPolicyDto", ztPolicyDto);//策略信息
+		addModelObject("fundAndPolicyDtoList", fundAndPolicyDtoList);//基金列表
+		addModelObject("totalMoney", totalMoney);//持仓总市值
+		
+		return SUCCESS;
+	}
+	
+	/**
+	 * 跳转到确认赎回页面
+	 * @author 陈大涛
+	 * 2016-10-26下午3:47:58
+	 */
+	public String toConfirmRedeem(@Param("policyOrderId") Long policyOrderId,@Param("redeemMoney") BigDecimal redeemMoney){
+		logger.info("[toConfirmRedeem] policyOrderId={},redeemMoney={}",policyOrderId,redeemMoney);
+		List<ZtPolicyFundShareAndPolicyProductDTO> fundAndPolicyDtoList=null;
+		BigDecimal totalMoney =null;
+		try {
+			//1.查询策略交易记录中基金交易持有汇总
+			 fundAndPolicyDtoList = ztPolicyFundShareFacadeImpl.queryFundAndPolicyProductList(policyOrderId);
+			//2.持仓总市值
+			for(ZtPolicyFundShareAndPolicyProductDTO items:fundAndPolicyDtoList){
+				totalMoney=totalMoney.add(items.getZtPolicyFundShareDto().getWorthValue());
+			}
+		} catch (Exception e) {
+			logger.error("[toConfirmRedeem] 调用远程接口异常e={}",e);
+		}
+		addModelObject("policyOrderId", policyOrderId);//用户策略唯一标示
+		addModelObject("totalMoney", totalMoney);//持仓总市值
+		addModelObject("redeemMoney", redeemMoney);//赎回金额
+		addModelObject("fundAndPolicyDtoList", fundAndPolicyDtoList);//基金列表
+		
+		return SUCCESS;
+	}
+	
+	/**
+	 * 跳转到赎回成功页面
+	 * @author 陈大涛
+	 * 2016-10-26下午3:47:58
+	 */
+	public String toRedeemSuccess(@Param("policyOrderId") Long policyOrderId,@Param("redeemMoney") BigDecimal redeemMoney){
+		logger.info("[toRedeemSuccess] policyOrderId={}",policyOrderId);
+		ZtPolicyOrderDTO ztPolicyOrderDTO =null;
+		ZtSceneDTO ztSceneDto=null;
+		try {
+			//1.查询会员策略交易汇总表是否有有效数据
+			 ztPolicyOrderDTO = ztPolicyOrderFacadeImpl.queryZtPolicyOrderById(policyOrderId);
+			if(ztPolicyOrderDTO==null){
+				logger.error("[toRedeemSuccess] 会员策略交易汇总没有此条记录 policyOrderId={}",policyOrderId);
+				return null;
+			}
+			//2.查询场景信息
+			 ztSceneDto = ztSceneFacadeImpl.querySceneInfoById(ztPolicyOrderDTO.getSceneId());
+		} catch (Exception e) {
+			logger.info("[toRedeemSuccess] 调用远程接口异常 e={}",e);
+		}
+		
+		addModelObject("ztSceneDto", ztSceneDto);//场景信息
+		addModelObject("buyMoney", redeemMoney);//购买金额
+		return SUCCESS;
+	}
+	/**
+	 * 赎回
+	 * @author 陈大涛
+	 * 2016-10-27下午2:44:30
+	 */
+	@RequestMapping("redemm")
+	public String redeem(@Param("policyOrderId") Long policyOrderId,@Param("redeemMoney") BigDecimal redeemMoney){
+		logger.info("[redeem] policyOrderId={},redeemMoney={}",policyOrderId,redeemMoney);
+		HttpSession session = getMvcFacade().getHttpSession();
+		HttpServletRequest request = getMvcFacade().getRequest();
+		MemberDto memberDto = (MemberDto)session.getAttribute("memberDto");
+		try {
+			ZtRedeemParamDTO ztRedeemParamDTO = new ZtRedeemParamDTO();
+			ztRedeemParamDTO.setRedeemMoney(redeemMoney);
+			ztRedeemParamDTO.setPolicyOrderId(policyOrderId);
+			ztRedeemParamDTO.setMemberNo(memberDto.getMemberNo());
+			ztRedeemParamDTO.setMerchantNo(LmConstants.getZTMerchantNo());
+			ztRedeemParamDTO.setClientIp(IpUtils.getIpAddr(request));
+			ztRedeemParamDTO.setUserAgent(request.getHeader("User-Agent"));
+			boolean result = ztPurchaseFacadeImpl.redeem(ztRedeemParamDTO);
+			if(result==false){
+				logger.error("[redeem] result={}",result);
+				setJsonModel(SYSTEM_EXCEPTION_JSON);
+			}
+		} catch (Exception e) {
+			logger.error("[redeem] 远程接口调用异常e={}",e);
+			setJsonModel(SYSTEM_EXCEPTION_JSON);
+		}
+			setJsonModel(SUCCESS);
+		return "json";
+	}
+	
+}

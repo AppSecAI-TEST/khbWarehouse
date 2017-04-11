@@ -1,0 +1,117 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>风险测评</title>
+
+</head>
+<!-- 头部结束 -->
+<body>
+<div class="coverArea bg-white">
+  <div class="coverContent">
+    <div class="evaluation">投资者风险承受能力评测</div>
+    <div class="evaluationHeader">测一下你是哪种类型投资者？</div>
+    <div class="evaluationImg">
+        <img src="static/images/fund/evaluationImg.png" alt=""/>
+    </div>
+    [#if isBinkCard?? && isBinkCard == "1"]
+    <div class="skip">
+        <a onClick="jumpRiskTest('${fundCode}','${riskFlag}','${riskLevel}')">
+       	[#if riskFlag == "already"]
+       	 我是${riskLevel}投资者，跳过测试直接交易
+       	 [#elseif riskFlag == "never"]
+       	 我是保守型投资者，跳过测试直接交易
+       	 [/#if] 
+        <img src="static/images/fund/evaluationArrow.png" alt=""/></a>
+    </div>
+    <div class="evaluationBtn">
+        <a id='start' onClick="checkInstructionStatus();" href="#">开始测试</a>
+    </div>
+    [#else]
+    <div class="skip">
+        <a href="#" onClick="unBinkCard();">我是保守型投资者，跳过测试直接交易 <img src="${ctx}/static/images/fund/evaluationArrow.png" alt=""/></a>
+    </div>
+    <div class="evaluationBtn">
+        <a id='start' href="#" onClick="unBinkCard();">开始测试</a>
+    </div>
+    [/#if]
+    <div class="checkedBox evaluationBox">
+        <input type="checkbox" class="agree-box" id="agreeBox" checked="checked"/>
+        <i class="icon icon-checkbox orange"></i>
+                         已阅读并同意遵守 <a href="riskTest/riskInstruction" class="orange">《投资者风险承受能力评测说明》</a>
+        <a href="riskTest/riskProtocol" class="orange">《懒猫金服基金网上交易协议》</a>
+        <div id='tips' class="error-tips red"></div>
+    </div>
+    </div>
+</div>
+<div class="prompt">
+    <img src="static/images/fund/prompt.png" alt=""/>
+</div>
+<div id="mask" style="display: none"></div>
+<div id="alert" class="alertLayer"
+		style="display: none; width: 100%; top:20%;">
+		<div class="bg-white radius1" style=" width: 90%; margin:0 auto">
+		<div class="pt30 pb30 br-bottom orange tc font-14"
+			id="alertLayer-5Message" style="margin:10px 20px 10px 20px;text-align:left;"></div>
+		<div class="btnMaskArea tc mt30">
+			<a href="javascript:void(0)" onclick="goBinkCard();">去绑卡</a> <a
+				href="#" onClick="clean();">取消</a>
+		</div>
+		</div>
+	</div>
+	
+	<div id="alert6" class="alertLayer" 
+		style="display: none; width: 100%; top:20%; ">
+		<div class="bg-white radius1" style=" width: 90%; margin:0 auto">
+			<div class="pt30 pb30 br-bottom orange tc font-16"
+				id="alertLayer-6Message" style="margin:10px 20px 10px 20px;text-align:left;">
+			</div>
+			<div class="btnMaskArea tc mt30">
+				<a href="javascript:toJumpRiskTest();">跳过</a> <a
+					href="javascript:void(0)" onclick="clean()">取消</a>
+			</div>
+		</div>
+	</div>
+	
+	<div id="alert7" class="alertLayer"
+		style="display: none; width: 100%; top:20%;">
+		<div class="bg-white radius1" style=" width: 90%; margin:0 auto">
+		<div class="pt30 pb30 br-bottom orange tc font-16"
+			id="alertLayer-7Message" style="margin:10px 20px 10px 20px;text-align:left;"></div>
+		<div class="btnMaskArea tc mt30">
+			<a href="javascript:toJumpRiskTest();">跳过</a>
+			<a href="javascript:void(0)" onclick="clean()">取消</a>
+		</div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+function checkInstructionStatus(){
+	if($('#agreeBox').is(':checked')){
+		/* $('#agreeBox').attr("href", "${ctx}/riskTest/justBuy/${fundCode}_${riskFlag}"); */
+		//location.href = "${ctx}/riskTest/riskPage/${fundCode}_${riskFlag}_${riskLevel}";
+		//goRiskTest();
+		//alert("hello");
+		var state={
+				title:"doRisk",
+				url:"1#"
+		};
+		window.history.pushState(state,"tttt","#");
+	}else{
+		$('#tips').html('<i class="icon icon-error2"></i> 请阅读并同意相关协议');
+	}
+}
+
+function goRiskTest(){
+	//alert("pushState");
+	var risk={
+			title:"doRisk",
+			url:"#"
+	};
+	window.history.pushState(risk,"tttt","#doRisk");
+	
+	//location.href = "${ctx}/riskTest/riskPage/${fundCode}_${riskFlag}_${riskLevel}";
+}
+</script>
+</html>

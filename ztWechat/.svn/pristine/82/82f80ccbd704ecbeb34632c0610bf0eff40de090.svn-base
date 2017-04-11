@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:emvc="http://www.yeepay.com/schema/emvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+				http://www.yeepay.com/schema/emvc http://www.yeepay.com/schema/emvc.xsd">
+	<emvc:package name="/zt/risk">
+		<!-- 开始基金测评页 -->
+		<emvc:action name="toRiskTestStart" ref="riskAndRetreatAction"
+			method="toRiskTestStart">
+			<emvc:result name="success" value="/WEB-INF/pages/zt/startRisk.jsp"></emvc:result>
+		</emvc:action>
+		<emvc:action name="riskInstruction" ref="riskAndRetreatAction"
+			method="riskInstruction">
+			<emvc:result name="success" value="/WEB-INF/pages/zt/riskInstruction.jsp"></emvc:result>
+		</emvc:action>
+		<emvc:action name="riskProtocol" ref="riskAndRetreatAction"
+			method="riskProtocol">
+			<emvc:result name="success" value="/WEB-INF/pages/zt/riskProtocol.jsp"></emvc:result>
+		</emvc:action>
+		<emvc:action name="scenePicture" ref="riskAndRetreatAction"
+			method="scenePicture" interceptors="exceptionInterceptor,LoggerInterceptor">
+		</emvc:action>
+		<emvc:action name="questionsPage" ref="riskAndRetreatAction"
+			method="questionsPage">
+			<emvc:result name="CARANDHOUSE" value="/WEB-INF/pages/zt/carAndHourse.jsp"></emvc:result>
+			<emvc:result name="CHILDREN_EDUCATION" value="/WEB-INF/pages/zt/childen_education.jsp"></emvc:result>
+			<emvc:result name="PENSION_PLAN" value="/WEB-INF/pages/zt/persion_plan.jsp"></emvc:result>
+		</emvc:action>
+		<emvc:action name="doWishQuestions" ref="riskAndRetreatAction"
+			method="doWishQuestions">
+			<emvc:result name="success" value="/WEB-INF/pages/zt/wishResults.jsp"></emvc:result>
+		</emvc:action>
+		<emvc:action name="doCustomizedQuestions" ref="riskAndRetreatAction"
+			method="doCustomizedQuestions">
+			<emvc:result name="success" value="/WEB-INF/pages/zt/wishResults.jsp"></emvc:result>
+		</emvc:action>
+		<emvc:action name="toRiskTest" ref="riskAndRetreatAction"
+			method="toRiskTest">
+			<emvc:result name="success" value="/WEB-INF/pages/zt/riskPage.jsp"></emvc:result>
+		</emvc:action>
+		<emvc:action name="goJumpRisk" ref="riskAndRetreatAction"
+			method="goJumpRisk">
+			<emvc:result name="testFail" value="/WEB-INF/pages/zt/testFail.jsp"></emvc:result>
+		</emvc:action>
+		<emvc:action name="doRiskTest" ref="riskAndRetreatAction"
+			method="doRiskTest">
+			<emvc:result name="testFail" value="/WEB-INF/pages/zt/testFail.jsp"></emvc:result>
+		</emvc:action>
+		<emvc:action name="toRetreatTest" ref="riskAndRetreatAction"
+			method="toRetreatTest">
+			<emvc:result name="success" value="/WEB-INF/pages/zt/retreatTest.jsp"></emvc:result>
+		</emvc:action>
+		<emvc:action name="doRetreatTest" ref="riskAndRetreatAction"
+			method="doRetreatTest">
+			<emvc:result name="testFail" value="/WEB-INF/pages/zt/testFail.jsp"></emvc:result>
+		</emvc:action>
+		
+	</emvc:package>
+</beans> 

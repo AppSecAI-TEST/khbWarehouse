@@ -1,0 +1,335 @@
+<%@page import="com.yeepay.g3.app.lmweChat.utils.LmConstants" %>
+<%@page language="java" contentType="text/html; charset=UTF-8"
+  pageEncoding="UTF-8"%>
+ <%@ taglib prefix="e" uri="/emvc-tags" %>
+ <%
+ String path = request.getContextPath();
+ String basePath = request.getScheme() + "://"+ request.getServerName(); 
+ if(request.getServerPort()!=80){
+   basePath = basePath + ":" + request.getServerPort(); 
+ }      
+ basePath = basePath + path + "/";
+ String sysVersion = LmConstants.sysVersion;
+%>
+<html>
+<head lang="en">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <!--优先使用 IE 最新版本和 Chrome-->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="viewport" content="width=device-width, maximum-scale=1.0, initial-scale=1.0, user-scalable=0" />
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <!--设置苹果工具栏颜色-->
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+   <%--  <link rel="stylesheet" href="static/css/LM-common.css?v=<%=sysVersion %>">
+    <link rel="stylesheet" href="static/css/LM-app.css?v=<%=sysVersion %>">
+    <link rel="stylesheet" href="static/css/LM-funds.css?v=<%=sysVersion %>">
+    <link rel="stylesheet" href="static/css/icon-style.css?v=<%=sysVersion %>"> --%>
+    
+     
+   <%--  <link rel="stylesheet" href="static/css/LM-invest.css?v=<%=sysVersion %>"> 
+  
+    <script type="text/javascript" src="static/js/LM-app.js?v=<%=sysVersion %>"></script> --%>
+      <script type="text/javascript" src="static/js/jquery-1.8.3.min.js?v=<%=sysVersion %>"></script>
+     <script src="http://cdn.hcharts.cn/highcharts/highcharts.js" type="text/javascript"></script>
+     
+    <script src="http://cdn.hcharts.cn/highcharts/modules/data.js" type="text/javascript"></script>
+    
+    <title>策略详情</title>
+</head>
+<body>
+<div id="container" style="min-width:400px;height:400px"></div>
+<div class="message"></div>
+<script type="text/javascript">
+$(function () {
+  var testData=[[Date.UTC(2013,9,2),0.7695],
+                [Date.UTC(2013,9,3),0.7648],
+                [Date.UTC(2013,9,4),0.7645],
+                [Date.UTC(2013,9,5),0.7638],
+                [Date.UTC(2013,9,6),0.7549],
+                [Date.UTC(2013,9,7),0.7562],
+                [Date.UTC(2013,9,9),0.7574],
+                [Date.UTC(2013,9,10),0.7543],
+                [Date.UTC(2013,9,11),0.7510],
+                [Date.UTC(2013,9,12),0.7498],
+                [Date.UTC(2013,9,13),0.7477],
+                [Date.UTC(2013,9,14),0.7492],
+                [Date.UTC(2013,9,16),0.7487],
+                [Date.UTC(2013,9,17),0.7480],
+                [Date.UTC(2013,9,18),0.7466],
+                [Date.UTC(2013,9,19),0.7521],
+                [Date.UTC(2013,9,20),0.7564],
+                [Date.UTC(2013,9,21),0.7621],
+                [Date.UTC(2013,9,23),0.7630],
+                [Date.UTC(2013,9,24),0.7623],
+                [Date.UTC(2013,9,25),0.7644],
+                [Date.UTC(2013,9,26),0.7685],
+                [Date.UTC(2013,9,27),0.7671],
+                [Date.UTC(2013,9,28),0.7687],
+                [Date.UTC(2013,9,30),0.7687],
+                [Date.UTC(2013,10,1),0.7654],
+                [Date.UTC(2013,10,2),0.7705],
+                [Date.UTC(2013,10,3),0.7687],
+                [Date.UTC(2013,10,4),0.7744],
+                [Date.UTC(2013,10,5),0.7793],
+                [Date.UTC(2013,10,7),0.7804],
+                [Date.UTC(2013,10,8),0.7770],
+                [Date.UTC(2013,10,9),0.7824],
+                [Date.UTC(2013,10,10),0.7705],
+                [Date.UTC(2013,10,11),0.7635],
+                [Date.UTC(2013,10,12),0.7652],
+                [Date.UTC(2013,10,14),0.7656],
+                [Date.UTC(2013,10,15),0.7655],
+                [Date.UTC(2013,10,16),0.7598],
+                [Date.UTC(2013,10,17),0.7619],
+                [Date.UTC(2013,10,18),0.7628],
+                [Date.UTC(2013,10,19),0.7609],
+                [Date.UTC(2013,10,21),0.7599],
+                [Date.UTC(2013,10,22),0.7584],
+                [Date.UTC(2013,10,23),0.7562],
+                [Date.UTC(2013,10,24),0.7575],
+                [Date.UTC(2013,10,25),0.7531],
+                [Date.UTC(2013,10,26),0.7530],
+                [Date.UTC(2013,10,28),0.7526],
+                [Date.UTC(2013,10,29),0.7540],
+                [Date.UTC(2013,10,30),0.7540],
+                [Date.UTC(2013,10,31),0.7518],
+                [Date.UTC(2013,11,1),0.7571],
+                [Date.UTC(2013,11,2),0.7529],
+                [Date.UTC(2013,11,4),0.7532],
+                [Date.UTC(2013,11,5),0.7542],
+                [Date.UTC(2013,11,6),0.7515],
+                [Date.UTC(2013,11,7),0.7498],
+                [Date.UTC(2013,11,8),0.7473],
+                [Date.UTC(2013,11,9),0.7494],
+                [Date.UTC(2013,11,11),0.7497],
+                [Date.UTC(2013,11,12),0.7519],
+                [Date.UTC(2013,11,13),0.7540],
+                [Date.UTC(2013,11,14),0.7543],
+                [Date.UTC(2013,11,15),0.7492],
+                [Date.UTC(2013,11,16),0.7502],
+                [Date.UTC(2013,11,18),0.7503],
+                [Date.UTC(2013,11,19),0.7499],
+                [Date.UTC(2013,11,20),0.7453],
+                [Date.UTC(2013,11,21),0.7487],
+                [Date.UTC(2013,11,22),0.7487],
+                [Date.UTC(2013,11,23),0.7472],
+                [Date.UTC(2013,11,25),0.7471],
+                [Date.UTC(2013,11,26),0.7480],
+                [Date.UTC(2013,11,27),0.7467],
+                [Date.UTC(2013,11,28),0.7497],
+                [Date.UTC(2013,11,29),0.7552],
+                [Date.UTC(2013,11,30),0.7562],
+                [Date.UTC(2013,12,1),0.7572],
+                [Date.UTC(2013,12,2),0.7581],
+                [Date.UTC(2013,12,3),0.7593],
+                [Date.UTC(2013,12,4),0.7571],
+                [Date.UTC(2013,12,5),0.7622],
+                [Date.UTC(2013,12,6),0.7588],
+                [Date.UTC(2013,12,8),0.7591],
+                [Date.UTC(2013,12,9),0.7544],
+                [Date.UTC(2013,12,10),0.7537],
+                [Date.UTC(2013,12,11),0.7512],
+                [Date.UTC(2013,12,12),0.7519],
+                [Date.UTC(2013,12,13),0.7522],
+                [Date.UTC(2013,12,15),0.7486],
+                [Date.UTC(2013,12,16),0.7500],
+                [Date.UTC(2013,12,17),0.7486],
+                [Date.UTC(2013,12,18),0.7396],
+                [Date.UTC(2013,12,19),0.7391],
+                [Date.UTC(2013,12,20),0.7394],
+                [Date.UTC(2013,12,22),0.7389],
+                [Date.UTC(2013,12,23),0.7411],
+                [Date.UTC(2013,12,24),0.7422],
+                [Date.UTC(2013,12,25),0.7393],
+                [Date.UTC(2013,12,26),0.7413],
+                [Date.UTC(2013,12,27),0.7396],
+                [Date.UTC(2013,12,29),0.7410],
+                [Date.UTC(2013,12,30),0.7393]
+               ];
+  var testData2=[[Date.UTC(2013,9,16),0.7389],
+                 [Date.UTC(2013,9,17),0.7312],
+                 [Date.UTC(2013,9,18),0.7307],
+                 [Date.UTC(2013,9,20),0.7309],
+                 [Date.UTC(2013,9,21),0.7308],
+                 [Date.UTC(2013,9,22),0.7256],
+                 [Date.UTC(2013,9,23),0.7258],
+                 [Date.UTC(2013,9,24),0.7247],
+                 [Date.UTC(2013,9,25),0.7244],
+                 [Date.UTC(2013,9,27),0.7244],
+                 [Date.UTC(2013,9,28),0.7255],
+                 [Date.UTC(2013,9,29),0.7275],
+                 [Date.UTC(2013,9,30),0.7280],
+                 [Date.UTC(2013,9,31),0.7361],
+                 [Date.UTC(2013,10,1),0.7415],
+                 [Date.UTC(2013,10,3),0.7411],
+                 [Date.UTC(2013,10,4),0.7399],
+                 [Date.UTC(2013,10,5),0.7421],
+                 [Date.UTC(2013,10,6),0.7400],
+                 [Date.UTC(2013,10,7),0.7452],
+                 [Date.UTC(2013,10,8),0.7479],
+                 [Date.UTC(2013,10,10),0.7492],
+                 [Date.UTC(2013,10,11),0.7460],
+                 [Date.UTC(2013,10,12),0.7442],
+                 [Date.UTC(2013,10,13),0.7415],
+                 [Date.UTC(2013,10,14),0.7429],
+                 [Date.UTC(2013,10,15),0.7410],
+                 [Date.UTC(2013,10,17),0.7417],
+                 [Date.UTC(2013,10,18),0.7405],
+                 [Date.UTC(2013,10,19),0.7386],
+                 [Date.UTC(2013,10,20),0.7441],
+                 [Date.UTC(2013,10,21),0.7418],
+                 [Date.UTC(2013,10,22),0.7376],
+                 [Date.UTC(2013,10,24),0.7379],
+                 [Date.UTC(2013,10,25),0.7399],
+                 [Date.UTC(2013,10,26),0.7369],
+                 [Date.UTC(2013,10,27),0.7365],
+                 [Date.UTC(2013,10,28),0.7350],
+                 [Date.UTC(2013,10,29),0.7358],
+                 [Date.UTC(2013,11,1),0.7362],
+                 [Date.UTC(2013,11,2),0.7385],
+                 [Date.UTC(2013,11,3),0.7359],
+                 [Date.UTC(2013,11,4),0.7357],
+                 [Date.UTC(2013,11,5),0.7317],
+                 [Date.UTC(2013,11,6),0.7297],
+                 [Date.UTC(2013,11,8),0.7296],
+                 [Date.UTC(2013,11,9),0.7279],
+                 [Date.UTC(2013,11,10),0.7267],
+                 [Date.UTC(2013,11,11),0.7254],
+                 [Date.UTC(2013,11,12),0.7270],
+                 [Date.UTC(2013,11,13),0.7276],
+                 [Date.UTC(2013,11,15),0.7278],
+                 [Date.UTC(2013,11,16),0.7267],
+                 [Date.UTC(2013,11,17),0.7263],
+                 [Date.UTC(2013,11,18),0.7307],
+                 [Date.UTC(2013,11,19),0.7319],
+                 [Date.UTC(2013,11,20),0.7315],
+                 [Date.UTC(2013,11,22),0.7311],
+                 [Date.UTC(2013,11,23),0.7301],
+                 [Date.UTC(2013,11,24),0.7308],
+                 [Date.UTC(2013,11,25),0.7310],
+                 [Date.UTC(2013,11,26),0.7304],
+                 [Date.UTC(2013,11,27),0.7277],
+                 [Date.UTC(2013,11,29),0.7272],
+                 [Date.UTC(2013,11,30),0.7244],
+                 [Date.UTC(2013,11,31),0.7275],
+                 [Date.UTC(2014,0,1),0.7271],
+                 [Date.UTC(2014,0,2),0.7314],
+                 [Date.UTC(2014,0,3),0.7359],
+                 [Date.UTC(2014,0,5),0.7355],
+                 [Date.UTC(2014,0,6),0.7338]];
+      $('#container').highcharts({
+          title: {
+              text: ''
+          },
+          subtitle: {
+              text: ''
+          },
+          xAxis: {
+              tickInterval: 30 * 24 * 3600 * 1000, // 30 day
+              tickWidth: 0,
+              gridLineWidth: 1,
+              ordinal: false,
+              type: 'datetime',
+              labels: {
+                  formatter: function() {
+                      return Highcharts.dateFormat("%m-%d", this.value);
+                  }
+              }
+          },
+          yAxis: [{ // left y axis
+              title: {
+                  text: null
+              },
+              labels: {
+                  align: 'left',
+                  x: 3,
+                  y: 16,
+                  format: '{value:.,0f}'
+              },
+              showFirstLabel: false
+          }, { // right y axis
+              linkedTo: 0,
+              gridLineWidth: 0,
+              opposite: true,
+              title: {
+                  text: null
+              },
+              labels: {
+                  align: 'right',
+                  x: -3,
+                  y: 16,
+                  format: '{value:.,0f}'
+              },
+              showFirstLabel: false
+          }],
+          legend: {
+              align: 'left',
+              verticalAlign: 'top',
+              y: 20,
+              floating: true,
+              borderWidth: 0
+          },
+          tooltip: {
+            crosshairs:true,
+            shared: true,
+            valueDecimals: 4,//保留小数点
+           formatter: function() {
+                                    var r = "";var message="";
+                                    r = '<span style="line-height: 20px;">时间：' + (new Date(this.x).getMonth()+1)+"-"+new Date(this.x).getDate() + '</span><br><span style="line-height: 20px;">';
+                                    $.each(this.points, function(i, point) {
+                                      if(i==0){
+                                        r += '\u25CF 策略收益率 ：'+this.point.y+'</span><br><span style="line-height: 20px;">';
+                                        message+=" 策略收益率 ："+this.point.y;
+                                      }else{
+                                        r+= '\u25CF 比较基准 ：'+this.point.y+'</span>';
+                                        message+=" 比较基准 ："+this.point.y;
+                                      }
+                                    });
+                                    r += '</span><br>';
+                                    
+                                    $('.message').html( Highcharts.dateFormat('%Y-%m-%d', this.x) + ':<br/> ' +
+                                        message);
+                                    return r;
+                                } 
+        },
+          plotOptions: {
+              series: {
+                  cursor: 'pointer',
+                  point: {
+                      events: {
+                        /*   click: function (e) {
+                              $('.message').html( Highcharts.dateFormat('%Y-%m-%d', this.x) + ':<br/> ' +
+                                                 this.y + ' %');
+                          } */
+                      }
+                  },
+                  marker: {
+                      lineWidth: 1
+                  }
+              }
+          },
+          series: [{
+              name: '策略收益率',
+              color:'#00FF00',
+              lineWidth: 4,
+              data:testData,
+              marker: {
+                  radius: 4
+              }
+          }, {
+              name: '比较基准',
+              lineWidth: 4,
+              data:testData2,
+              marker: {
+                  radius: 4
+              }
+          }]
+      });
+  });
+//});
+
+
+</script>
+</body>
+
+</html>

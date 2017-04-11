@@ -1,0 +1,147 @@
+var pageIndex = 1;
+var pageTotal = 1;
+$(function(){
+  loaded();//加载上拉加载框架
+  //查询昨日收益还是累计收益
+  var type = $("#type").val();
+  switch(type){
+    case 'yesterdayIncome':
+      $(".tabNav").children("ul").children("li").eq(0).addClass("on");
+      $(".tabNav").children("ul").children("li").eq(1).removeClass("on");
+      $("#yesterday").css({"display":"block"});
+      $("#total").css({"display":"none"});
+      break;
+    case 'totalIncome':
+      $(".tabNav").children("ul").children("li").eq(0).removeClass("on");
+      $(".tabNav").children("ul").children("li").eq(1).addClass("on");
+      $("#yesterday").css({"display":"none"});
+      $("#total").css({"display":"block"});
+      break;
+    default:
+      break;
+  }
+  
+  ajaxExcu();
+//切换效果，切换昨日收益和累计收益
+  $(".tabNav li").click(function(){
+    var n = $(this).index();
+    $(this).addClass("on").siblings().removeClass("on");
+    //siblings()表示所有同级元素
+    $(".tab_con blockquote:eq("+n+")").css({"display":"block"}).siblings('blockquote').css({"display":"none"});
+    //$(this).parent().parent().$(".tab_con blockquote:eq("+n+")").css({"display":"block"}).siblings().css({"display":"none"});
+    $("#incomeRecord").html("");
+    $("#pullUp").hide();
+    $("#scroller").css('text-align','center');
+    $("#scroller").append("<span id=\"loading\">数据加载中...</span>");
+    pageIndex = 1;
+    ajaxExcu();
+  });
+});
+//上拉加载执行的方法
+function pullUpAction(){
+  queryRecordNextPage(++pageIndex);
+}
+function queryRecordNextPage(pageIndex){
+  if(pageTotal >= pageIndex){
+    ajaxExcu();
+  }else{
+    $('.pullUpLabel').html('亲，没有更多记录了!');
+    $('.pullUpIcon').hide();
+  }
+}
+
+function pullDownAction(){
+  pageIndex = 1;
+  queryNewRecord();
+}
+
+function queryNewRecord(){
+  ajaxExcu();
+}
+//ajax访问分页数据
+function ajaxExcu(){
+    $.ajax({
+        type : "post",
+        url : "zt/asset/queryInvestIncome",
+        dataType : "json",
+        data : {pageIndex:pageIndex},
+        error:function(){
+            $("#loading").remove();
+            $("#incomeRecord").append("<div class=\"tc\"><p class=\"pullUpLabel\">网络异常，请稍后重试...</p></div>");
+        },
+        success:function(data){
+            $("#loading").remove();
+            if(data != '' && data != null){
+                if(data == 'SYSTEM_EXCEPTION'){
+                    $("#incomeRecord").append("<div class=\"tc\"><p class=\"pullUpLabel\">网络异常，请稍后重试...</p></div>");
+                }else if(data == "\"noLogin\""){
+                  location.href = "account/toLogin";
+                }else{
+                    pageTotal = data.pageTotal;//返回一共多少页
+                    if(data.incomeList != '' && data.incomeList != null && data.incomeList.length != 0){
+                        if(pageTotal > pageIndex){   //当前页不是最后一页，显示字样“上拉加载。。”
+                          $("#pullUp").attr("style","");
+                        }
+                      //显示查询出的数据
+                        eachShow(data);
+                        $("#loading").remove();
+                      //刷新坐标
+                        myScroll.refresh();
+                    }else{
+                        $("#incomeRecord").append("<div class=\"tc\"><p class=\"pullUpLabel\">未查询到相关记录</p></div>");
+                    }
+                }
+            }else{
+                $("#incomeRecord").append("<div class=\"tc\"><p class=\"pullUpLabel\">未查询到相关记录</p></div>");
+            }
+        }
+    });
+}
+//显示数据
+function eachShow(data){
+  $.each(data.incomeList,function(n,value){
+    $("#incomeRecord").append("<div class=\"meter-wrap\"><meter low=\"0\" high=\"0\" min=\"0\" max=\"100\" optimum=\"0\" value=\"88\"></meter><p class=\"value-wrap\"><span class=\"cur-date\">"+format_date(value.INCOME_TIME)+"</span><span class=\"cur-money\">"+parseFloat(value.YESTERDAY_INCOME).toFixed(2)+"</span></p></div>");
+  });
+  //调整长条宽度
+  /*for( var i=0; i<$('meter').length; i++ ) {
+    var val = $('meter').eq(i).val();
+    $('meter').eq(i).next('p').width(val+'%');
+  }*/
+  //取最大值，宽度为100%
+  var maxvalue = data.maxIncome;
+  /*for( var i=0; i<data.incomeList.length-1; i++){
+      if(parseFloat(data.incomeList[i].YESTERDAY_INCOME) > parseFloat(data.incomeList[i+1].YESTERDAY_INCOME)){
+          if(parseFloat(data.incomeList[i].YESTERDAY_INCOME) > maxvalue){
+              maxvalue = parseFloat(data.incomeList[i].YESTERDAY_INCOME);
+          }
+      }else{
+          if(parseFloat(data.incomeList[i+1].YESTERDAY_INCOME) > maxvalue){
+            maxvalue = parseFloat(data.incomeList[i+1].YESTERDAY_INCOME);
+          }
+      }
+  }*/
+  $('meter').eq(0).prop('optimum',maxvalue);
+  $.each(data.incomeList, function (i, item) {
+      i = i + (pageIndex - 1) * data.pageSize;
+      //调整长条宽度
+      var per = parseFloat(item.YESTERDAY_INCOME) / maxvalue;
+      var meterwidth = $('meter').width();
+      var bgper = 145/meterwidth;
+      $('meter').eq(i).prop('max',maxvalue);
+      $('meter').eq(i).next('p').children('span.cur-date').html(format_date(item.INCOME_TIME));
+      $('meter').eq(i).next('p').children('span.cur-money').html(parseFloat(item.YESTERDAY_INCOME).toFixed(2));
+      if(per < bgper){
+          $('meter').eq(i).val(maxvalue*0.42);
+          $('meter').eq(i).next('p').width('42%');
+      }else{
+          $('meter').eq(i).val(item.YESTERDAY_INCOME);
+          $('meter').eq(i).next('p').width(per*100+'%');
+      }
+  });
+  /*计算区域高度*/
+  var bodyH = $(document.body).height();
+  var meterH = $('.deal-meter').height();
+  meterH = bodyH-40 > meterH ? bodyH-40 : meterH;
+  $('.deal-meter').height(meterH);
+}
+

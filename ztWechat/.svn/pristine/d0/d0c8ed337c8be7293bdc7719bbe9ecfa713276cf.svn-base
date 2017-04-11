@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:emvc="http://www.yeepay.com/schema/emvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+				http://www.yeepay.com/schema/emvc http://www.yeepay.com/schema/emvc.xsd">
+
+	<emvc:package name="/userCard">
+		<!-- 绑卡 -->
+		<emvc:action name="addBankCard" ref="userCardAction" method="addBankCard"
+			interceptors="exceptionInterceptor,LoggerInterceptor">
+			<emvc:result name="success" type="json" />
+		</emvc:action>
+		<!-- 验证银行卡类型 -->
+		<emvc:action name="verifyCardInfo" ref="userCardAction" method="verifyCardInfo"
+			interceptors="exceptionInterceptor,LoggerInterceptor">
+			<emvc:result name="success" type="json" />
+		</emvc:action>
+		<!-- 验证交易密码和登录密码是否一相同 -->
+		<emvc:action name="verTradePwd" ref="userCardAction" method="verTradePwd"
+			interceptors="exceptionInterceptor,LoggerInterceptor">
+			<emvc:result name="success" type="json" />
+		</emvc:action>
+	</emvc:package>
+</beans>

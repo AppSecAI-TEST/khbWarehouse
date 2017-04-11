@@ -1,0 +1,126 @@
+package com.yeepay.g3.app.lmweChat.entity;
+
+import java.math.BigDecimal;
+
+public class ReturnUrlParamEntity {
+	/**
+	 * 标志，决定返回页面
+	 */
+	private String returnFlag;
+	/**
+	 * 产品id(购买页需要参数)
+	 */
+	private Long productId;
+	//购买充值时所需参数
+	/**
+	 * 金额
+	 */
+	private BigDecimal amount;
+	/**
+	 * 充值来源
+	 */
+	private String ret;
+	
+	/**
+	 * 预期收益
+	 */
+	private BigDecimal expectIncome;
+	
+	/**
+	 * 优惠券id
+	 */
+	private String promoNo;
+	
+	/**
+	 * 预期获得的类型
+	 */
+	private String expectType;
+	/**
+	 * 投资换产品的订单号
+	 */
+	private String orderNum;
+	
+	/**
+	 * 基金的编码
+	 */
+	private String fundCode;
+	
+	/**
+	 * 回跳的url和参数串
+	 */
+	private String returnUrlString;
+	
+	public String getReturnFlag() {
+		return returnFlag;
+	}
+	public void setReturnFlag(String returnFlag) {
+		this.returnFlag = returnFlag;
+	}
+	public Long getProductId() {
+		return productId;
+	}
+	public void setProductId(Long productId) {
+		this.productId = productId;
+	}
+	
+	public String getRet() {
+		return ret;
+	}
+	public void setRet(String ret) {
+		this.ret = ret;
+	}
+	
+	public BigDecimal getAmount() {
+		return amount;
+	}
+	public void setAmount(BigDecimal amount) {
+		this.amount = amount;
+	}
+	public BigDecimal getExpectIncome() {
+		return expectIncome;
+	}
+	public void setExpectIncome(BigDecimal expectIncome) {
+		this.expectIncome = expectIncome;
+	}
+	public String getPromoNo() {
+		return promoNo;
+	}
+	public void setPromoNo(String promoNo) {
+		this.promoNo = promoNo;
+	}
+	public String getExpectType() {
+		return expectType;
+	}
+	public void setExpectType(String expectType) {
+		this.expectType = expectType;
+	}
+	public String getOrderNum() {
+		return orderNum;
+	}
+	public void setOrderNum(String orderNum) {
+		this.orderNum = orderNum;
+	}
+	public String getFundCode() {
+		return fundCode;
+	}
+	public void setFundCode(String fundCode) {
+		this.fundCode = fundCode;
+	}
+	public String getReturnUrlString() {
+		return returnUrlString;
+	}
+	public void setReturnUrlString(String returnUrlString) {
+		this.returnUrlString = returnUrlString;
+	}
+	@Override
+	public String toString() {
+		return "ReturnUrlParamEntity [returnFlag=" + returnFlag
+				+ ", productId=" + productId + ", amount=" + amount + ", ret="
+				+ ret + ", expectIncome=" + expectIncome + ", promoNo="
+				+ promoNo + ", expectType=" + expectType + ", orderNum="
+				+ orderNum + ", fundCode=" + fundCode + ", returnUrlString="
+				+ returnUrlString + "]";
+	}
+	
+
+}

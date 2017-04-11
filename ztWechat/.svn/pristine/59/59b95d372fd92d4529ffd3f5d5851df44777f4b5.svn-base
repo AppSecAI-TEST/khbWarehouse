@@ -1,0 +1,76 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    <%@ taglib prefix="e" uri="/emvc-tags" %>
+<html>
+<head lang="en">
+ <script type="text/javascript" src="static/js/fixed/buySuccess.js"></script>
+    <title>购买成功</title>
+</head>
+<body>
+<input type="hidden" id="buyDay" value="<e:property value="@_formater.formatDate(pdfwxrDto.buyDay)"/>"> 
+<input type="hidden" id="incomeDay" value="<e:property value="@_formater.formatDate(pdfwxrDto.incomeDay)"/>"> 
+<input type="hidden" id="expireDay" value="<e:property value="@_formater.formatDate(pdfwxrDto.expireDay)"/>"> 
+<input type="hidden" id="arrivalDay" value="<e:property value="@_formater.formatDate(pdfwxrDto.arrivalDay)"/>"> 
+<input type="hidden" id="amount" value="<e:property value="@amount"/>"> 
+<input type="hidden" id="productName" value="<e:property value="@pdfwxrDto.productName"/>"> 
+<div id="box" class="bg-white">
+    <div class="pr ">
+        <img src="static/images/buySuccess.jpg" class="repeatImg">
+        <div class="layou-04 mb0">
+            <div class="br-bottom mt25 pb25 tc">
+                <p class="font-18 orange">预计到账本息<e:property value="@_formater.formateMoney(ArrivalAmount)"/> 元</p>
+                <e:if test="@''.equals(couponType)">
+                </e:if><e:elseif test="@'addRate'.equals(couponType)">
+                <p class="mt5 font-12">懒猫君赠送您 <e:property value="@_formater.formateMoney(addIncome)"/> 元。<%-- 注： <e:property value="@_formater.formateMoney(addIncome)"/>为 <e:property value="@_formater.formatNumber(addRate)"/>%收益！ --%></p>
+                </e:elseif><e:elseif test="@'lcj'.equals(couponType)">
+                <p class="mt5 font-12">懒猫君赠送您 <e:property value="@_formater.formateMoney(addIncome)"/> 元。<%-- 注： <e:property value="@_formater.formateMoney(addIncome)"/>为 理财金部分收益！ --%></p>
+                </e:elseif><e:elseif test="@'freshMan'.equals(couponType)">
+                <p class="mt5 font-12">懒猫君赠送您1张1%加息券哦！</p>
+                </e:elseif><e:else>
+                 <p class="mt5 font-12">懒猫君赠送您 <e:property value="@_formater.formateMoney(addIncome+promoPrincipal)"/> 元。<%-- 注： <e:property value="@_formater.formateMoney(addIncome)"/>为 本金加收益！ --%></p>
+                </e:else>
+           
+                <!-- <p class="mt5 font-12">猫君赠送您2张1%加息券，下次投资即可使用哦！</p> -->
+            </div>
+        </div>
+        <div class="mb15">
+            <div class="flowList pr">
+                <span class="bg-t pa"></span>
+                <span class="bg-b pa"></span>
+                <ul class="">
+                    <li id="buyDaySpan" class="on">  </li>
+                    <li id="incomeDaySpan"> </li>
+                    <li id="expireDaySpan"></li>
+                    <li id="arrivalDaySpan"><i class="icon icon-circle"></i> 到期后两个工作日 收益本金到账</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <%-- <e:if test="@openId!=null&&!''.equals(openId)">
+     <img src="static/images/QR-code.jpg" class="repeatImg">
+    </e:if> --%>
+    <e:if test="${empty alreadyConcerned && empty app}">
+        <img src="static/images/QR-code.jpg" class="repeatImg">
+    </e:if>
+    <e:else>
+	    <div class="btnMaskArea tc mt15">
+	        <a href="asset/myTotalWealth">查看我的财富</a>
+	        <a href="popularize/toPopularize">继续购买</a>
+	    </div>
+    </e:else>
+    
+</div>
+<!--购买成功-弹出层-->
+<!--<div id="mask" style="display: block"></div>
+ <div id="alertLayer-3" class="unloginMask regMask" style="display: block; width: 100%; height:40%;">
+    <div class="pr">
+        <img src="static/images/buySuccessMask.png" class="repeatImg" alt=""/>
+        <a class="btnClosed font-white pa" href="javascript:void(0)"><i class="icon icon-error2"></i></a>
+        <div class="btnMaskArea tc pa">
+            <a href="asset/myTotalWealth">查看我的财富</a>
+            <a href="popularize/toPopularize">继续购买</a>
+        </div>
+    </div>
+</div> -->
+</body>
+</html>

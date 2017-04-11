@@ -1,0 +1,66 @@
+var redeemStaticMoney=0;
+$(function () {
+  //清除输入框
+  $("#redeemMoney").val('');
+  var totalEnableMoney=$("#totalEnableMoney").val();
+  //判断可赎回总市值等于0,则下一步置灰，不可点
+  if(parseFloat(totalEnableMoney)==0){
+  //错误提现信息
+    $("#errorInfo").html('<i class="icon icon-error2"></i>可赎回总市值不足');
+    toGray();
+  }
+  
+});
+
+//输入金额失去焦点
+function blurRedeemMoney(){
+  var totalEnableMoney=$("#totalEnableMoney").val();
+  var redeemMoney=$("#redeemMoney").val();
+  redeemStaticMoney=redeemMoney;
+  //数据正则
+  var reg = /^[0-9]+\.{0,1}[0-9]{0,2}$/;
+  if(redeemMoney==null||redeemMoney==''||!reg.test(redeemMoney)||redeemMoney==0){
+    //错误提现信息
+    $("#errorInfo").html('<i class="icon icon-error2"></i>请输入正确金额');
+    toGray();
+    return;
+  }
+  if(parseFloat(redeemMoney)>parseFloat(totalEnableMoney)){
+    //错误提现信息
+    $("#errorInfo").html('<i class="icon icon-error2"></i>赎回金额大于可赎回总市值');
+    toGray();
+    return;
+  }
+    toLight();
+    commonParamForTable(redeemMoney,totalEnableMoney,'redeem');
+ 
+}
+
+
+
+
+//按钮变灰，不可点
+function toGray(){
+  $("#button").attr('disabled',true);
+  $("#button").addClass('btnBuy-gray');
+  $("#errorInfo").show();
+  $(".identifier-page").hide();
+}
+//按钮变亮，可点
+function toLight(){
+  $("#button").attr('disabled',false);
+  $("#button").removeClass('btnBuy-gray');
+  $("#errorInfo").hide();
+}
+//全部赎回方法点击方法
+function allRedeem(){
+  var totalEnableMoney=$("#totalEnableMoney").val();
+  $("#redeemMoney").val(totalEnableMoney);
+  blurRedeemMoney();
+}
+//跳转下一页
+function toNext(){
+  var policyOrderId =$("#policyOrderId").val();
+  var redeemMoney=redeemStaticMoney;
+  window.location.href="zt/redeem/toConfirmRedeem?policyOrderId="+policyOrderId+"&redeemMoney="+redeemMoney;
+}

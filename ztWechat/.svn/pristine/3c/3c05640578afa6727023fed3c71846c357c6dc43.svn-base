@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:emvc="http://www.yeepay.com/schema/emvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+				http://www.yeepay.com/schema/emvc http://www.yeepay.com/schema/emvc.xsd">
+
+
+	<emvc:package name="/account">
+		<!-- 跳转登录页面 -->
+		<emvc:action name="toLogin" ref="accountAction" method="toLogin"
+			interceptors="exceptionInterceptor,LoggerInterceptor">
+			<emvc:result name="success" value="/WEB-INF/pages/account/login.jsp" />
+		</emvc:action>
+		<!-- 未登录返回json -->
+		<emvc:action name="toLoginJson" ref="accountAction"
+			method="toLoginJson" interceptors="exceptionInterceptor,LoggerInterceptor">
+		</emvc:action>
+		<!-- 登录 -->
+		<emvc:action name="login" ref="accountAction" method="login"
+			interceptors="exceptionInterceptor,LoggerInterceptor">
+		</emvc:action>
+		<!-- 验证图片验证码 -->
+		<emvc:action name="verPicCode" ref="accountAction" method="verPicCode"
+			interceptors="exceptionInterceptor,LoggerInterceptor">
+		</emvc:action>
+		<!-- 注册跳转页面 -->
+		<emvc:action name="toRegister" ref="accountAction" method="toRegister"
+			interceptors="exceptionInterceptor,LoggerInterceptor">
+			<emvc:result name="success" value="/WEB-INF/pages/account/register.jsp" />
+		</emvc:action>
+		<!-- 跳转不同的注册成功中间页面 -->
+		<emvc:action name="toSwitchRegistSuc" ref="accountAction"
+			method="toSwitchRegistSuc" interceptors="exceptionInterceptor,LoggerInterceptor">
+			<emvc:result name="success" type="none"></emvc:result>
+		</emvc:action>
+		<!-- 注册成功跳转页面 -->
+		<emvc:action name="toRegistSuc" ref="accountAction"
+			method="toRegistSuc" interceptors="exceptionInterceptor,LoggerInterceptor,LoginInterceptor">
+			<emvc:result name="success" value="/WEB-INF/pages/account/regist_suc.jsp" />
+		</emvc:action>
+		<!-- 多啦宝送流量活动注册成功跳转页面 -->
+		<emvc:action name="toDLBaoFluxRegistSuc" ref="accountAction"
+			method="toDLBaoFluxRegistSuc" interceptors="exceptionInterceptor,LoggerInterceptor">
+			<emvc:result name="success" value="/WEB-INF/pages/activity/regist_suc_dlb_flux_act.jsp" />
+		</emvc:action>
+		<!-- 天翼送流量活动注册成功跳转页面 -->
+		<emvc:action name="toTYiFluxRegistSuc" ref="accountAction"
+			method="toTYiFluxRegistSuc" interceptors="exceptionInterceptor,LoggerInterceptor">
+			<emvc:result name="success" value="/WEB-INF/pages/activity/regist_suc_tyi_flux_act.jsp" />
+		</emvc:action>
+		<!-- 送流量活动注册成功跳转页面 -->
+		<emvc:action name="toFluxRegistSuc" ref="accountAction"
+			method="toFluxRegistSuc" interceptors="exceptionInterceptor,LoggerInterceptor">
+			<emvc:result name="success" value="/WEB-INF/pages/activity/regist_suc_flux_act.jsp" />
+		</emvc:action>
+		<!-- 抽奖活动注册成功跳转页面 -->
+		<emvc:action name="toRaffleRegistSuc" ref="accountAction"
+			method="toRaffleRegistSuc" interceptors="exceptionInterceptor,LoggerInterceptor">
+			<emvc:result name="success" value="/WEB-INF/pages/activity/regist_suc_raffle_act.jsp" />
+		</emvc:action>
+		<!-- 个人中心跳转 -->
+		<emvc:action name="toAccount" ref="accountAction" method="toAccount">
+			<emvc:result name="success" value="/WEB-INF/pages/account/account.jsp" />
+		</emvc:action>
+		<!-- 验证手机号跳转 -->
+		<emvc:action name="toVerifyMobile" ref="accountAction"
+			method="toVerifyMobile" interceptors="exceptionInterceptor,LoggerInterceptor">
+			<emvc:result name="success"
+				value="/WEB-INF/pages/account/verify_mobile.jsp" />
+		</emvc:action>
+		<!-- 修改手机号跳转 -->
+		<emvc:action name="toModifyMobile" ref="accountAction"
+			method="toModifyMobile">
+			<emvc:result name="success"
+				value="/WEB-INF/pages/account/modify_mobile.jsp" />
+		</emvc:action>
+		<!-- 登录密码跳转 -->
+		<emvc:action name="toModifyLoginPwd" ref="accountAction"
+			method="toModifyLoginPwd">
+			<emvc:result name="success"
+				value="/WEB-INF/pages/account/modify_login.jsp" />
+		</emvc:action>
+		<!-- 修改交易密码跳转 -->
+		<emvc:action name="toModifyTradePwd" ref="accountAction"
+			method="toModifyTradePwd">
+			<emvc:result name="success"
+				value="/WEB-INF/pages/account/modify_trade.jsp" />
+		</emvc:action>
+		<!-- 修改或重置密码跳转 -->
+		<emvc:action name="toModifyOrResetTradePwd" ref="accountAction"
+			method="toModifyOrResetTradePwd">
+			<emvc:result name="success"
+				value="/WEB-INF/pages/account/modify_reset_trade.jsp" />
+		</emvc:action>
+		<!-- 重置交易密码跳转 -->
+		<emvc:action name="toResetTradePwd" ref="accountAction"
+			method="toResetTradePwd">
+			<emvc:result name="success"
+				value="/WEB-INF/pages/account/reset_trade.jsp" />
+		</emvc:action>
+		<!-- 注册 -->
+		<emvc:action name="register" ref="accountAction" method="register"
+			interceptors="exceptionInterceptor,LoggerInterceptor">
+		</emvc:action>
+		<!-- 验证手机号是否注册 -->
+		<emvc:action name="verifyMobile" ref="accountAction"
+			method="verifyMobile" interceptors="exceptionInterceptor,LoggerInterceptor">
+		</emvc:action>
+		<!-- 下发注册手机短信验证码 -->
+		<emvc:action name="sendRegisterCode" ref="accountAction"
+			method="sendRegisterCode" interceptors="exceptionInterceptor,LoggerInterceptor">
+		</emvc:action>
+
+		<!-- 验证旧手机号的短信验证码和交易码 -->
+		<emvc:action name="verifyOldMobileNoCode" ref="accountAction"
+			method="verifyOldMobileNoCode" interceptors="exceptionInterceptor,LoggerInterceptor,LoginInterceptorJson">
+		</emvc:action>
+		<!-- 下发旧手机号的短信验证码 -->
+		<emvc:action name="sendOldMobileNoCode" ref="accountAction"
+			method="sendOldMobileNoCode">
+		</emvc:action>
+		<!-- 下发新手机号的短信验证码 -->
+		<emvc:action name="sendNewMobileNoCode" ref="accountAction"
+			method="sendNewMobileNoCode">
+		</emvc:action>
+		<!-- 修改手机号 -->
+		<emvc:action name="modifyMobileNo" ref="accountAction"
+			method="modifyMobileNo" interceptors="exceptionInterceptor,LoggerInterceptor,LoginInterceptorJson">
+		</emvc:action>
+		<!-- 登录密码修改 -->
+		<emvc:action name="modifyLoginPwd" ref="accountAction"
+			method="modifyLoginPwd" interceptors="exceptionInterceptor,LoggerInterceptor,LoginInterceptorJson">
+		</emvc:action>
+		<!-- 修改交易密码 -->
+		<emvc:action name="modifyTradePwd" ref="accountAction"
+			method="modifyTradePwd" interceptors="exceptionInterceptor,LoggerInterceptor,LoginInterceptorJson">
+		</emvc:action>
+		<!-- 下发重置交易密码的短信验证码 -->
+		<emvc:action name="sendResetTradePwdCode" ref="accountAction"
+			method="sendResetTradePwdCode">
+		</emvc:action>
+		<!-- 重置交易密码 -->
+		<emvc:action name="resetTradePwd" ref="accountAction"
+			method="resetTradePwd" interceptors="exceptionInterceptor,LoggerInterceptor,LoginInterceptorJson">
+		</emvc:action>
+		<!-- 跳转重置登录密码 -->
+		<emvc:action name="toResetLoginPwd" ref="accountAction"
+			method="toResetLoginPwd" interceptors="exceptionInterceptor,LoggerInterceptor">
+			<emvc:result name="success"
+				value="/WEB-INF/pages/account/reset_login.jsp"></emvc:result>
+		</emvc:action>
+		<!-- 下发重置登录密码的短信验证码 -->
+		<emvc:action name="sendResetLoginPwdCode" ref="accountAction"
+			method="sendResetLoginPwdCode" interceptors="exceptionInterceptor,LoggerInterceptor">
+		</emvc:action>
+		<!-- 重置登录密码 -->
+		<emvc:action name="resetLoginPwd" ref="accountAction"
+			method="resetLoginPwd" interceptors="exceptionInterceptor,LoggerInterceptor">
+		</emvc:action>
+		<!-- 退出并解绑公众号 -->
+		<emvc:action name="unBindAccount" ref="accountAction"
+			method="unBindAccount">
+		</emvc:action>
+		<!-- 用户协议 -->
+		<emvc:action name="toLmProtocol" ref="accountAction"
+			method="toLmProtocol" interceptors="exceptionInterceptor,LoggerInterceptor">
+			<emvc:result name="success" value="/WEB-INF/pages/inc/lm_protocol.jsp"></emvc:result>
+		</emvc:action>
+		<!-- 跳转成为理财顾问 -->
+		<emvc:action name="toBecomeAdvisor" ref="accountAction"
+			method="toBecomeAdvisor" interceptors="exceptionInterceptor,LoggerInterceptor">
+			<emvc:result name="success" type="none"></emvc:result>
+		</emvc:action>
+		<!-- 跳转安全保障页面 -->
+		<emvc:action name="toInsurance" ref="accountAction"
+			method="toInsurance" interceptors="exceptionInterceptor,LoggerInterceptor">
+			<emvc:result name="success" value="/WEB-INF/pages/account/insurance.jsp"></emvc:result>
+		</emvc:action>
+	</emvc:package>
+</beans> 

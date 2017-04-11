@@ -1,0 +1,234 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>yeepay3g</groupId>
+		<artifactId>yeepay3g-parent</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+
+	<groupId>lmweChat-app</groupId>
+	<artifactId>lmweChat</artifactId>
+	<packaging>war</packaging>
+	<version>1.0</version>
+
+	<name>LmweChat :: App :: EMVC</name>
+
+	<!-- <properties> <magic-tutorials-utils.version>1.0-SNAPSHOT</magic-tutorials-utils.version> 
+		<magic-shop-facade.version>1.0-SNAPSHOT</magic-shop-facade.version> </properties> -->
+
+	<!-- <dependencies> <dependency> <groupId>com.yeepay.g3.lanmao.mobile</groupId> 
+		<artifactId>lmweChat-facade</artifactId> <version>1.0-SNAPSHOT</version> 
+		</dependency> -->
+
+
+	<!-- Web begin -->
+	<dependencies>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>jsp-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.json-lib</groupId>
+			<artifactId>json-lib</artifactId>
+			<classifier>jdk15</classifier>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.ezmorph</groupId>
+			<artifactId>ezmorph</artifactId>
+			<version>1.0.6</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.freemarker</groupId>
+			<artifactId>freemarker</artifactId>
+		</dependency>
+
+		<!-- Web end -->
+
+		<!-- Mybatis begin -->
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis-spring</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<!-- Mybatis end -->
+
+		<dependency>
+			<groupId>com.yeepay.g3.utils</groupId>
+			<artifactId>yeepay-config</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.yeepay.g3.utils</groupId>
+			<artifactId>yeepay-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.yeepay.g3.utils</groupId>
+			<artifactId>yeepay-rmi</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.yeepay.g3.utils</groupId>
+			<artifactId>yeepay-event</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.yeepay.g3.utils</groupId>
+			<artifactId>yeepay-query</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.yeepay.g3.utils</groupId>
+			<artifactId>yeepay-queryui</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.sitemesh</groupId>
+			<artifactId>sitemesh</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.struts</groupId>
+			<artifactId>struts2-sitemesh-plugin</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.struts</groupId>
+			<artifactId>struts2-spring-plugin</artifactId>
+		</dependency>
+
+		<!-- Other -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+		</dependency>
+
+		<!-- General utils begin -->
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<version>1.2.2</version>
+		</dependency>
+		<dependency>
+			<groupId>com.yeepay.g3.utils</groupId>
+			<artifactId>yeepay-utils-common</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.yeepay.g3.common</groupId>
+			<artifactId>yeepay-common</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+		</dependency>
+		<!-- General utils end -->
+
+		<!-- TEST begin -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<scope>compile</scope>
+			<optional>true</optional>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<scope>compile</scope>
+			<optional>true</optional>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+		<!-- TEST end -->
+		<!--add 懒猫平台核心子系统 -->
+		<dependency>
+			<groupId>com.yeepay.g3.facade.lmportal</groupId>
+			<artifactId>lmportal-facade</artifactId>
+		</dependency>
+		<!--add 生财宝 -->
+		<dependency>
+			<groupId>com.yeepay.g3.facade.fundbiz</groupId>
+			<artifactId>fundbiz-facade</artifactId>
+		</dependency>
+		<!--add 信托理财业务 -->
+		<dependency>
+			<groupId>com.yeepay.g3.facade.lmlc</groupId>
+			<artifactId>lmlc-facade</artifactId>
+		</dependency>
+		<!--add 分享通知业务 -->
+		<dependency>
+			<groupId>com.lanmao.consultant</groupId>
+			<artifactId>lm-consultant-facade</artifactId>
+		</dependency>
+		<!-- 验证码 -->
+		<dependency>
+			<groupId>com.google.code.kaptcha</groupId>
+			<artifactId>kaptcha</artifactId>
+			<classifier>jdk15</classifier>
+		</dependency>
+			<!-- 懒猫优惠券子系统 -->
+		<dependency>
+			<groupId>com.yeepay.g3.activity.facade</groupId>
+			<artifactId>activity-facade</artifactId>
+		</dependency>
+			<!-- 送流量子系统 -->
+		<dependency>
+			<groupId>com.yeepay.g3.facade.lmact</groupId>
+			<artifactId>lmact-facade</artifactId>
+		</dependency>
+		<dependency>
+	        <groupId>com.yeepay.g3.utils</groupId>
+	        <artifactId>yeepay-smartcache</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.yeepay.g3.utils</groupId>
+			<artifactId>yeepay-lock</artifactId>
+		</dependency>
+		 <!-- mq -->
+		  <dependency>
+                  <groupId>com.yeepay.g3.utils</groupId>
+                  <artifactId>yeepay-async</artifactId>
+           </dependency>
+		<!-- 基金子系统 -->
+		<dependency>
+			<groupId>com.lanmao.fund.facade.fundsales</groupId>
+			<artifactId>fundsales-facade</artifactId>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<finalName>${project.artifactId}</finalName>
+	</build>
+
+</project>

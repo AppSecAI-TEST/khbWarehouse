@@ -1,0 +1,1003 @@
+@charset "utf-8";
+.ruleTab{
+    width: 88%;
+    padding: 2%;
+    margin: 0 auto;
+    border: .06rem solid #000;
+    border-radius: .15rem;
+    background: #fff7ec;
+    overflow: hidden;
+}
+.ruleTab .tab_nav{
+    border-bottom: .06rem solid #000;
+    height: .6rem;
+    line-height: .6rem;
+    font-size: .34rem;
+    padding-bottom: .1rem;
+}
+.ruleTab h2.tab_nav{
+    font-size: .38rem;
+    font-weight: bold;
+    color: #512109;
+}
+.ruleTab .tab_nav li{
+    width: 50%;
+    float: left;
+    text-align: center;
+    position: relative;
+    color: #000;
+}
+.ruleTab .tab_nav li.on{
+    color: #ff0000;
+}
+.ruleTab .tab_nav li.on .icon-arrow{
+    width: 0px;
+    height: 0px;
+    border: .13rem solid transparent;
+    font-style: normal;
+    display: none;
+    vertical-align: middle;
+    line-height: 1;
+    position: absolute;
+    right: 47%;
+    top: .61rem;
+}
+.ruleTab .tab_nav li.on .arrow-up{
+    border-bottom: .13rem solid #000;
+    display: inline-block;
+}
+.ruleTab .activityRule,.ruleTab .about-con {
+    padding: .3rem 4%;
+    width: 92%;
+    color: #512109;
+    font-size: .28rem;
+    line-height: .46rem;
+    background: none;
+}
+.ruleTab .activityRule .activityDate{
+    font-size: .3rem;
+    padding-bottom: .08rem;
+}
+.ruleTab .activityRule li{
+    padding-left: 25px;
+    text-indent: -23px;
+    padding-bottom: 0;
+    font-size: .28rem;
+    word-break: break-all;
+}
+.ruleTab .activityRule li a {
+    color: #512109;
+    text-decoration: none;
+    display: inline;
+    word-wrap: break-all;
+    white-space:normal;
+}
+.about-con img{
+    margin-top: .3rem;
+}
+.h-1{
+    height: 1rem;
+}
+.btnAreas{
+    z-index: 2;
+    display: block;
+    text-indent: -999em;
+    overflow: hidden;
+}
+.btnProfit{
+    width: 100%;
+    height: 32%;
+    right: 0;
+    bottom: 0;
+}
+.fixedBtn{
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    z-index: 99;
+    width: 100%;
+}
+.lotteryH{
+    width: 94%;
+    left: 3%;
+    top: 10%;
+    text-align: center;
+    font-size: .35rem;
+}
+.lotteryBtn{
+    width: 44%;
+    height: 40%;
+    display: block;
+    left: 28%;
+    top: 38%;
+}
+.intiverClosed{
+    display: block;
+    width: 10%;
+    height: 25%;
+    right: 2%;
+    top: 1%;
+}
+.inviteesCard{
+    width: 90%;
+    z-index: 2;
+    left: 8%;
+    top: 19%;
+}
+.inviteesPic{
+    width: 23vw;
+    height: 23vw;
+    border-radius: 50%;
+    border: .04rem solid #fff;
+    box-shadow: inset 0 0 5px #666;
+    float: left;
+    margin-right: 4vw;
+}
+.inviteesCard p{
+    font-size: 3.8vw;
+    padding-top: 3.8vw;
+}
+.inviteesCard p .Name{
+    color: #ffe953;
+}
+/*幸运值 */
+.pr .progress {
+    width:60%;
+    position:absolute;
+    left:20%;
+    top:0;
+    height: 4vw;
+    background:rgba(129,38,202,0.8);
+    border-radius: 4vw;
+    box-shadow:inset 0 .05rem .1rem #370f56;
+    -webkit-box-shadow:inset 0 .05rem .1rem #370f56;
+    -moz-box-shadow:inset 0 .05rem .1rem #370f56;
+    -o-box-shadow:inset 0 .05rem .1rem #370f56;
+}
+.pr .progress .progressBar {
+    position:absolute;
+    left: 0.3vw;
+    top: 0.3vw;
+    height: 3.5vw;
+    background:#eeca21;
+    border-radius: 3.5vw;
+    box-shadow: 0.2vw 0.2vw 0.3vw #895b07;
+    -webkit-box-shadow:0.2vw 0.2vw 0.3vw #895b07;
+    -moz-box-shadow:0.2vw 0.2vw 0.3vw #895b07;
+    -o-box-shadow:0.2vw 0.2vw 0.3vw #895b07;
+}
+.pr .progress span {
+    position: absolute;
+    color:#532083;
+    font-size: 4.5vw;
+    top: -1vw;
+}
+.pr .progress .min {
+    left:-4.5vw;
+}
+.pr .progress .max {
+    right:-7vw;
+}
+.pr .progress .value {
+    position:absolute;
+    right:-5vw;
+    top: 4vw;
+    width: 7.5vw;
+    height: 9vw;
+    line-height: 9vw;
+    background:url("../images/activity/value.png") no-repeat;
+    background-size:90% 90%;
+    font-size: 4vw;
+    color:#a93c11;
+    text-align: left;
+    padding-left: 1.5vw;
+}
+/*无缝滚动样式*/
+.scroll {
+    overflow: hidden;
+    width: 92%;
+    left: 4%;
+    position: absolute;
+    bottom: 0;
+    font-size: .3rem;
+    color: #ffe721;
+}
+
+.scroll .lotteryScroll {
+    width: 8000%;
+    height: .8rem;
+}
+
+.scroll .lotteryScroll div {
+    float: left;
+}
+
+.scroll .lotteryScroll ul {
+    float: left;
+    height: .8rem;
+    overflow: hidden;
+    zoom: 1;
+}
+
+.scroll .lotteryScroll ul li {
+    float: left;
+    line-height: .8rem;
+    margin-right: 1rem;
+}
+/* 大转盘样式 */
+.turntable-bg {
+    z-index:20;
+    width: 90%;
+    left:50%;
+    transform: translateX(-50%);
+    position: absolute;
+    top:12%;
+    background-size:100% 100%;
+}
+.turntable-bg img {
+    width:100%;
+    text-align: center;
+    margin: 0 auto;
+}
+.turntable-bg .pointer {
+    width: 29%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform:translateX(-50%) translateY(-57%);
+    -webkit-transform:translateX(-50%) translateY(-57%);
+    -moz-transform:translateX(-50%) translateY(-57%);
+    -o-transform:translateX(-50%) translateY(-57%);
+    z-index: 8;
+}
+.turntable-bg .rotate {
+    width: 85%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    -moz-transform: translateX(-50%) translateY(-50%);
+    -o-transform: translateX(-50%) translateY(-50%);
+}
+.lotteryclick{
+    display: block;
+    width: 30%;
+    height: 8%;
+    position: absolute;
+    left: 35%;
+    top:16%;
+}
+/*活动弹窗*/
+.activityLayer{
+    background: #fffade;
+    border: 0.04rem solid #fde03c;
+    border-radius: .2rem;
+    padding: .9rem .5rem .5rem;
+    overflow: hidden;
+    font-size: .32rem;
+    color: #fd7322;
+    line-height: .5rem;
+}
+.activityLayer .icon-error2{
+    top: .15rem;
+    right: .15rem;
+    font-size: .5rem;
+    color: #fd7322;
+}
+.activityLayer .submitBtn2{
+    width: 55%;
+    height: .8rem;
+    line-height: .8rem;
+    color: #fff;
+    font-size: .35rem;
+    text-align: center;
+    margin: .3rem auto 0;
+    background: #fe7422;
+    border-radius: .15rem;
+    box-shadow: 1px 1px 1px #999;
+    display: block;
+}
+/**/
+.cloud {
+    position:absolute;
+    width:100%;
+    bottom:0;
+    z-index:30;
+}
+.pr .lotteryText {
+    width: 63%;
+    height: 15%;
+    color: #f9f5fc;
+    position: absolute;
+    z-index: 50;
+    bottom: 40%;
+    left: 18%;
+    text-align: center;
+    font-size: 3.8vw;
+    line-height: 7vw;
+}
+.pr .lotteryText span{
+    color: #ffe721;
+    font-size: 5vw;
+    margin: 0 0.5vw;
+}
+.cloud .lotteryBtn {
+    width: 54%;
+    height: 25%;
+    display: block;
+    left: 23%;
+    top: 72%;
+}
+
+/*---注册活动---*/
+.input-group-invest{
+    padding: .1rem 4%;
+}
+.input-group-invest .input-wrap{
+    background: #fff;
+}
+.input-group-invest .input-wrap,.input-group-invest .input-wrap-error .input-wrap,.input-group-invest .input-wrap-tip .input-wrap{
+    border: .02rem solid #7f7f7f;
+    box-shadow:1px 1px 1px #999 inset;
+}
+.input-group-invest .input-wrap input{
+    background: none;
+}
+.input-group-invest .input-codeWeb-wrap img{
+    margin-top: 2px;
+}
+.input-group-invest .input-wrap .icon{
+    color: #fcaf01;
+}
+.input-group-invest  .error-tips.orange,.input-group-invest .error-tips.red{
+
+}
+
+/*多啦宝活动*/
+.onload{
+    width: 100%;
+    position: relative;
+}
+.onload img{
+    width: 100%;
+    display: block;
+}
+.onload a{
+    display: block;
+    width: 40%;
+    height: 80%;
+    position: absolute;
+    right: .2rem;
+    bottom:.1rem;
+}
+.my-replace{
+    width: 110px;
+    vertical-align: bottom;
+    margin-bottom: -8px;
+}
+
+/*洗爱车活动页面开始*/
+.car-explain{
+    width: 92%;
+    margin: 0 auto .3rem;
+    position: relative;
+}
+.car-explain ul{
+    width: 100%;
+    background: #fff;
+    padding: 8% 2% 5%;
+    margin: 0 auto;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-box-shadow: 0 0 7px #ffed9a;
+    -moz-box-shadow:0 0 7px #ffed9a;
+    box-shadow:0 0 7px #ffed9a;
+    border: .036rem solid #f65034;
+    border-radius: .1rem;
+}
+.car-explain ul li{
+    width:87%;
+    line-height: .5rem;
+    padding-left: 30px;
+    text-indent: -24px;
+    padding-bottom: 0;
+    font-size: .28rem;
+    color:#996858;
+    -ms-word-break: break-all;
+    word-break: break-all;
+    text-align: justify;
+}
+.car-shadow {
+    width: 100%;
+    display: block;
+    position: absolute;
+    bottom:-.34rem;
+    left: 0;
+}
+.car-explain-caption{
+    width: 2rem;
+    position: absolute;
+    top: -.35rem;
+    left: 0;
+}
+/*尊享活动*/
+.drawBtn,.extractBtn,.drawBtn-1,.extractBtn-1{
+    display: block;
+    width: 65%;
+    height: 6%;
+    z-index: 2;
+    left: 17%;
+}
+.drawBtn{
+    top: 58%;
+}
+.extractBtn{
+    bottom:3.5%;
+}
+
+.drawBtn-1{
+    position: absolute;
+    top: 62.5%;
+    left: 17%;
+}
+.extractBtn-1{
+    position: absolute;
+    bottom:5%;
+    left: 17%;
+}
+/*哆啦宝活动2*/
+.dlbArea a{
+    display: block;
+    width: 100%;
+    height: 4%;
+}
+.receive-1{
+    position: absolute;
+    top: 41%;
+    left: 0;
+}
+.receive-2{
+    position: absolute;
+    top:95%;
+    left: 0;
+}
+.dlb-input li div{
+    height: .9rem;
+    line-height: .9rem;
+}
+.dlb-input li .error-tips{
+    height: .5rem;
+    line-height: .5rem;
+    margin-top: -.2rem;
+}
+.dlb-input li div img{
+    height: .65rem;
+    margin-top: .2rem;
+}
+.dlb-input li {
+    margin-bottom: 0;
+}
+.dlb-input .icon{
+    font-size: .35rem;
+    vertical-align: -.05rem;
+    margin-top: 0;
+}
+.dlb-input .error-tips .icon{
+    font-size: .32rem;
+}
+.dlb-input .btn-small-gray,.dlb-input .btn-small{
+    width: 32%;
+    text-align: center;
+    line-height: .7rem;
+    padding: 0 .15rem;
+    font-size: .25rem;
+    margin-top: .1rem;
+}
+.dlb-input .input-wrap .input-text{
+    padding: 0;
+    line-height: .6rem;
+}
+.dlb-content{
+    width: 94%;
+    margin: 0 auto;
+    border-radius: .1rem;
+    background: #a4defe;
+}
+.dlb-inputImg{
+    width: 100%;
+}
+.dlbArea .dlbDetail{
+    width: 30%;
+    height: 3%;
+    position: absolute;
+    top: 86%;
+}
+.dlbArea .dlbClosed{
+    width: 10%;
+    height: 15%;
+    top: 4%;
+    right: 5%;
+}
+.dlb-input .input-text{
+    width: 41%;
+}
+.dlb-popup{
+    display: none;
+    width: 100%;
+    position: absolute;
+    bottom: 7.2%;
+    left: 0;
+}
+.dlb-content .intiverClosed{
+    width: 28px;
+    height: 28px;
+    position: absolute;
+    top: -2%;
+    right: -2%;
+}
+.intiverClosed img{
+    width:100%;
+}
+.dlb-content .onload a{
+    bottom: .25rem;
+}
+/*懒猫狂欢季--天翼*/
+.dlbArea{
+    background: #ffe0a0;
+    overflow: hidden;
+}
+.dlbArea .ruleTab{
+    margin-bottom: 20px;
+    background: #fff2d7;
+}
+
+.dlbArea .carnival-1{
+    position: absolute;
+    top:28.5%;
+    left: 0;
+}
+.dlbArea .carnival-2{
+    position: absolute;
+    top: 93%;
+    left: 0;
+}
+
+.dlbArea .tianyi-1{
+    position: absolute;
+    top:21.5%;
+    left: 0;
+}
+.dlbArea .tianyi-2{
+    position: absolute;
+    top: 95%;
+    left: 0;
+}
+/*奥运会*/
+.winningList ul {
+    left: 0;
+    position: absolute;
+    top: 40%;
+    width: 100%;
+    z-index: 2;
+}
+.olympic .activityRule{
+    background: none;
+    color: #fff;
+    padding: .3rem 5%;
+}
+.olympic .activityRule h2{
+    padding-bottom: 4vw;
+}
+.olympic .activityRule li{
+    font-size: 4vw;
+    padding-left: 7vw;
+    padding-bottom: 2.2vw;
+}
+.olympic .activityRule li span{
+    margin-left: -7vw;
+}
+.olympic .medal{
+    width: 10vw;
+    bottom: 2.5vw;
+    right: 28.2vw;
+    text-align: center;
+    color: #ff7300;
+    font-size: 5vw;
+    z-index: 2;
+    font-weight: bold;
+}
+.olympicBtn{
+    left: 0;
+    bottom: 20%;
+}
+.olympicTimebg,.olympicTime{
+    z-index: 2;
+    bottom: 0;
+    right: 0;
+}
+.olympicTime{
+    color: #fff402;
+    z-index: 3;
+    font-size: 5vw;
+    text-align: right;
+    height: 12vw;
+    width: 80%;
+    line-height: 12vw;
+    bottom: 0;
+    right: 12%;
+}
+.olympicTime span{
+    width: 12vw;
+    display: inline-block;
+    text-align: center;
+}
+.olympicTime span.date{
+    width: 14.5vw;
+    margin-left: 3vw;
+}
+.olympic .yield{
+    width: 50%;
+    top: -3vw;
+    left: 26%;
+    z-index: 2;
+    text-align: center;
+    color: #fff;
+    font-size: 8vw;
+}
+.yield .yieldHd{
+    font-size: 7vw;
+}
+.yield .yieldHd span{
+    font-size: 3.5vw;
+}
+.yield .yieldBt{
+    font-size: 17vw;
+    margin-top: -1vw;
+}
+.yield .yieldBt span{
+    font-size: 8vw;
+}
+/*奥运二期*/
+.olympicBtn2{
+    width: 46%;
+    height: 13%;
+    display: block;
+    left: 27%;
+    bottom: 2%;
+}
+.olympicText{
+    width: 84%;
+    left: 8%;
+    z-index: 2;
+    bottom: 8%;
+    text-align: justify;
+    font-size: 3.9vw;
+    line-height: 6vw;
+    color: #8f3d14;
+}
+.olympicText1{
+    bottom: 37%;
+}
+.olympicText2{
+    bottom: 1%;
+}
+.olympicText3{
+    bottom: 14.5%;
+    font-style: italic;
+    color: #5b5b5b;
+}
+.olympicText4{
+    bottom: 21%;
+}
+.olympic2 .activityRule{
+    background: #e96a16;
+    color: #fff;
+}
+.olympic2 .activityRule .font-25{
+    vertical-align: -.5vw;
+}
+.zwTable{
+    width: 87%;
+    left: 6%;
+    z-index: 2;
+    top: 25%;
+    text-align: center;
+}
+.zwTable td{
+    height: 10vw;
+    line-height: 9vw;
+    font-size: 4.3vw;
+}
+.olympic2 .progressBarBg{
+    z-index: 2;
+    left: 0;
+    bottom: 2%;
+}
+.olympic2 .progressBarLine{
+    z-index: 4;
+    left: 0;
+    bottom: 20%;
+}
+.olympic2 .progressBar2{
+    border-radius: 4vw;
+    width: 75%;
+    height: 15%;
+    left: 12.5%;
+    bottom: 25%;
+    z-index: 3;
+}
+.olympic2 .progressBar2 .finish2{
+    height: 100%;
+    border-radius: 4vw;
+    /*background: #f00;*/
+    background:-moz-linear-gradient(left,#e03d2e,#fff905);/*Mozilla*/
+    background:-webkit-gradient(linear,0 50%,100% 50%,from(#e03d2e),to(#fff905));/*Old gradient for webkit*/
+    background:-webkit-linear-gradient(left,#e03d2e,#fff905);/*new gradient for Webkit*/
+    background:-o-linear-gradient(left,#e03d2e,#fff905); /*Opera11*/
+}
+.olympic2 .progressShow{
+    width: 75%;
+    left: 12.5%;
+    height: 30%;
+    bottom: 16%;
+    z-index: 5;
+}
+.progressText{
+    background: url("../images/activity/progressText.png") no-repeat;
+    width: 25vw;
+    height: 25vw;
+    background-size: 97%;
+    bottom: 0;
+    color: #fbff08;
+    text-align: center;
+    line-height: 8.2vw;
+    font-size: 4.3vw;
+}
+.olympicBtn3 {
+    left: 52%;
+    bottom: 23%;
+    width: 42%;
+}
+.olympicListTable{
+    width: 88.5%;
+    top: 1%;
+    height: 99%;
+    overflow-y: scroll;
+}
+.olympicListTable td{
+    border-bottom: .02rem solid #e8cd92;
+    height: 9.1vw;
+    line-height: 8.5vw;
+    font-size: 4vw;
+}
+.olympic2 .num{
+    width: 8.5vw;
+    height: 8.5vw;
+    line-height: 6vw;
+    display: block;
+    margin: 0 auto;
+    text-indent: -999rem;
+    overflow: hidden;
+}
+.olympic2 .num01{
+    background: url("../images/activity/num01.png") no-repeat;
+    background-size: 99%;
+}
+.olympic2 .num02{
+    background: url("../images/activity/num02.png") no-repeat;
+    background-size: 99%;
+}
+.olympic2 .num03{
+    background: url("../images/activity/num03.png") no-repeat;
+    background-size: 99%;
+}
+/*我们的十年*/
+.receive{
+    bottom: 7%;
+    left: 0;
+    display: block;
+    width: 100%;
+    height: 70%;
+}
+.ten-travel{
+    width: 86%;
+    top:20%;
+    left:7%;
+}
+.ten-travel img{
+    display: block;
+    width: 100%;
+}
+.input-tenYear .input-wrap .icon {
+    color: #5ba1dd;
+}
+.input-tenYear .phoneZoom{
+    background: #5ba1dd;
+    color: #fff;
+}
+.input-tenYear .checkbox{
+    color: #222;
+}
+.input-tenYear .tenYear-agreement{
+    color: #5ba1dd;
+}
+.input-tenYear .icon-checkbox{
+    color: #5ba1dd;
+}
+/*团圆盈*/
+.mid-autumn-btn,.mid-autumn-text{
+    z-index: 2;
+    top: 40%;
+    left: 0;
+}
+.mid-autumn-text{
+    width: 100%;
+    top: 60%;
+    font-size: 6vw;
+    font-weight: bold;
+}
+.mid-autumn .activityRule{
+    z-index: 2;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: none;
+    padding: 6vw 5% 0;
+}
+.mid-autumn .activityRule h2{
+    font-size: 6vw;
+    padding-bottom: 4vw;
+}
+.mid-autumn .activityRule li {
+    font-size: 4.2vw;
+    padding-left: 2em;
+    padding-bottom: 1vw;
+    line-height: 6.5vw;
+
+}
+.mid-autumn .activityRule li span{
+    margin-left: -2em;
+}
+/*10元投资券*/
+.presentBtn{
+    top: 0;
+    left: 25%;
+    width: 50%;
+    height: 33%;
+}
+.presentText{
+    background: #fff;
+    padding: 6.2vw 0 6.2vw 14vw;
+    color: #000;
+    font-size: 4.1vw;
+}
+.receiveText,.receiveBtn{
+    width: 100%;
+    z-index: 2;
+    left: 0;
+}
+.receiveText{
+    top: 5%;
+    font-size: .32rem;
+}
+.receiveBtn{
+    top: 26%;
+    height: 20%;
+}
+.receiveBtn a{
+    width: 38%;
+    height: 100%;
+    margin: 0 2%;
+    display: inline-block;
+    overflow: hidden;
+}
+/*基金活动*/
+.fundArea{
+    width: 90%;
+    padding: .3rem 0;
+    margin: 0 auto;
+    overflow: hidden;
+}
+.fundTable{
+
+    border: .04rem solid #556371;
+    border-radius: .14rem;
+    background: #fff;
+}
+.fundTable th,.fundTable td{
+    border: .04rem solid #556371;
+    text-align: center;
+    font-size: 4.2vw;
+    padding: .15rem 0;
+    color: #556371;
+}
+.fundTable td{
+    padding: .2rem 0;
+    line-height: .4rem;
+}
+.fundTable td img{
+    width: 18vw;
+}
+.fundTable tr:nth-child(2n){
+    background: #eff9ff;
+}
+.fundText{
+    color: #556371;
+    font-size: 3.8vw;
+    padding-bottom: .2rem;
+    padding-top: .1rem;
+    overflow: hidden;
+}
+/*绑卡成功-2*/
+.tieCard-Area .tieCard-Btn{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    display: block;
+    width: 100%;
+    height: 20%;
+    z-index: 10;
+}
+.content-tieCard{
+    background: url('../images/activity/esurfingBg.jpg') repeat fixed;
+}
+.tieCard-content{
+    width: 90.5%;
+    margin: .7rem auto 0;
+    border: .93vw solid #6e261d;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    -o-box-sizing:border-box;
+}
+.tieCard-content .ruleTab{
+    width: 93%;
+    border-radius: 0;
+    background: #fff;
+    border-left: .6vw solid #6e261d;
+    border-right: .6vw solid #6e261d;
+    border-top:0;
+    border-bottom:0;
+}
+.tieCard-content .ruleTab .tab_nav li{
+    z-index: 99;
+}
+.esurfingLine{
+    top: -20.3vw;
+    left: 0;
+    z-index: 5;
+}
+.esurfing-code{
+    margin-top: .5rem;
+}
+.esurfing-code img{
+    width: 55%;
+    display: block;
+    margin: 0 auto;
+}
+.ty-content{
+    background: #93e8fd;
+}
+.ty-content .onload a{
+    height: 65%;
+}
+@media screen and (max-width: 320px) {
+    .ruleTab{
+        border: .05rem solid #000;
+    }
+    .ruleTab .tab_nav{
+        border-bottom: .05rem solid #000;
+    }
+    .pr .lotteryText{
+        font-size: 3.2vw;
+    }
+    .dlb-content .intiverClosed{
+        width: 25px;
+        height: 25px;
+    }
+    .olympic .activityRule h2{
+        padding-bottom: 3.5vw;
+    }
+}

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:emvc="http://www.yeepay.com/schema/emvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+				http://www.yeepay.com/schema/emvc http://www.yeepay.com/schema/emvc.xsd">
+
+	<emvc:package name="/aboutUs">
+		<!-- 跳转关于我们 -->
+		<emvc:action name="toAboutUs" ref="aboutUsAction" method="toAboutUs"
+			interceptors="exceptionInterceptor,LoggerInterceptor">
+		<emvc:result name="success" value="/WEB-INF/pages/focus/aboutUs.jsp" />
+		</emvc:action>
+		<!-- 获取app最新版本号 -->
+		<emvc:action name="getVersion" ref="aboutUsAction" method="getVersion"
+			interceptors="exceptionInterceptor,LoggerInterceptor">
+		<emvc:result name="success" type="json" />
+		</emvc:action>
+	</emvc:package>
+</beans>

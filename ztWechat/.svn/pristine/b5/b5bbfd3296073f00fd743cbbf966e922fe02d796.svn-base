@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:emvc="http://www.yeepay.com/schema/emvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+				http://www.yeepay.com/schema/emvc http://www.yeepay.com/schema/emvc.xsd">
+
+
+	<emvc:package name="/activity">
+		<!-- 渠道跳转 -->
+		<emvc:action name="promo" ref="activityAction" method="promo" interceptors="exceptionInterceptor,LoggerInterceptor">
+			<emvc:result name="success" value="/WEB-INF/pages/activity/toRedirect.jsp" />
+			<emvc:result name="error" value="/WEB-INF/pages/common/channelError.jsp" />
+		</emvc:action>
+		<!-- 根据渠道号跳转不同页面 -->
+		<emvc:action name="toChannelRegister" ref="activityAction" method="toChannelRegister" interceptors="exceptionInterceptor,LoggerInterceptor">
+			<emvc:result name="00066A001" value="/WEB-INF/pages/activity/dLBaoRegister.jsp" />
+			<emvc:result name="00067W001" value="/WEB-INF/pages/activity/xACheRegister.jsp" />
+			<emvc:result name="00065W002" value="/WEB-INF/pages/activity/lMJFuRegister.jsp" />
+		</emvc:action>
+		<emvc:action name="toActivityRegister" ref="activityAction" method="toActivityRegister" interceptors="exceptionInterceptor,LoggerInterceptor">
+			<emvc:result name="success" value="/WEB-INF/pages/activity/activityRegister.jsp" />
+		</emvc:action>
+		<!-- 天翼注册，送流量活动 -->
+		<emvc:action name="toTYiRegister" ref="activityAction" method="toTYiRegister" interceptors="exceptionInterceptor,LoggerInterceptor">
+			<emvc:result name="success" value="/WEB-INF/pages/activity/tYiRegister.jsp" />
+		</emvc:action>
+		<!-- 易钱包注册，送流量活动 -->
+		<emvc:action name="toYQBaoRegister" ref="activityAction" method="toYQBaoRegister" interceptors="exceptionInterceptor,LoggerInterceptor">
+			<emvc:result name="success" value="/WEB-INF/pages/activity/yQBaoRegister.jsp" />
+		</emvc:action>
+		<!-- 洗爱车注册，送流量活动 -->
+		<emvc:action name="toXACheRegister" ref="activityAction" method="toXACheRegister" interceptors="exceptionInterceptor,LoggerInterceptor">
+			<emvc:result name="success" value="/WEB-INF/pages/activity/xACheRegister.jsp" />
+		</emvc:action>
+		<!-- 多啦宝注册，送流量活动 -->
+		<emvc:action name="toDLBaoRegister" ref="activityAction" method="toDLBaoRegister" interceptors="exceptionInterceptor,LoggerInterceptor">
+			<emvc:result name="success" value="/WEB-INF/pages/activity/dLBaoRegister.jsp" />
+		</emvc:action>
+		<!-- 懒猫金福注册，送流量活动 -->
+		<emvc:action name="toLMJFuRegister" ref="activityAction" method="toLMJFuRegister" interceptors="exceptionInterceptor,LoggerInterceptor">
+			<emvc:result name="success" value="/WEB-INF/pages/activity/lMJFuRegister.jsp" />
+		</emvc:action>
+		<!-- 根据不同渠道号注册不同注册页面 -->
+		<emvc:action name="toRegisterByScrNo" ref="activityAction" method="toRegisterByScrNo" interceptors="exceptionInterceptor,LoggerInterceptor">
+			<emvc:result name="success" type="none" />
+		</emvc:action>
+		<!-- 跳转绑卡成功后的页面 -->
+		<emvc:action name="toInvestOrRaffle" ref="activityAction" method="toInvestOrRaffle" interceptors="exceptionInterceptor,LoggerInterceptor">
+			<emvc:result name="success" value="/WEB-INF/pages/activity/investOrRaffle.jsp" />
+		</emvc:action>
+		<!-- 跳转天翼绑卡成功后的页面 -->
+		<emvc:action name="toTYiInvestOrRaffle" ref="activityAction" method="toTYiInvestOrRaffle" interceptors="exceptionInterceptor,LoggerInterceptor">
+			<emvc:result name="success" value="/WEB-INF/pages/activity/tYiInvestOrRaffle.jsp" />
+		</emvc:action>
+		
+		<!-- 用户跳转抽奖记录页面 -->
+		<emvc:action name="toRafflePrizeList" ref="activityAction" method="toRafflePrizeList" >
+			<emvc:result name="success" value="/WEB-INF/pages/activity/rafflePrizeList.jsp" />
+		</emvc:action>
+		<!-- 用户跳转邀请好友页面 -->
+		<emvc:action name="toInviteFriend" ref="activityAction" method="toInviteFriend" interceptors="exceptionInterceptor,LoggerInterceptor">
+			<emvc:result name="success" value="/WEB-INF/pages/activity/inviteFriend.jsp" />
+			<emvc:result name="bindRaffle" value="/WEB-INF/pages/activity/inviteFriendAndBindCard.jsp" />
+		</emvc:action>
+		<!-- 快速登录，用户跳转邀请好友页面 -->
+		<emvc:action name="fastToInviteFriend" ref="activityAction" method="fastToInviteFriend" interceptors="exceptionInterceptor,LoggerInterceptor">
+			<emvc:result name="success" type="none"></emvc:result>
+		</emvc:action>
+		<!-- 用户跳转大转盘抽奖页面 -->
+		<emvc:action name="toRaffleActivity" ref="activityAction" method="toRaffleActivity" >
+			<emvc:result name="success" value="/WEB-INF/pages/activity/raffleActivity.jsp" />
+		</emvc:action>
+		<!-- 被邀请人点击进入邀请页面 -->
+		<emvc:action name="toInvitedRegister" ref="activityAction" method="toInvitedRegister" interceptors="exceptionInterceptor,LoggerInterceptor">
+			<emvc:result name="success" value="/WEB-INF/pages/activity/friendRegister.jsp" />
+		</emvc:action>
+		<!-- 活动列表的页面 -->
+		<emvc:action name="toActivityList" ref="activityAction" method="toActivityList" interceptors="exceptionInterceptor,LoggerInterceptor">
+			<emvc:result name="success" value="/WEB-INF/pages/activity/activityList.jsp" />
+		</emvc:action>
+		<!-- 查看活动图片 -->
+		<emvc:action name="lookPicture" ref="activityAction" method="lookPicture" interceptors="exceptionInterceptor,LoggerInterceptor">
+			<emvc:result name="success" type="none"></emvc:result>
+		</emvc:action>
+		<!-- 消息公告列表的页面 -->
+		<emvc:action name="toNewsList" ref="activityAction" method="toNewsList" >
+			<emvc:result name="success" value="/WEB-INF/pages/activity/newsList.jsp" />
+		</emvc:action>
+		<!-- 用户抽奖 -->
+		<emvc:action name="toRafflePrize" ref="activityAction" method="toRafflePrize" interceptors="exceptionInterceptor,LoggerInterceptor">
+		</emvc:action>
+		<!-- banner跳转新人专享中间页 -->
+		<emvc:action name="toNewMan" ref="activityAction" method="toNewMan">
+			<emvc:result name="success" value="/WEB-INF/pages/activity/toNewMan.jsp"></emvc:result>
+		</emvc:action>
+		<!-- banner跳转推荐人抽奖中间页 -->
+		<emvc:action name="toRedirectInviteFriend" ref="activityAction" method="toRedirectInviteFriend">
+			<emvc:result name="success" value="/WEB-INF/pages/activity/toRedirectInviteFriend.jsp"></emvc:result>
+		</emvc:action>
+		<!-- 流量云的回调 -->
+		<emvc:action name="toFluxCloudCallBack" ref="activityAction" method="toFluxCloudCallBack"
+			interceptors="exceptionInterceptor,LoggerInterceptor">
+		</emvc:action>
+		<!-- 流量来了移动注册，送流量活动 -->
+		<emvc:action name="toFCCmccRegister" ref="activityAction" method="toFCCmccRegister" interceptors="exceptionInterceptor,LoggerInterceptor">
+			<emvc:result name="success" value="/WEB-INF/pages/activity/tYiRegister.jsp" />
+		</emvc:action>
+		<!-- 流量来了联通注册，送流量活动 -->
+		<emvc:action name="toFCCuccRegister" ref="activityAction" method="toFCCuccRegister" interceptors="exceptionInterceptor,LoggerInterceptor">
+			<emvc:result name="success" value="/WEB-INF/pages/activity/tYiRegister.jsp" />
+		</emvc:action>
+		<!-- 跳转奥运活动页面 -->
+		<emvc:action name="toOlympicActivity" ref="activityAction" method="toOlympicActivity" interceptors="exceptionInterceptor,LoggerInterceptor">
+			<emvc:result name="success" value="/WEB-INF/pages/activity/olympicActivity.jsp" />
+		</emvc:action>
+		<!-- 跳转助威奥运拿奖活动页面 -->
+		<emvc:action name="toCheerOlympic" ref="activityAction" method="toCheerOlympic" interceptors="exceptionInterceptor,LoggerInterceptor">
+			<emvc:result name="success" value="/WEB-INF/pages/activity/cheerOlympic.jsp" />
+		</emvc:action>
+		<!-- 跳转助威奥运榜单页面 -->
+		<emvc:action name="toLookAwardList" ref="activityAction" method="toLookAwardList" interceptors="exceptionInterceptor,LoggerInterceptor">
+			<emvc:result name="success" value="/WEB-INF/pages/activity/cheerOlympicList.jsp" />
+		</emvc:action>
+		<!-- 跳转旅游投资送京东卡活动页面 -->
+		<emvc:action name="toTourHalfActivity" ref="activityAction" method="toTourHalfActivity" interceptors="exceptionInterceptor,LoggerInterceptor">
+			<emvc:result name="success" value="/WEB-INF/pages/invForPro/tourHalfActivity.jsp" />
+		</emvc:action>
+		<!-- 兑换码消息公告跳转软文链接 -->
+		<emvc:action name="toRedeemCodeMsg" ref="activityAction" method="toRedeemCodeMsg" interceptors="exceptionInterceptor,LoggerInterceptor">
+			<emvc:result name="success" type="none" />
+		</emvc:action>
+		<!-- 跳转中秋活动页面 -->
+		<emvc:action name="toMidAutumnActivity" ref="activityAction" method="toMidAutumnActivity" interceptors="exceptionInterceptor,LoggerInterceptor">
+			<emvc:result name="success" value="/WEB-INF/pages/activity/mid_autumn_activity.jsp" />
+		</emvc:action>
+		<!-- 跳转app推广活动页面 -->
+		<emvc:action name="toAppMarketingPromotion" ref="activityAction" method="toAppMarketingPromotion" interceptors="exceptionInterceptor,LoggerInterceptor">
+			<emvc:result name="success" value="/WEB-INF/pages/activity/app_marketing_promotion.jsp" />
+			<emvc:result name="errorScrNo" value="/WEB-INF/pages/activity/app_marketing_promotion_error_scr_no.jsp" />
+		</emvc:action>
+		<!-- app推广活动页面 -->
+		<emvc:action name="appMarketingPromotion" ref="activityAction" method="appMarketingPromotion" >
+			<emvc:result name="success" value="/WEB-INF/pages/activity/app_marketing_promotion_success.jsp" />
+			<emvc:result name="errorScrNo" value="/WEB-INF/pages/activity/app_marketing_promotion_error_scr_no.jsp" />
+		</emvc:action>
+		<!-- 跳转app推广活动页面 -->
+		<emvc:action name="toAppMarketingCoupon" ref="activityAction" method="toAppMarketingCoupon" interceptors="exceptionInterceptor,LoggerInterceptor">
+			<emvc:result name="success" value="/WEB-INF/pages/activity/app_marketing_coupon.jsp" />
+		</emvc:action>
+		<!-- 根据渠道号，Android，iOS跳转不同页面 -->
+		<emvc:action name="toAppMarketingForScrNo" ref="activityAction" method="toAppMarketingForScrNo" interceptors="exceptionInterceptor,LoggerInterceptor">
+			<emvc:result name="success" value="/WEB-INF/pages/activity/app_marketing_coupon.jsp" />
+		</emvc:action>
+	</emvc:package>
+</beans> 
