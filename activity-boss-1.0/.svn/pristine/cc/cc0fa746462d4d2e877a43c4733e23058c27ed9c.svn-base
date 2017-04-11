@@ -1,0 +1,141 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+  pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
+<%@ include file="/WEB-INF/views/common/taglib.jsp" %>
+<html>
+<head>
+<title>新增事件</title>
+<%@ include file="/WEB-INF/views/common/metas.jsp"%>
+<script type="text/javascript">
+  $(function () {
+    $(":checkbox").attr('checked',false);
+    $("input[name='odds']").val('');
+    $(":checkbox").click(function(){
+      
+      if($(this).attr('checked')==true){
+        $(this).siblings(':text').attr('readonly','');
+      }else{
+        $(this).siblings(':text').val('');
+        $(this).siblings(':text').attr('readonly','readonly');
+      }
+     
+    });
+
+    $("#addActionForm").submit(function(){
+      if(!validate()){
+        return false;
+      }
+          return $(this).validateSubmit({
+            actionCode: {
+                  req: true,
+                  label: "事件编码"
+              },
+              actionName: {
+                  req: true,
+                  label: "事件名称"
+              },
+              prizes: {
+                  req: {
+                      min: 1
+                  },
+                  label: "奖品配置"
+              }
+          });
+      });
+    function validate(){
+      //不允许为空
+      var checkBoxs=$(":checkbox");
+      if(checkBoxs.length==0){
+        alert("奖品数量为0，请先配置奖品");
+        return false;
+      }
+      for(var i=0;i<checkBoxs.length;i++){
+        if(checkBoxs.eq(i).attr('checked')==true){
+         var text= checkBoxs.eq(i).siblings(":text").val();
+         if(text==null||text==''){
+           alert("已勾选的奖品概率不能为空");
+           return false;
+         }
+        }else{
+          continue;
+        }
+      }
+      
+      var odds=$("input[name='odds']");
+      var num=0;
+       for(var i=0;i<odds.length;i++){
+        if(odds.eq(i).val()==''){
+          continue;
+        }
+        //验证概率格式
+       
+        var result=/^[0-9]{1,2}\.{0,1}[0-9]{0,4}$/.test(odds.eq(i).val());
+        if(!result){
+          alert("奖品概率不能超过100%并且小数位不能超过4位");
+          return false;
+        }
+        num=num+parseFloat(odds.eq(i).val());
+      }
+      if(num!=100){
+        alert("奖品总概率必须等于100%");
+        return false;
+      }else{
+        return true;
+      } 
+    }
+  });
+  
+</script>
+</head>
+<body>
+  <div class="Container">
+    <div class="Content fontText">
+      <div class="information">
+          <div class="clear"></div>
+          <div class="search_tit">
+          <h2 class="fw fleft f14">事件新增</h2>
+        </div>
+          <form name="addActionForm" id="addActionForm" action="addEvent" method="post">
+            <div class="input_cont">
+              <ul>
+                <li>
+                  <label class="text_tit">事件编码：</label>
+                  <input class="input_text" type="text" name="actionCode" id="actionCode">&nbsp;<font color="red">*请保证唯一性</font>
+                </li>
+                <li>
+                  <label class="text_tit">事件名称：</label>
+                  <input class="input_text" type="text" name="actionName" id="actionName">&nbsp;<font color="red">*</font>
+                </li>
+                <li>
+                  <label class="text_tit">奖品与概率配置：</label>
+                  <table>
+                    <c:forEach items="${result}" var="itmes" varStatus="num">
+                      <c:if test="${num.index%3==0}">
+                        <tr>
+                      </c:if>
+                          <td>
+                            <input name="prizes" type="checkbox" value="${itmes.id }"/>
+                            奖品序号：${itmes.id }；
+                           奖品名称： ${itmes.prizeName } ；
+                         中奖概率： <input name="odds" type="text" maxlength='7' style="width:45px;" readonly="readonly"  />% 
+                         <input name="versions" type="hidden" value="${itmes.version}"  />
+                         <span style="width:30px"></span></td>
+                      <c:if test="${num.index==2||num.index%3==2}">  
+                  </tr>
+                 </c:if>
+                    </c:forEach>
+                  </table>
+                </li>
+              </ul>
+            </div>
+            <div class="btn">
+          <input type="submit" class="btn_sure fw" value="保存" />
+          <input type="button" onclick="window.history.go(-1)" class="btn_cancel fw" value="取消" />
+          </div>
+          <div class="clearer"></div>
+          </form>
+        </div>
+      <br />
+    </div>
+  </div>
+</body>
+</html>

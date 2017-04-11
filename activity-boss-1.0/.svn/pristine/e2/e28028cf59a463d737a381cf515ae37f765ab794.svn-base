@@ -1,0 +1,78 @@
+/**
+ * @author 陈大涛
+ * 2016-7-28上午9:48:39
+ */
+package com.yeepay.g3.boss.activity.controller.invforpro;
+
+import java.util.Date;
+
+import javax.servlet.http.HttpSession;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.yeepay.g3.boss.activity.controller.ActivityBaseController;
+import com.yeepay.g3.facade.activity.dto.ActivityInvForProOrderDTO;
+import com.yeepay.g3.facade.activity.facade.ActivityCouponFacade;
+import com.yeepay.g3.facade.activity.facade.ActivityInvForProOrderFacade;
+import com.yeepay.g3.utils.common.log.Logger;
+import com.yeepay.g3.utils.common.log.LoggerFactory;
+import com.yeepay.g3.utils.rmi.RemoteServiceFactory;
+import com.yeepay.g3.utils.rmi.RemotingProtocol;
+
+/**
+ * @Description 投资换产品订单
+ * @author 陈大涛
+ * 2016-7-28上午9:48:39
+ */
+@Controller
+@RequestMapping("/invForProOrder")
+public class InvforproOrderController extends ActivityBaseController{
+	
+	private Logger logger = LoggerFactory.getLogger(InvforproOrderController.class);
+	private ActivityInvForProOrderFacade activityInvForProOrderFacadeImpl = RemoteServiceFactory
+			.getService("http://localhost:8080/activity-hessian/hessian", RemotingProtocol.HESSIAN, ActivityInvForProOrderFacade.class);
+	
+//	private ActivityInvForProOrderFacade activityInvForProOrderFacadeImpl = RemoteServiceFactory
+//			.getService(ActivityInvForProOrderFacade.class);
+	/**
+	 * 去查询投资换产品订单页
+	 * @author 陈大涛
+	 * 2016-7-28上午10:12:27
+	 */
+	@RequestMapping(value="/queryInvForProOrderList")
+	public String queryInvForProOrderList(Model model){
+		return "invForProOrder/invForProOrderList";
+	}
+	
+	/**
+	 * 去修改订单信息页面
+	 * @author 陈大涛
+	 * 2016-7-28上午10:16:23
+	 */
+	@RequestMapping(value="/toUpdateInvForProOrder")
+	public String toUpdateInvForProOrder(Model model,@RequestParam(required = true,value="id") Long id){
+		ActivityInvForProOrderDTO result = activityInvForProOrderFacadeImpl.queryInvForProOrderDetailById(id);
+		model.addAttribute("result",result);
+		return "invForProOrder/modifyInvForProOrder";
+	}
+	
+	/**
+	 * 修改订单信息
+	 * @author 陈大涛
+	 * 2016-7-28上午10:19:55
+	 */
+	@RequestMapping(value="/updateInvForProOrder")
+	public String updateInvForProOrder(Model model,@ModelAttribute ActivityInvForProOrderDTO activityInvForProOrderDTO ,
+			HttpSession session){
+		String creator=getCurrentUser(session);
+		activityInvForProOrderDTO.setOperator(creator);
+		activityInvForProOrderDTO.setOperatorTime(new Date());
+		activityInvForProOrderFacadeImpl.updateInvForProOrder(activityInvForProOrderDTO);
+		return "invForProOrder/invForProOrderList";
+	}
+
+}

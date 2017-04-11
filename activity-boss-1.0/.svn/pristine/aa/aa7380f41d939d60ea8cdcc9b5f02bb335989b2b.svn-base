@@ -1,0 +1,118 @@
+package com.yeepay.g3.boss.zt.controller.policy;
+
+import java.util.Date;
+
+import javax.servlet.http.HttpSession;
+
+import org.apache.commons.lang.StringUtils;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.yeepay.g3.boss.activity.controller.ActivityBaseController;
+import com.yeepay.g3.boss.activity.controller.fluxPlat.FluxPlatController;
+import com.yeepay.g3.facade.activity.dto.ActivityInfoDTO;
+import com.yeepay.g3.facade.activity.dto.ActivitySrcFlowPlatDTO;
+import com.yeepay.g3.facade.activity.facade.ActivityInvForProRuleFacade;
+import com.yeepay.g3.facade.zt.dto.ZtPolicyDTO;
+import com.yeepay.g3.facade.zt.facade.ZtPolicyFacade;
+import com.yeepay.g3.utils.common.log.Logger;
+import com.yeepay.g3.utils.common.log.LoggerFactory;
+import com.yeepay.g3.utils.rmi.RemoteServiceFactory;
+
+
+/**
+ * @Description 策略基础信息Controller
+ * @author ping.zhu
+ * @CreateTime 2016年10月24日 下午14:18:14
+ * @version 1.0
+ */
+@Controller
+@RequestMapping("/ztPolicy")
+public class ZtPolicyController extends ActivityBaseController{
+	
+
+	//投资换产品规则信息远程服务接口
+//	private ActivityInvForProRuleFacade activityInvForProRuleFacadeImpl = RemoteServiceFactory
+//			.getService("http://localhost:8080/activity-hessian/hessian", RemotingProtocol.HESSIAN, ActivityInvForProRuleFacade.class);
+	private ZtPolicyFacade ztPolicyFacadeImpl = RemoteServiceFactory.getService(ZtPolicyFacade.class);
+
+	private Logger logger = LoggerFactory.getLogger(ZtPolicyController.class);
+
+	
+	/**
+	 * 去新增策略基础信息页面
+	 * @return
+	 */
+	@RequestMapping(value="/toAddZtPolicy")
+	public String toAddPolicy(){
+		return "ztPolicy/toAddZtPolicy";
+	}
+	
+	/**
+	 * 添加策略基础信息
+	 * @param model
+	 * @param ztPolicyDto
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value="/addZtPolicy")
+	public String addPolicy(Model model,@ModelAttribute ZtPolicyDTO ztPolicyDto,HttpSession session,
+			@RequestParam(required = false , value = "policyProductString") String policyProductString){
+		if(null!=ztPolicyDto&&StringUtils.isNotEmpty(policyProductString)){
+			ztPolicyDto.setCreator(this.getCurrentUser(session));
+			ztPolicyFacadeImpl.addPolicy(ztPolicyDto, policyProductString);
+		}
+		return "ztPolicy/addZtPolicy";
+	}
+	
+	/**
+	 * 去查询所有策略信息页面
+	 * @return
+	 */
+	@RequestMapping(value="/toQueryPolicy")
+	public String toQueryPolicy(){
+		return "ztPolicy/toQueryPolicy";
+	}
+	
+	/**
+	 * 去修改策略信息页面
+	 * @param id
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value="toModifyPolicy")
+	public String toModifyPolicy(@RequestParam(required = true , value = "id") String id , Model model){
+		try {
+			ZtPolicyDTO ztPolicyDto=null;
+			if(null!=id){
+				ztPolicyDto=ztPolicyFacadeImpl.selectPolicyByPrimaryKey(Long.valueOf(id));
+			}
+			model.addAttribute("ztPolicyDto",ztPolicyDto);
+		} catch (Exception e) {
+			logger.error("[toModifyPolicy] error={}",e);
+		}
+		return "ztPolicy/toModifyPolicy";
+	}
+	
+	/**
+	 * 修改流量通道规则
+	 * @return
+	 */
+	@RequestMapping(value = "/modifyZtPolicy")
+	public String modifyZtPolicy(@ModelAttribute ZtPolicyDTO ztPolicyDto,HttpSession session,
+			@RequestParam(required = false, value = "policyProductString") String policyProductString) {
+		try {
+			ztPolicyDto.setCreator(this.getCurrentUser(session));
+			ztPolicyDto.setLastUpdateTime(new Date());
+			ztPolicyFacadeImpl.updatePolicy(ztPolicyDto, policyProductString);
+			;
+		} catch (Exception e) {
+			logger.error("[modifyZtPolicy] error={}", e);
+		}
+		return "ztPolicy/modifyZtPolicy";
+	}
+	
+}

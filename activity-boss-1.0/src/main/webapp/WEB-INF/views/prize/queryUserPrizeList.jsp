@@ -1,0 +1,142 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
+<%@ include file="/WEB-INF/views/common/taglib.jsp" %>
+<html>
+<head>
+<title>中奖查询</title>
+<%@ include file="/WEB-INF/views/common/metas.jsp"%>
+<%-- <script src="${resourceUrl}/js/product.js"></script> --%>
+<script type="text/javascript">
+  $(function () {
+    DatePickerExt.between("createTimeStart", "createTimeEnd", {
+//       maxDate : 0,
+      showButtonPanel : true
+    });
+//     DatePickerExt.between("checkedStartTime", "checkedEndTime", {
+//       maxDate : 0,
+//       showButtonPanel : true
+//     });
+  });
+  
+  /**
+   *跳转至新增奖品页面
+   */
+  function addPrize() {
+	  var action = "prize/toAddPrize";
+	  window.location.href = GV.ctxPath + action;
+  }
+  
+  /**
+   * 审核通过或退回
+   */
+  function changeStatus(id, status, version) {
+	  var action = "prizeCheck";
+	  if(confirm("确认是否审核通过？")) {
+		  MessageBoxExt.ajax({
+			  url : GV.ctxPath + "prize/" + action,
+			  data : {
+			    "id" : id,
+			    "prizeStatus" : status,
+			    "version" : version
+			  },
+			  style : "REDIRECT",
+			  success : function (result) {
+			     //alert(result);
+			  }
+		  });
+	  }
+  }
+</script>
+</head>
+<body>
+	<div class="Container">
+		<div class="Content fontText">
+			<!--search star-->
+			<div class="information">
+				<form id="queryUserPrizeListForm" method="get"
+					action="${ctxPath}prize/userPrizeList">
+					<div class="search">
+						<div class="search_tit">
+							<h2 class="fw fleft f14">中奖查询</h2>
+						</div>
+						<div class="search_con">
+							<ul class="fix">
+								<li><label class="text_tit">奖品名称：</label> <input
+									type="text" name="prizeName" class="input_text"
+									value="<c:out value="${prizeName}"/>" /></li>
+									<%-- <li><label class="text_tit">用户姓名：</label> <input
+									type="text" name="realName" class="input_text"
+									value="<c:out value="${realName}"/>" /></li> --%>
+									<li><label class="text_tit">用户手机号：</label> <input
+									type="text" name="memberTel" class="input_text"
+									value="<c:out value="${memberTel}"/>" /></li>
+								<li><label class="text_tit">创建起始时间：</label>
+									<input type="text" name="createTimeStart" class="input_text" id="createTimeStart" value="${createTimeStart}" readonly="true" />
+								</li>
+								<li><label class="text_tit">创建截止时间：</label>
+                  					<input type="text" name="createTimeEnd" class="input_text" value="${createTimeEnd}" id="createTimeEnd" readonly="true" />
+								</li>
+								<li><label class="text_tit">奖品发放方式：</label>
+									<select id="grantType" name="grantType" class="input_text">
+					                    <option ${empty param.grantType?'selected':'' } value="">全部</option>
+										<c:forEach var="item"
+											items="${_textResource.getTextMap('activity_grant_way') }">
+											<option ${item.key==param.grantType?'selected':''}
+												value="${item.key}">${item.value}</option>
+										</c:forEach>
+                					</select>
+								</li>
+							</ul>
+							<div class="btn">
+								<input type="submit" class="btn_sure fw" value="查询" />
+								<input type="button" onclick="clearAll();" class="btn_cancel fw" value="清空" />
+								<!-- <input type="button" class="btn_sure fw" onclick="addPrize()" value="新增奖品" /> -->
+							</div>
+							<div class="clearer"></div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="clearer"></div>
+			<div class="result">
+				<h2 class="fw">查询结果</h2>
+				<q:table queryService="activityQueryService" queryKey="queryUserPrizeList"
+					template="querytableForUnion" formId="queryUserPrizeListForm"
+					class="table_list" pageSize="15">
+					<q:nodata>无符合条件的记录</q:nodata>
+					<q:column title="序号" value="${id}" width="40px" />
+					<q:column title="用户编号" value="${member_no}" />
+					<q:column title="中奖时间" value="${create_time}" />
+					<q:column title="奖品名称" value="${prize_name}" />
+					<%-- <q:column title="用户姓名" value="${real_name}" /> --%>
+					<q:column title="用户手机号" value="${member_tel}" />
+					<q:column title="奖品发放方式" escapeHtml="false" >
+						<c:forEach var="item" items="${_textResource.getTextMap('activity_grant_way') }">
+	                        <c:if test="${item.key == grant_type }">
+	                        <c:out value="${item.value }"></c:out>
+                        </c:if>
+                      </c:forEach>
+					</q:column>
+					
+					<q:column title="发放状态" value="${grant_status == 'NOSEND'?'未发送':'已发送'}" />
+					
+					<q:column title="操作人员" value="${checkor}" />
+					
+					<q:column title="操作" escapeHtml="false" >
+					   <c:if test="${grant_status == 'NOSEND'}">
+					        <a title="发送 " href="toModifyUserPrize?id=${id }">发放奖品</a>
+					   </c:if>
+					   <%-- <c:if test="${grant_status == 1}">
+					        <a title="发送完成 " >发送完成</a>
+					   </c:if> --%>
+						
+						<%-- <a title="修改" href="toModifyPrize?id=${id }">修改</a> --%>
+					</q:column>
+				</q:table>
+			</div>
+			<div class="clearer"></div>
+			<br />
+		</div>
+	</div>
+</body>
+</html>

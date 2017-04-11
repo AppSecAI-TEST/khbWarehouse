@@ -1,0 +1,152 @@
+/**
+ * 
+ */
+package com.yeepay.g3.boss.activity.controller.goods;
+
+import java.util.Date;
+import java.util.List;
+
+import javax.jws.WebParam.Mode;
+import javax.servlet.http.HttpSession;
+
+import org.junit.runners.Parameterized.Parameter;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.yeepay.g3.boss.activity.controller.ActivityBaseController;
+import com.yeepay.g3.facade.activity.dto.ActivityGoodsDTO;
+import com.yeepay.g3.facade.activity.dto.ActivityRaffleTicketDTO;
+import com.yeepay.g3.facade.activity.enums.GoodsStatusEnum;
+import com.yeepay.g3.facade.activity.facade.ActivityGoodsFacade;
+import com.yeepay.g3.utils.rmi.RemoteServiceFactory;
+import com.yeepay.g3.utils.rmi.RemotingProtocol;
+
+/**
+ * @Description 商品管理Controller
+ * @author hongbin.kang
+ * @CreateTime 2016年5月17日 下午1:04:26
+ * @version 1.0
+ */
+@Controller
+@RequestMapping("/goods")
+public class GoodsController extends ActivityBaseController {
+	
+	//商品信息远程服务接口
+//	private ActivityGoodsFacade activityGoodsFacadeImpl = RemoteServiceFactory
+//			.getService("http://localhost:8080/activity-hessian/hessian", RemotingProtocol.HESSIAN, ActivityGoodsFacade.class);
+	private ActivityGoodsFacade activityGoodsFacadeImpl = RemoteServiceFactory
+			.getService(ActivityGoodsFacade.class);
+	
+
+	/**
+	 * 跳转至商品新增页面
+	 * @return
+	 */
+	@RequestMapping(value = "/toAddGoods")
+	public String toAddGoods() {
+		return "goods/addGoods";
+	}
+	
+	/**
+	 * 保存商品
+	 * @return
+	 */
+	@RequestMapping(value = "/addGoods")
+	public String addGoods(@ModelAttribute ActivityGoodsDTO goodsDto,HttpSession session) {
+		goodsDto.setCreator(this.getCurrentUser(session));
+		goodsDto.setGrantCount(Long.valueOf(0));
+		activityGoodsFacadeImpl.addActivityGoods(goodsDto);
+		return "goods/queryGoodsList";
+	}
+	
+	/**
+	 * 查询所有商品列表
+	 * @return
+	 */
+	@RequestMapping(value = "/queryGoodsList")
+	public String queryGoodsList() {
+		return "goods/queryGoodsList";
+	}
+	
+	/**
+	 * 查看商品的详情
+	 */
+	@RequestMapping(value = "/goodsDetail")
+	public String goodsDetail(@RequestParam(required = true , value = "id") String id , Model model) {
+		ActivityGoodsDTO goodsDto = new ActivityGoodsDTO();
+		goodsDto = activityGoodsFacadeImpl.selectGoodsById(Long.valueOf(id));
+		model.addAttribute("goodsDto", goodsDto);
+		return "goods/goodsDetail";
+	}
+	
+	
+	/**
+	 * 查询待审核列表
+	 * @return
+	 */
+	@RequestMapping(value = "/queryCheckingGoodsList")
+	public String queryCheckingGoodsList() {
+		return "goods/checkingGoodsList";
+	}
+	
+	/**
+	 * 商品审核
+	 * @param id
+	 * @param goodsStatus
+	 * @param version
+	 * @param session
+	 */
+	@RequestMapping(value = "/goodsCheck")
+	@ResponseBody
+	public String goodsCheck (@RequestParam(required = true , value = "id") String id ,
+			@RequestParam (required = true , value = "version") String version,
+			@RequestParam (required = true , value = "goodsStatus") String goodsStatus ,
+			HttpSession session){
+		ActivityGoodsDTO goodsDto = new ActivityGoodsDTO();
+		//id、version为必传项
+		goodsDto.setId(Long.valueOf(id));
+		goodsDto.setVersion(Long.valueOf(version));
+		//根据传递的参数将商品状态置为有效或者退回
+		if(goodsStatus.equals(String.valueOf(GoodsStatusEnum.EFFECTIVE))) {
+			goodsDto.setGoodsStatus(GoodsStatusEnum.EFFECTIVE);
+		} else if(goodsStatus.equals(String.valueOf(GoodsStatusEnum.RETURN_BACK))) {
+			goodsDto.setGoodsStatus(GoodsStatusEnum.RETURN_BACK);
+		}
+		//审核人、审核时间
+		goodsDto.setCheckor(this.getCurrentUser(session));
+		goodsDto.setCheckedTime(new Date());
+		activityGoodsFacadeImpl.updateActivityGoodsById(goodsDto);
+		return "SUCCESS";
+	}
+	
+	/**
+	 * 去修改商品页面
+	 */
+	@RequestMapping(value = "/toModifyGoods")
+    public String toModifyGoods(@RequestParam(required = true , value = "id") String id , Model model) {
+		ActivityGoodsDTO goodsDto = new ActivityGoodsDTO();
+		if(null != id) {
+			goodsDto = activityGoodsFacadeImpl.selectGoodsById(Long.valueOf(id));
+		}
+		model.addAttribute("goodsDto", goodsDto);
+		return "goods/modifyGoods";
+	}
+	
+	
+	/**
+	 * 修改抽奖券
+	 */
+	@RequestMapping(value = "/modifyGoods")
+	public String modifyGoods(@ModelAttribute ActivityGoodsDTO goodsDto) {
+		if(null != goodsDto.getId() && null != goodsDto.getVersion()) {
+			activityGoodsFacadeImpl.updateActivityGoodsById(goodsDto);
+		}
+		return "goods/queryGoodsList";
+	}
+	
+	
+}

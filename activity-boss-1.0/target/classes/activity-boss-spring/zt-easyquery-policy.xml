@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<bean id="ztPolicyQueryService" class="com.yeepay.g3.utils.query.impl.QueryServiceImpl">
+		<property name="dataSource" ref="activityDataSource" />
+		<property name="querys">
+			<map>
+			<!-- 查询列表 -->
+				<entry key="queryZtPolicyList">
+					<bean class="com.yeepay.g3.utils.query.Query">
+						<property name="sql">
+							<value>
+								<![CDATA[
+					           	SELECT *
+									FROM TBL_ZT_POLICY where 1=1
+						     		/~policyName: AND POLICY_NAME like '%'||{policyName,string}||'%'~/
+						     		/~createTimeStart: AND CREATE_TIME >= '[createTimeStart,timestamp]' ~/
+									/~createTimeEnd: AND  CREATE_TIME <= '[createTimeEnd,timestamp]' ~/
+						     		ORDER BY ID DESC
+									WITH UR
+				               ]]>
+							</value>
+						</property>
+					</bean>
+				</entry>
+				
+				<!-- 查询订单列表 -->
+				<entry key="queryTransactionOrderList">
+					<bean class="com.yeepay.g3.utils.query.Query">
+						<property name="sql">
+							<value>
+								<![CDATA[
+								SELECT policy.POLICY_NAME,(case when ORDER_DETAIL.USER_AGENT like '%lanmao%' then 'APP'
+                                else '微信' end ) as USER_AGENT,ORDER_DETAIL.member_no,ORDER_DETAIL.policy_order_id,
+                                ORDER_DETAIL.order_type,ORDER_DETAIL.pay_mode,ORDER_DETAIL.order_amount,ORDER_DETAIL.fee,
+                                ORDER_DETAIL.order_time,ORDER_DETAIL.order_status
+                                 FROM TBL_ZT_POLICY_ORDER_DETAIL as ORDER_DETAIL 
+								left join TBL_ZT_POLICY as policy on ORDER_DETAIL.POLICY_ID = policy.ID
+								where 1=1
+									/~policyName: AND policy.POLICY_NAME = {policyName,string}~/
+						     		/~memberNo: AND ORDER_DETAIL.MEMBER_NO = {memberNo,string}~/
+									/~createTimeStart: AND ORDER_DETAIL.ORDER_TIME >= '[createTimeStart] 00:00:00' ~/
+									/~createTimeEnd: AND  ORDER_DETAIL.ORDER_TIME <= '[createTimeEnd] 23:59:59' ~/
+									/~orderType: AND ORDER_DETAIL.ORDER_TYPE = {orderType,string}~/
+						     		/~orderStatus: AND ORDER_DETAIL.ORDER_STATUS = {orderStatus,string}~/
+						     		ORDER BY ORDER_DETAIL.ID DESC
+									WITH UR
+				               ]]>
+							</value>
+						</property>
+					</bean>
+				</entry>
+				
+				<!-- 查询每日新增的用户的订单列表 -->
+				<entry key="queryNewTransactionOrderList">
+					<bean class="com.yeepay.g3.utils.query.Query">
+						<property name="sql">
+							<value>
+								<![CDATA[
+								SELECT list.POLICY_NAME,(case when list.USER_AGENT like '%lanmao%' then 'APP'
+                                else '微信' end ) as USER_AGENT,list.member_no,list.policy_order_id,
+                                list.order_type,list.pay_mode,list.order_amount,list.fee,
+                                list.order_time,list.order_status
+								FROM (SELECT policy.POLICY_NAME,ORDER_DETAIL.* FROM TBL_ZT_POLICY_ORDER_DETAIL as ORDER_DETAIL 
+								left join TBL_ZT_POLICY as policy on ORDER_DETAIL.POLICY_ID = policy.ID where 1=1
+									/~policyName: AND policy.POLICY_NAME = {policyName,string}~/) as list left join
+								 (SELECT newList.MEMBER_NO FROM 
+								 (SELECT DISTINCT MEMBER_NO FROM TBL_ZT_POLICY_ORDER_DETAIL where 1=1 /~createTimeEnd: AND  ORDER_TIME <= '[createTimeEnd] 23:59:59' ~/) as newList 
+								 LEFT join 
+								 (SELECT DISTINCT MEMBER_NO FROM TBL_ZT_POLICY_ORDER_DETAIL where 1=1 /~createTimeStart: AND  ORDER_TIME < '[createTimeStart] 00:00:00' ~/) as oldList 
+								 on newList.MEMBER_NO=oldList.MEMBER_NO where oldList.MEMBER_NO is null) as newUserList 
+								 on list.MEMBER_NO=newUserList.MEMBER_NO where newUserList.MEMBER_NO is not null
+								    /~memberNo: AND list.MEMBER_NO = {memberNo,string}~/
+									/~orderType: AND list.ORDER_TYPE = {orderType,string}~/
+									/~createTimeStart: AND list.ORDER_TIME >= '[createTimeStart] 00:00:00' ~/
+									/~createTimeEnd: AND  list.ORDER_TIME <= '[createTimeEnd] 23:59:59' ~/
+						     		/~orderStatus: AND list.ORDER_STATUS = {orderStatus,string}~/
+						     		ORDER BY list.ID DESC
+									WITH UR
+				               ]]>
+							</value>
+						</property>
+					</bean>
+				</entry>
+				
+			</map>
+		</property>
+	</bean>
+</beans>

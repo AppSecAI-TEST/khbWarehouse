@@ -1,0 +1,134 @@
+/**
+ * 
+ */
+package com.yeepay.g3.boss.activity.controller.event;
+
+import java.util.List;
+
+import javax.servlet.http.HttpSession;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.yeepay.g3.boss.activity.controller.ActivityBaseController;
+import com.yeepay.g3.facade.activity.dto.ActivityActionDTO;
+import com.yeepay.g3.facade.activity.dto.ActivityEventDTO;
+import com.yeepay.g3.facade.activity.dto.ActivityPrizeDTO;
+import com.yeepay.g3.facade.activity.facade.ActivityActionFacade;
+import com.yeepay.g3.facade.activity.facade.ActivityPrizeFacade;
+import com.yeepay.g3.utils.common.log.Logger;
+import com.yeepay.g3.utils.common.log.LoggerFactory;
+import com.yeepay.g3.utils.rmi.RemoteServiceFactory;
+import com.yeepay.g3.utils.rmi.RemotingProtocol;
+
+/**
+ * @author cdt
+ * @date 2016-5-16
+ * @time 下午5:25:57
+ */
+@Controller
+@RequestMapping("/eventActivity")
+public class EventActivityController extends ActivityBaseController {
+	
+	private ActivityPrizeFacade activityPrizeFacadeFacadeImpl = RemoteServiceFactory
+			.getService("http://localhost:8080/activity-hessian/hessian", RemotingProtocol.HESSIAN, ActivityPrizeFacade.class);
+	private ActivityActionFacade activityActionFacadeImpl = RemoteServiceFactory
+			.getService("http://localhost:8080/activity-hessian/hessian", RemotingProtocol.HESSIAN, ActivityActionFacade.class);
+//	private ActivityPrizeFacade activityPrizeFacadeFacadeImpl = RemoteServiceFactory
+//			.getService(ActivityPrizeFacade.class);
+//	
+//		private ActivityActionFacade activityActionFacadeImpl = RemoteServiceFactory
+//			.getService(ActivityActionFacade.class);
+	private Logger logger = LoggerFactory.getLogger(EventActivityController.class);
+	
+	/**
+	 * 查询所有活动事件列表
+	 * @return
+	 */
+	@RequestMapping(value = "/queryEventList")
+	public String queryEventList() {
+		return "eventActivity/queryEventList";
+	}
+
+	/**
+	 * 跳转至活动事件新增页面
+	 * @return
+	 */
+	@RequestMapping(value = "/toAddEvent")
+	public String toAddEvent(Model model) {
+		List<ActivityPrizeDTO> result=activityPrizeFacadeFacadeImpl.selectLeaveAll();
+		model.addAttribute("result", result);
+		logger.info("[toAddEvent] 奖品信息info={}",result);
+		return "eventActivity/addEvent";
+	}
+	
+	/**
+	 * 保存活动事件
+	 * @return
+	 */
+	@RequestMapping(value = "/addEvent")
+	public String addEvent(@ModelAttribute ActivityActionDTO actionDto,
+			@RequestParam(required = true, value = "prizes") String prizes,@RequestParam(required = true, value = "odds") String odds,@RequestParam(required = true, value = "versions") String versions,
+			HttpSession session) {
+		logger.info("[addEvent] 参数：actionDto={},prizes={},odds={},versions={}",actionDto,prizes,odds,versions);
+		activityActionFacadeImpl.insertActivityAction(actionDto, prizes, odds,versions);
+		return "eventActivity/queryEventList";
+	}
+
+	/**
+	 * 事件查看
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping(value = "/eventDetail")
+	public String eventDetail(
+			@RequestParam(required = true, value = "id") Long id,
+			Model model) {
+		logger.info("[eventDetail] 参数：id={}",id);
+		ActivityActionDTO activityActionDtO=activityActionFacadeImpl.getActionDetail(id);
+		logger.info("[ActivityActionDTO] activityActionDtO={}",activityActionDtO);
+		 List<ActivityPrizeDTO> activityPrizeDtoList=activityPrizeFacadeFacadeImpl.selectByActionId(id);
+		 logger.info("[ActivityPrizeDTO] activityPrizeDtoList={}",activityPrizeDtoList);
+		 model.addAttribute("activityActionDtO", activityActionDtO);
+		 model.addAttribute("activityPrizeDtoList", activityPrizeDtoList);
+		return "eventActivity/eventDetail";
+	}
+	/**
+	 * 去更新事件页面
+	 * @author cdt
+	 * @date 2016-5-16
+	 * @time 下午3:46:18
+	 */
+	@RequestMapping(value="/toUpdateEvent")
+	public String toUpdateEvent(@RequestParam(required = true, value = "id")Long id, Model model){
+		logger.info("[toUpdateEvent] 参数：id={}",id);
+		ActivityActionDTO activityActionDtO=activityActionFacadeImpl.getActionDetail(id);
+		logger.info("[ActivityActionDTO] activityActionDtO={}",activityActionDtO);
+		 List<ActivityPrizeDTO> activityPrizeDtoList=activityPrizeFacadeFacadeImpl.selectByActionId(id);
+		 logger.info("[ActivityPrizeDTO] activityPrizeDtoList={}",activityPrizeDtoList);
+		 //查询剩余事件
+		 List<ActivityPrizeDTO> result=activityPrizeFacadeFacadeImpl.selectLeaveAll();
+		 logger.info("[ActivityPrizeDTO-result] result={}",result);
+		 model.addAttribute("result",result);
+		 model.addAttribute("activityActionDtO", activityActionDtO);
+		 model.addAttribute("activityPrizeDtoList", activityPrizeDtoList);
+		return "eventActivity/updateEvent";
+	}
+	/**
+	 * 更新事件
+	 * @author cdt
+	 * @date 2016-5-16
+	 * @time 下午3:46:41
+	 */
+	@RequestMapping(value="/updateEvent")
+	public String updateEvent(@ModelAttribute ActivityActionDTO actionDto,@RequestParam(required = true, value = "prizes") String prizes,@RequestParam(required = true, value = "odds") String odds,
+			@RequestParam(required = true, value = "versions") String versions,
+			HttpSession session){
+		logger.info("[updateEvent] 参数：actionDto={},prizes={},odds={},versions={}",actionDto,prizes,odds,versions);
+		activityActionFacadeImpl.updateActivityAction(actionDto, prizes, odds, versions);
+		return "eventActivity/queryEventList";
+	}
+}

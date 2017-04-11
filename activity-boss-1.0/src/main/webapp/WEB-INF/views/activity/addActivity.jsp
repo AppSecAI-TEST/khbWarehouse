@@ -1,0 +1,169 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
+<%@ include file="/WEB-INF/views/common/taglib.jsp" %>
+<html>
+<head>
+<title>新增活动</title>
+<%@ include file="/WEB-INF/views/common/metas.jsp"%>
+<script type="text/javascript">
+  $(function () {
+	  DatePickerExt.time("uplineTime");
+	  DatePickerExt.time("startTime");
+	  DatePickerExt.time("endTime");
+	  if($("#pitureFlag").val()=='false'){
+      alert("上传文件不是图片，必须为jpg|gif|bmp|png");
+    }
+	   $("#addActivityForm").submit(function(){
+           $(this).validateSubmit({
+            activityCode: {
+                  req: true,
+                  label: "活动编码"
+              },
+              activityName: {
+                  req: true,
+                  label: "活动名称"
+              },
+              isShow: {
+                req: true,
+                label: "活动是否选择"
+         	   },
+              uplineTime: {
+                  req: true,
+                  label: "活动上线时间"
+              },
+              startTime: {
+                req: true,
+                label: "活动开始时间"
+           	 },
+           		endTime: {
+              req: true,
+              label: "活动截止时间"
+         	 },
+           	actions: {
+                  req: {
+                      min: 1
+                  },
+                  label: "选择事件"
+              }
+          });
+          if(!validate()){
+    	      return false;
+    	    }else{
+    	      return true;
+    	    }
+      });
+	  function validate(){
+	    var uplineTime=$("#uplineTime").val();
+	    var startTime=$("#startTime").val();
+	    var endTime=$("#endTime").val();
+	    if(uplineTime>startTime){
+	      alert("上线时间不能超过开始时间");
+	      return false;
+	    }else{
+	      //if(endTime!=''){
+	        if(startTime>endTime){
+	  	      alert("开始时间不能超过截止时间");
+	  	      return false;
+	  	    }
+	      //}
+	    }
+	    return true;
+	  }
+  }); 
+  
+</script>
+</head>
+<body>
+	<div class="Container">
+		<div class="Content fontText">
+			<div class="information">
+			    <div class="clear"></div>
+			    <div class="search_tit">
+					<h2 class="fw fleft f14">活动新增</h2>
+				</div>
+			    <form name="addActivityForm" id="addActivityForm" action="addActivity" method="post" enctype="multipart/form-data">
+			    <input type="hidden" id="pitureFlag" name="pitureFlag" value="${picture}">      
+                <div class="input_cont">
+			        <ul>
+			          <li>
+			            <label class="text_tit">活动编码：</label>
+			            <input class="input_text" type="text" name="activityCode" id="activityCode">&nbsp;<font color="red">*</font>
+			          </li>
+			          <li>
+			            <label class="text_tit">活动名称：</label>
+			            <input class="input_text" type="text" name="activityName">&nbsp;<font color="red">*</font>
+			          </li>
+                      <li>
+                       <label class="text_tit">活动是否显示：</label>
+                       <select name="isShow" id="isShow" >
+                       <option value=1 selected="selected">是</option>
+                       <option value=0>否</option>
+                       </select>&nbsp;<font color="red">*</font>
+                      </li>
+                      <li>
+                        <label class="text_tit">活动图片：</label>
+                         <input class="input_text" type="file" name="activityImg"  accept="image/*">
+                      </li>
+                      <li>
+                        <label class="text_tit">活动上线时间：</label>
+                        <input id="uplineTime" class="input_text" type="text" readonly="readonly" name="uplineTime">&nbsp;<font color="red">*</font>
+                      </li>
+                      <li>
+                        <label class="text_tit">活动开始时间：</label>
+                        <input id="startTime" class="input_text" type="text" readonly="readonly" name="startTime">&nbsp;<font color="red">*</font>
+                      </li>
+                      <li>
+                        <label class="text_tit">活动截止时间：</label>
+                        <input id="endTime" class="input_text" type="text" readonly="readonly" name="endTime">&nbsp;<font color="red">*</font>
+                      </li>         
+                       <li>
+                        <label class="text_tit">活动URL：</label>
+                        <input  class="input_text" type="text" name="activityUrl">
+                      </li> 
+                      <li>
+                        <label class="text_tit">活动上线说明：</label>
+                        <textarea rows="10" cols="100"  name="uplineRemark"></textarea>
+                      </li> 
+                      <li>
+                        <label class="text_tit">活动下线说明：</label>
+                        <textarea rows="10" cols="100"  name="offlineRemark"></textarea>
+                      </li> 
+                      <li>
+                        <label class="text_tit">抽奖基数值：</label>
+                        <input  class="input_text" type="text" name="lotteryBase">
+                      </li> 
+                      <li>
+                        <label class="text_tit">幸运值基数值：</label>
+                        <input  class="input_text" type="text" name="luckBase">
+                      </li> 
+			          <li>
+			            <label class="text_tit">选择事件：</label>
+			            <table>
+			            	<c:forEach items="${activityActionListDto}" var="action" varStatus="num">
+			            		<c:if test="${num.index%3==0}">
+			            			<tr>
+			            		</c:if>
+			            				<td>
+				            				<input name="actions" type="checkbox" value="${action.id }"/>
+                                                                                                                        事件序号：${action.id }; 事件名称： ${action.actionName } <span style="width:30px"></span>
+				            			</td>
+		            			<c:if test="${num.index==2||num.index%3==2}">  
+								 	</tr>
+								 </c:if>
+			            	</c:forEach>
+			            </table>
+			          </li>
+			        </ul>
+			      </div>
+			      <div class="btn">
+					<input type="submit" class="btn_sure fw" value="保存" />
+					<input type="button"onclick="window.history.go(-1)" class="btn_cancel fw" value="取消" />
+				  </div>
+				  <div class="clearer"></div>
+			    </form>
+			  </div>
+			<br />
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,175 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
+<%@ include file="/WEB-INF/views/common/taglib.jsp" %>
+<html>
+<head>
+<title>修改活动</title>
+<%@ include file="/WEB-INF/views/common/metas.jsp"%>
+<script type="text/javascript">
+  $(function () {
+    var actionList = $("#actionList").val();
+  	var action = actionList.split(";");
+  	var obj = document.getElementsByName("actions");
+  	for(var i = 0; i < action.length-1; i ++){
+  	  for(var j = 0; j < obj.length; j ++){
+  	    if(action[i] == obj[j].value){
+  	      obj[j].checked = true;
+  	    }
+  	  }
+  	}
+	  DatePickerExt.time("uplineTime");
+	  DatePickerExt.time("startTime");
+	  DatePickerExt.time("endTime");
+
+	  $("#updateActivityForm").submit(function(){
+          return $(this).validateSubmit({
+            activityCode: {
+                  req: true,
+                  label: "活动编码"
+              },
+              activityName: {
+                  req: true,
+                  label: "活动名称"
+              },
+              uplineTime: {
+                  req: true,
+                  label: "活动上线时间"
+              },
+              startTime: {
+                req: true,
+                label: "活动开始时间"
+           	 },
+           		endTime: {
+              req: true,
+              label: "活动截止时间"
+         	 },
+           	actions: {
+                  req: {
+                      min: 1
+                  },
+                  label: "选择事件"
+              }
+          });
+          if(!validate()){
+    	      return false;
+    	    }
+      });
+	  function validate(){
+	    var uplineTime=$("#uplineTime").val();
+	    var startTime=$("#startTime").val();
+	    var endTime=$("#endTime").val();
+	    if(uplineTime>startTime){
+	      alert("上线时间不能超过开始时间");
+	      return false;
+	    }else{
+	     // if(endTime!=''){
+	        if(startTime>endTime){
+	  	      alert("开始时间不能超过截止时间");
+	  	      return false;
+	  	    }
+	      //}
+	    }
+	    return true;
+	  }
+  });
+  
+</script>
+</head>
+<body>
+	<div class="Container">
+		<div class="Content fontText">
+			<div class="information">
+			    <div class="clear"></div>
+			    <div class="search_tit">
+					<h2 class="fw fleft f14">活动修改</h2>
+				</div>
+			    <form name="updateActivityForm" id="updateActivityForm" action="updateActivity" method="post" enctype="multipart/form-data">
+			      <div class="input_cont">
+			        <ul>
+                      <li>
+                      <input type="hidden" id="id" name="id" value="${activityInfoDto.id }">
+                        <input type="hidden" id="version" name="version" value="${activityInfoDto.version }">
+                      </li>
+                       <li>
+                        <input type="hidden" id="actionList" name="" value="${actionList }">
+                      </li>
+			          <li>
+			            <label class="text_tit">活动编码：</label>
+			            <input class="input_text" type="text" readonly="readonly" name="activityCode" id="activityCode" value="${activityInfoDto.activityCode  }">&nbsp;<font color="red">*</font>
+			          </li>
+			          <li>
+			            <label class="text_tit">活动名称：</label>
+			            <input class="input_text" type="text" name="activityName" value="${activityInfoDto.activityName  }" >&nbsp;<font color="red">*</font>
+			          </li>
+                      <li>
+                        <label class="text_tit">活动图片：</label>
+                        <img alt="" src="lookActivityImg?id=${activityInfoDto.id }">
+                      </li>
+                      <li>
+                        <label class="text_tit">修改活动图片：</label>
+                        <input class="input_text" type="file" name="activityImg">
+                      </li>
+                      <li>
+                        <label class="text_tit">活动上线时间：</label>
+                        <input id="uplineTime" class="input_text" type="text" readonly="readonly" name="uplineTime" value="${_messageFormater.formatDate(activityInfoDto.uplineTime) }" >&nbsp;<font color="red">*</font>
+                      </li>
+                      <li>
+                        <label class="text_tit">活动开始时间：</label>
+                        <input id="startTime" class="input_text" type="text" readonly="readonly" name="startTime" value="${_messageFormater.formatDate(activityInfoDto.startTime) }" >&nbsp;<font color="red">*</font>
+                      </li>
+                      <li>
+                        <label class="text_tit">活动截止时间：</label>
+                        <input id="endTime" class="input_text" type="text" readonly="readonly" name="endTime" value="${_messageFormater.formatDate(activityInfoDto.endTime) }" >&nbsp;<font color="red">*</font>
+                      </li>         
+                       <li>
+                        <label class="text_tit">活动URL：</label>
+                        <input  class="input_text" type="text" name="activityUrl" value="${activityInfoDto.activityUrl  }" >
+                      </li> 
+                      <li>
+                        <label class="text_tit">活动上线说明：</label>
+                        <textarea rows="10" cols="100"  name="uplineRemark"  >${activityInfoDto.uplineRemark  }</textarea>
+                      </li> 
+                      <li>
+                        <label class="text_tit">活动下线说明：</label>
+                        <textarea rows="10" cols="100"  name="offlineRemark" >${activityInfoDto.offlineRemark  }</textarea>
+                      </li> 
+                      <li>
+                        <label class="text_tit">抽奖基数值：</label>
+                        <input  class="input_text" type="text" name="lotteryBase" value="${activityInfoDto.lotteryBase  }">
+                      </li> 
+                      <li>
+                        <label class="text_tit">幸运值基数值：</label>
+                        <input  class="input_text" type="text" name="luckBase" value="${activityInfoDto.luckBase  }">
+                      </li> 
+			          <li>
+			            <label class="text_tit">选择事件：</label>
+			            <table>
+			            	<c:forEach items="${activityActionListAllDto}" var="action" varStatus="num">
+			            		<c:if test="${num.index%3==0}">
+			            			<tr>
+			            		</c:if>
+			            				<td>
+				            				<input name="actions" type="checkbox"  value="${action.id }"/>
+                                                                                                                        事件序号：${action.id }; 事件名称： ${action.actionName } <span style="width:30px"></span>
+				            			</td>
+                                   
+		            			<c:if test="${num.index==2||num.index%3==2}">    
+								 	</tr>
+								 </c:if>
+			            	</c:forEach>
+			            </table>
+			          </li>
+			        </ul>
+			      </div>
+			      <div class="btn">
+					<input type="submit" class="btn_sure fw" value="保存" />
+					<input type="button"onclick="window.history.go(-1)" class="btn_cancel fw" value="取消" />
+				  </div>
+				  <div class="clearer"></div>
+			    </form>
+			  </div>
+			<br />
+		</div>
+	</div>
+</body>
+</html>

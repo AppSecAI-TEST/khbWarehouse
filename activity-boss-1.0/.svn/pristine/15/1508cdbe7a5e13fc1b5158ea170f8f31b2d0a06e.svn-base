@@ -1,0 +1,226 @@
+/**
+ * 
+ */
+package com.yeepay.g3.boss.activity.controller.prize;
+
+import java.util.Date;
+import java.util.List;
+
+import javax.jws.WebParam.Mode;
+import javax.servlet.http.HttpSession;
+
+import org.junit.runners.Parameterized.Parameter;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.ibm.db2.jcc.am.re;
+import com.yeepay.g3.boss.activity.controller.ActivityBaseController;
+import com.yeepay.g3.facade.activity.dto.ActivityCouponDTO;
+import com.yeepay.g3.facade.activity.dto.ActivityGoodsDTO;
+import com.yeepay.g3.facade.activity.dto.ActivityPrizeDTO;
+import com.yeepay.g3.facade.activity.dto.ActivityRaffleTicketDTO;
+import com.yeepay.g3.facade.activity.enums.CouponStatusEnum;
+import com.yeepay.g3.facade.activity.enums.GoodsStatusEnum;
+import com.yeepay.g3.facade.activity.enums.PrizeStatusEnum;
+import com.yeepay.g3.facade.activity.enums.PrizeTypeEnum;
+import com.yeepay.g3.facade.activity.enums.RaffleTicketStatusEnum;
+import com.yeepay.g3.facade.activity.facade.ActivityCouponFacade;
+import com.yeepay.g3.facade.activity.facade.ActivityGoodsFacade;
+import com.yeepay.g3.facade.activity.facade.ActivityPrizeFacade;
+import com.yeepay.g3.facade.activity.facade.ActivityRaffleTicketFacade;
+import com.yeepay.g3.utils.rmi.RemoteServiceFactory;
+import com.yeepay.g3.utils.rmi.RemotingProtocol;
+
+/**
+ * @Description 奖品管理Controller
+ * @author hongbin.kang
+ * @CreateTime 2016年5月18日 下午1:04:26
+ * @version 1.0
+ */
+@Controller
+@RequestMapping("/prize")
+public class PrizeController extends ActivityBaseController {
+	
+	//奖品信息远程服务接口
+//	@Resource
+//	private ActivityPrizeFacade activityPrizeFacadeImpl = RemoteServiceFactory
+//			.getService("http://localhost:8080/activity-hessian/hessian", RemotingProtocol.HESSIAN, ActivityPrizeFacade.class);
+//	private ActivityCouponFacade activityCouponFacadeImpl = RemoteServiceFactory
+//			.getService("http://localhost:8080/activity-hessian/hessian", RemotingProtocol.HESSIAN, ActivityCouponFacade.class);
+//	private ActivityRaffleTicketFacade activityRaffleTicketFacadeImpl = RemoteServiceFactory
+//			.getService("http://localhost:8080/activity-hessian/hessian", RemotingProtocol.HESSIAN, ActivityRaffleTicketFacade.class);
+//	private ActivityGoodsFacade activityGoodsFacadeImpl = RemoteServiceFactory
+//			.getService("http://localhost:8080/activity-hessian/hessian", RemotingProtocol.HESSIAN, ActivityGoodsFacade.class);
+	private ActivityPrizeFacade activityPrizeFacadeImpl = RemoteServiceFactory
+			.getService(ActivityPrizeFacade.class);
+	private ActivityCouponFacade activityCouponFacadeImpl = RemoteServiceFactory
+	.getService(ActivityCouponFacade.class);
+	private ActivityRaffleTicketFacade activityRaffleTicketFacadeImpl = RemoteServiceFactory
+	.getService(ActivityRaffleTicketFacade.class);
+	private ActivityGoodsFacade activityGoodsFacadeImpl = RemoteServiceFactory
+	.getService(ActivityGoodsFacade.class);
+	
+
+	/**
+	 * 跳转至奖品新增页面
+	 * @return
+	 */
+	@RequestMapping(value = "/toAddPrize")
+	public String toAddPrize(Model model) {
+		//优惠券列表
+		List<ActivityCouponDTO> couponDtoList= null;
+		ActivityCouponDTO couponDto = new ActivityCouponDTO();
+		//查询审核通过的优惠券
+		couponDto.setCouponStatus(CouponStatusEnum.EFFECTIVE);
+		couponDtoList = activityCouponFacadeImpl.selectEffCouponList(couponDto);
+		
+		//抽奖券列表
+		List<ActivityRaffleTicketDTO> raffleTicketDtoList= null;
+		ActivityRaffleTicketDTO raffleTicketDto = new ActivityRaffleTicketDTO();
+		//查询审核通过的抽奖券
+		raffleTicketDto.setCouponStatus(RaffleTicketStatusEnum.EFFECTIVE);
+		raffleTicketDtoList = activityRaffleTicketFacadeImpl.selectEffRaffleTicketList(raffleTicketDto);
+		
+		//商品列表
+		List<ActivityGoodsDTO> goodsDtoList= null;
+		ActivityGoodsDTO goodsDto = new ActivityGoodsDTO();
+		//查询审核通过的商品
+		goodsDto.setGoodsStatus(GoodsStatusEnum.EFFECTIVE);
+		goodsDtoList = activityGoodsFacadeImpl.selectEffGoodsList(goodsDto);
+		model.addAttribute("couponDtoList", couponDtoList);
+		model.addAttribute("raffleTicketDtoList", raffleTicketDtoList);
+		model.addAttribute("goodsDtoList", goodsDtoList);
+		return "prize/addPrize";
+	}
+	
+	/**
+	 * 保存奖品
+	 * @return
+	 */
+	@RequestMapping(value = "/addPrize")
+	public String addPrize(@ModelAttribute ActivityPrizeDTO prizeDto,HttpSession session) {
+		prizeDto.setCreator(this.getCurrentUser(session));
+		activityPrizeFacadeImpl.addActivityPrize(prizeDto);
+		return "prize/queryPrizeList";
+	}
+	
+	/**
+	 * 查询所有奖品列表
+	 * @return
+	 */
+	@RequestMapping(value = "/queryPrizeList")
+	public String queryPrizeList() {
+		return "prize/queryPrizeList";
+	}
+	
+	/**
+	 * 查看奖品的详情
+	 */
+	@RequestMapping(value = "/prizeDetail")
+	public String prizeDetail(@RequestParam(required = true , value = "id") String id , Model model) {
+		ActivityPrizeDTO prizeDto = new ActivityPrizeDTO();
+		if(null != id) {
+			//根据主键id获取实体
+			prizeDto = activityPrizeFacadeImpl.selectPrizeById(Long.valueOf(id));
+		}
+		model.addAttribute("prizeDto", prizeDto);
+		return "prize/prizeDetail";
+	}
+	
+	
+	
+	/**
+	 * 查询待审核列表
+	 * @return
+	 */
+	@RequestMapping(value = "/queryCheckingPrizeList")
+	public String queryCheckingPrizeList() {
+		return "prize/checkingPrizeList";
+	}
+	
+	/**
+	 * 奖品审核
+	 * @param id
+	 * @param goodsStatus
+	 * @param version
+	 * @param session
+	 */
+	@RequestMapping(value = "/prizeCheck")
+	@ResponseBody
+	public String prizeCheck (@RequestParam(required = true , value = "id") String id ,
+			@RequestParam (required = true , value = "version") String version,
+			@RequestParam (required = true , value = "prizeStatus") String prizeStatus ,
+			HttpSession session){
+		ActivityPrizeDTO prizeDto = new ActivityPrizeDTO();
+		//id、version为必传项
+		prizeDto.setId(Long.valueOf(id));
+		prizeDto.setVersion(Long.valueOf(version));
+		//根据传递的参数将奖品状态置为有效或者退回
+		if(prizeStatus.equals(String.valueOf(PrizeStatusEnum.EFFECTIVE))) {
+			prizeDto.setPrizeStatus(PrizeStatusEnum.EFFECTIVE);
+		} else if(prizeStatus.equals(String.valueOf(PrizeStatusEnum.RETURN_BACK))) {
+			prizeDto.setPrizeStatus(PrizeStatusEnum.RETURN_BACK);
+		}
+		//审核人、审核时间
+		prizeDto.setCheckor(this.getCurrentUser(session));
+		prizeDto.setCheckedTime(new Date());
+		activityPrizeFacadeImpl.updateActivityPrizeById(prizeDto);
+		return "SUCCESS";
+	}
+	
+	/**
+	 * 去修改奖品页面
+	 */
+	@RequestMapping(value = "/toModifyPrize")
+    public String toModifyPrize(@RequestParam(required = true , value = "id") String id , Model model) {
+		ActivityPrizeDTO prizeDto = new ActivityPrizeDTO();
+		if(null != id) {
+			prizeDto = activityPrizeFacadeImpl.selectPrizeById(Long.valueOf(id));
+		}
+		model.addAttribute("prizeDto", prizeDto);
+		
+		//优惠券列表
+		List<ActivityCouponDTO> couponDtoList= null;
+		ActivityCouponDTO couponDto = new ActivityCouponDTO();
+		//查询审核通过的优惠券
+		couponDto.setCouponStatus(CouponStatusEnum.EFFECTIVE);
+		couponDtoList = activityCouponFacadeImpl.selectEffCouponList(couponDto);
+		
+		//抽奖券列表
+		List<ActivityRaffleTicketDTO> raffleTicketDtoList= null;
+		ActivityRaffleTicketDTO raffleTicketDto = new ActivityRaffleTicketDTO();
+		//查询审核通过的抽奖券
+		raffleTicketDto.setCouponStatus(RaffleTicketStatusEnum.EFFECTIVE);
+		raffleTicketDtoList = activityRaffleTicketFacadeImpl.selectEffRaffleTicketList(raffleTicketDto);
+		
+		//商品列表
+		List<ActivityGoodsDTO> goodsDtoList= null;
+		ActivityGoodsDTO goodsDto = new ActivityGoodsDTO();
+		//查询审核通过的商品
+		goodsDto.setGoodsStatus(GoodsStatusEnum.EFFECTIVE);
+		goodsDtoList = activityGoodsFacadeImpl.selectEffGoodsList(goodsDto);
+		model.addAttribute("couponDtoList", couponDtoList);
+		model.addAttribute("raffleTicketDtoList", raffleTicketDtoList);
+		model.addAttribute("goodsDtoList", goodsDtoList);
+		return "prize/modifyPrize";
+	}
+	
+	
+	/**
+	 * 修改抽奖券
+	 */
+	@RequestMapping(value = "/modifyPrize")
+	public String modifyPrize(@ModelAttribute ActivityPrizeDTO prizeDto) {
+		if(null != prizeDto.getId() && null != prizeDto.getVersion()) {
+			activityPrizeFacadeImpl.updateActivityPrizeById(prizeDto);
+			
+		}
+		return "prize/queryPrizeList";
+	}
+	
+	
+}

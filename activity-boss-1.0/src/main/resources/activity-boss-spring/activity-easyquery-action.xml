@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<bean id="activityQueryActionService" class="com.yeepay.g3.utils.query.impl.QueryServiceImpl">
+		<property name="dataSource" ref="activityDataSource" />
+		<property name="querys">
+			<map>
+			<!-- 查询活动action事件列表 -->
+				<entry key="queryActionList">
+					<bean class="com.yeepay.g3.utils.query.Query">
+						<property name="sql">
+							<value>
+								<![CDATA[
+					           	SELECT *
+									FROM TBL_ACTIVITY_ACTION where 1=1
+						     		/~actionCode: AND ACTION_CODE like '%'||{actionCode,string}||'%'~/
+						     		/~actionName: AND ACTION_NAME like '%'||{actionName,string}||'%'~/
+						     		ORDER BY ID DESC
+									WITH UR
+				               ]]>
+							</value>
+						</property>
+					</bean>
+				</entry>
+				<!-- 查询活动列表 -->
+				<entry key="queryActivityList">
+					<bean class="com.yeepay.g3.utils.query.Query">
+						<property name="sql">
+							<value>
+								<![CDATA[
+					           	SELECT ID,VERSION,ACTIVITY_CODE,ACTIVITY_NAME,UPLINE_TIME,START_TIME,END_TIME,ACTIVITY_STATUS,CREATE_TIME,CREATOR,
+					           	CHECKED_TIME,CHECKOR,ACTIVITY_URL,UPLINE_REMARK,OFFLINE_REMARK,LOTTERY_BASE,LUCK_BASE
+									FROM TBL_ACTIVITY_INFO where 1=1
+						     		/~activityCode: AND ACTIVITY_CODE like '%'||{activityCode,string}||'%'~/
+						     		/~activityName: AND ACTIVITY_NAME like '%'||{activityName,string}||'%'~/
+						     		/~startTime: AND START_TIME >= '[startTime,timestamp]' ~/
+						     		/~endTime: AND END_TIME <= '[endTime,timestamp]' ~/
+						     		/~activityStatus: AND ACTIVITY_STATUS = {activityStatus,string}~/
+						     		ORDER BY ID DESC
+									WITH UR
+				               ]]>
+							</value>
+						</property>
+					</bean>
+				</entry>
+			</map>
+		</property>
+	</bean>
+</beans>

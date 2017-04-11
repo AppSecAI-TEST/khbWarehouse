@@ -1,0 +1,240 @@
+/**
+ * @author 陈大涛
+ * 2016-10-24下午2:14:46
+ */
+package com.yeepay.g3.boss.zt.controller.scene;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.yeepay.g3.boss.activity.controller.ActivityBaseController;
+import com.yeepay.g3.facade.zt.dto.ZtSceneDTO;
+import com.yeepay.g3.facade.zt.enums.ZtSceneStatusEnum;
+import com.yeepay.g3.facade.zt.facade.ZtSceneFacade;
+import com.yeepay.g3.utils.common.log.Logger;
+import com.yeepay.g3.utils.common.log.LoggerFactory;
+import com.yeepay.g3.utils.rmi.RemoteServiceFactory;
+import com.yeepay.g3.utils.rmi.RemotingProtocol;
+
+/**
+ * @Description
+ * @author 陈大涛
+ * 2016-10-24下午2:14:46
+ */
+@Controller
+@RequestMapping("/zt")
+public class ZtSceneController extends ActivityBaseController{
+	private Logger logger = LoggerFactory.getLogger(ZtSceneController.class);
+	//本地
+//	private ZtSceneFacade ztSceneFacadeImpl = RemoteServiceFactory.getService("http://localhost:8080/activity-hessian/hessian", RemotingProtocol.HESSIAN, ZtSceneFacade.class);
+	
+	//线上
+	private ZtSceneFacade ztSceneFacadeImpl = RemoteServiceFactory.getService(ZtSceneFacade.class);
+	/**
+	 * 查询智投场景列表
+	 * @author 陈大涛
+	 * 2016-10-24下午2:19:50
+	 */
+	@RequestMapping("querySceneList")
+	public String querySceneList(){
+		return "zt/querySceneList";
+	}
+	
+
+	/**
+	 * 查询智投场景详情
+	 * @author 陈大涛
+	 * 2016-10-24下午2:19:50
+	 */
+	@RequestMapping("querySceneDetailInfo")
+	public String querySceneDetailInfo(Model model,@RequestParam(value="id",required=true) Long id){
+		logger.info("[querySceneDetailInfo] id={}",id);
+		ZtSceneDTO ztSceneDto = ztSceneFacadeImpl.querySceneInfoById(id);
+		logger.info("[querySceneDetailInfo] ztSceneDto={}",ztSceneDto);
+		model.addAttribute("ztSceneDto", ztSceneDto);
+		return "zt/querySceneDetailInfo";
+	}
+	
+	/**
+	 * 查看场景图片
+	 * @author 陈大涛
+	 * 2016-6-3下午7:17:43
+	 */
+	@RequestMapping(value="lookSceneImg")
+	public void lookSceneImg(@RequestParam(required = true, value = "id") Long id,
+			HttpServletRequest request,HttpServletResponse response){
+		logger.info("[lookSceneImg]  参数： id={}",id);
+		//查询活动详情
+		ZtSceneDTO ztSceneDto = ztSceneFacadeImpl.queryAllSceneInfoById(id);
+		logger.info("[lookSceneImg] ztSceneDto={}",ztSceneDto);
+		try {
+			byte[] data = ztSceneDto.getSceneIcon();
+			OutputStream out = response.getOutputStream();
+			byte[] buff = new byte[(int)data.length ];
+			int i=0;
+			InputStream in=new ByteArrayInputStream(data);
+			while((i= in.read(buff))!=-1){
+				out.write(buff);
+			}
+			out.close();
+			in.close();	
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+	}
+	
+	
+	/**
+	 * 去新增智投场景信息页面
+	 * @author 陈大涛
+	 * 2016-10-24下午2:21:05
+	 */
+	@RequestMapping("toAddSceneInfo")
+	public String toAddSceneInfo(){
+		return "zt/addSceneInfo";
+	}
+	/**
+	 * 新增智投场景信息
+	 * @author 陈大涛
+	 * 2016-10-24下午2:21:05
+	 */
+	@RequestMapping("addSceneInfo")
+	public String addSceneInfo(Model model,@ModelAttribute ZtSceneDTO ztSceneDto,@RequestParam(value = "sceneImg", required = false) MultipartFile sceneImg,
+			HttpSession session,HttpServletRequest request){
+		logger.info("[addSceneInfo] 参数 ztSceneDto={}",ztSceneDto);
+		String creator=getCurrentUser(session);
+		ztSceneDto.setCreator(creator);
+		ztSceneDto.setCreateTime(new Date());
+		ztSceneDto.setCheckStatus(ZtSceneStatusEnum.CHECKING);
+		if(!sceneImg.isEmpty()){
+			String reg = ".+(.JPEG|.jpeg|.JPG|.jpg|.GIF|.gif|.BMP|.bmp|.PNG|.png)$";
+			 Pattern pattern = Pattern.compile(reg);
+			  Matcher matcher = pattern.matcher(sceneImg.getOriginalFilename());
+			  boolean flag= matcher.matches();
+			  if(flag==true){
+				  try {
+						ztSceneDto.setSceneIcon(sceneImg.getBytes());
+					} catch (IOException e) {
+						logger.error("[addSceneInfo]  图片错误");
+					}
+			  }else{//格式不对
+				  model.addAttribute("picture",false);
+				  return "zt/addSceneInfo";
+			  }
+			  
+		}
+		ztSceneFacadeImpl.insertSceneInfo(ztSceneDto);
+		//成功跳转到查询列表页
+		return "zt/querySceneList";
+	}
+	
+	/**
+	 * 去更改智投场景信息
+	 * @author 陈大涛
+	 * 2016-10-24下午2:21:05
+	 */
+	@RequestMapping("toUpdateSceneInfo")
+	public String toUpdateSceneInfo(Model model,@RequestParam(value="id") Long id){
+		logger.info("[toUpdateSceneInfo] id={}",id);
+		ZtSceneDTO ztSceneDto = ztSceneFacadeImpl.querySceneInfoById(id);
+		logger.info("[toUpdateSceneInfo] ztSceneDto={}",ztSceneDto);
+		model.addAttribute("ztSceneDto", ztSceneDto);
+		return "zt/updateSceneInfo";
+	}
+	/**
+	 * 更改智投场景信息
+	 * @author 陈大涛
+	 * 2016-10-24下午2:21:05
+	 */
+	@RequestMapping("updateSceneInfo")
+	public String updateSceneInfo(Model model,@ModelAttribute ZtSceneDTO ztSceneDto,@RequestParam(value = "sceneImg", required = false) MultipartFile sceneImg,
+			HttpSession session,HttpServletRequest request){
+		logger.info("[updateSceneInfo] 参数 ztSceneDto={}",ztSceneDto);
+		String updator=getCurrentUser(session);
+		ztSceneDto.setCreator(updator);//用创建人字段储存修改人
+		ztSceneDto.setUpdateTime(new Date());
+		ztSceneDto.setCheckStatus(ZtSceneStatusEnum.CHECKING);
+		if(!sceneImg.isEmpty()){
+			String reg = ".+(.JPEG|.jpeg|.JPG|.jpg|.GIF|.gif|.BMP|.bmp|.PNG|.png)$";
+			 Pattern pattern = Pattern.compile(reg);
+			  Matcher matcher = pattern.matcher(sceneImg.getOriginalFilename());
+			  boolean flag= matcher.matches();
+			  if(flag==true){
+				  try {
+						ztSceneDto.setSceneIcon(sceneImg.getBytes());
+					} catch (IOException e) {
+						logger.error("[updateSceneInfo]  图片错误");
+					}
+			  }else{//格式不对
+				  model.addAttribute("picture",false);
+				  return "zt/updateSceneInfo";
+			  }
+			  
+		}
+		ztSceneFacadeImpl.updateZtSceneInfo(ztSceneDto);
+		//成功跳转到查询列表页
+		return "zt/querySceneList";
+	}
+	
+	/**
+	 * 去审核智投场景信息页面
+	 * @author 陈大涛
+	 * 2016-10-24下午2:21:05
+	 */
+	@RequestMapping("queryCheckSceneInfo")
+	public String toCheckSceneInfo(){
+		return "zt/queryCheckSceneInfo";
+	}
+	
+	/**
+	 * 审核智投场景信息
+	 * 审核成功或退回或置失效
+	 * @author 陈大涛
+	 * 2016-10-24下午2:21:05
+	 */
+	@RequestMapping("checkSceneInfo")
+	@ResponseBody
+	public String checkSceneInfo(@RequestParam(required = true, value = "id") String id,
+			@RequestParam(required = true, value = "version") String version,
+			@RequestParam(required = true, value = "status") String status,
+			HttpSession session) {
+		ZtSceneDTO ztSceneDTO = new ZtSceneDTO();
+		// id、version为必传项
+		ztSceneDTO.setId(Long.valueOf(id));
+		ztSceneDTO.setVersion(Long.valueOf(version));
+		// 根据传递的参数将投资换产品状态置为有效或者退回
+		if (status.equals(String.valueOf(ZtSceneStatusEnum.EFFECTIVE))) {
+			ztSceneDTO.setCheckStatus(ZtSceneStatusEnum.EFFECTIVE);
+		} else if (status.equals(String
+				.valueOf(ZtSceneStatusEnum.RETURN_BACK))) {
+			ztSceneDTO.setCheckStatus(ZtSceneStatusEnum.RETURN_BACK);
+		}
+		// 审核人、审核时间
+		ztSceneDTO.setChecker(this.getCurrentUser(session));
+		ztSceneDTO.setCheckTime(new Date());
+		ztSceneFacadeImpl.updateZtSceneInfo(ztSceneDTO);
+		return "SUCCESS";
+	}
+	
+	
+	
+	
+
+}

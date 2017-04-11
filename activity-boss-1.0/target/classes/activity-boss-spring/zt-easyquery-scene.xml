@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+    <bean id="ztSceneQueryService" class="com.yeepay.g3.utils.query.impl.QueryServiceImpl">
+        <property name="dataSource" ref="activityDataSource"/>
+        <property name="querys">
+            <map>
+                <entry key="queryZtScene">
+                    <bean class="com.yeepay.g3.utils.query.Query">
+                        <property name="sql">
+                            <value>
+                                <![CDATA[
+									SELECT
+                                       ID,VERSION,SCENE_NAME,SCENE_DESC,SCENE_TYPE,CREATE_TIME,CREATOR,CHECK_STATUS,CHECK_TIME,CHECKER,UPDATE_TIME
+                                        FROM TBL_ZT_SCENE 
+									WHERE 1=1
+										/~sceneName: AND SCENE_NAME like '%'||{sceneName,String}||'%'~/
+										/~checkStatus: AND CHECK_STATUS = {checkStatus,String}~/
+										/~createTimeStart: AND  CREATE_TIME >= '[createTimeStart,timestamp]' ~/
+									/~createTimeEnd: AND  CREATE_TIME <= '[createTimeEnd,timestamp]' ~/
+									ORDER BY CREATE_TIME DESC
+									WITH UR
+								]]>
+                            </value>
+                        </property>
+                    </bean>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+</beans>

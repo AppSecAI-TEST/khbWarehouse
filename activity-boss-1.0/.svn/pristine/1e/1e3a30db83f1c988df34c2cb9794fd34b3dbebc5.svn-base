@@ -1,0 +1,17 @@
+import com.yeepay.g3.facade.activity.facade.ActivityActionFacade;
+import com.yeepay.g3.utils.rmi.RemoteServiceFactory;
+import com.yeepay.g3.utils.rmi.RemotingProtocol;
+
+/**
+ * @author cdt
+ * @date 2016-5-16
+ * @time 下午5:19:42
+ */
+
+/**
+ * @author cdt
+ * @date 2016-5-16
+ * @time 下午5:19:42
+ */
+public class activityActionTest {
+}

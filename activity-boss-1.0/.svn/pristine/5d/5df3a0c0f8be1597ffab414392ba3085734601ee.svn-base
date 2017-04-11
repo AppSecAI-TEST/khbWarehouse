@@ -1,0 +1,115 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+  pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
+<%@ include file="/WEB-INF/views/common/taglib.jsp"%>
+<html>
+<head>
+<title>活动查询</title>
+<%@ include file="/WEB-INF/views/common/metas.jsp"%>
+<script type="text/javascript">
+$(function(){
+  DatePickerExt.time("createTimeStart");
+  DatePickerExt.time("createTimeEnd");
+});
+  /**
+   *跳转至新增活动页面
+   */
+  function addSrcFlowRule () {
+   	var action = "srcFlowRule/toAddSrcFlowRule";
+    window.location.href = GV.ctxPath + action;
+  }
+  
+  function deleteSrcFlow(id){
+    if(!confirm("确认删除？？？")){
+      return;
+    }
+    var action = "srcFlowRule/deleteSrcFlow?id="+id;
+    window.location.href = GV.ctxPath + action;
+  }
+</script>
+</head>
+<body>
+  <div class="Container">
+    <div class="Content fontText">
+      <!--search star-->
+      <div class="information">
+        <form id="querySrcFlowRuleForm" method="get" enctype="multipart/form-data"
+          action="${ctxPath}srcFlowRule/querySrcFlowRuleList">
+          <div class="search">
+            <div class="search_tit">
+              <h2 class="fw fleft f14">渠道发放流量规则查询</h2>
+            </div>
+            <div class="search_con">
+              <ul class="fix">
+                <li>
+                  <label class="text_tit">渠道编号：</label> 
+                  <input type="text" name="srcNo" class="input_text" value="<c:out value="${srcNo}"/>" />
+                </li>
+                <li><label class="text_tit">优惠券类型：</label>
+					<select id="opeType" name="opeType" class="input_text">
+	                    <option ${empty param.opeType?'selected':'' } value="">全部</option>
+						<c:forEach var="item"
+							items="${_textResource.getTextMap('srcFlow_ope_type') }">
+							<option ${item.key==param.opeType?'selected':''}
+								value="${item.key}">${item.value}</option>
+						</c:forEach>
+  					</select>
+				</li>
+                <li>
+                  <label class="text_tit">创建开始时间：</label> 
+                  <input type="text" id="createTimeStart" name="createTimeStart"  readonly="readonly" class="input_text" value="<c:out value="${startDate}"/>" />
+                </li>
+                <li>
+                  <label class="text_tit">创建截止时间：</label>
+                  <input type="text" id="createTimeEnd" name="createTimeEnd"  readonly="readonly" class="input_text" value="<c:out value="${endDate}"/>" />
+                </li>
+              </ul>
+              <div class="btn">
+                <input type="submit" class="btn_sure fw" value="查询" />
+                <input type="button" onclick="clearAll();"
+                  class="btn_cancel fw" value="清空" /> <input
+                  type="button" class="btn_sure fw"
+                  onclick="addSrcFlowRule()" value="新增规则" />
+              </div>
+              <div class="clearer"></div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="clearer"></div>
+      <div class="result">
+        <h2 class="fw">查询结果</h2>
+        <q:table queryService="srcFlowRuleQueryService" queryKey="querySrcFlowRuleList" template="querytableForUnion" formId="querySrcFlowRuleForm" class="table_list" pageSize="15">
+          <q:nodata>无符合条件的记录</q:nodata>
+          <q:column title="序号" value="${id}" />
+          <q:column title="渠道号" value="${src_no}" />
+          <q:column title="操作类型">
+            <c:forEach var="item" items="${_textResource.getTextMap('srcFlow_ope_type') }">
+              <c:if test="${item.key == ope_type }">
+                <c:out value="${item.value }"></c:out>
+              </c:if>
+            </c:forEach>
+          </q:column>
+          <q:column title="最小操作金额" value="${min_ope_amount}" />
+          <q:column title="最大操作金额" value="${max_ope_amount}" />
+          <q:column title="移动编码" value="${cmcc_code}" />
+          <q:column title="联通编码" value="${cucc_code}" />
+          <q:column title="电信编码" value="${ctcc_code}" />
+          <q:column title="开始时间" value="${_messageFormater.formatDate(start_date)}" />
+          <q:column title="结束时间" value="${_messageFormater.formatDate(end_date)}" />
+          <q:column title="发送标志" value="${sendFlag}" />
+          <q:column title="创建时间" value="${_messageFormater.formatDate(create_time)}" />
+          <q:column title="最后更新时间" value="${_messageFormater.formatDate(last_update_time)}" />
+          <q:column title="操作人" value="${operator}" />
+          
+          <q:column title="操作" escapeHtml="false">
+            <a title="修改" href="toUpdateSrcFlowRule?id=${id }">修改</a>
+            <a title="删除" href="javascript:deleteSrcFlow('${id}')">删除</a>
+          </q:column>
+        </q:table>
+      </div>
+      <div class="clearer"></div>
+      <br />
+    </div>
+  </div>
+</body>
+</html>

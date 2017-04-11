@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<bean id="activityQueryService" class="com.yeepay.g3.utils.query.impl.QueryServiceImpl">
+		<property name="dataSource" ref="activityDataSource" />
+		<property name="querys">
+			<map>
+				<!-- 查询优惠券列表 -->
+				<entry key="queryCouponList">
+					<bean class="com.yeepay.g3.utils.query.Query">
+						<property name="sql">
+							<value>
+								<![CDATA[
+					               	SELECT *
+									FROM TBL_ACTIVITY_COUPON where 1=1
+						     		/~couponName: AND COUPON_NAME like '%'||{couponName,string}||'%'~/
+						     		/~couponType: AND COUPON_TYPE = {couponType,string}~/
+						     		/~couponStatus: AND COUPON_STATUS = {couponStatus,string}~/
+						     		/~createTimeStart: AND CREATE_TIME >= '[createTimeStart,timestamp]' ~/
+									/~createTimeEnd: AND  CREATE_TIME <= '[createTimeEnd,timestamp]' ~/
+						     		/~checkedTimeStart: AND CHECKED_TIME >= '[checkedTimeStart,timestamp]' ~/
+									/~checkedTimeEnd: AND  CHECKED_TIME <= '[checkedTimeEnd,timestamp]' ~/
+						     		ORDER BY ID DESC
+									WITH UR
+				               ]]>
+							</value>
+						</property>
+					</bean>
+				</entry>
+				<!-- 查询活动规则列表 -->
+				<entry key="queryRuleList">
+					<bean class="com.yeepay.g3.utils.query.Query">
+						<property name="sql">
+							<value>
+								<![CDATA[
+					               	SELECT *
+									FROM TBL_ACTIVITY_RULE where 1=1
+						     		/~ruleCode: AND RULE_CODE like '%'||{ruleCode,string}||'%'~/
+						     		/~ruleName: AND RULE_NAME like '%'||{ruleName,string}||'%'~/
+						     		/~ruleStatus: AND RULE_STATUS = {ruleStatus,string}~/
+						     		ORDER BY ID DESC
+									WITH UR
+				               ]]>
+							</value>
+						</property>
+					</bean>
+				</entry>
+				<!-- 查询活动事件列表 -->
+				<entry key="queryEventList">
+					<bean class="com.yeepay.g3.utils.query.Query">
+						<property name="sql">
+							<value>
+								<![CDATA[
+					               	SELECT *
+									FROM TBL_ACTIVITY_EVENT where 1=1
+						     		/~eventCode: AND EVENT_CODE like '%'||{eventCode,string}||'%'~/
+						     		/~eventName: AND EVENT_NAME like '%'||{eventName,string}||'%'~/
+						     		ORDER BY ID DESC
+									WITH UR
+				               ]]>
+							</value>
+						</property>
+					</bean>
+				</entry>
+				
+				<!-- 查询批量发放优惠券记录 -->
+				<entry key="queryBatchGrantList">
+					<bean class="com.yeepay.g3.utils.query.Query">
+						<property name="sql">
+							<value>
+								<![CDATA[
+					               	SELECT 
+									A.ID,A.BATCH_GRANT_NAME,
+									A.MEMBER_COUNT,
+									A.MEMBER_COUNT*A.PER_GRANT_COUNT AS GRANT_COUNT,
+									A.PER_GRANT_COUNT,
+									B.COUPON_NAME,
+									B.COUPON_TYPE,
+									B.COUPON_AMOUNT*A.MEMBER_COUNT*A.PER_GRANT_COUNT AS COUNT_AMOUNT,
+									A.CREATE_TIME,
+									A.GRANT_STATUS,
+									A.VERSION  
+									FROM ACTIVITY.TBL_ACTIVITY_GRANT_RECORD A,ACTIVITY.TBL_ACTIVITY_COUPON B 
+									WHERE 1=1 AND A.COUPON_ID=B.ID
+						     		/~batchGrantName: AND BATCH_GRANT_NAME like '%'||{batchGrantName,string}||'%'~/
+						     		/~createTimeStart: AND A.CREATE_TIME >= '[createTimeStart,timestamp]' ~/
+									/~createTimeEnd: AND  A.CREATE_TIME <= '[createTimeEnd,timestamp]' ~/
+						     		ORDER BY A.CREATE_TIME DESC
+									
+				               ]]>
+							</value>
+						</property>
+					</bean>
+				</entry>
+				<!-- 查询批量发放用户优惠券明细 -->
+				<entry key="queryGrantUsercouponDetailList">
+					<bean class="com.yeepay.g3.utils.query.Query">
+						<property name="sql">
+							<value>
+								<![CDATA[
+					               	SELECT 
+					               	A.ID,
+									A.COUPON_COUNT,
+									A.COUPON_USED_COUNT,
+									A.MEMBER_NO,
+									A.VALIDITY_TIME_START,
+									A.VALIDITY_TIME_END,
+									A.RULE_NAME,
+									A.RULE_TYPE,
+									B.COUPON_NAME,
+									B.COUPON_STATUS
+									FROM ACTIVITY.TBL_ACTIVITY_USERCOUPON A LEFT JOIN ACTIVITY.TBL_ACTIVITY_COUPON B
+									ON A.COUPON_ID = B.ID 
+									WHERE 1 = 1 
+						     		/~ruleId: AND A.RULE_ID = {ruleId,long}~/
+						     		/~memberNo: AND A.MEMBER_NO like '%'||{memberNo,string}||'%'~/
+						     		/~ruleType: AND A.RULE_TYPE = {ruleType,string}~/
+						     		ORDER BY A.ID DESC
+				               ]]>
+							</value>
+						</property>
+					</bean>
+				</entry>
+				
+				<!-- 查询抽奖券列表 -->
+				<entry key="queryRaffleTicketList">
+					<bean class="com.yeepay.g3.utils.query.Query">
+						<property name="sql">
+							<value>
+								<![CDATA[
+					               	SELECT *
+									FROM TBL_ACTIVITY_RAFFLE_TICKET where 1=1
+						     		/~raffleTicketName: AND RAFFLE_TICKET_NAME like '%'||{raffleTicketName,string}||'%'~/
+						     		/~couponStatus: AND COUPON_STATUS = {couponStatus,string}~/
+						     		/~createTimeStart: AND CREATE_TIME >= '[createTimeStart,timestamp]' ~/
+									/~createTimeEnd: AND  CREATE_TIME <= '[createTimeEnd,timestamp]' ~/
+						     		/~checkedTimeStart: AND CHECKED_TIME >= '[checkedTimeStart,timestamp]' ~/
+									/~checkedTimeEnd: AND  CHECKED_TIME <= '[checkedTimeEnd,timestamp]' ~/
+						     		ORDER BY ID DESC
+									WITH UR
+				               ]]>
+							</value>
+						</property>
+					</bean>
+				</entry>
+				
+				<!-- 查询商品列表 -->
+				<entry key="queryGoodsList">
+					<bean class="com.yeepay.g3.utils.query.Query">
+						<property name="sql">
+							<value>
+								<![CDATA[
+					               	SELECT *
+									FROM TBL_ACTIVITY_GOODS where 1=1
+						     		/~goodsName: AND GOODS_NAME like '%'||{goodsName,string}||'%'~/
+						     		/~goodsStatus: AND GOODS_STATUS = {goodsStatus,string}~/
+						     		/~goodsType: AND GOODS_TYPE = {goodsType,string}~/
+						     		/~createTimeStart: AND CREATE_TIME >= '[createTimeStart,timestamp]' ~/
+									/~createTimeEnd: AND  CREATE_TIME <= '[createTimeEnd,timestamp]' ~/
+						     		/~checkedTimeStart: AND CHECKED_TIME >= '[checkedTimeStart,timestamp]' ~/
+									/~checkedTimeEnd: AND  CHECKED_TIME <= '[checkedTimeEnd,timestamp]' ~/
+						     		ORDER BY ID DESC
+									WITH UR
+				               ]]>
+							</value>
+						</property>
+					</bean>
+				</entry>
+				
+				<!-- 查询奖品列表 -->
+				<entry key="queryPrizeList">
+					<bean class="com.yeepay.g3.utils.query.Query">
+						<property name="sql">
+							<value>
+								<![CDATA[
+					               	SELECT *
+									FROM TBL_ACTIVITY_PRIZE where 1=1
+						     		/~prizeName: AND PRIZE_NAME like '%'||{prizeName,string}||'%'~/
+						     		/~prizeStatus: AND PRIZE_STATUS = {prizeStatus,string}~/
+						     		/~prizeType: AND PRIZE_TYPE = {prizeType,string}~/
+						     		/~createTimeStart: AND CREATE_TIME >= '[createTimeStart,timestamp]' ~/
+									/~createTimeEnd: AND  CREATE_TIME <= '[createTimeEnd,timestamp]' ~/
+						     		/~checkedTimeStart: AND CHECKED_TIME >= '[checkedTimeStart,timestamp]' ~/
+									/~checkedTimeEnd: AND  CHECKED_TIME <= '[checkedTimeEnd,timestamp]' ~/
+						     		ORDER BY ID DESC
+									WITH UR
+				               ]]>
+							</value>
+						</property>
+					</bean>
+				</entry>
+				
+				<!-- 查询用户中奖列表 -->
+				<entry key="queryUserPrizeList">
+					<bean class="com.yeepay.g3.utils.query.Query">
+						<property name="sql">
+							<value>
+								<![CDATA[
+					               	SELECT UP.*
+									FROM ACTIVITY.TBL_ACTIVITY_USER_PRIZE UP
+									where 1=1
+						     		/~prizeName: AND UP.PRIZE_NAME like '%'||{prizeName,string}||'%'~/
+						     		/~realName: AND M.REAL_NAME like '%'||{realName,string}||'%'~/
+						     		/~memberTel: AND UP.MEMBER_TEL = {memberTel,string}~/
+						     		/~grantType: AND UP.GRANT_TYPE = {grantType,string}~/
+						     		/~createTimeStart: AND UP.CREATE_TIME >= '[createTimeStart,timestamp]' ~/
+									/~createTimeEnd: AND  UP.CREATE_TIME <= '[createTimeEnd,timestamp]' ~/
+						     		/~checkedTimeStart: AND UP.CHECKED_TIME >= '[checkedTimeStart,timestamp]' ~/
+									/~checkedTimeEnd: AND  UP.CHECKED_TIME <= '[checkedTimeEnd,timestamp]' ~/
+						     		ORDER BY UP.ID DESC
+									WITH UR
+				               ]]>
+							</value>
+						</property>
+					</bean>
+				</entry>
+			</map>
+		</property>
+	</bean>
+</beans>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+    <bean id="activityQueryService" class="com.yeepay.g3.utils.query.impl.QueryServiceImpl">
+        <property name="dataSource" ref="creditAccountDataSource"/>
+        <property name="querys">
+            <map>
+                <entry key="creditAccount">
+                    <bean class="com.yeepay.g3.utils.query.Query">
+                        <property name="sql">
+                            <value>
+                                <![CDATA[
+									SELECT
+                                        A.*,
+                                        B.PROVIDER_NAME
+                                        FROM TBL_CREDIT_ACCOUNT A
+                                        LEFT OUTER JOIN TBL_ACCOUNT_PROVIDER B
+                                        ON A.PROVIDER_ID=B.CUSTOMER_ID
+									WHERE 1=1
+										/~accountNo: AND A.ACCOUNT_NO = {accountNo}~/
+										/~customerNo: AND A.CUSTOMER_NO = {customerNo}~/
+										/~status: AND A.STATUS = {status}~/
+										/~accountType: AND A.ACCOUNT_TYPE = {accountType}~/
+										/~providerName: AND B.PROVIDER_NAME LIKE '%'||{providerName}||'%'~/
+										/~createStartTime: AND A.CREATE_DATE >= {createStartTime,mintimestamp}~/
+										/~createEndTime: AND A.CREATE_DATE <= {createEndTime,nexttimestamp}~/
+									ORDER BY A.CREATE_DATE DESC
+									WITH UR
+								]]>
+                            </value>
+                        </property>
+                    </bean>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+</beans>

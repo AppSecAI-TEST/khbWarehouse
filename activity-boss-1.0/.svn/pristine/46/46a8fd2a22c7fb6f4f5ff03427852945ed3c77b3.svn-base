@@ -1,0 +1,142 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
+<%@ include file="/WEB-INF/views/common/taglib.jsp" %>
+<html>
+<head>
+<title>每日新增订单查询</title>
+<%@ include file="/WEB-INF/views/common/metas.jsp"%>
+<%-- <script src="${resourceUrl}/js/product.js"></script> --%>
+<script type="text/javascript">
+  $(function () {
+    DatePickerExt.between("createTimeStart", "createTimeEnd", {
+//       maxDate : 0,
+      showButtonPanel : true
+    });
+//     DatePickerExt.between("checkedStartTime", "checkedEndTime", {
+//       maxDate : 0,
+//       showButtonPanel : true
+//     });
+  });
+  
+  /**
+   *跳转至新增优惠券页面
+   */
+  function addCoupon() {
+	  var action = "coupon/toAddCoupon";
+	  window.location.href = GV.ctxPath + action;
+  }
+  
+  /**
+   * 审核通过或退回
+   */
+  function changeStatus(id, status, version) {
+	  var action = "couponCheck";
+	  if(confirm("确认是否审核通过？")) {
+		  MessageBoxExt.ajax({
+			  url : GV.ctxPath + "coupon/" + action,
+			  data : {
+			    "id" : id,
+			    "couponStatus" : status,
+			    "version" : version
+			  },
+			  style : "REDIRECT",
+			  success : function (result) {
+			     //alert(result);
+			  }
+		  });
+	  }
+  }
+</script>
+</head>
+<body>
+	<div class="Container">
+		<div class="Content fontText">
+			<!--search star-->
+			<div class="information">
+				<form id="queryNewTransactionOrderListForm" method="get"
+					action="${ctxPath}ztPolicy/queryNewTransactionOrder">
+					<div class="search">
+						<div class="search_tit">
+							<h2 class="fw fleft f14">智投订单查询</h2>
+						</div>
+						<div class="search_con">
+							<ul class="fix">
+							<li><label class="text_tit">策略名称：</label> <input
+									type="text" name="policyName" class="input_text"
+									value="<c:out value="${policyName}"/>" /></li>
+								<li><label class="text_tit">会员编号：</label> <input
+									type="text" name="memberNo" class="input_text"
+									value="<c:out value="${memberNo}"/>" /></li>
+								<li><label class="text_tit">交易状态：</label>
+									<select id="orderStatus" name="orderStatus" class="input_text">
+					                    <option ${empty param.orderStatus?'selected':'' } value="">全部</option>
+										<c:forEach var="item"
+											items="${_textResource.getTextMap('activity_zt_status') }">
+											<option ${item.key==param.orderStatus?'selected':''}
+												value="${item.key}">${item.value}</option>
+										</c:forEach>
+                					</select>
+								</li>
+								<li><label class="text_tit">交易类型：</label>
+									<select id="orderType" name="orderType" class="input_text">
+					                    <option ${empty param.orderType?'selected':'' } value="">全部</option>
+										<c:forEach var="item"
+											items="${_textResource.getTextMap('activity_zt_type') }">
+											<option ${item.key==param.orderType?'selected':''}
+												value="${item.key}">${item.value}</option>
+										</c:forEach>
+                					</select>
+								</li>
+								<li><label class="text_tit">创建起始时间：</label>
+									<input type="text" name="createTimeStart" class="input_text" id="createTimeStart" value="${createTimeStart}" readonly="true" />
+								</li>
+								<li><label class="text_tit">创建截止时间：</label>
+                  					<input type="text" name="createTimeEnd" class="input_text" value="${createTimeEnd}" id="createTimeEnd" readonly="true" />
+								</li>
+							</ul>
+							<div class="btn">
+								<input type="submit" class="btn_sure fw" value="查询" />
+								<input type="button" onclick="clearAll();" class="btn_cancel fw" value="清空" />
+							</div>
+							<div class="clearer"></div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="clearer"></div>
+			<div class="result">
+				<h2 class="fw">查询结果</h2>
+				<q:table queryService="ztPolicyQueryService" queryKey="queryNewTransactionOrderList"
+					template="querytableForUnion" formId="queryNewTransactionOrderListForm"
+					class="table_list" pageSize="15">
+					<q:nodata>无符合条件的记录</q:nodata>
+					<q:column title="策略名称" value="${policy_name}" />
+					<q:column title="用户编号" value="${member_no}" 	/>
+					<q:column title="策略交易汇总ID" value="${policy_order_id}" width="40px" />
+					<q:column title="交易类型" >
+						<c:forEach var="item" items="${_textResource.getTextMap('activity_zt_type') }">
+	                        <c:if test="${item.key == order_type }">
+	                        <c:out value="${item.value }"></c:out>
+                        </c:if>
+                      </c:forEach>
+					</q:column>
+					<q:column title="支付方式" value="${pay_mode}" />
+					<q:column title="交易金额" value="${order_amount}" />
+					<q:column title="手续费" value="${fee}" />
+					<q:column title="创建时间" value="${_messageFormater.formatDate(order_time)}" />
+					<q:column title="交易状态" escapeHtml="false" >
+						<c:forEach var="item" items="${_textResource.getTextMap('activity_zt_status') }">
+	                        <c:if test="${item.key == order_status }">
+	                        <c:out value="${item.value }"></c:out>
+                        </c:if>
+                      </c:forEach>
+					</q:column>
+					<q:column title="userAgent" value="${user_agent}" />
+				</q:table>
+			</div>
+			<div class="clearer"></div>
+			<br />
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,188 @@
+package com.yeepay.g3.boss.zt.controller.policy;
+
+import java.util.Date;
+import java.util.List;
+
+import javax.servlet.http.HttpSession;
+
+import org.apache.commons.lang.StringUtils;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.yeepay.g3.boss.activity.controller.ActivityBaseController;
+import com.yeepay.g3.facade.zt.dto.ZtPolicyDTO;
+import com.yeepay.g3.facade.zt.dto.ZtPolicyProductDTO;
+import com.yeepay.g3.facade.zt.enums.ZtPolicyStatusEnum;
+import com.yeepay.g3.facade.zt.facade.ZtPolicyFacade;
+import com.yeepay.g3.facade.zt.facade.ZtPolicyProductFacade;
+import com.yeepay.g3.utils.common.log.Logger;
+import com.yeepay.g3.utils.common.log.LoggerFactory;
+import com.yeepay.g3.utils.rmi.RemoteServiceFactory;
+import com.yeepay.g3.utils.rmi.RemotingProtocol;
+
+
+/**
+ * @Description 策略基础信息Controller
+ * @author ping.zhu
+ * @CreateTime 2016年10月24日 下午14:18:14
+ * @version 1.0
+ */
+@Controller
+@RequestMapping("/ztPolicy")
+public class ZtPolicyController extends ActivityBaseController{
+	
+
+	//投资换产品规则信息远程服务接口
+//	private ZtPolicyFacade ztPolicyFacadeImpl = RemoteServiceFactory
+//			.getService("http://localhost:8099/activity-hessian/hessian", RemotingProtocol.HESSIAN, ZtPolicyFacade.class);
+//	private ZtPolicyProductFacade ztPolicyProductFacade = RemoteServiceFactory
+//			.getService("http://localhost:8099/activity-hessian/hessian", RemotingProtocol.HESSIAN, ZtPolicyProductFacade.class);
+
+	private ZtPolicyFacade ztPolicyFacadeImpl = RemoteServiceFactory.getService(ZtPolicyFacade.class);
+	private ZtPolicyProductFacade ztPolicyProductFacade = RemoteServiceFactory.getService(ZtPolicyProductFacade.class);
+	private Logger logger = LoggerFactory.getLogger(ZtPolicyController.class);
+
+	
+	/**
+	 * 去新增策略基础信息页面
+	 * @return
+	 */
+	@RequestMapping(value="/toAddZtPolicy")
+	public String toAddPolicy(){
+		return "ztPolicy/addZtPolicy";
+	}
+	
+	/**
+	 * 添加策略基础信息
+	 * @param model
+	 * @param ztPolicyDto
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value="/addZtPolicy")
+	public String addZtPolicy(Model model,@ModelAttribute ZtPolicyDTO ztPolicyDto,HttpSession session,
+			@RequestParam(required = false , value = "policyProductString") String policyProductString){
+		if(null!=ztPolicyDto&&StringUtils.isNotEmpty(policyProductString)){
+			ztPolicyDto.setCreator(this.getCurrentUser(session));
+			ztPolicyFacadeImpl.addPolicy(ztPolicyDto, policyProductString);
+		}
+		return "ztPolicy/queryPolicyList";
+	}
+	
+	/**
+	 * 去查询所有策略信息页面
+	 * @return
+	 */
+	@RequestMapping(value="/queryPolicyList")
+	public String queryPolicyList(){
+		return "ztPolicy/queryPolicyList";
+	}
+	
+	/**
+	 * 去修改策略信息页面
+	 * @param id
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value="toModifyPolicy")
+	public String toModifyPolicy(@RequestParam(required = true , value = "id") String id , Model model){
+		try {
+			ZtPolicyDTO ztPolicyDto=null;
+			if(null!=id){
+				ztPolicyDto=ztPolicyFacadeImpl.selectPolicyByPrimaryKey(Long.valueOf(id));
+				model.addAttribute("ztPolicyDto",ztPolicyDto);
+				List<ZtPolicyProductDTO> fundList =  ztPolicyProductFacade.selectPolicyProductList(ztPolicyDto.getId());
+				StringBuffer buffer = new StringBuffer();
+				for(ZtPolicyProductDTO dto : fundList) {
+					buffer.append(dto.getProductProportion()).append("?");
+					buffer.append(dto.getProductName()).append("?");
+					buffer.append(dto.getProductCode()).append("?");
+					buffer.append(dto.getProductType()).append("?");
+					buffer.append(dto.getProductMinAmount()).append("#");
+				}
+				String policyProductString = buffer.substring(0, buffer.length()-1).toString();
+				model.addAttribute("policyProductString",policyProductString);
+			}
+		} catch (Exception e) {
+			logger.error("[toModifyPolicy] error={}",e);
+		}
+		return "ztPolicy/modifyPolicy";
+	}
+	
+	/**
+	 * 修改流量通道规则
+	 * @return
+	 */
+	@RequestMapping(value = "/modifyZtPolicy")
+	public String modifyZtPolicy(@ModelAttribute ZtPolicyDTO ztPolicyDto,HttpSession session,
+			@RequestParam(required = false, value = "policyProductString") String policyProductString) {
+		try {
+			ztPolicyDto.setCreator(this.getCurrentUser(session));
+			ztPolicyDto.setLastUpdateTime(new Date());
+			ztPolicyFacadeImpl.updatePolicy(ztPolicyDto, policyProductString);
+		} catch (Exception e) {
+			logger.error("[modifyZtPolicy] error={}", e);
+		}
+		return "ztPolicy/queryPolicyList";
+	}
+	
+
+	/**
+	 * 查询智投策略详情
+	 * 2016-10-24下午2:19:50
+	 */
+	@RequestMapping("queryPolicyDetailInfo")
+	public String queryPolicyDetailInfo(Model model,@RequestParam(value="id",required=true) Long id){
+		logger.info("[queryPolicyDetailInfo] id={}",id);
+		ZtPolicyDTO ztPolicyDTO = ztPolicyFacadeImpl.selectPolicyByPrimaryKey(id);
+		logger.info("[queryPolicyDetailInfo] ztPolicyDTO={}",ztPolicyDTO);
+		model.addAttribute("ztPolicyDTO", ztPolicyDTO);
+		List<ZtPolicyProductDTO> fundList =  ztPolicyProductFacade.selectPolicyProductList(ztPolicyDTO.getId());
+		model.addAttribute("fundList", fundList);
+		return "ztPolicy/queryPolicyDetailInfo";
+	}
+	
+	
+	/**
+	 * 去审核智投策略信息页面
+	 * 2016-10-24下午2:21:05
+	 */
+	@RequestMapping("queryCheckPolicyInfo")
+	public String queryCheckPolicyInfo(){
+		return "ztPolicy/queryCheckPolicyInfo";
+	}
+	
+	/**
+	 * 审核智投策略信息
+	 * 审核成功或退回或置失效
+	 * 2016-10-24下午2:21:05
+	 */
+	@RequestMapping("checkPolicyInfo")
+	@ResponseBody
+	public String checkSceneInfo(@RequestParam(required = true, value = "id") String id,
+			@RequestParam(required = true, value = "version") String version,
+			@RequestParam(required = true, value = "status") String status,
+			HttpSession session) {
+		ZtPolicyDTO ztPolicyDTO = new ZtPolicyDTO();
+		// id、version为必传项
+		ztPolicyDTO.setId(Long.valueOf(id));
+		ztPolicyDTO.setVersion(Long.valueOf(version));
+		// 根据传递的参数将投资换产品状态置为有效或者退回
+		if (status.equals(String.valueOf(ZtPolicyStatusEnum.EFFECTIVE))) {
+			ztPolicyDTO.setCheckStatus(ZtPolicyStatusEnum.EFFECTIVE);
+		} else if (status.equals(String
+				.valueOf(ZtPolicyStatusEnum.RETURN_BACK))) {
+			ztPolicyDTO.setCheckStatus(ZtPolicyStatusEnum.RETURN_BACK);
+		}
+		// 审核人、审核时间
+		ztPolicyDTO.setChecker(this.getCurrentUser(session));
+		ztPolicyDTO.setCheckTime(new Date());
+		ztPolicyFacadeImpl.updatePolicy(ztPolicyDTO,null);
+		return "SUCCESS";
+	}
+	
+}

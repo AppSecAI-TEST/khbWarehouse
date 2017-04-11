@@ -1,0 +1,13 @@
+#sentinels=127.0.0.1:26379,127.0.0.1:26479
+#sentinels=127.0.0.1:6379
+#qa ip 
+#sentinels=10.151.30.50:6379  
+sentinels=redis.bass.3g:6379
+masterName=mymaster
+maxTotal=20
+maxIdle=5
+maxWaitMillis=1000
+testOnBorrow=true
+testOnReturn=true
+timeout=2000
+newVersion=true

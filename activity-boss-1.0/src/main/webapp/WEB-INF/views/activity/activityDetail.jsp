@@ -1,0 +1,86 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
+<%@ include file="/WEB-INF/views/common/taglib.jsp" %>
+<html>
+<head>
+<title>活动详情</title>
+<%@ include file="/WEB-INF/views/common/metas.jsp"%>
+</head>
+<body>
+	<div class="Container">
+		<div class="Content fontText">
+			<div class="information">
+			    <div class="clear"></div>
+			    <div class="search_tit">
+					<h2 class="fw fleft f14">活动详情</h2>
+				</div>
+			      <div class="input_cont">
+			        <ul>
+			          <li>
+			            <label class="text_tit">活动编码：</label>
+			            <c:out value="${activityInfoDto.activityCode }"></c:out>
+			          </li>
+			          <li><label class="text_tit">活动名称：</label>
+						  <c:out value="${activityInfoDto.activityName }"></c:out>
+					  </li>
+                      <li><label class="text_tit">活动是否显示：</label>
+                      <c:if test="${activityInfoDto.isShow==1 }">
+                        <c:out value="是"></c:out>
+                      </c:if>
+                      <c:if test="${activityInfoDto.isShow==0 }">
+                       <c:out value="否"></c:out>
+                      </c:if>
+                     
+                      </li>
+                      <li><label class="text_tit">活动图片：</label>
+                          <img alt="" src="lookActivityImg?id=${activityInfoDto.id }">
+                       </li>
+                      <li><label class="text_tit">活动上线时间：</label>
+                          <c:out value="${_messageFormater.formatDate(activityInfoDto.uplineTime) }"></c:out>
+                      </li>
+                      <li><label class="text_tit">活动开始时间：</label>
+                          <c:out value="${_messageFormater.formatDate(activityInfoDto.startTime) }"></c:out>
+                      </li>
+                      <li><label class="text_tit">活动截止时间：</label>
+                         <c:out value="${_messageFormater.formatDate(activityInfoDto.endTime) }"></c:out>
+                      </li>
+                      <li><label class="text_tit">活动URL：</label>
+                         <c:out value="${activityInfoDto.activityUrl }"></c:out>
+                      </li>
+                      <li><label class="text_tit">活动上线说明：</label>
+                      <textarea rows="10" cols="100" readonly="readonly" style="text-align: left"><c:out value="${activityInfoDto.uplineRemark }"></c:out></textarea>
+                      </li>
+                      <li><label class="text_tit">活动下线说明：</label>
+                        <textarea rows="10" cols="100"  style="text-align: left" readonly="readonly"><c:out value="${activityInfoDto.offlineRemark }"></c:out></textarea>
+                      </li>
+                      <li><label class="text_tit">抽奖基数值：</label>
+                         <c:out value="${activityInfoDto.lotteryBase }"></c:out>
+                      </li>
+                      <li><label class="text_tit">幸运值基数值：</label>
+                         <c:out value="${activityInfoDto.luckBase }"></c:out>
+                      </li>
+			          <li>
+			            <label class="text_tit">已选择事件：</label>
+			            <table>
+			            	<c:forEach items="${activityActionListDto}" var="action" varStatus="num">
+		            			<tr>
+		            				<td>
+					  					  事件序号：${action.id }; 事件名称： ${action.actionName } <span style="width:30px"></span>
+			            			</td>
+							 	</tr>
+			            	</c:forEach>
+			            </table>
+			          </li>
+			        </ul>
+			      </div>
+			      <div class="btn">
+					<input type="button" onclick="window.history.go(-1)" class="btn_cancel fw" value="取消" />
+				  </div>
+				  <div class="clearer"></div>
+			    </form>
+			  </div>
+			<br />
+		</div>
+	</div>
+</body>
+</html>

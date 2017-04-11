@@ -1,0 +1,164 @@
+/**
+ * 
+ */
+package com.yeepay.g3.boss.activity.controller.coupon;
+
+import java.util.Date;
+import java.util.List;
+
+import javax.servlet.http.HttpSession;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.yeepay.g3.boss.activity.controller.ActivityBaseController;
+import com.yeepay.g3.facade.activity.dto.ActivityCouponDTO;
+import com.yeepay.g3.facade.activity.dto.ActivityCouponLevelDTO;
+import com.yeepay.g3.facade.activity.enums.CouponStatusEnum;
+import com.yeepay.g3.facade.activity.enums.DiscountTypeEnum;
+import com.yeepay.g3.facade.activity.facade.ActivityCouponFacade;
+import com.yeepay.g3.utils.rmi.RemoteServiceFactory;
+import com.yeepay.g3.utils.rmi.RemotingProtocol;
+
+/**
+ * @Description 优惠券管理Controller
+ * @author zhenping.zhou
+ * @CreateTime 2016年3月28日 下午1:04:26
+ * @version 1.0
+ */
+@Controller
+@RequestMapping("/coupon")
+public class CouponController extends ActivityBaseController {
+	
+	//优惠券信息远程服务接口
+//	@Resource
+	private ActivityCouponFacade activityCouponFacadeImpl = RemoteServiceFactory
+			.getService("http://localhost:8080/activity-hessian/hessian", RemotingProtocol.HESSIAN, ActivityCouponFacade.class);
+//	private ActivityCouponFacade activityCouponFacadeImpl = RemoteServiceFactory
+//			.getService(ActivityCouponFacade.class);
+	
+	/**
+	 * 查询待审核列表
+	 * @return
+	 */
+	@RequestMapping(value = "/queryCheckingCouponList")
+	public String queryCheckingCouponList() {
+		return "coupon/checkingCouponList";
+	}
+	
+	/**
+	 * 查询所有优惠券列表
+	 * @return
+	 */
+	@RequestMapping(value = "/queryCouponList")
+	public String queryCouponList() {
+		return "coupon/queryCouponList";
+	}
+
+	/**
+	 * 跳转至优惠券新增页面
+	 * @return
+	 */
+	@RequestMapping(value = "/toAddCoupon")
+	public String toAddCoupon() {
+		return "coupon/addCoupon";
+	}
+	
+	/**
+	 * 保存优惠券
+	 * @return
+	 */
+	@RequestMapping(value = "/addCoupon")
+	public String addCoupon(@ModelAttribute ActivityCouponDTO couponDto,
+			@RequestParam(required = true, value = "couponLevel") String couponLevel,
+			HttpSession session) {
+		couponDto.setCreator(this.getCurrentUser(session));
+		activityCouponFacadeImpl.addActivityCoupon(couponDto, couponLevel);
+		return "coupon/queryCouponList";
+	}
+	
+	/**
+	 * 优惠券审核功能
+	 * @param id
+	 * @param couponStatus
+	 * @param version
+	 * @param operateType
+	 * @param ruleDesc
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value = "/couponCheck")
+	@ResponseBody
+	public String couponCheck(
+			@RequestParam(required = true, value = "id") String id,
+			@RequestParam(required = true, value = "couponStatus") String couponStatus,
+			@RequestParam(required = true, value = "version") String version,
+			@RequestParam(value = "operateType") String operateType,
+			@RequestParam(value = "ruleDesc") String ruleDesc,
+			HttpSession session) {
+		
+		//只用于修改备注功能
+		if("updateRuleDesc".equals(operateType)) {
+			ActivityCouponDTO couponDto = new ActivityCouponDTO();
+			couponDto.setId(Long.valueOf(id));
+			couponDto.setVersion(Long.valueOf(version));
+			couponDto.setRuleDesc(ruleDesc);
+			String user = this.getCurrentUser(session);
+			couponDto.setCheckor(user);
+			couponDto.setCheckedTime(new Date());
+			activityCouponFacadeImpl.updateActivityCouponById(couponDto);
+			return "SUCCESS";
+		}
+		
+		ActivityCouponDTO couponDto = new ActivityCouponDTO();
+		couponDto.setId(Long.valueOf(id));
+		couponDto.setVersion(Long.valueOf(version));
+		//只有审批通过、退回、作废（暂时保留）才能调此方法
+		if(CouponStatusEnum.EFFECTIVE.toString().equals(couponStatus)) {
+			couponDto.setCouponStatus(CouponStatusEnum.EFFECTIVE);
+		} else if(CouponStatusEnum.RETURN_BACK.toString().equals(couponStatus)) {
+			couponDto.setCouponStatus(CouponStatusEnum.RETURN_BACK);
+		}
+		String user = this.getCurrentUser(session);
+		couponDto.setCheckor(user);
+		couponDto.setCheckedTime(new Date());
+		
+		activityCouponFacadeImpl.updateActivityCouponById(couponDto);
+		
+		return "SUCCESS";
+	}
+	
+	/**
+	 * 优惠券查看
+	 * @param id
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value = "/couponDetail")
+	public String couponDetail(
+			@RequestParam(required = true, value = "id") String id,
+			Model model) {
+		
+		ActivityCouponDTO couponDto = activityCouponFacadeImpl.selectCouponById(Long.valueOf(id));
+		model.addAttribute("couponDto", couponDto);
+		List<ActivityCouponLevelDTO> couponLevelList = activityCouponFacadeImpl.getCouponLevelByCouponId(Long.valueOf(id));
+		model.addAttribute("couponLevelList", couponLevelList);
+//		if("1".equals(id)) {
+//			
+//			ActivityCouponDTO activityCouponDto = new ActivityCouponDTO();
+//			activityCouponDto.setId(Long.valueOf(id));
+//			activityCouponDto.setVersion(couponDto.getVersion());
+//			activityCouponDto.setDiscountType(DiscountTypeEnum.PRINCIPAL);
+//			activityCouponDto.setCheckor("zhenping.zhou");
+//			activityCouponFacadeImpl.updateActivityCouponById(activityCouponDto);
+//			
+//		}
+		
+		return "coupon/couponDetail";
+	}
+	
+}

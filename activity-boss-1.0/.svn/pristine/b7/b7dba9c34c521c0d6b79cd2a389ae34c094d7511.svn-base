@@ -1,0 +1,208 @@
+package com.yeepay.g3.boss.activity.controller.grant;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpSession;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.yeepay.g3.boss.activity.controller.ActivityBaseController;
+import com.yeepay.g3.facade.activity.dto.ActivityCouponDTO;
+import com.yeepay.g3.facade.activity.dto.ActivityGrantRecordDTO;
+import com.yeepay.g3.facade.activity.enums.CouponStatusEnum;
+import com.yeepay.g3.facade.activity.enums.GrantStatusEnum;
+import com.yeepay.g3.facade.activity.enums.ValidityTypeEnum;
+import com.yeepay.g3.facade.activity.facade.ActivityCouponFacade;
+import com.yeepay.g3.facade.activity.facade.ActivityGrantRecordFacade;
+import com.yeepay.g3.utils.common.log.Logger;
+import com.yeepay.g3.utils.common.log.LoggerFactory;
+import com.yeepay.g3.utils.rmi.RemoteServiceFactory;
+
+/**
+ * @Description 批量发放优惠券管理Controller
+ * @author ying.liu
+ * @CreateTime 2016-3-29
+ * @version 1.0
+ */
+@Controller
+@RequestMapping("/batchGrant")
+public class BatchGrantController extends ActivityBaseController {
+	
+	private Logger logger = LoggerFactory.getLogger(BatchGrantController.class);
+//	private ActivityCouponFacade activityCouponFacadeImpl = RemoteServiceFactory
+//			.getService("http://localhost:8080/activity-hessian/hessian", RemotingProtocol.HESSIAN, ActivityCouponFacade.class);
+	private ActivityCouponFacade activityCouponFacadeImpl = RemoteServiceFactory
+			.getService(ActivityCouponFacade.class);
+	
+//	private ActivityGrantRecordFacade activityGrantRecordFacadeImpl = RemoteServiceFactory
+//			.getService("http://localhost:8080/activity-hessian/hessian",RemotingProtocol.HESSIAN, ActivityGrantRecordFacade.class);
+	private ActivityGrantRecordFacade activityGrantRecordFacadeImpl = RemoteServiceFactory
+			.getService(ActivityGrantRecordFacade.class);
+	
+	//	private ActivityCouponFacade activityCouponFacade = RemoteServiceFactory.getService(ActivityCouponFacade.class);
+	/**
+	 * 查询批量发放记录
+	 * @return
+	 */
+	@RequestMapping(value = "/queryBatchGrantList")
+	public String queryBatchGrantList() {
+		
+		return "coupon/queryGrantCoupon";
+	}
+	/**
+	 * 查询待审核批量发放记录
+	 * @return
+	 */
+	@RequestMapping(value = "/queryCheckingGrantRecord")
+	public String queryCheckingGrantList() {
+		logger.info("[queryCheckingGrantRecord] info={}","查询待审核批量发放记录...");
+		return "coupon/checkingGrantCoupon";
+	}
+	
+	/**
+	 * 查询待审核批量发放记录
+	 * @return
+	 */
+	@RequestMapping(value = "/queryGrantUsercouponDetailList")
+	public String queryGrantUsercouponDetailList() {
+		logger.info("[queryGrantUsercouponDetailList] info={}","查询批量发放用户优惠券明细记录...");
+		return "coupon/queryGrantUsercouponDetailList";
+	}
+	
+	/**
+	 * 跳转批量发放页面
+	 */
+	@RequestMapping(value="/toAddGrantRecord")
+	public String toAddGrantCoupon(Model model){
+		logger.info("[toAddGrantRecord] info={}","开始查询优惠券列表...");
+		try{
+			ActivityCouponDTO activityCouponDto = new ActivityCouponDTO();
+			activityCouponDto.setCouponStatus(CouponStatusEnum.EFFECTIVE);
+			activityCouponDto.setValidityDate(new Date());
+			logger.info("[toAddGrantRecord] activityCouponDto={}",activityCouponDto.getCouponStatus());
+			//调用子系统接口，获取有效优惠券信息
+			List<ActivityCouponDTO> list = activityCouponFacadeImpl.selectEffCouponList(activityCouponDto);
+			logger.info("[toAddGrantRecord] list={}",list);
+			model.addAttribute("acDtos", list);
+		}catch(Exception e){
+			logger.error("[] info={},ERROR={}","查询失败",e.getMessage());
+		}
+		
+		return "coupon/addGrantCoupon";
+	}
+	/**
+	 * 验证批量发放名称的唯一性
+	 */
+	@RequestMapping(value="/verifyBatchGrantName")
+	@ResponseBody
+	public Map<String, Object> verifyBatchGrantName(@RequestParam(required = true,value="batchGrantName") String batchGrantName,
+			@RequestParam(required = true,value="memberNoList") String memberNoList,
+			@RequestParam(required = true,value="perGrantCount") String perGrantCount,
+			@RequestParam(required = true,value="couponId") String couponId){
+		logger.info("[verifyBatchGrantName] info={}","验证批量发放名称的唯一性...");
+		logger.info("[verifyBatchGrantName] batchGrantName={}",batchGrantName);
+		Map<String, Object> result = new HashMap<String, Object>();
+
+		ActivityGrantRecordDTO activityGrantRecordDto = new ActivityGrantRecordDTO();
+		activityGrantRecordDto.setBatchGrantName(batchGrantName);
+		List<ActivityGrantRecordDTO> list = activityGrantRecordFacadeImpl.selectListByParams(activityGrantRecordDto);
+		if(list.size()!=0){
+			result.put("errMsg", "批量发放名称已存在，请重新输入");
+			return result;
+		}
+		//优惠券名称
+		ActivityCouponDTO activityCouponDto = activityCouponFacadeImpl.selectCouponById(Long.valueOf(couponId));
+		String memberNo[] = memberNoList.split(";");
+		int unGrantNum = Integer.valueOf(perGrantCount) * memberNo.length;
+		if((activityCouponDto.getTotalCount() - (activityCouponDto.getGrantCount() == null ? 0 : activityCouponDto.getGrantCount())) < unGrantNum) {
+			result.put("errMsg", "优惠券数量不足，请重新输入");
+			return result;
+		}
+		
+		return result;
+		
+	}
+	/**
+	 * 批量发放优惠券
+	 */
+	@RequestMapping(value="/addGrantRecord")
+	public String addBatchCouponRecord(@ModelAttribute ActivityGrantRecordDTO activityGrantRecordDto,HttpSession session){
+		logger.info("[addGrantRecord] info={}","添加批量发放记录...");
+		logger.info("[addGrantRecord] activityGrantRecordDto={}",activityGrantRecordDto);
+		//TODO   判断优惠券有效？
+		//优惠券名称
+		ActivityCouponDTO activityCouponDto = activityCouponFacadeImpl.selectCouponById(activityGrantRecordDto.getCouponId());
+		activityGrantRecordDto.setCouponName(activityCouponDto.getCouponName());
+		//批次，时间戳
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+		String batchId = sdf.format(new Date());
+		activityGrantRecordDto.setBatchId(batchId);
+		//用户总数
+		String memberNoList = new String(activityGrantRecordDto.getMemberNoList());
+		String memberNo[] = memberNoList.split(";");
+		activityGrantRecordDto.setMemberCount(memberNo.length);
+		//创建人
+		activityGrantRecordDto.setCreator(this.getCurrentUser(session));
+		
+		logger.info("[addGrantRecord] activityGrantRecordDto={}",activityGrantRecordDto);
+		activityGrantRecordFacadeImpl.addGrantRecord(activityGrantRecordDto);
+		return "coupon/queryGrantCoupon";
+	}
+	/**
+	 * 审核批量发放优惠券
+	 */
+	@RequestMapping(value="/checkGrantRecord")
+	@ResponseBody
+	public String checkGrantRecord(@RequestParam(required = true,value="id") String id,
+			@RequestParam(required = true,value="grantStatus") String grantStatus,
+			@RequestParam(required = true,value="version") String version,
+			HttpSession session){
+		logger.info("[checkGrantRecord] info={}","审核...");
+		logger.info("[checkGrantRecord] id={},grantStatus={},version={}",id,grantStatus,version);
+		//根据id查询该批量发放记录的详细信息
+		ActivityGrantRecordDTO actGrantRecord = (ActivityGrantRecordDTO) activityGrantRecordFacadeImpl.selectGrantRecordById(Long.valueOf(id));
+		logger.info("[checkGrantRecord] actGrantRecord={}",actGrantRecord);
+		//根据优惠券id查询优惠券详细信息
+		ActivityCouponDTO activityCoupon = (ActivityCouponDTO) activityCouponFacadeImpl.selectCouponById(actGrantRecord.getCouponId());
+		ActivityGrantRecordDTO activityGrantRecordDto = new ActivityGrantRecordDTO();
+		activityGrantRecordDto.setId(Long.valueOf(id));
+		//审核通过
+		if(grantStatus.equals(GrantStatusEnum.EFFECTIVE.toString())){
+			//优惠券状态不是有效
+			if(!activityCoupon.getCouponStatus().equals(CouponStatusEnum.EFFECTIVE)){
+				return "DISABLED";
+			}
+			//固定日期的优惠券已到期
+			if(activityCoupon.getValidityType().equals(ValidityTypeEnum.FIXED)){
+				Date date = new Date();
+				if(activityCoupon.getValidityDate().getTime()<date.getTime()){
+					return "EXPIRE";
+				}
+				
+			}
+			int grantNum = actGrantRecord.getPerGrantCount() * actGrantRecord.getMemberCount();
+			if((activityCoupon.getTotalCount() - (activityCoupon.getGrantCount() == null ? 0 : activityCoupon.getGrantCount())) < grantNum) {
+				return "NOT_ENOUGH";
+			}
+			activityGrantRecordDto.setGrantStatus(GrantStatusEnum.EFFECTIVE);
+		}else if(grantStatus.equals(GrantStatusEnum.RETURN_BACK.toString())){
+			activityGrantRecordDto.setGrantStatus(GrantStatusEnum.RETURN_BACK);
+		}
+		activityGrantRecordDto.setVersion(Long.valueOf(version));
+		activityGrantRecordDto.setCheckor(this.getCurrentUser(session));
+		activityGrantRecordDto.setCheckedTime(new Date());
+		logger.info("[checkGrantRecord] activityGrantRecordDto={}",activityGrantRecordDto);
+		//审核，更新状态，添加用户优惠券记录
+		activityGrantRecordFacadeImpl.checkGrantRecord(activityGrantRecordDto);
+		return "SUCCESS";
+	}
+}
