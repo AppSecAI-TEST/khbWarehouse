@@ -53,7 +53,7 @@ public class CrawlerUtils{
 	static Pattern p = Pattern.compile(pattern);
 	
 	public static void main(String[] argv) throws UnsupportedEncodingException, ParserException{  
-		linkLists.add("http://www.pettertang.top");
+		linkLists.add("http://quote.eastmoney.com/sz002461.html?from=BaiduAladdin");
 		serverCrawler(linkLists,deep);
 	} 
 	
