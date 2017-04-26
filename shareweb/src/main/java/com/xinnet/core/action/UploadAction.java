@@ -15,7 +15,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -66,10 +68,12 @@ public class UploadAction {
 		return "file";
 	}
 	
-	@RequestMapping("showFile")
-	public void showFile(HttpServletRequest request,HttpServletResponse response,String id) throws Exception {
-		
-		FileDTO dto = saveShareFileServiceImpl.showFile(id);
+	@RequestMapping("showFile/{fileName}/{exName}")
+	public void showFile(HttpServletRequest request,HttpServletResponse response,
+			@PathVariable("fileName")String fileName,
+			@PathVariable("exName")String exName) throws Exception {
+		String file = fileName+"."+exName;
+		FileDTO dto = saveShareFileServiceImpl.showFile(file);
 		InputStream in = dto.getIn();
 		OutputStream out = response.getOutputStream();
 	    // 判断输入或输出是否准备好    
@@ -86,10 +90,12 @@ public class UploadAction {
 	    }
 	}
 	
-	@RequestMapping("loadFile")
-	public void loadFile(HttpServletRequest request,HttpServletResponse response,String id) throws Exception {
-		
-		FileDTO dto = saveShareFileServiceImpl.showFile(id);
+	@RequestMapping("loadFile/{fileName}/{exName}")
+	public void loadFile(HttpServletRequest request,HttpServletResponse response,
+			@PathVariable("fileName")String fileName,
+			@PathVariable("exName")String exName) throws Exception {
+		String file = fileName+"."+exName;
+		FileDTO dto = saveShareFileServiceImpl.showFile(file);
 		// GET请求中，参数中包含中文需要自己动手来转换。
 		// 浏览器收到这个文件名后，会使用iso-8859-1来解码
 		response.addHeader("content-disposition", "attachment;filename=" + dto.getFileName());

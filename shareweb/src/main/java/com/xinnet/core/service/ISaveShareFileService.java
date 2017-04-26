@@ -20,5 +20,5 @@ public interface ISaveShareFileService {
 	 */
 	public String saveShareFile(MultipartFile upLoadFile) throws IOException;
 
-	public FileDTO showFile(String id) throws Exception;
+	public FileDTO showFile(String fileName) throws Exception;
 }

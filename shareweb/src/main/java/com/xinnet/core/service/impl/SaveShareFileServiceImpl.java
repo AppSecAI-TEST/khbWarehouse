@@ -53,27 +53,25 @@ public class SaveShareFileServiceImpl implements ISaveShareFileService {
 	 	upLoadFile.transferTo(file);
 	 	String path = request.getContextPath();  
 	 	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-	 	String url = basePath + "showFile?id=" + newFilename; 
+	 	String url = basePath + "showFile/" + newFilename + "/" + extensionName; 
 		return url;
 	}
 
 	@Override
-	public FileDTO showFile(String id) throws IOException {
+	public FileDTO showFile(String fileName) throws IOException {
+		if(null == fileName) {
+			return null;
+		}
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
 		String sharedir =  PropertiesUtils.getPropertyValue("sharefile") + request.getContextPath();
-		File file = new File(sharedir);
+		/*File file = new File(sharedir);
 		File[] fileList = file.listFiles();
-		String fileName = null;
-		String str = null;
 		for(File fi : fileList) {
 			str = fi.getName();
 			if(id.equals(str.substring(0, str.indexOf(".")))) {
 				fileName = fi.getName();
 			}
-		}
-		if(null == fileName) {
-			return null;
-		}
+		}*/
 //		FileInputStream fis= new FileInputStream(f);  
 		FileInputStream in = new FileInputStream(sharedir + "/" + fileName);;
 		
