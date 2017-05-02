@@ -21,16 +21,47 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
   
-public class ExportExcelUtil {  
+/**
+ * excle导出类
+ * @author hongbin.kang
+ * @date 2016年4月2日下午3:27:21
+ */
+public class ExportExcelUtil {
+	
+	
+	/**
+	 * excle导出
+	 * @author hongbin.kang
+	 * @date 2016年4月2日 下午3:37:30
+	 * @param dataset
+	 * @param out
+	 */
     public static void exportExcel(List<Map<String, Object>> dataset, OutputStream out){  
         exportExcel( null, dataset, out, "yyyy-MM-dd");  
     }  
   
+    /**
+     * excle导出
+     * @author hongbin.kang
+     * @date 2016年4月2日 下午3:37:37
+     * @param headMap
+     * @param dataset
+     * @param out
+     */
     public static void exportExcel(Map<String, Object> headMap, List<Map<String, Object>> dataset,  
             OutputStream out) {  
     	exportExcel(headMap, dataset, out, null);  
     }  
   
+    /**
+     * excle导出
+     * @author hongbin.kang
+     * @date 2016年4月2日 下午3:37:06
+     * @param headMap
+     * @param dataset
+     * @param out
+     * @param pattern
+     */
     public static void exportExcel(Map<String, Object> headMap,  
     		List<Map<String, Object>> dataset, OutputStream out, String pattern){ 
     	if(StringUtils.isEmpty(pattern)) {
@@ -104,6 +135,16 @@ public class ExportExcelUtil {
 		}
     }  
     
+    
+    /**
+     * 下载excle
+     * @author hongbin.kang
+     * @date @date 2016年4月2日下午3:27:21
+     * @param filename
+     * @param response
+     * @param headMap
+     * @param dataset
+     */
     public static void download(String filename,HttpServletResponse response,Map<String, Object> headMap,  
     		List<Map<String, Object>> dataset) {  
 		// 以流的形式下载文件。  
