@@ -10,12 +10,8 @@ public class Book implements Serializable {
 	private String isbn;  
 	private String pubName;  
 	
-	public Book()  
-	{  
-	}  
 	
-	public Book(int bookId, String name, String author, float price,  
-			String isbn, String pubName)  
+	public Book(int bookId, String name, String author)  
 	{  
 		this.bookId = bookId;  
 		this.name = name;  
