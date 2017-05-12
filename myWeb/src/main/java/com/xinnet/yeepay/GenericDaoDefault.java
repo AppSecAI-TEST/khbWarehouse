@@ -8,7 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 
 @SuppressWarnings({"unchecked","rawtypes"})
-public class GenericDaoDefault extends SqlSessionDaoSupport implements GenericDao {
+public class GenericDaoDefault<T extends Serializable> extends SqlSessionDaoSupport implements GenericDao<T> {
 	
 	protected SqlSessionFactory sqlSessionFactory;
 	protected Class entityClass;

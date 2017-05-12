@@ -10,7 +10,7 @@ import java.util.Map;
 // Referenced classes of package com.yeepay.g3.utils.persistence:
 //            Entity
 
-public interface GenericDao {
+public interface GenericDao<T extends Serializable> {
 	
 	public abstract void add(Entity entity);
 	
