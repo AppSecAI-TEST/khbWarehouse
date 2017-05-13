@@ -1,17 +1,27 @@
 package com.xinnet.yeepay;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import org.apache.ibatis.session.*;
+import org.apache.ibatis.session.RowBounds;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @SuppressWarnings({"unchecked","rawtypes"})
-public class GenericDaoDefault<T extends Serializable> extends SqlSessionDaoSupport implements GenericDao<T> {
-	
+public abstract class GenericDaoDefault<T extends Serializable> extends SqlSessionDaoSupport implements GenericDao<T> {
+	@Autowired
 	protected SqlSessionFactory sqlSessionFactory;
-	protected Class entityClass;
+	@Autowired
+    public void setSqlSessionFactory(SqlSessionFactory sqlSessionFactory) {  
+        super.setSqlSessionFactory(sqlSessionFactory);  
+    }
+	protected Class<T> entityClass;
 	
 	public GenericDaoDefault() {
 		entityClass = GenericUtils.getGenericClass(getClass());
@@ -49,12 +59,12 @@ public class GenericDaoDefault<T extends Serializable> extends SqlSessionDaoSupp
 		}
 	}
 	
-	public void delete(Entity entity) {
-		delete(entity.getId());
-	}
+//	public void delete(T T) {
+//		delete(T.getId());
+//	}
 	
-	public Entity get(Serializable id) {
-		return (Entity) super.getSqlSession().selectOne(getStatementId("get"),
+	public T get(Serializable id) {
+		return (T) super.getSqlSession().selectOne(getStatementId("get"),
 				id);
 	}
 	
@@ -62,7 +72,7 @@ public class GenericDaoDefault<T extends Serializable> extends SqlSessionDaoSupp
 		return super.getSqlSession().selectList(getStatementId("getAll"));
 	}
 	
-	public  List query(String ql, Object arg[]) {
+	public  List query(String ql, Object... arg) {
 		List result = null;
 		if (arg == null || arg.length == 0)
 			result = super.getSqlSession().selectList(getStatementId(ql));
@@ -80,7 +90,7 @@ public class GenericDaoDefault<T extends Serializable> extends SqlSessionDaoSupp
 		return ((List) (result == null ? new ArrayList() : result));
 	}
 	
-	public  List query(String sql, int offset, int limit, Object arg[]) {
+	public  List query(String sql, int offset, int limit, Object... arg) {
 		List result = null;
 		RowBounds rb = new RowBounds(offset, limit);
 		if (arg == null || arg.length == 0)
@@ -99,7 +109,7 @@ public class GenericDaoDefault<T extends Serializable> extends SqlSessionDaoSupp
 		return ((List) (result == null ? new ArrayList() : result));
 	}
 	
-	public  Object queryOne(String ql, Object arg[]) {
+	public  Object queryOne(String ql, Object... arg) {
 		Object ob = null;
 		if (arg == null || arg.length == 0)
 			ob = super.getSqlSession().selectOne(getStatementId(ql));
@@ -121,25 +131,25 @@ public class GenericDaoDefault<T extends Serializable> extends SqlSessionDaoSupp
 				.append(".").append(postfix).toString();
 	}
 	
-	public void update(Entity entity) {
+	public void update(T T) {
 		int row = super.getSqlSession()
-				.update(getStatementId("update"), entity);
-		if ((entity instanceof EntityVersion) && row == 0)
+				.update(getStatementId("update"), T);
+		if ((T instanceof EntityVersion) && row == 0)
 			throw new OptimisticLockingException(
 					"\u4E50\u89C2\u9501\u5F02\u5E38");
 		else
 			return;
 	}
 	
-	public void add(Entity entity) {
-		super.getSqlSession().insert(getStatementId("insert"), entity);
+	public void add(T T) {
+		super.getSqlSession().insert(getStatementId("insert"), T);
 	}
 	
-	public void add(String sql, Entity entity) {
-		super.getSqlSession().insert(getStatementId(sql), entity);
+	public void add(String sql, T T) {
+		super.getSqlSession().insert(getStatementId(sql), T);
 	}
 	
-	public  void update(String ql, Object arg[]) {
+	public  void update(String ql, Object... arg) {
 		if (arg == null || arg.length == 0)
 			super.getSqlSession().update(getStatementId(ql));
 		else if (arg.length == 1) {
@@ -154,7 +164,7 @@ public class GenericDaoDefault<T extends Serializable> extends SqlSessionDaoSupp
 		}
 	}
 	
-	public  Map getMap(String ql, Object arg[]) {
+	public  Map getMap(String ql, Object... arg) {
 		Map result = null;
 		if (arg == null || arg.length == 0)
 			result = (Map) super.getSqlSession().selectOne(getStatementId(ql));
@@ -181,9 +191,9 @@ public class GenericDaoDefault<T extends Serializable> extends SqlSessionDaoSupp
 	/*public void batchInsert(String sql, List entities)
 	{
 		SqlSession batchSqlSession = getBatchSession();
-		Entity e;
+		T e;
 		for(Iterator i$ = entities.iterator(); i$.hasNext(); batchSqlSession.insert(getStatementId(sql), e))
-			e = (Entity)i$.next();
+			e = (T)i$.next();
 		
 		batchSqlSession.commit();
 		BatchSqlSessionUtils.closeSqlSession(batchSqlSession);
@@ -197,9 +207,9 @@ public class GenericDaoDefault<T extends Serializable> extends SqlSessionDaoSupp
 	public void batchUpdate(List entities)
 	{
 		SqlSession batchSqlSession = getBatchSession();
-		Entity e;
+		T e;
 		for(Iterator i$ = entities.iterator(); i$.hasNext(); batchSqlSession.update(getStatementId("update"), e))
-			e = (Entity)i$.next();
+			e = (T)i$.next();
 		
 		batchSqlSession.commit();
 		BatchSqlSessionUtils.closeSqlSession(batchSqlSession);
@@ -217,9 +227,9 @@ public class GenericDaoDefault<T extends Serializable> extends SqlSessionDaoSupp
 	public void batchInsert(List entities)
 	{
 		SqlSession batchSqlSession = getBatchSession();
-		Entity e;
+		T e;
 		for(Iterator i$ = entities.iterator(); i$.hasNext(); batchSqlSession.insert(getStatementId("insert"), e))
-			e = (Entity)i$.next();
+			e = (T)i$.next();
 		
 		batchSqlSession.commit();
 		BatchSqlSessionUtils.closeSqlSession(batchSqlSession);
@@ -233,9 +243,9 @@ public class GenericDaoDefault<T extends Serializable> extends SqlSessionDaoSupp
 	public void batchDelete(List entities)
 	{
 		SqlSession batchSqlSession = getBatchSession();
-		Entity e;
+		T e;
 		for(Iterator i$ = entities.iterator(); i$.hasNext(); batchSqlSession.delete(getStatementId("delete"), e.getId()))
-			e = (Entity)i$.next();
+			e = (T)i$.next();
 		
 		batchSqlSession.commit();
 		BatchSqlSessionUtils.closeSqlSession(batchSqlSession);

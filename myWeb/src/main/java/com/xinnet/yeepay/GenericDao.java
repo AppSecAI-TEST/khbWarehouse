@@ -8,25 +8,25 @@ import java.util.List;
 import java.util.Map;
 
 // Referenced classes of package com.yeepay.g3.utils.persistence:
-//            Entity
+//            T
 
 public interface GenericDao<T extends Serializable> {
 	
-	public abstract void add(Entity entity);
+	public abstract void add(T T);
 	
-	public abstract void add(String s, Entity entity);
+	public abstract void add(String s, T T);
 	
-	public abstract void update(Entity entity);
+	public abstract void update(T T);
 	
 	public abstract void delete(Serializable serializable);
 	
 	public abstract void delete(String s, Object aobj[]);
 	
-	public abstract void delete(Entity entity);
+//	public abstract void delete(T T);
 	
 	public abstract List getAll();
 	
-	public abstract Entity get(Serializable serializable);
+	public abstract T get(Serializable serializable);
 	
 	public abstract List query(String s, Object aobj[]);
 	

@@ -11,12 +11,7 @@ import com.xinnet.entity.Order;
 
 
 
-/**
- * @author cdt
- * @date 2016-5-16
- * @time 下午4:26:57
- */
 @Repository
-public class ActivityActionDaoImpl extends  GenericDaoDefault<Order> implements ActivityActionDao {
+public class OrderMapperImpl extends  GenericDaoDefault<Order> implements OrderMapper {
 	
 }
