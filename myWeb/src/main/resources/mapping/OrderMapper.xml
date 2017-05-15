@@ -20,7 +20,7 @@
     delete from t_order
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.xinnet.entity.Order" >
+  <insert id="insertx" parameterType="com.xinnet.entity.Order" >
     insert into t_order (id, water_num, user_id, 
       amout)
     values (#{id,jdbcType=INTEGER}, #{waterNum,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, 
@@ -79,5 +79,21 @@
       amout = #{amout,jdbcType=DECIMAL}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+  <select id="getAll" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_order
+  </select>
+  <select id="queryStar" resultType="map" parameterType="map">
+    select 
+    *
+    from t_order
+  </select>
+  <select id="queryBean" resultMap="BaseResultMap" parameterType="com.xinnet.entity.Order">
+    select 
+    <include refid="Base_Column_List" />
+    from t_order
+  </select>
  
 </mapper>

@@ -36,11 +36,11 @@ import com.xinnet.service.impl.UserServiceImpl;
 import com.xinnet.utils.ExportExcelUtil;
 
 @Controller
-@RequestMapping("show")
+@RequestMapping("test")
 /*@Scope("prototype")*/
-public class ShowAction extends BaseAction {
+public class TestAction extends BaseAction {
 	
-	private static final Logger logger = LoggerFactory.getLogger(ShowAction.class);
+	private static final Logger logger = LoggerFactory.getLogger(TestAction.class);
 	private static int st = 0;      //静态的
     private int index = 0;          //非静态
     
@@ -141,30 +141,20 @@ public class ShowAction extends BaseAction {
 	
 	
 	
-	@RequestMapping("doOrder")
+	@RequestMapping("testOrder")
 	@NotLogin
-	public String doOrder(BigDecimal amount,String product,int userId,String callback) {
+	public String doOrder() {
 		JSONObject json = new JSONObject();
-		redis.setex(String.valueOf(new Date().getTime()), 30, new Date().toString());
-		User user = userServiceImpl.getUserById(userId);
-		if(user != null) {
-			Order order = new Order(UUID.randomUUID().toString(),userId,amount);
-			try {
-				orderServiceImpl.insertSelective(order);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			json.put("code", "success");
-			json.put("orderId", order.getId());
-		} else {
-			json.put("code", "fail");
-			json.put("message", "用户不存在");
+		Order order1 = new Order(UUID.randomUUID().toString(),1,BigDecimal.ZERO);
+		try {
+			orderServiceImpl.insertSelective(order1);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		
 		String jsonString = json.toString();
-		if(null != callback) {
-			jsonString = callback + "(" + jsonString + ")";
-		}
+		
 		return ajax(jsonString);
 	}
 }

@@ -1,5 +1,7 @@
 package com.xinnet.service.impl;
 
+import javax.management.RuntimeErrorException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,11 +17,11 @@ public class OrderServiceImpl implements IOrderService {
 	private OrderMapper orderMapper;
 
 	@Override
-	public void insertSelective(Order record) {
+	public void insertSelective(Order record) throws Exception {
 		// TODO Auto-generated method stub
 		CheckParamUtils.isEmpty(record);
 		orderMapper.insertSelective(record);
-		
+		throw new RuntimeErrorException(null);
 	}
 
 	@Override

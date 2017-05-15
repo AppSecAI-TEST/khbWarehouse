@@ -1,6 +1,9 @@
 package test;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -9,8 +12,8 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.xinnet.dao.impl.OrderDaoImpl;
 import com.xinnet.entity.Order;
-import com.xinnet.entity.User;
 import com.xinnet.service.IOrderService;
 import com.xinnet.service.IUserService;
 
@@ -32,6 +35,8 @@ public class ActivityCouponFacadeImplTest {
 	@Resource
 	private IOrderService orderService;
 	
+	/*@Resource
+	private OrderDaoImpl orderMapper;*/
 	
     /*@Before
     public void setUp() throws Exception {
@@ -57,8 +62,13 @@ public class ActivityCouponFacadeImplTest {
         order.setUserId(1);
         order.setWaterNum("康洪彬");
         orderService.insertSelective(order);
-        User dto = userService.getUserById(1);
-        System.out.println(dto);
+        /*orderMapper.add(order);
+        Map<Object,String> map = new HashMap<>();
+        List<Order> list = orderMapper.query("queryBean", map);
+        List<Map> a = orderMapper.query("queryStar", map);
+        System.out.println(list);
+//        User dto = userService.getUserById(1);
+        System.out.println(order);*/
     }
     
    /* *//**

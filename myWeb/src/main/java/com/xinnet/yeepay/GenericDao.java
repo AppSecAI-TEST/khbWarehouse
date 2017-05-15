@@ -20,7 +20,7 @@ public interface GenericDao<T extends Serializable> {
 	
 	public abstract void delete(Serializable serializable);
 	
-	public abstract void delete(String s, Object aobj[]);
+	public abstract void delete(String s, Object... aobj);
 	
 //	public abstract void delete(T T);
 	
@@ -28,15 +28,15 @@ public interface GenericDao<T extends Serializable> {
 	
 	public abstract T get(Serializable serializable);
 	
-	public abstract List query(String s, Object aobj[]);
+	public abstract List query(String s, Object... aobj);
 	
-	public abstract List query(String s, int i, int j, Object aobj[]);
+	public abstract List query(String s, int i, int j, Object... aobj);
 	
-	public abstract Object queryOne(String s, Object aobj[]);
+	public abstract Object queryOne(String s, Object... aobj);
 	
-	public abstract void update(String s, Object aobj[]);
+	public abstract void update(String s, Object... aobj);
 	
-	public abstract Map getMap(String s, Object aobj[]);
+	public abstract Map getMap(String s, Object... aobj);
 	
 	/*public abstract void batchUpdate(List list);
 	

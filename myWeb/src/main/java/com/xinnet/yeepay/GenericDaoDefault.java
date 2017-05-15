@@ -3,9 +3,11 @@ package com.xinnet.yeepay;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -183,13 +185,12 @@ public abstract class GenericDaoDefault<T extends Serializable> extends SqlSessi
 		return result;
 	}
 	
-	/*private SqlSession getBatchSession() {
+	private SqlSession getBatchSession() {
 		return BatchSqlSessionUtils.getSqlSession(sqlSessionFactory,
 				ExecutorType.BATCH);
-	}*/
+	}
 	
-	/*public void batchInsert(String sql, List entities)
-	{
+	/*public void batchInsert(String sql, List entities) {
 		SqlSession batchSqlSession = getBatchSession();
 		T e;
 		for(Iterator i$ = entities.iterator(); i$.hasNext(); batchSqlSession.insert(getStatementId(sql), e))
@@ -204,8 +205,7 @@ public abstract class GenericDaoDefault<T extends Serializable> extends SqlSessi
 		throw exception;
 	}
 	
-	public void batchUpdate(List entities)
-	{
+	public void batchUpdate(List entities) {
 		SqlSession batchSqlSession = getBatchSession();
 		T e;
 		for(Iterator i$ = entities.iterator(); i$.hasNext(); batchSqlSession.update(getStatementId("update"), e))
@@ -224,8 +224,7 @@ public abstract class GenericDaoDefault<T extends Serializable> extends SqlSessi
 	 * @deprecated Method batchInsert is deprecated
 	 *//*
 	
-	public void batchInsert(List entities)
-	{
+	public void batchInsert(List entities) {
 		SqlSession batchSqlSession = getBatchSession();
 		T e;
 		for(Iterator i$ = entities.iterator(); i$.hasNext(); batchSqlSession.insert(getStatementId("insert"), e))
@@ -240,8 +239,7 @@ public abstract class GenericDaoDefault<T extends Serializable> extends SqlSessi
 		throw exception;
 	}
 	
-	public void batchDelete(List entities)
-	{
+	public void batchDelete(List entities) {
 		SqlSession batchSqlSession = getBatchSession();
 		T e;
 		for(Iterator i$ = entities.iterator(); i$.hasNext(); batchSqlSession.delete(getStatementId("delete"), e.getId()))
@@ -256,8 +254,7 @@ public abstract class GenericDaoDefault<T extends Serializable> extends SqlSessi
 		throw exception;
 	}
 	
-	public void batchDeleteById(List ids)
-	{
+	public void batchDeleteById(List ids) {
 		SqlSession batchSqlSession = getBatchSession();
 		Serializable id;
 		for(Iterator i$ = ids.iterator(); i$.hasNext(); batchSqlSession.delete(getStatementId("delete"), id))
