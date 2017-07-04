@@ -54,11 +54,10 @@ public class FileUtilEx {
 		File destination = new File(newPath);
 		byte[] buf = new byte[1024];
 		int len;
-		try { 
-			FileInputStream fi = new FileInputStream(source);
-			BufferedInputStream in = new BufferedInputStream(fi);
-			FileOutputStream fo = new FileOutputStream(destination);
-			BufferedOutputStream out = new BufferedOutputStream(fo);
+		try (FileInputStream fi = new FileInputStream(source);
+				BufferedInputStream in = new BufferedInputStream(fi);
+				FileOutputStream fo = new FileOutputStream(destination);
+				BufferedOutputStream out = new BufferedOutputStream(fo)) {
 
 			len = in.read(buf);
 			while (len != -1) {
