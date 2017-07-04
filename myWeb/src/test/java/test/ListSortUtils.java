@@ -188,7 +188,7 @@ public class ListSortUtils {
     		Field field;
 			try {
 				field = obj.getClass().getDeclaredField(fieldName);
-			} catch (NoSuchFieldException | SecurityException e) {
+			} catch (NoSuchFieldException e) {
 				logger.error(e.getMessage());
 				field = null;
 			}  
