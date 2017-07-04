@@ -220,7 +220,7 @@ public class ExportExcelUtil {
     	cell.setCellValue(richString); 
     } 
     
-    public static void main(String[] args) {  
+    public static void main(String[] args) {/*  
     	Map<String, Object> headMap = new HashMap<String, Object>();
     	headMap.put("haoma", "出版时间");
     	headMap.put("shuliang", "数量");
@@ -263,6 +263,6 @@ public class ExportExcelUtil {
     	} catch (IOException e) {  
     		e.printStackTrace();  
     	}  
-    }  
+    */}  
     
 }
