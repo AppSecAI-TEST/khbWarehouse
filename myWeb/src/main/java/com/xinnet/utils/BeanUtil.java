@@ -89,7 +89,9 @@ public class BeanUtil {
 		if (source != null && target != null) {
 			try {
 				org.apache.commons.beanutils.BeanUtils.populate(target, source);
-			} catch (IllegalAccessException | InvocationTargetException e) {
+			} catch (IllegalAccessException e) {
+				throw new RuntimeException(e);
+			} catch (InvocationTargetException e) {
 				throw new RuntimeException(e);
 			}
 		}

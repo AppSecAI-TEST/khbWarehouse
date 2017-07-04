@@ -119,9 +119,11 @@ public class ExportExcelUtil {
         			} 
         			setCellValue(row, i, font, textValue);
         			
-        		}catch (SecurityException | IllegalAccessException e) {  
+        		} catch (SecurityException e) {  
         			e.printStackTrace();  
-        		}finally {  
+        		} catch (IllegalAccessException e) {  
+        			e.printStackTrace();  
+        		} finally {  
         			// 清理资源  
         			i++;
         		}
