@@ -121,7 +121,7 @@ public class BeanUtil {
 						target.put(key, value);
 					}
 				}
-			} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | IntrospectionException e) {
+			} catch (Exception e) {
 				throw new RuntimeException(e);
 			}
 		}

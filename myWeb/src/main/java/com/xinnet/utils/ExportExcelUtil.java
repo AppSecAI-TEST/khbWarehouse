@@ -183,7 +183,7 @@ public class ExportExcelUtil {
     		Field field;
 			try {
 				field = obj.getClass().getDeclaredField(fieldName);
-			} catch (NoSuchFieldException | SecurityException e) {
+			} catch (Exception e) {
 				field = null;
 			}  
     		Object object; 
