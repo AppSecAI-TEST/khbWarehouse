@@ -49,7 +49,7 @@ public class FileUtilEx {
 		FileUtils.forceDelete(new File(file));
 	}
 
-	public static void copyFile(String oldPath, String newPath) {
+	/*public static void copyFile(String oldPath, String newPath) {
 		File source = new File(oldPath);
 		File destination = new File(newPath);
 		byte[] buf = new byte[1024];
@@ -67,7 +67,7 @@ public class FileUtilEx {
 		} catch (IOException e) {
 			logger.error("copyFile has error !", e);
 		}
-	}
+	}*/
 
 	public static String creatNewFile(String folder, InputStream iStream) {
 		String uuid = "winchannel_" + UUID.randomUUID().toString().replace("-", "") + ".txt";
