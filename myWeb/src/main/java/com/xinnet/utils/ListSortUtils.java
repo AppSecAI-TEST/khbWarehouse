@@ -188,7 +188,7 @@ public class ListSortUtils {
 				logger.error(e.getMessage());
 				field = null;
 			}  
-    		Object object = null; 
+    		Object object; 
     		if(null != field) {
     			boolean accessible = field.isAccessible();  
     			if (!accessible) {  

@@ -42,6 +42,7 @@
     <context:annotation-config />
 	<mvc:annotation-driven />
 	<context:component-scan base-package="com.xinnet"></context:component-scan>
+    <import resource="classpath:applicationContext-task.xml"/>
 	<!-- interceptor setting -->
 	<mvc:interceptors>
 		<bean class="com.xinnet.interceptor.LoggerInterceptor"></bean>
