@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.xinnet.annotation.NotLogin;
 import com.xinnet.entity.User;
 import com.xinnet.service.IUserService;
   
@@ -23,10 +24,12 @@ public class UserAction extends BaseAction {
 	
 	
     @RequestMapping("/showUser")
+    @NotLogin
     public String toIndex(Model model){  
     	User user = new User();
     	user.setPassWord("1111");
     	user.setUserName("康洪彬");
+    	user.setEmail("113255@qq.com");
     	logger.info("用户的实体", user);
     	logger.info(user.toString());
     	try {
@@ -38,7 +41,7 @@ public class UserAction extends BaseAction {
 		}
     	try {
     		logger.info("验证判空");
-//    		userService.add(user);
+    		userService.add(user);
 		} catch (IllegalArgumentException e) {
 			// TODO: handle exception
 			logger.info(e.getMessage());

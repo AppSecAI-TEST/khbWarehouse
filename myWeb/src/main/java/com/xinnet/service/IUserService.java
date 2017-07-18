@@ -19,4 +19,6 @@ public interface IUserService {
 	User getUserByParam(User record);
 
 	public LoginResultDto loginByParam(String userName, String passWord);
+	
+	void add(User record) throws Exception;
 }

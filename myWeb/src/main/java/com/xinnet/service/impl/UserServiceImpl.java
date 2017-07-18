@@ -137,4 +137,10 @@ public class UserServiceImpl implements IUserService {
 		dto.setResult("success");
 		return dto;
 	}
+
+	@Override
+	public void add(User record) throws Exception {
+		userMapper.insertSelective(record);
+		throw new Exception();
+	}
 }
