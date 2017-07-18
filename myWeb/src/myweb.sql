@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : khbmysql
-Source Server Version : 50173
-Source Host           : 103.42.29.142:3306
+Source Server         : local_mysql
+Source Server Version : 50549
+Source Host           : localhost:3306
 Source Database       : myweb
 
 Target Server Type    : MYSQL
-Target Server Version : 50173
+Target Server Version : 50549
 File Encoding         : 65001
 
-Date: 2017-04-08 13:01:43
+Date: 2017-07-18 14:42:39
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -24,7 +24,7 @@ CREATE TABLE `class` (
   `NAME` varchar(255) DEFAULT NULL,
   `AVAILABLE` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for student
@@ -37,7 +37,7 @@ CREATE TABLE `student` (
   `CLASS_NAME` varchar(255) DEFAULT NULL,
   `AVAILABLE` int(255) DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for t_identifying_code
@@ -52,7 +52,7 @@ CREATE TABLE `t_identifying_code` (
   `effective` varchar(255) DEFAULT NULL,
   `effective_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for t_order
@@ -64,7 +64,7 @@ CREATE TABLE `t_order` (
   `user_id` int(11) DEFAULT NULL,
   `amout` decimal(10,4) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for t_user
@@ -78,7 +78,7 @@ CREATE TABLE `t_user` (
   `creat_time` datetime DEFAULT NULL,
   `head_portrait` blob,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for user
