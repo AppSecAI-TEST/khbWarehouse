@@ -34,10 +34,10 @@ public class MessageProducer {
   
     public void sendMessage(Object message) throws IOException {  
 //        logger.info("to send message:{}", message);  
-//        amqpTemplate.convertAndSend("queueTestKey", message);  
-//        amqpTemplate.convertAndSend("queueTestChris", message);  
-//  
-//        amqpTopic.convertAndSend("wuxing.xxxx.wsdwd", message); 
+        amqpTemplate.convertAndSend("queueTestKey", message);  
+        amqpTemplate.convertAndSend("queueTestChris", message);  
+  
+        amqpTopic.convertAndSend("wuxing.xxxx.wsdwd", message); 
         
         amqpFanout.convertAndSend(message);
     }  
