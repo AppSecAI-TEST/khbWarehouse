@@ -18,12 +18,15 @@ import com.xinnet.utils.ObjectAndByteUtil;
 /** 
  * Created by wuxing on 2016/9/21. 
  */  
-public class ChrisConsumer implements MessageListener {  
-    private Logger logger = LoggerFactory.getLogger(ChrisConsumer.class);  
+public class FanoutOneConsumer implements MessageListener {  
+  
+    private Logger logger = LoggerFactory.getLogger(FanoutOneConsumer.class);  
+    
   
     @Override  
-    public void onMessage(Message message) {  
-        Book book = (Book)ObjectAndByteUtil.toObject(message.getBody());
-        logger.info("chris receive message------->:{}", book.getBookId()+"----"+book.getName()); 
+    public void onMessage(Message message) {
+    	Book book = (Book)ObjectAndByteUtil.toObject(message.getBody());
+        logger.info("fanoutOne consumer receive message------->:{}", book.getBookId()+"----"+book.getName());
     }  
+  
 } 

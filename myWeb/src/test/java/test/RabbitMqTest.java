@@ -47,7 +47,8 @@ public class RabbitMqTest {
     public void should_send_a_amq_message() throws Exception {  
         int a = 100;  
         while (a > 0) {  
-        	Book book = new Book(a,"name--"+a,"author--"+a);
+        	Book book = new Book(a,"name--"+ a,"author--"+ a);
+        	a = a - 1;
             messageProducer.sendMessage(book);  
             try {  
                 //暂停一下，好让消息消费者去取消息打印出来  

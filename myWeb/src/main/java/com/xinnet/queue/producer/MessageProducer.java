@@ -23,17 +23,22 @@ public class MessageProducer {
   
     private Logger logger = LoggerFactory.getLogger(MessageProducer.class);  
   
-    @Resource(name="amqpTemplate")  
+    @Resource
     private AmqpTemplate amqpTemplate;  
   
-    @Resource(name="amqpTemplate2")  
-    private AmqpTemplate amqpTemplate2;  
+    @Resource
+    private AmqpTemplate amqpTopic;  
+    
+    @Resource
+    private AmqpTemplate amqpFanout;  
   
     public void sendMessage(Object message) throws IOException {  
-        logger.info("to send message:{}", message);  
-        amqpTemplate.convertAndSend("queueTestKey", message);  
-        amqpTemplate.convertAndSend("queueTestChris", message);  
-  
-        amqpTemplate2.convertAndSend("wuxing.xxxx.wsdwd", message);  
+//        logger.info("to send message:{}", message);  
+//        amqpTemplate.convertAndSend("queueTestKey", message);  
+//        amqpTemplate.convertAndSend("queueTestChris", message);  
+//  
+//        amqpTopic.convertAndSend("wuxing.xxxx.wsdwd", message); 
+        
+        amqpFanout.convertAndSend(message);
     }  
 }

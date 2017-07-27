@@ -7,7 +7,7 @@
      http://www.springframework.org/schema/rabbit/spring-rabbit-1.2.xsd">
 	<!--配置connection-factory，指定连接rabbit server参数 -->  
     <rabbit:connection-factory id="connectionFactory"  
-                               username="guest" password="guest" host="192.168.220.128" port="5672" />  
+                               username="${mq.username}" password="${mq.password}" host="${mq.host}" port="${mq.port}" />  
   
     <!--定义rabbit template用于数据的接收和发送 -->  
     <rabbit:template id="amqpTemplate" connection-factory="connectionFactory"  
@@ -18,31 +18,23 @@
   
     <!--定义queue -->  
     <rabbit:queue name="queueTest" durable="true" auto-delete="false" exclusive="false" declared-by="connectAdmin"/>  
-    <!-- 定义direct exchange，绑定queueTest -->  
-    <rabbit:direct-exchange name="exchangeTest" durable="true" auto-delete="false" declared-by="connectAdmin">  
-        <rabbit:bindings>  
-            <rabbit:binding queue="queueTest" key="queueTestKey"></rabbit:binding>  
-        </rabbit:bindings>  
-    </rabbit:direct-exchange>  
-    <!-- 消息接收者 -->  
-    <bean id="messageReceiver" class="com.xinnet.queue.consumer.MessageConsumer"></bean>  
-    <!-- queue litener  观察 监听模式 当有消息到达时会通知监听在对应的队列上的监听对象-->  
-    <rabbit:listener-container connection-factory="connectionFactory">  
-        <rabbit:listener queues="queueTest" ref="messageReceiver"/>  
-    </rabbit:listener-container>  
-  
     <!--定义queue -->  
     <rabbit:queue name="queueChris" durable="true" auto-delete="false" exclusive="false" declared-by="connectAdmin"/>  
     <!-- 定义direct exchange，绑定queueTest -->  
     <rabbit:direct-exchange name="exchangeTest" durable="true" auto-delete="false" declared-by="connectAdmin">  
         <rabbit:bindings>  
+            <rabbit:binding queue="queueTest" key="queueTestKey"></rabbit:binding>  
             <rabbit:binding queue="queueChris" key="queueTestChris"></rabbit:binding>  
         </rabbit:bindings>  
     </rabbit:direct-exchange>  
+    
+    <!-- 消息接收者 -->  
+    <bean id="messageReceiver" class="com.xinnet.queue.consumer.MessageConsumer"></bean>  
     <!-- 消息接收者 -->  
     <bean id="receiverChris" class="com.xinnet.queue.consumer.ChrisConsumer"></bean>  
     <!-- queue litener  观察 监听模式 当有消息到达时会通知监听在对应的队列上的监听对象-->  
-    <rabbit:listener-container connection-factory="connectionFactory">  
+    <rabbit:listener-container connection-factory="connectionFactory"> 
+        <rabbit:listener queues="queueTest" ref="messageReceiver"/>   
         <rabbit:listener queues="queueChris" ref="receiverChris"/>  
     </rabbit:listener-container>  
   
@@ -52,10 +44,10 @@
     <!--              分隔线                -->  
     <!--配置connection-factory，指定连接rabbit server参数 -->  
     <rabbit:connection-factory id="connectionFactory2"  
-                               username="guest" password="guest" host="192.168.220.128" port="5672"/>  
+                               username="${mq.username}" password="${mq.password}" host="${mq.host}" port="${mq.port}"/>  
   
     <!--定义rabbit template用于数据的接收和发送 -->  
-    <rabbit:template id="amqpTemplate2" connection-factory="connectionFactory2"  
+    <rabbit:template id="amqpTopic" connection-factory="connectionFactory2"  
                      exchange="exchangeTest2"/>  
   
     <!--通过指定下面的admin信息，当前producer中的exchange和queue会在rabbitmq服务器上自动生成 -->  
@@ -65,7 +57,7 @@
     <!-- 定义direct exchange，绑定queueTest -->  
     <rabbit:topic-exchange name="exchangeTest2" durable="true" auto-delete="false" declared-by="connectAdmin2">  
         <rabbit:bindings>  
-            <rabbit:binding queue="queueWuxing" pattern="wuxing.*"></rabbit:binding>  
+            <rabbit:binding queue="queueWuxing" pattern="wuxing.#"></rabbit:binding>  
         </rabbit:bindings>  
     </rabbit:topic-exchange>  
     <!-- 消息接收者 -->  
@@ -73,6 +65,38 @@
     <!-- queue litener  观察 监听模式 当有消息到达时会通知监听在对应的队列上的监听对象-->  
     <rabbit:listener-container connection-factory="connectionFactory2" >  
         <rabbit:listener queues="queueWuxing" ref="recieverWuxing"/>  
+    </rabbit:listener-container>
+    
+    
+    
+    <!--              分隔线           订阅     -->  
+    <!--配置connection-factory，指定连接rabbit server参数 -->  
+    <rabbit:connection-factory id="connectionFactory3"  
+                               username="${mq.username}" password="${mq.password}" host="${mq.host}" port="${mq.port}"/>  
+  
+    <!--定义rabbit template用于数据的接收和发送 -->  
+    <rabbit:template id="amqpFanout" connection-factory="connectionFactory3"  
+                     exchange="exchangeFanout"/>  
+  
+    <!--通过指定下面的admin信息，当前producer中的exchange和queue会在rabbitmq服务器上自动生成 -->  
+    <rabbit:admin id="connectAdmin3" connection-factory="connectionFactory3"/>  
+    <!--定义queue -->  
+    <rabbit:queue name="fanoutOne" durable="true" auto-delete="false" exclusive="false" declared-by="connectAdmin3"/>  
+    <rabbit:queue name="fanoutTwo" durable="true" auto-delete="false" exclusive="false" declared-by="connectAdmin3"/>  
+    <!-- 定义direct exchange，绑定queueTest -->  
+    <rabbit:fanout-exchange name="exchangeFanout" durable="true" auto-delete="false" declared-by="connectAdmin3">  
+        <rabbit:bindings>  
+            <rabbit:binding queue="fanoutOne" ></rabbit:binding>
+            <rabbit:binding queue="fanoutTwo" ></rabbit:binding>    
+        </rabbit:bindings>  
+    </rabbit:fanout-exchange>  
+    <!-- 消息接收者 -->  
+    <bean id="recieverFanoutOne" class="com.xinnet.queue.consumer.FanoutOneConsumer"></bean>  
+    <bean id="recieverFanoutTwo" class="com.xinnet.queue.consumer.FanoutTwoConsumer"></bean>  
+    <!-- queue litener  观察 监听模式 当有消息到达时会通知监听在对应的队列上的监听对象-->  
+    <rabbit:listener-container connection-factory="connectionFactory3" >  
+        <rabbit:listener queues="fanoutOne" ref="recieverFanoutOne"/>  
+        <rabbit:listener queues="fanoutTwo" ref="recieverFanoutTwo"/>  
     </rabbit:listener-container>
     
 </beans>
