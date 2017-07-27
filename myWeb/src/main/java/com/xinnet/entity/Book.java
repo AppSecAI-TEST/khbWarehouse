@@ -80,5 +80,14 @@ public class Book implements Serializable {
 	public void setPubName(String pubName)  
 	{  
 		this.pubName = pubName;  
+	}
+
+	@Override
+	public String toString() {
+		return "Book [bookId=" + bookId + ", name=" + name + ", author="
+				+ author + ", price=" + price + ", isbn=" + isbn + ", pubName="
+				+ pubName + "]";
 	}  
+	
+	
 }

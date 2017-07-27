@@ -23,6 +23,13 @@ import com.xinnet.entity.UserS;
 
 public class asd {
 	public static void main(String[] args) throws Exception{
+	     String s = "9.10";
+	     if(s.indexOf(".") > 0){
+		        s = s.replaceAll("0+?$", "");//去掉多余的0
+		        s = s.replaceAll("[.]$", "");//如最后一位是.则去掉
+		 }
+	     System.out.println(s);
+		
 		NumberFormat nf = new DecimalFormat("#,###.##");
 		String testStr = nf.format(6789);
 		System.out.println(testStr);

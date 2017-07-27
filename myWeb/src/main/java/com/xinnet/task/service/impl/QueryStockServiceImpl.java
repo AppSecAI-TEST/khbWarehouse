@@ -21,9 +21,11 @@ public class QueryStockServiceImpl implements IQueryStockService {
 	
 	@Override
 	public void queryStock() {
+		//检测是否是深圳的股票
 		String szCode = httpStock + "sz" + "002461";
 		String stockResult = readHtml(szCode);
 		String price = null;
+		//不是深圳尝试上海
 		if(stockResult.indexOf(",") > 0) {
 			price = this.getPrice(stockResult);
 		} else {
@@ -31,8 +33,24 @@ public class QueryStockServiceImpl implements IQueryStockService {
 			stockResult = readHtml(szCode);
 			price = this.getPrice(stockResult);
 		}
-		System.out.println(price);
+		System.out.println("珠江--" + price);
+		queryTRStock();
 	}
+	
+	private void queryTRStock() {
+		String szCode = httpStock + "sz" + "002283";
+		String stockResult = readHtml(szCode);
+		String price = null;
+		if(stockResult.indexOf(",") > 0) {
+			price = this.getPrice(stockResult);
+		} else {
+			szCode = httpStock + "sh" + "002283";
+			stockResult = readHtml(szCode);
+			price = this.getPrice(stockResult);
+		}
+		System.out.println("天润--" + price);
+	}
+	
 	
 	private String getPrice(String stockResult) {
 		String price = stockResult.split(",")[3];

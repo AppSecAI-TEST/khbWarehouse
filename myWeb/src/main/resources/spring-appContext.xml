@@ -36,13 +36,14 @@
     <import resource="classpath:spring-mybatis.xml"/>
     <import resource="classpath:spring-aop.xml"/>
     <import resource="classpath:spring-redis.xml"/>
+    <import resource="classpath:applicationContext-task.xml"/>
+    <import resource="classpath:applicationContext-mq.xml"/>
     
     <!-- 和aop加载到一个文件里面，否则aop无效 -->
     <!-- 自动扫描该包，扫描所有的组件 -->  
     <context:annotation-config />
 	<mvc:annotation-driven />
 	<context:component-scan base-package="com.xinnet"></context:component-scan>
-    <import resource="classpath:applicationContext-task.xml"/>
 	<!-- interceptor setting -->
 	<mvc:interceptors>
 		<bean class="com.xinnet.interceptor.LoggerInterceptor"></bean>

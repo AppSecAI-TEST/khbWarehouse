@@ -35,7 +35,7 @@
 			<ref bean="jobTaskForQueryStockTask" />
 		</property>
 		<property name="cronExpression">
-		     <value>0/2 * * * * ?</value>
+		     <value>0/5 * 9-11,13-15 ? * MON-FRI</value>
 		</property>
 	</bean> 
 	 <bean id="jobTaskForQueryStockTask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
