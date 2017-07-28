@@ -9,6 +9,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.xinnet.entity.Book;
 import com.xinnet.queue.producer.MessageProducer;
+import com.xinnet.task.service.impl.QueryStockServiceImpl;
 
 
 /**
@@ -25,6 +26,8 @@ public class RabbitMqTest {
 
 	@Resource
 	private MessageProducer messageProducer;
+	@Resource
+	QueryStockServiceImpl queryStockServiceImpl;
 	
 	/*@Resource
 	private OrderDaoImpl orderMapper;*/
@@ -43,6 +46,11 @@ public class RabbitMqTest {
      * 测试保存优惠券信息
      * @throws Exception
      */
+	@Test  
+    public void query() throws Exception {  
+		queryStockServiceImpl.queryStock();
+    } 
+	
 	@Test  
     public void should_send_a_amq_message() throws Exception {  
         int a = 100;  
