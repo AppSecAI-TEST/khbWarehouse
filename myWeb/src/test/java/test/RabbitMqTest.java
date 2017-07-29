@@ -12,6 +12,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.xinnet.entity.Book;
 import com.xinnet.entity.User;
+import com.xinnet.lock.Lock;
+import com.xinnet.lock.RedisLock;
 import com.xinnet.queue.producer.MessageProducer;
 import com.xinnet.reids.Redis;
 import com.xinnet.service.IUserService;
@@ -114,4 +116,18 @@ public class RabbitMqTest {
 		List<User> uList = (List<User>) SerializeUtil.unserialize(redis.get("p".getBytes()));
 		System.out.println(uList);
     }
+	
+	@Test  
+    public void testTryLock() throws Exception {
+		Lock lock = new RedisLock("kang",20);
+		try {
+			if (lock.tryLock(16)) {
+				System.out.println("jinlaile");
+			}
+
+		} finally {
+			lock.unlock();
+		}
+    }
+	
 }

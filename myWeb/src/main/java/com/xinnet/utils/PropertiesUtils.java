@@ -3,6 +3,7 @@ package com.xinnet.utils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
@@ -96,6 +97,16 @@ public class PropertiesUtils {
 			}  
 		}  
 		return null;
+	}
+
+	public static int getPropertyValueInt(String path,String key) {
+		String value =  getPropertyValue(path, key);
+		return Integer.valueOf(value);
+	}
+
+	public static boolean getPropertyValueBoolean(String path,String key) {
+		String value =  getPropertyValue(path, key);
+		return Boolean.valueOf(value);
 	}
 }
 
