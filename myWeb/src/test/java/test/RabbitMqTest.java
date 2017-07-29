@@ -1,5 +1,8 @@
 package test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.junit.Test;
@@ -8,7 +11,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.xinnet.entity.Book;
+import com.xinnet.entity.User;
 import com.xinnet.queue.producer.MessageProducer;
+import com.xinnet.service.IUserService;
 import com.xinnet.task.service.impl.QueryStockServiceImpl;
 
 
@@ -28,6 +33,8 @@ public class RabbitMqTest {
 	private MessageProducer messageProducer;
 	@Resource
 	QueryStockServiceImpl queryStockServiceImpl;
+	@Resource
+	IUserService userService;
 	
 	/*@Resource
 	private OrderDaoImpl orderMapper;*/
@@ -67,6 +74,19 @@ public class RabbitMqTest {
   
         }  
     } 
+	
+	@Test  
+    public void testBatchUser() throws Exception {  
+		List<User> uList = new ArrayList<>();
+		for(int i=0;i<3;i++) {
+			User user = new User();
+			user.setUserName("name-"+i);
+			user.setPassWord("pass-"+i);
+			user.setEmail("email-"+i);
+			uList.add(user);
+		}
+		userService.batchInsert(uList);
+    }
 	
   
 }

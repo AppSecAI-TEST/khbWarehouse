@@ -2,6 +2,7 @@ package com.xinnet.service.impl;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -142,5 +143,10 @@ public class UserServiceImpl implements IUserService {
 	public void add(User record) throws Exception {
 		userMapper.insertSelective(record);
 		throw new Exception();
+	}
+
+	@Override
+	public void batchInsert(List<User> uList) {
+		userMapper.batchInsert(uList);
 	}
 }

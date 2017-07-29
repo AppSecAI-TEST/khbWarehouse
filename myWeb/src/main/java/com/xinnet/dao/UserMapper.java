@@ -1,5 +1,7 @@
 package com.xinnet.dao;
 
+import java.util.List;
+
 import com.xinnet.entity.User;
 
 public interface UserMapper {
@@ -16,4 +18,6 @@ public interface UserMapper {
     int updateByPrimaryKey(User record);
     
     User selectByParam(User record);
+
+	void batchInsert(List<User> uList);
 }

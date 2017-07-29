@@ -1,5 +1,7 @@
 package com.xinnet.service;
 
+import java.util.List;
+
 import com.xinnet.entity.LoginResultDto;
 import com.xinnet.entity.RegisterResultDto;
 import com.xinnet.entity.User;
@@ -21,4 +23,6 @@ public interface IUserService {
 	public LoginResultDto loginByParam(String userName, String passWord);
 	
 	void add(User record) throws Exception;
+	
+	void batchInsert(List<User> uList);
 }
