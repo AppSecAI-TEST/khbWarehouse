@@ -91,7 +91,7 @@ public class RedisUtil {
      * 同步获取Jedis实例
      * @return Jedis
      */
-    public synchronized static Jedis getJedis() { 
+    public synchronized static Jedis getResource() { 
         if (jedisPool == null) { 
             poolInit();
         }
@@ -117,17 +117,14 @@ public class RedisUtil {
     	Jedis jedis = null;
     	Object obj;
     	try {
-    		jedis = getJedis();
+    		jedis = getResource();
     		obj = rc.run(jedis);
     		if(jedis != null)
-    			returnResource(jedis);
+    			closeResource(jedis);
     		return obj;
 		} catch (Exception e) {
 			if(jedis != null)
-				returnResource(jedis);
-		}finally{
-			if(jedis != null)
-				returnResource(jedis);
+				closeResource(jedis);
 		}
        return null;
     }
@@ -143,47 +140,19 @@ public class RedisUtil {
             jedisPool.returnResource(jedis);
         }
     }
-      
-      
+    
     /**
-     * 设置 String
-     * @param key
-     * @param value
+     * 释放jedis资源
+     * @author hongbin.kang
+     * @date 2017年7月29日 下午8:42:07
+     * @param jedis
      */
-    /*public static void setString(String key ,String value){
-        try {
-            value = StringUtil.isEmpty(value) ? "" : value;
-            getJedis().set(key,value);
-        } catch (Exception e) {
-            logger.error("Set key error : "+e);
-        }
-    }
-      
-    *//**
-     * 设置 过期时间
-     * @param key
-     * @param seconds 以秒为单位
-     * @param value
-     *//*
-    public static void setString(String key ,int seconds,String value){
-        try {
-            value = StringUtil.isEmpty(value) ? "" : value;
-            getJedis().setex(key, seconds, value);
-        } catch (Exception e) {
-            logger.error("Set keyex error : "+e);
-        }
-    }*/
-      
-    /**
-     * 获取String值
-     * @param key
-     * @return value
-     */
-    public static String getString(String key){
-        if(getJedis() == null || !getJedis().exists(key)){
-            return null;
-        }
-        return getJedis().get(key);
-    }
-      
+    public static void closeResource(Jedis jedis) {
+		if (jedis != null)
+			if (jedis.isConnected()){
+				jedisPool.returnResource(jedis);
+			} else {
+				jedisPool.returnBrokenResource(jedis);
+			}
+	}
 }
