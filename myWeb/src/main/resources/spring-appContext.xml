@@ -38,7 +38,7 @@
     <import resource="classpath:spring-mybatis.xml"/>
     <import resource="classpath:spring-aop.xml"/>
     <import resource="classpath:spring-redis.xml"/>
-    <import resource="classpath:applicationContext-task.xml"/>
+    <!-- <import resource="classpath:applicationContext-task.xml"/> -->
     <import resource="classpath:applicationContext-mq.xml"/>
     
     <!-- 和aop加载到一个文件里面，否则aop无效 -->
