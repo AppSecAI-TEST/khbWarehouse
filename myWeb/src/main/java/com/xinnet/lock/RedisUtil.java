@@ -1,5 +1,9 @@
 package com.xinnet.lock;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -8,8 +12,10 @@ import com.xinnet.utils.PropertiesUtils;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
+import redis.clients.jedis.JedisSentinelPool;
+import redis.clients.util.Pool;
 
-  
+@SuppressWarnings({ "unchecked", "rawtypes" })  
 public class RedisUtil {
     
 	private static final Logger logger = LoggerFactory.getLogger(RedisUtil.class);
@@ -25,21 +31,28 @@ public class RedisUtil {
       
     //可用连接实例的最大数目，默认值为8；
     //如果赋值为-1，则表示不限制；如果pool已经分配了maxActive个jedis实例，则此时pool的状态为exhausted(耗尽)。
-    private static int MAX_ACTIVE = PropertiesUtils.getPropertyValueInt("/redis.properties", "jedis.maxActive");;
+    private static int MAX_ACTIVE = PropertiesUtils.getPropertyValueInt("/redis.properties", "jedis.maxActive");
       
     //控制一个pool最多有多少个状态为idle(空闲的)的jedis实例，默认值也是8。
-    private static int MAX_IDLE = PropertiesUtils.getPropertyValueInt("/redis.properties", "jedis.maxIdle");;
+    private static int MAX_IDLE = PropertiesUtils.getPropertyValueInt("/redis.properties", "jedis.maxIdle");
       
     //等待可用连接的最大时间，单位毫秒，默认值为-1，表示永不超时。如果超过等待时间，则直接抛出JedisConnectionException；
-    private static int MAX_WAIT = PropertiesUtils.getPropertyValueInt("/redis.properties", "jedis.maxWait");;
+    private static int MAX_WAIT = PropertiesUtils.getPropertyValueInt("/redis.properties", "jedis.maxWait");
   
     //超时时间
-    private static int TIMEOUT = PropertiesUtils.getPropertyValueInt("/redis.properties", "jedis.timeout");;
+    private static int TIMEOUT = PropertiesUtils.getPropertyValueInt("/redis.properties", "jedis.timeout");
       
     //在borrow一个jedis实例时，是否提前进行validate操作；如果为true，则得到的jedis实例均是可用的；
     private static boolean TEST_ON_BORROW = PropertiesUtils.getPropertyValueBoolean("/redis.properties", "jedis.testOnBorrow");
       
-    private static JedisPool jedisPool = null;
+    //哪种模式的redis，哨兵，普通
+    private static String MODE = PropertiesUtils.getPropertyValue("/redis.properties", "jedis.mode");
+    
+  //哪种模式的redis，哨兵，普通
+    private static String masterName = PropertiesUtils.getPropertyValue("/redis.properties", "jedis.masterName");
+    
+    
+	private static Pool jedisPool = null;
       
     /**
      * redis过期时间,以秒为单位
@@ -52,31 +65,59 @@ public class RedisUtil {
      * 初始化Redis连接池
      */
     private static void initialPool(){
-        try {
-        	logger.info("start init redis source");
-            JedisPoolConfig config = new JedisPoolConfig();
-            config.setMaxTotal(MAX_ACTIVE);
-            config.setMaxIdle(MAX_IDLE);
-            config.setMaxWaitMillis(MAX_WAIT);
-            config.setTestOnBorrow(TEST_ON_BORROW);
-//            jedisPool = new JedisPool(config, ADDR_ARRAY.split(",")[0], PORT, TIMEOUT);
-            jedisPool = new JedisPool(config, ADDR_ARRAY.split(",")[0], PORT, TIMEOUT,AUTH);
-            logger.info("success init redis source");
-        } catch (Exception e) {
-            logger.error("First create JedisPool error : "+e);
-            try{
-                //如果第一个IP异常，则访问第二个IP
-                JedisPoolConfig config = new JedisPoolConfig();
-                config.setMaxTotal(MAX_ACTIVE);
-                config.setMaxIdle(MAX_IDLE);
-                config.setMaxWaitMillis(MAX_WAIT);
-                config.setTestOnBorrow(TEST_ON_BORROW);
-                jedisPool = new JedisPool(config, ADDR_ARRAY.split(",")[1], PORT, TIMEOUT);
-            }catch(Exception e2){
-                logger.error("Second create JedisPool error : "+e2);
-            }
-        }
+    	
+    	if ("sentinel".equals(MODE)) {
+    		logger.info("init SentinelsPool redis");
+    		initSentinelsPool();
+    		logger.info("init SentinelsPool redis success");
+    	} else {
+    		logger.info("init JedisPool redis");
+    		initJedisPool();
+    		logger.info("init JedisPool redis success");
+    	}
     }
+    
+    /**
+     * 初始化哨兵
+     * @author hongbin.kang
+     * @date 2017年7月31日 下午11:57:09
+     * @param prop
+     */
+	private static void initSentinelsPool() {
+		JedisPoolConfig config = initPoolConfig();
+		Set sentinels = new HashSet(Arrays.asList(getHostAndPorts()));
+		jedisPool = new JedisSentinelPool(masterName,
+				sentinels, config, TIMEOUT);
+	}
+    /**
+     * 单个的
+     * @author hongbin.kang
+     * @date 2017年8月1日 上午12:16:21
+     */
+    private static void initJedisPool(){
+    	JedisPoolConfig config = initPoolConfig();
+//        jedisPool = new JedisPool(config, ADDR_ARRAY.split(",")[0], PORT, TIMEOUT);
+        jedisPool = new JedisPool(config, ADDR_ARRAY, PORT, TIMEOUT,AUTH);
+    }
+    
+    /**
+     * 初始化poolConfig
+     * @author hongbin.kang
+     * @date 2017年8月1日 上午12:15:34
+     * @return
+     */
+    private static JedisPoolConfig initPoolConfig() {
+		JedisPoolConfig config = new JedisPoolConfig();
+		config.setMaxTotal(MAX_ACTIVE);
+        config.setMaxIdle(MAX_IDLE);
+        config.setMaxWaitMillis(MAX_WAIT);
+        config.setTestOnBorrow(TEST_ON_BORROW);
+		return config;
+	}
+    
+    private static String[] getHostAndPorts() {
+		return PropertiesUtils.getPropertyValue("/redis.properties", "jedis.sentinels").trim().split(",");
+	}
       
       
     /**
@@ -101,7 +142,7 @@ public class RedisUtil {
         Jedis jedis = null;
         try { 
             if (jedisPool != null) { 
-                jedis = jedisPool.getResource();
+                jedis = (Jedis) jedisPool.getResource();
                 logger.info("success get redis source");
             }
         } catch (Exception e) { 
