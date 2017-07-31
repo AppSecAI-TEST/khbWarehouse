@@ -37,7 +37,7 @@ public class RedisUtil {
     private static int TIMEOUT = PropertiesUtils.getPropertyValueInt("/redis.properties", "jedis.timeout");;
       
     //在borrow一个jedis实例时，是否提前进行validate操作；如果为true，则得到的jedis实例均是可用的；
-    private static boolean TEST_ON_BORROW = PropertiesUtils.getPropertyValueBoolean("/redis.properties", "jedis.testOnBorrow");;
+    private static boolean TEST_ON_BORROW = PropertiesUtils.getPropertyValueBoolean("/redis.properties", "jedis.testOnBorrow");
       
     private static JedisPool jedisPool = null;
       
@@ -158,13 +158,10 @@ public class RedisUtil {
      */
     public static void closeResource(Jedis jedis) {
     	logger.info("start close redis source");
-		if (jedis != null){
-			
+    	if (jedis != null){
 			if (jedis.isConnected()){
-				jedisPool.returnResource(jedis);
-			} else {
-				jedisPool.returnBrokenResource(jedis);
-			}
+				jedis.close();
+			} 
 		}
 		logger.info("success close redis source");
 	}
