@@ -65,7 +65,7 @@ public class RabbitMqTest {
 		queryStockServiceImpl.queryStock();
     } 
 	
-	/*@Test  
+	@Test  
     public void should_send_a_amq_message() throws Exception {  
         int a = 100;  
         while (a > 0) {  
@@ -80,7 +80,7 @@ public class RabbitMqTest {
             }  
   
         }  
-    } */
+    } 
 	
 	@Test  
     public void testBatchUser() throws Exception {  

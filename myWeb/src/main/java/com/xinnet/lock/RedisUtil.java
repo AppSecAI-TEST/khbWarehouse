@@ -53,21 +53,23 @@ public class RedisUtil {
      */
     private static void initialPool(){
         try {
+        	logger.info("start init redis source");
             JedisPoolConfig config = new JedisPoolConfig();
-            config.setMaxActive(MAX_ACTIVE);
+            config.setMaxTotal(MAX_ACTIVE);
             config.setMaxIdle(MAX_IDLE);
-            config.setMaxWait(MAX_WAIT);
+            config.setMaxWaitMillis(MAX_WAIT);
             config.setTestOnBorrow(TEST_ON_BORROW);
 //            jedisPool = new JedisPool(config, ADDR_ARRAY.split(",")[0], PORT, TIMEOUT);
             jedisPool = new JedisPool(config, ADDR_ARRAY.split(",")[0], PORT, TIMEOUT,AUTH);
+            logger.info("success init redis source");
         } catch (Exception e) {
             logger.error("First create JedisPool error : "+e);
             try{
                 //如果第一个IP异常，则访问第二个IP
                 JedisPoolConfig config = new JedisPoolConfig();
-                config.setMaxActive(MAX_ACTIVE);
+                config.setMaxTotal(MAX_ACTIVE);
                 config.setMaxIdle(MAX_IDLE);
-                config.setMaxWait(MAX_WAIT);
+                config.setMaxWaitMillis(MAX_WAIT);
                 config.setTestOnBorrow(TEST_ON_BORROW);
                 jedisPool = new JedisPool(config, ADDR_ARRAY.split(",")[1], PORT, TIMEOUT);
             }catch(Exception e2){
@@ -92,6 +94,7 @@ public class RedisUtil {
      * @return Jedis
      */
     public synchronized static Jedis getResource() { 
+    	logger.info("start get redis source");
         if (jedisPool == null) { 
             poolInit();
         }
@@ -99,6 +102,7 @@ public class RedisUtil {
         try { 
             if (jedisPool != null) { 
                 jedis = jedisPool.getResource();
+                logger.info("success get redis source");
             }
         } catch (Exception e) { 
             logger.error("Get jedis error : "+e);
@@ -114,17 +118,22 @@ public class RedisUtil {
      * @return
      */
     public static Object call(RedisCall rc) {
+    	logger.info("execute redis call start");
     	Jedis jedis = null;
     	Object obj;
     	try {
     		jedis = getResource();
     		obj = rc.run(jedis);
-    		if(jedis != null)
+    		logger.info("execute redis call result={}",obj);
+    		if(jedis != null){
     			closeResource(jedis);
+    		}
+    		logger.info("execute redis call success");
     		return obj;
 		} catch (Exception e) {
-			if(jedis != null)
+			if(jedis != null) {
 				closeResource(jedis);
+			}
 		}
        return null;
     }
@@ -148,11 +157,15 @@ public class RedisUtil {
      * @param jedis
      */
     public static void closeResource(Jedis jedis) {
-		if (jedis != null)
+    	logger.info("start close redis source");
+		if (jedis != null){
+			
 			if (jedis.isConnected()){
 				jedisPool.returnResource(jedis);
 			} else {
 				jedisPool.returnBrokenResource(jedis);
 			}
+		}
+		logger.info("success close redis source");
 	}
 }

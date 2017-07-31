@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
 
 
-@Service
 public class RedisLock implements Lock {
 	
 	private static final Logger logger = LoggerFactory.getLogger(RedisLock.class);
