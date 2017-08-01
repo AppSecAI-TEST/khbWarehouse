@@ -19,7 +19,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 public abstract class GenericDaoDefault<T extends Serializable> extends SqlSessionDaoSupport implements GenericDao<T> {
 	@Autowired
 	protected SqlSessionFactory sqlSessionFactory;
+	
 	@Autowired
+	@Override
     public void setSqlSessionFactory(SqlSessionFactory sqlSessionFactory) {  
         super.setSqlSessionFactory(sqlSessionFactory);  
     }
@@ -29,6 +31,7 @@ public abstract class GenericDaoDefault<T extends Serializable> extends SqlSessi
 		entityClass = GenericUtils.getGenericClass(getClass());
 	}
 	
+	@Override
 	protected void checkDaoConfig() {
 		super.checkDaoConfig();
 		SqlSession sqlSession = super.getSqlSession();
@@ -46,7 +49,7 @@ public abstract class GenericDaoDefault<T extends Serializable> extends SqlSessi
 		super.getSqlSession().delete(getStatementId("delete"), id);
 	}
 	
-	public void delete(String ql, Object args[]) {
+	public void delete(String ql, Object... args) {
 		if (args == null || args.length == 0)
 			super.getSqlSession().delete(getStatementId(ql));
 		else if (args.length == 1) {
