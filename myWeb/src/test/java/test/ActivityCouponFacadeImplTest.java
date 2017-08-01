@@ -12,7 +12,7 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.xinnet.dao.impl.OrderDaoImpl;
+//import com.xinnet.dao.impl.OrderDaoImpl;
 import com.xinnet.entity.Order;
 import com.xinnet.service.IOrderService;
 import com.xinnet.service.IUserService;

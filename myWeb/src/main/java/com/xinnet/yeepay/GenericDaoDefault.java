@@ -190,84 +190,84 @@ public abstract class GenericDaoDefault<T extends Serializable> extends SqlSessi
 				ExecutorType.BATCH);
 	}
 	
-	/*public void batchInsert(String sql, List entities) {
+	public void batchInsert(String sql, List entities) {
 		SqlSession batchSqlSession = getBatchSession();
-		T e;
-		for(Iterator i$ = entities.iterator(); i$.hasNext(); batchSqlSession.insert(getStatementId(sql), e))
-			e = (T)i$.next();
-		
-		batchSqlSession.commit();
-		BatchSqlSessionUtils.closeSqlSession(batchSqlSession);
-		break MISSING_BLOCK_LABEL_74;
-		Exception exception;
-		exception;
-		BatchSqlSessionUtils.closeSqlSession(batchSqlSession);
-		throw exception;
+		try {
+			T e;
+			for(Iterator i$ = entities.iterator(); i$.hasNext(); batchSqlSession.insert(getStatementId(sql), e))
+				e = (T)i$.next();
+			
+			batchSqlSession.commit();
+			BatchSqlSessionUtils.closeSqlSession(batchSqlSession);
+		} catch (Exception e) {
+			BatchSqlSessionUtils.closeSqlSession(batchSqlSession);
+			throw e;
+		}
 	}
 	
 	public void batchUpdate(List entities) {
 		SqlSession batchSqlSession = getBatchSession();
-		T e;
-		for(Iterator i$ = entities.iterator(); i$.hasNext(); batchSqlSession.update(getStatementId("update"), e))
-			e = (T)i$.next();
-		
-		batchSqlSession.commit();
-		BatchSqlSessionUtils.closeSqlSession(batchSqlSession);
-		break MISSING_BLOCK_LABEL_72;
-		Exception exception;
-		exception;
-		BatchSqlSessionUtils.closeSqlSession(batchSqlSession);
-		throw exception;
+		try {
+			T e;
+			for(Iterator i$ = entities.iterator(); i$.hasNext(); batchSqlSession.update(getStatementId("update"), e))
+				e = (T)i$.next();
+			
+			batchSqlSession.commit();
+			BatchSqlSessionUtils.closeSqlSession(batchSqlSession);
+		} catch (Exception e) {
+			BatchSqlSessionUtils.closeSqlSession(batchSqlSession);
+			throw e;
+		}
 	}
 	
-	*//**
+	/**
 	 * @deprecated Method batchInsert is deprecated
-	 *//*
+	 */
 	
 	public void batchInsert(List entities) {
 		SqlSession batchSqlSession = getBatchSession();
-		T e;
-		for(Iterator i$ = entities.iterator(); i$.hasNext(); batchSqlSession.insert(getStatementId("insert"), e))
-			e = (T)i$.next();
-		
-		batchSqlSession.commit();
-		BatchSqlSessionUtils.closeSqlSession(batchSqlSession);
-		break MISSING_BLOCK_LABEL_72;
-		Exception exception;
-		exception;
-		BatchSqlSessionUtils.closeSqlSession(batchSqlSession);
-		throw exception;
+		try {
+			T e;
+			for(Iterator i$ = entities.iterator(); i$.hasNext(); batchSqlSession.insert(getStatementId("insert"), e))
+				e = (T)i$.next();
+			
+			batchSqlSession.commit();
+			BatchSqlSessionUtils.closeSqlSession(batchSqlSession);
+		} catch (Exception e) {
+			BatchSqlSessionUtils.closeSqlSession(batchSqlSession);
+			throw e;
+		}
 	}
 	
 	public void batchDelete(List entities) {
 		SqlSession batchSqlSession = getBatchSession();
-		T e;
-		for(Iterator i$ = entities.iterator(); i$.hasNext(); batchSqlSession.delete(getStatementId("delete"), e.getId()))
-			e = (T)i$.next();
-		
-		batchSqlSession.commit();
-		BatchSqlSessionUtils.closeSqlSession(batchSqlSession);
-		break MISSING_BLOCK_LABEL_77;
-		Exception exception;
-		exception;
-		BatchSqlSessionUtils.closeSqlSession(batchSqlSession);
-		throw exception;
+		try {
+			Entity e;
+			for(Iterator i$ = entities.iterator(); i$.hasNext(); batchSqlSession.insert(getStatementId("delete"), e.getId()))
+				e = (Entity)i$.next();
+			
+			batchSqlSession.commit();
+			BatchSqlSessionUtils.closeSqlSession(batchSqlSession);
+		} catch (Exception e) {
+			BatchSqlSessionUtils.closeSqlSession(batchSqlSession);
+			throw e;
+		}
 	}
 	
 	public void batchDeleteById(List ids) {
 		SqlSession batchSqlSession = getBatchSession();
-		Serializable id;
-		for(Iterator i$ = ids.iterator(); i$.hasNext(); batchSqlSession.delete(getStatementId("delete"), id))
-			id = (Serializable)i$.next();
-		
-		batchSqlSession.commit();
-		BatchSqlSessionUtils.closeSqlSession(batchSqlSession);
-		break MISSING_BLOCK_LABEL_72;
-		Exception exception;
-		exception;
-		BatchSqlSessionUtils.closeSqlSession(batchSqlSession);
-		throw exception;
-	}*/
+		try {
+			Serializable id;
+			for(Iterator i$ = ids.iterator(); i$.hasNext(); batchSqlSession.insert(getStatementId("delete"), id))
+				id = (Serializable)i$.next();
+			
+			batchSqlSession.commit();
+			BatchSqlSessionUtils.closeSqlSession(batchSqlSession);
+		} catch (Exception e) {
+			BatchSqlSessionUtils.closeSqlSession(batchSqlSession);
+			throw e;
+		}
+	}
 	
 	
 }

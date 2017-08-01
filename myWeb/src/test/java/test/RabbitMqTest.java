@@ -1,7 +1,10 @@
 package test;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -10,7 +13,10 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.xinnet.dao.OrderDao;
+import com.xinnet.dao.impl.OrderDaoImpl;
 import com.xinnet.entity.Book;
+import com.xinnet.entity.Order;
 import com.xinnet.entity.User;
 import com.xinnet.lock.Lock;
 import com.xinnet.lock.RedisLock;
@@ -20,6 +26,8 @@ import com.xinnet.service.IUserService;
 import com.xinnet.task.service.impl.QueryStockServiceImpl;
 import com.xinnet.utils.SerializeUtil;
 import com.xinnet.utils.SpringContext;
+import com.xinnet.yeepay.YeepayDefault;
+import com.xinnet.yeepay.dao.YeepayDefaultDao;
 
 
 /**
@@ -40,6 +48,8 @@ public class RabbitMqTest {
 	QueryStockServiceImpl queryStockServiceImpl;
 //	@Resource
 //	IUserService userService;
+	@Resource
+	private YeepayDefaultDao yeepayDefaultDao;
 	
 	@Resource
 	Redis redis;
@@ -133,4 +143,17 @@ public class RabbitMqTest {
 		}
     }
 	
+	
+	@Test  
+    public void testYeepayDao() throws Exception {
+		YeepayDefault yeepay = new YeepayDefault();
+		yeepay.setAge(12);
+		yeepay.setCity("china");
+		yeepay.setName("kk");
+		yeepayDefaultDao.add("insertSelective", yeepay);
+		System.out.println(yeepayDefaultDao.query("selectByPrimaryKey", 1));
+		Map map = new HashMap<String, Object>();
+		map.put("name", "kk");
+		System.out.println(yeepayDefaultDao.query("selectByParam", map));
+    }
 }

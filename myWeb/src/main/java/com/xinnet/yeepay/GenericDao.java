@@ -38,18 +38,18 @@ public interface GenericDao<T extends Serializable> {
 	
 	public abstract Map getMap(String s, Object... aobj);
 	
-	/*public abstract void batchUpdate(List list);
+	public abstract void batchUpdate(List list);
 	
 	public abstract void batchInsert(String s, List list);
 	
-	 *//**
+	 /**
 	 * @deprecated Method batchInsert is deprecated
-	 *//*
+	 */
 	
 	public abstract void batchInsert(List list);
 	
 	public abstract void batchDelete(List list);
 	
-	public abstract void batchDeleteById(List list);*/
+	public abstract void batchDeleteById(List list);
 }
 
