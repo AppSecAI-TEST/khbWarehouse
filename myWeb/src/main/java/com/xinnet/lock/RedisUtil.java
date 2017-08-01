@@ -2,6 +2,7 @@ package com.xinnet.lock;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Properties;
 import java.util.Set;
 
 import org.slf4j.Logger;
@@ -20,36 +21,38 @@ public class RedisUtil {
     
 	private static final Logger logger = LoggerFactory.getLogger(RedisUtil.class);
 	
+	private static Properties pro = PropertiesUtils.getProperties("/redis.properties");
+	
     //Redis服务器IP
-    private static String ADDR_ARRAY = PropertiesUtils.getPropertyValue("/redis.properties", "jedis.host");
+    private static String ADDR_ARRAY = pro.getProperty("jedis.host");
       
     //Redis的端口号
-    private static int PORT = PropertiesUtils.getPropertyValueInt("/redis.properties", "jedis.port");
+    private static int PORT = Integer.valueOf(pro.getProperty("jedis.port"));
       
     //访问密码
-    private static String AUTH = PropertiesUtils.getPropertyValue("/redis.properties", "jedis.pass");
+    private static String AUTH = pro.getProperty("jedis.pass");
       
     //可用连接实例的最大数目，默认值为8；
     //如果赋值为-1，则表示不限制；如果pool已经分配了maxActive个jedis实例，则此时pool的状态为exhausted(耗尽)。
-    private static int MAX_ACTIVE = PropertiesUtils.getPropertyValueInt("/redis.properties", "jedis.maxActive");
+    private static int MAX_ACTIVE = Integer.valueOf(pro.getProperty("jedis.maxActive"));
       
     //控制一个pool最多有多少个状态为idle(空闲的)的jedis实例，默认值也是8。
-    private static int MAX_IDLE = PropertiesUtils.getPropertyValueInt("/redis.properties", "jedis.maxIdle");
+    private static int MAX_IDLE = Integer.valueOf(pro.getProperty("jedis.maxIdle"));
       
     //等待可用连接的最大时间，单位毫秒，默认值为-1，表示永不超时。如果超过等待时间，则直接抛出JedisConnectionException；
-    private static int MAX_WAIT = PropertiesUtils.getPropertyValueInt("/redis.properties", "jedis.maxWait");
+    private static int MAX_WAIT = Integer.valueOf(pro.getProperty("jedis.maxWait"));
   
     //超时时间
-    private static int TIMEOUT = PropertiesUtils.getPropertyValueInt("/redis.properties", "jedis.timeout");
+    private static int TIMEOUT = Integer.valueOf(pro.getProperty("jedis.timeout"));
       
     //在borrow一个jedis实例时，是否提前进行validate操作；如果为true，则得到的jedis实例均是可用的；
-    private static boolean TEST_ON_BORROW = PropertiesUtils.getPropertyValueBoolean("/redis.properties", "jedis.testOnBorrow");
+    private static boolean TEST_ON_BORROW = Boolean.valueOf(pro.getProperty("jedis.testOnBorrow"));
       
     //哪种模式的redis，哨兵，普通
-    private static String MODE = PropertiesUtils.getPropertyValue("/redis.properties", "jedis.mode");
+    private static String MODE = pro.getProperty("jedis.mode");
     
   //哪种模式的redis，哨兵，普通
-    private static String masterName = PropertiesUtils.getPropertyValue("/redis.properties", "jedis.masterName");
+    private static String masterName = pro.getProperty("jedis.masterName");
     
     
 	private static Pool jedisPool = null;
@@ -69,11 +72,9 @@ public class RedisUtil {
     	if ("sentinel".equals(MODE)) {
     		logger.info("init SentinelsPool redis");
     		initSentinelsPool();
-    		logger.info("init SentinelsPool redis success");
     	} else {
     		logger.info("init JedisPool redis");
     		initJedisPool();
-    		logger.info("init JedisPool redis success");
     	}
     }
     
@@ -86,8 +87,8 @@ public class RedisUtil {
 	private static void initSentinelsPool() {
 		JedisPoolConfig config = initPoolConfig();
 		Set sentinels = new HashSet(Arrays.asList(getHostAndPorts()));
-		jedisPool = new JedisSentinelPool(masterName,
-				sentinels, config, TIMEOUT);
+		jedisPool = new JedisSentinelPool(masterName,sentinels, config, TIMEOUT);
+		logger.info("init SentinelsPool redis success jedisPool={}",jedisPool);
 	}
     /**
      * 单个的
@@ -96,8 +97,9 @@ public class RedisUtil {
      */
     private static void initJedisPool(){
     	JedisPoolConfig config = initPoolConfig();
-//        jedisPool = new JedisPool(config, ADDR_ARRAY.split(",")[0], PORT, TIMEOUT);
-        jedisPool = new JedisPool(config, ADDR_ARRAY, PORT, TIMEOUT,AUTH);
+        jedisPool = new JedisPool(config, ADDR_ARRAY, PORT, TIMEOUT);
+//        jedisPool = new JedisPool(config, ADDR_ARRAY, PORT, TIMEOUT,AUTH);
+        logger.info("init JedisPool redis success jedisPool={}",jedisPool);
     }
     
     /**
@@ -116,7 +118,7 @@ public class RedisUtil {
 	}
     
     private static String[] getHostAndPorts() {
-		return PropertiesUtils.getPropertyValue("/redis.properties", "jedis.sentinels").trim().split(",");
+		return pro.getProperty("jedis.sentinels").trim().split(",");
 	}
       
       

@@ -98,6 +98,44 @@ public class PropertiesUtils {
 		}  
 		return null;
 	}
+	
+	/**
+	 * 读取指定文件下的value值
+	 * @author hongbin.kang
+	 *
+	 * @param path 
+	 *          资源文件
+	 * @param key
+	 *          键
+	 * @return
+	 */
+	public static Properties getProperties(String path) {
+		if(null == path) {
+			return null;
+		}
+		InputStream in = null;  
+		Properties pros = new Properties();  
+		try {  
+			//resources目录下
+			in = PropertiesUtils.class.getResourceAsStream(path);  
+			//得到当前类的路径，并把资源文件名作为输入流  
+			pros.load(in);
+			logger.info("[getPropertyValue]-path路径-key的value不存在,path={}",path);
+			return pros;
+		} catch (IOException e) {  
+			e.printStackTrace(); 
+			logger.info("读取资源文件出错");
+		} finally {  
+			try {  
+				if (null != in) {  
+					in.close();  
+				}  
+			} catch (IOException e) {  
+				e.printStackTrace();  
+			}  
+		}  
+		return null;
+	}
 
 	public static int getPropertyValueInt(String path,String key) {
 		String value =  getPropertyValue(path, key);

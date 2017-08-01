@@ -19,6 +19,7 @@ import com.xinnet.reids.Redis;
 import com.xinnet.service.IUserService;
 import com.xinnet.task.service.impl.QueryStockServiceImpl;
 import com.xinnet.utils.SerializeUtil;
+import com.xinnet.utils.SpringContext;
 
 
 /**
@@ -37,8 +38,8 @@ public class RabbitMqTest {
 	private MessageProducer messageProducer;
 	@Resource
 	QueryStockServiceImpl queryStockServiceImpl;
-	@Resource
-	IUserService userService;
+//	@Resource
+//	IUserService userService;
 	
 	@Resource
 	Redis redis;
@@ -62,6 +63,8 @@ public class RabbitMqTest {
      */
 	@Test  
     public void query() throws Exception {  
+		IUserService u = (IUserService)SpringContext.getBeanByName("userService");
+		System.out.println(u.getUserById(1));
 		queryStockServiceImpl.queryStock();
     } 
 	
@@ -82,18 +85,18 @@ public class RabbitMqTest {
         }  
     } 
 	
-	@Test  
-    public void testBatchUser() throws Exception {  
-		List<User> uList = new ArrayList<>();
-		for(int i=0;i<3;i++) {
-			User user = new User();
-			user.setUserName("name-"+i);
-			user.setPassWord("pass-"+i);
-			user.setEmail("email-"+i);
-			uList.add(user);
-		}
-		userService.batchInsert(uList);
-    }
+//	@Test  
+//    public void testBatchUser() throws Exception {  
+//		List<User> uList = new ArrayList<>();
+//		for(int i=0;i<3;i++) {
+//			User user = new User();
+//			user.setUserName("name-"+i);
+//			user.setPassWord("pass-"+i);
+//			user.setEmail("email-"+i);
+//			uList.add(user);
+//		}
+//		userService.batchInsert(uList);
+//    }
 	
 	@Test  
     public void testRedis() throws Exception {
@@ -119,9 +122,9 @@ public class RabbitMqTest {
 	
 	@Test  
     public void testTryLock() throws Exception {
-		Lock lock = new RedisLock("kang",20);
+		Lock lock = new RedisLock("kang",10);
 		try {
-			if (lock.tryLock(16)) {
+			if (lock.tryLock(6)) {
 				System.out.println("jinlaile");
 			}
 
