@@ -1,9 +1,9 @@
 package com.xinnet.yeepay;
 
 
-public interface EntityVersion extends Entity {
+public interface EntityVersion<T extends Long> extends Entity<T> {
 
-	public abstract void setVersion(Long long1);
+	public abstract void setVersion(T t);
 
-	public abstract Long getVersion();
+	public abstract T getVersion();
 }

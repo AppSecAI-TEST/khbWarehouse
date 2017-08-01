@@ -1,14 +1,19 @@
 package com.xinnet.yeepay;
 
-import java.io.Serializable;
 
-public class YeepayDefault implements Serializable {
+public class YeepayDefault implements EntityVersion<Long> {
     /**
 	 * 
 	 */
-	private static final long serialVersionUID = -663599785106227817L;
+	private static final long serialVersionUID = 483392172066434349L;
 
-	private Integer id;
+	/**
+	 * 
+	 */
+
+	private Long id;
+	
+	private Long version;
 
     private String name;
 
@@ -16,13 +21,21 @@ public class YeepayDefault implements Serializable {
 
     private String city;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
+    
+    public void setVersion(Long version){
+    	this.version = version;
+    }
+
+	public Long getVersion(){
+		return version;
+	}
 
     public String getName() {
         return name;
@@ -53,4 +66,5 @@ public class YeepayDefault implements Serializable {
 		return "YeepayDefault [id=" + id + ", name=" + name + ", age=" + age
 				+ ", city=" + city + "]";
 	}
+
 }

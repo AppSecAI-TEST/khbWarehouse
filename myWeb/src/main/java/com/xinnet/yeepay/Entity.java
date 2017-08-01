@@ -3,9 +3,9 @@ package com.xinnet.yeepay;
 
 import java.io.Serializable;
 
-public interface Entity extends Serializable {
+public interface Entity<T extends Serializable> extends Serializable {
 
-	public abstract Serializable getId();
+	public abstract T getId();
 
-	public abstract void setId(Serializable serializable);
+	public abstract void setId(T serializable);
 }
