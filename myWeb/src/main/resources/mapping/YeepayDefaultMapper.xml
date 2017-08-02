@@ -58,7 +58,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.xinnet.yeepay.YeepayDefault" >
+  <update id="update" parameterType="com.xinnet.yeepay.YeepayDefault" >
     update yeepay_default
     <set >
       <if test="name != null" >
