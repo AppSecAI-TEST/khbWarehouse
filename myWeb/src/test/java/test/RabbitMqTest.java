@@ -110,7 +110,7 @@ public class RabbitMqTest {
 	
 	@Test  
     public void testRedis() throws Exception {
-		List<User> uList = new ArrayList<>();
+		List<User> uList = new ArrayList<User>();
 		for(int i=0;i<3;i++) {
 			User user = new User();
 			user.setUserName("name-"+i);
@@ -152,7 +152,7 @@ public class RabbitMqTest {
 		yeepay.setName("kk");
 		yeepayDefaultDao.add("insertSelective", yeepay);
 		System.out.println(yeepayDefaultDao.query("selectByPrimaryKey", 1));
-		Map map = new HashMap<String, Object>();
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("name", "kk");
 		System.out.println(yeepayDefaultDao.query("selectByParam", map));
     }
