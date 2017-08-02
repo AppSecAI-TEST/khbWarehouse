@@ -204,7 +204,7 @@ public abstract class GenericDaoDefault<T extends Serializable> extends SqlSessi
 			BatchSqlSessionUtils.closeSqlSession(batchSqlSession);
 		} catch (Exception e) {
 			BatchSqlSessionUtils.closeSqlSession(batchSqlSession);
-			throw e;
+			throw new RuntimeException(e); 
 		}
 	}
 	
@@ -219,7 +219,7 @@ public abstract class GenericDaoDefault<T extends Serializable> extends SqlSessi
 			BatchSqlSessionUtils.closeSqlSession(batchSqlSession);
 		} catch (Exception e) {
 			BatchSqlSessionUtils.closeSqlSession(batchSqlSession);
-			throw e;
+			throw new RuntimeException(e); 
 		}
 	}
 	
@@ -238,7 +238,7 @@ public abstract class GenericDaoDefault<T extends Serializable> extends SqlSessi
 			BatchSqlSessionUtils.closeSqlSession(batchSqlSession);
 		} catch (Exception e) {
 			BatchSqlSessionUtils.closeSqlSession(batchSqlSession);
-			throw e;
+			throw new RuntimeException(e); 
 		}
 	}
 	
@@ -253,7 +253,7 @@ public abstract class GenericDaoDefault<T extends Serializable> extends SqlSessi
 			BatchSqlSessionUtils.closeSqlSession(batchSqlSession);
 		} catch (Exception e) {
 			BatchSqlSessionUtils.closeSqlSession(batchSqlSession);
-			throw e;
+			throw new RuntimeException(e); 
 		}
 	}
 	
@@ -268,7 +268,7 @@ public abstract class GenericDaoDefault<T extends Serializable> extends SqlSessi
 			BatchSqlSessionUtils.closeSqlSession(batchSqlSession);
 		} catch (Exception e) {
 			BatchSqlSessionUtils.closeSqlSession(batchSqlSession);
-			throw e;
+			throw new RuntimeException(e); 
 		}
 	}
 	
