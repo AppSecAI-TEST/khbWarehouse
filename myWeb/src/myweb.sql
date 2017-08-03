@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : local_mysql
-Source Server Version : 50549
-Source Host           : localhost:3306
+Source Server         : centos_master
+Source Server Version : 50635
+Source Host           : 192.168.220.128:3306
 Source Database       : myweb
 
 Target Server Type    : MYSQL
-Target Server Version : 50549
+Target Server Version : 50635
 File Encoding         : 65001
 
-Date: 2017-07-18 14:42:39
+Date: 2017-08-03 10:42:05
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -64,7 +64,7 @@ CREATE TABLE `t_order` (
   `user_id` int(11) DEFAULT NULL,
   `amout` decimal(10,4) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for t_user
@@ -78,7 +78,7 @@ CREATE TABLE `t_user` (
   `creat_time` datetime DEFAULT NULL,
   `head_portrait` blob,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for user
@@ -91,3 +91,15 @@ CREATE TABLE `user` (
   `gender` tinyint(4) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for yeepay_default
+-- ----------------------------
+DROP TABLE IF EXISTS `yeepay_default`;
+CREATE TABLE `yeepay_default` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `age` int(11) DEFAULT NULL,
+  `city` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;

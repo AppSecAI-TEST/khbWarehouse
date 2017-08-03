@@ -142,7 +142,7 @@ public class UserServiceImpl implements IUserService {
 	@Override
 	public void add(User record) throws Exception {
 		userMapper.insertSelective(record);
-		throw new Exception();
+//		throw new Exception();
 	}
 
 	@Override

@@ -46,8 +46,8 @@ public class RabbitMqTest {
 	private MessageProducer messageProducer;
 	@Resource
 	QueryStockServiceImpl queryStockServiceImpl;
-//	@Resource
-//	IUserService userService;
+	@Resource
+	IUserService userService;
 	@Resource
 	private YeepayDefaultDao yeepayDefaultDao;
 	
@@ -155,5 +155,22 @@ public class RabbitMqTest {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("name", "kk");
 		System.out.println(yeepayDefaultDao.query("selectByParam", map));
+		yeepay.setId(2L);
+		yeepay.setName("BB");
+		yeepayDefaultDao.update(yeepay);
     }
+	
+	@Test
+	public void testMysqlReAndWri() throws Exception {
+		User user = new User();
+		user.setUserName("name-");
+		user.setPassWord("pass-");
+		user.setEmail("email-");
+		userService.add(user);
+		
+		System.out.println(userService.getUserById(2));
+	}
+	
+	
+	
 }
