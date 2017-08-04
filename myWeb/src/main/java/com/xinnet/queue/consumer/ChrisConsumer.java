@@ -29,7 +29,7 @@ public class ChrisConsumer implements MessageListener {
         Book book = (Book)ObjectAndByteUtil.toObject(message.getBody());
 //        try {  
 //            //暂停一下，好让消息消费者去取消息打印出来  
-//            Thread.sleep(5000);  
+//            Thread.sleep(13000);  
 //        } catch (InterruptedException e) {  
 //            e.printStackTrace();  
 //        }
