@@ -13,4 +13,6 @@ public interface IOrderService {
     List<Order> getAll();
 
 	public Order selectMybatisCache(int i);
+
+	public Order selectMybatisSecondCache(int i);
 }

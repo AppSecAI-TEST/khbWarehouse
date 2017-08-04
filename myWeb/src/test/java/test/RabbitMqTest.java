@@ -183,9 +183,8 @@ public class RabbitMqTest {
 		Order l1 = orderService.selectMybatisCache(4);
 		System.out.println(new Date().getTime() - thirt.getTime());
 		Date forth = new Date();
-		Order l2 = orderService.selectMybatisCache(4);
+		Order l2 = orderService.selectMybatisSecondCache(4);
 		System.out.println(new Date().getTime() - forth.getTime());
-		System.out.println(l1 == l2);
 	}
 	
 	
