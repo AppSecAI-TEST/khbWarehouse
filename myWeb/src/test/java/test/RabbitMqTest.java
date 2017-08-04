@@ -2,6 +2,7 @@ package test;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +23,9 @@ import com.xinnet.lock.Lock;
 import com.xinnet.lock.RedisLock;
 import com.xinnet.queue.producer.MessageProducer;
 import com.xinnet.reids.Redis;
+import com.xinnet.service.IOrderService;
 import com.xinnet.service.IUserService;
+import com.xinnet.service.YeepayDefaultService;
 import com.xinnet.task.service.impl.QueryStockServiceImpl;
 import com.xinnet.utils.SerializeUtil;
 import com.xinnet.utils.SpringContext;
@@ -49,8 +52,11 @@ public class RabbitMqTest {
 	@Resource
 	IUserService userService;
 	@Resource
+	IOrderService orderService;
+	@Resource
+	private YeepayDefaultService yeepayDefaultService;
+	@Resource
 	private YeepayDefaultDao yeepayDefaultDao;
-	
 	@Resource
 	Redis redis;
 	
@@ -145,20 +151,9 @@ public class RabbitMqTest {
 	
 	
 	@Test  
-    public void testYeepayDao() throws Exception {
-		YeepayDefault yeepay = new YeepayDefault();
-		yeepay.setAge(12);
-		yeepay.setCity("china");
-		yeepay.setName("kk");
-		yeepayDefaultDao.add("insertSelective", yeepay);
-		System.out.println(yeepayDefaultDao.query("selectByPrimaryKey", 1));
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("name", "kk");
-		System.out.println(yeepayDefaultDao.query("selectByParam", map));
-		yeepay.setId(2L);
-		yeepay.setName("BB");
-		yeepayDefaultDao.update(yeepay);
-    }
+    public void testYeepayService() throws Exception {
+		yeepayDefaultService.savetestshiwu();
+	}
 	
 	@Test
 	public void testMysqlReAndWri() throws Exception {
@@ -169,6 +164,28 @@ public class RabbitMqTest {
 		userService.add(user);
 		
 		System.out.println(userService.getUserById(2));
+	}
+	
+	@Test
+	public void testMybatisCache() throws Exception {
+		Date first = new Date();
+		yeepayDefaultService.selectMybatisCache(5);
+		System.out.println(new Date().getTime() - first.getTime());
+		YeepayDefault y = new YeepayDefault();
+		y.setId(2L);
+		y.setName("kang");
+		yeepayDefaultService.update(y);
+		Date secend = new Date();
+		yeepayDefaultService.getAll();
+		System.out.println(new Date().getTime() - secend.getTime());
+		
+		Date thirt = new Date();
+		Order l1 = orderService.selectMybatisCache(4);
+		System.out.println(new Date().getTime() - thirt.getTime());
+		Date forth = new Date();
+		Order l2 = orderService.selectMybatisCache(4);
+		System.out.println(new Date().getTime() - forth.getTime());
+		System.out.println(l1 == l2);
 	}
 	
 	

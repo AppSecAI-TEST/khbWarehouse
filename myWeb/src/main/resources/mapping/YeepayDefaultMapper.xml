@@ -17,6 +17,11 @@
     from yeepay_default
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="getAll" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from yeepay_default
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from yeepay_default
     where id = #{id,jdbcType=INTEGER}

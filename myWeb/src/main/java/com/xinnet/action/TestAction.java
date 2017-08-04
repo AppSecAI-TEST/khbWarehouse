@@ -47,7 +47,7 @@ public class TestAction extends BaseAction {
     @Autowired
     private UserHolder userHolder;
     @Autowired
-    private IUserService userServiceImpl;
+    private IUserService userService;
     @Autowired
     private IOrderService orderServiceImpl;
     @Autowired
@@ -157,4 +157,64 @@ public class TestAction extends BaseAction {
 		
 		return ajax(jsonString);
 	}
+	
+	@RequestMapping("/addUser")
+    @NotLogin
+    public String addUser(Model model){  
+    	User user = new User();
+    	user.setPassWord("1111");
+    	user.setUserName("康洪彬");
+    	user.setEmail("113255@qq.com");
+    	logger.info("用户的实体", user);
+    	logger.info(user.toString());
+    	try {
+			logger.info(checkNull(user));
+			checkNull(user);
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+    	try {
+    		logger.info("验证判空");
+    		userService.add(user);
+		} catch (IllegalArgumentException e) {
+			// TODO: handle exception
+			logger.info(e.getMessage());
+			model.addAttribute("message", e.getMessage());  
+			return jsp("error");
+		} catch (Exception e) {
+			// TODO: handle exception
+			logger.info("接口调用出错");
+		} 
+    	logger.info("验证通过");
+        model.addAttribute("user", user);  
+        return jsp("user/userInfo");  
+    } 
+    
+    @RequestMapping("/showUser")
+    @NotLogin
+    public String showUser(Model model){  
+    	User user = new User();
+    	user.setPassWord("1111");
+    	user.setUserName("康洪彬");
+    	user.setEmail("113255@qq.com");
+    	logger.info("用户的实体", user);
+    	logger.info(user.toString());
+    	
+    	try {
+    		logger.info("验证判空");
+    		userService.getUserById(1);
+		} catch (IllegalArgumentException e) {
+			// TODO: handle exception
+			logger.info(e.getMessage());
+			model.addAttribute("message", e.getMessage());  
+			return jsp("error");
+		} catch (Exception e) {
+			// TODO: handle exception
+			logger.info("接口调用出错");
+		} 
+    	logger.info("验证通过");
+        model.addAttribute("user", user);  
+        return jsp("user/userInfo");  
+    } 
 }

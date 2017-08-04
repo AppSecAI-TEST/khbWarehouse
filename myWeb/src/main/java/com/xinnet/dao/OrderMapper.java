@@ -1,5 +1,7 @@
 package com.xinnet.dao;
 
+import java.util.List;
+
 import com.xinnet.entity.Order;
 
 public interface OrderMapper {
@@ -14,4 +16,6 @@ public interface OrderMapper {
     int updateByPrimaryKeySelective(Order record);
 
     int updateByPrimaryKey(Order record);
+    
+    List<Order> getAll();
 }

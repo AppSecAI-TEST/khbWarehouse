@@ -16,7 +16,7 @@
                         http://www.springframework.org/schema/mvc    
                         http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">  
     <!-- 配置连接池 -->  
-    <bean id="masterDataSource" class="com.alibaba.druid.pool.DruidDataSource"  
+    <bean id="masterDataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init"   
         destroy-method="close">
         
         <property name="driverClassName" value="${jdbc.master.driver}" />  
@@ -48,7 +48,7 @@
     </bean>  
       
     <!-- 配置连接池 -->  
-    <bean id="slave01DataSource" class="com.alibaba.druid.pool.DruidDataSource"  
+    <bean id="slave01DataSource" class="com.alibaba.druid.pool.DruidDataSource"  init-method="init"  
         destroy-method="close">  
         <property name="driverClassName" value="${jdbc.slave01.driver}" />  
         <property name="url" value="${jdbc.slave01.url}" />  
@@ -119,6 +119,7 @@
             <tx:method name="query*" read-only="true" />  
             <tx:method name="find*" read-only="true" />  
             <tx:method name="get*" read-only="true" />  
+            <tx:method name="select*" read-only="true" />  
   
             <!-- 主库执行操作，事务传播行为定义为默认行为 -->  
             <tx:method name="save*" propagation="REQUIRED" />  
@@ -133,7 +134,7 @@
     <!-- 定义AOP切面处理器 -->  
     <bean class="com.xinnet.mysql.readwriteseparation.DataSourceAspect" id="dataSourceAspect" />  
   
-    <aop:config>  
+    <aop:config>
         <!-- 定义切面，所有的service的所有方法 -->  
         <aop:pointcut id="txPointcut" expression="execution(* com.xinnet.service.*.*(..))" />  
         <!-- 应用事务策略到Service切面 -->  
