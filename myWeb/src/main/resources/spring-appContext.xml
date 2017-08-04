@@ -40,8 +40,8 @@
     <import resource="classpath:spring-mybatis-master-slave.xml"/>
     <import resource="classpath:spring-aop.xml"/>
     <import resource="classpath:spring-redis.xml"/>
-    <!-- <import resource="classpath:applicationContext-task.xml"/> -->
-    <import resource="classpath:applicationContext-mq.xml"/>
+    <!-- <import resource="classpath:spring-task.xml"/> -->
+    <import resource="classpath:spring-mq.xml"/>
     
     <!-- 和aop加载到一个文件里面，否则aop无效 -->
     <!-- 自动扫描该包，扫描所有的组件 -->  
