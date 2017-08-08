@@ -34,11 +34,15 @@
     	</property> 
     </bean> 
     
-    <!-- 数据源 -->
-    <!-- <import resource="classpath:spring-mybatis.xml"/> -->
-    <!-- mysql读写分离的双数据源 -->
-    <import resource="classpath:spring-mybatis-master-slave.xml"/>
+    <!-- 单数据源 -->
+    <import resource="classpath:spring-mybatis.xml"/>
     <import resource="classpath:spring-aop.xml"/>
+    <!-- 双数据源 -->
+    <import resource="classpath:spring-mybatis-multipleDataSources.xml"/>
+   
+    <!-- mysql读写分离的双数据源 -->
+    <!-- <import resource="classpath:spring-mybatis-master-slave.xml"/> -->
+    
     <import resource="classpath:spring-redis.xml"/>
     <!-- <import resource="classpath:spring-task.xml"/> -->
     <import resource="classpath:spring-mq.xml"/>
