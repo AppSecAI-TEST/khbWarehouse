@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xinnet.dao.IdentifyingCodeMapper" >
+  <resultMap id="BaseResultMap" type="com.xinnet.entity.IdentifyingCode" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="mode" property="mode" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="creat_time" property="creatTime" jdbcType="TIMESTAMP" />
+    <result column="effective" property="effective" jdbcType="VARCHAR" />
+    <result column="effective_time" property="effectiveTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, mode, email, code, creat_time, effective, effective_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_identifying_code
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_identifying_code
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xinnet.entity.IdentifyingCode" >
+    insert into t_identifying_code (id, mode, email, 
+      code, creat_time, effective, 
+      effective_time)
+    values (#{id,jdbcType=INTEGER}, #{mode,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{code,jdbcType=VARCHAR}, #{creatTime,jdbcType=TIMESTAMP}, #{effective,jdbcType=VARCHAR}, 
+      #{effectiveTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xinnet.entity.IdentifyingCode" >
+    insert into t_identifying_code
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="mode != null" >
+        mode,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="creatTime != null" >
+        creat_time,
+      </if>
+      <if test="effective != null" >
+        effective,
+      </if>
+      <if test="effectiveTime != null" >
+        effective_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="mode != null" >
+        #{mode,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="creatTime != null" >
+        #{creatTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="effective != null" >
+        #{effective,jdbcType=VARCHAR},
+      </if>
+      <if test="effectiveTime != null" >
+        #{effectiveTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xinnet.entity.IdentifyingCode" >
+    update t_identifying_code
+    <set >
+      <if test="mode != null" >
+        mode = #{mode,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="creatTime != null" >
+        creat_time = #{creatTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="effective != null" >
+        effective = #{effective,jdbcType=VARCHAR},
+      </if>
+      <if test="effectiveTime != null" >
+        effective_time = #{effectiveTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xinnet.entity.IdentifyingCode" >
+    update t_identifying_code
+    set mode = #{mode,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      code = #{code,jdbcType=VARCHAR},
+      creat_time = #{creatTime,jdbcType=TIMESTAMP},
+      effective = #{effective,jdbcType=VARCHAR},
+      effective_time = #{effectiveTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+   <select id="selectByParam" resultMap="BaseResultMap" parameterType="map" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_identifying_code
+    where 1=1
+      <if test="mode != null" >
+        and mode = #{mode,jdbcType=VARCHAR}
+      </if>
+      <if test="email != null" >
+        and email = #{email,jdbcType=VARCHAR}
+      </if>
+      <if test="code != null" >
+        and code = #{code,jdbcType=VARCHAR}
+      </if>
+      <if test="time != null" >
+        and effective_time > #{time,jdbcType=TIMESTAMP}
+      </if>
+      <if test="time != null" >
+        and #{time,jdbcType=TIMESTAMP} > creat_time
+      </if>
+      <if test="effective != null" >
+        and effective = #{effective,jdbcType=VARCHAR}
+      </if>
+  </select>
+  
+  <update id="updateFalseByEmail" parameterType="java.lang.String" >
+    update t_identifying_code 
+    set effective ='false'
+    where email = #{email,jdbcType=VARCHAR}
+  </update>
+</mapper>
