@@ -2,6 +2,8 @@ package com.xinnet.task.util;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -18,7 +20,7 @@ public class TaskUtils {
 	 */
 	public static void invokMethod(ScheduleJob scheduleJob) {
 		Object object = null;
-		Class clazz = null;
+		Class<?> clazz = null;
 		if (StringUtils.isNotBlank(scheduleJob.getSpringId())) {
 			object = SpringUtils.getBean(scheduleJob.getSpringId());
 		} else if (StringUtils.isNotBlank(scheduleJob.getBeanClass())) {
@@ -26,7 +28,6 @@ public class TaskUtils {
 				clazz = Class.forName(scheduleJob.getBeanClass());
 				object = clazz.newInstance();
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
@@ -42,23 +43,19 @@ public class TaskUtils {
 		} catch (NoSuchMethodException e) {
 			log.error("任务名称 = [" + scheduleJob.getJobName() + "]---------------未启动成功，方法名设置错误！！！");
 		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		if (method != null) {
 			try {
 				method.invoke(object);
 			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IllegalArgumentException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (InvocationTargetException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-		System.out.println("任务名称 = [" + scheduleJob.getJobName() + "]----------启动成功");
+		log.info("任务名称 = [" + scheduleJob.getJobName() + "]----------执行成功，时间--["+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())+"]");
 	}
 }

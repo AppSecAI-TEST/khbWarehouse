@@ -291,7 +291,4 @@ public class JobTaskServiceImpl implements JobTaskService {
 		scheduler.rescheduleJob(triggerKey, trigger);
 	}
 
-	public static void main(String[] args) {
-		CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule("xxxxx");
-	}
 }

@@ -50,7 +50,7 @@ public class JobTaskController {
 			if (StringUtils.isNotBlank(scheduleJob.getSpringId())) {
 				obj = SpringUtils.getBean(scheduleJob.getSpringId());
 			} else {
-				Class clazz = Class.forName(scheduleJob.getBeanClass());
+				Class<?> clazz = Class.forName(scheduleJob.getBeanClass());
 				obj = clazz.newInstance();
 			}
 		} catch (Exception e) {
@@ -60,7 +60,7 @@ public class JobTaskController {
 			retObj.setMsg("未找到目标类！");
 			return retObj;
 		} else {
-			Class clazz = obj.getClass();
+			Class<?> clazz = obj.getClass();
 			Method method = null;
 			try {
 				method = clazz.getMethod(scheduleJob.getMethodName(), null);
