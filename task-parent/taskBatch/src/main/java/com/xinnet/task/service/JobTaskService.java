@@ -113,4 +113,12 @@ public interface JobTaskService {
 	 */
 	public void updateJobCron(ScheduleJob scheduleJob) throws SchedulerException;
 
+	/**
+	 * 立即执行一次任务
+	 * @author hongbin.kang
+	 * @date 2017年8月11日 下午1:57:25
+	 * @param jobId
+	 */
+	public void runJob(Long jobId);
+
 }

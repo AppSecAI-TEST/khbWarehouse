@@ -169,6 +169,7 @@
 								</c:otherwise>
 							</c:choose>
 							<a href="javascript:;" onclick="updateCron('${job.jobId}')">更新cron</a>
+							<a href="javascript:;" onclick="run('${job.jobId}')">立即执行</a>
 						</td>
 					</tr>
 				</c:forEach>
@@ -313,6 +314,25 @@
 		function hideWaitMsg() {
 			$('.datagrid-mask').remove();
 			$('.datagrid-mask-msg').remove();
+		}
+		
+		function run(jobId) {
+		  console.log(jobId)
+			$.ajax({
+				type : "POST",
+				async : false,
+				dataType : "JSON",
+				cache : false,
+				url : "${ctx}/task/runJob",
+				data : {
+					jobId : jobId
+				},
+				success : function(data) {
+					alert(data.msg);
+					location.reload();
+
+				}//end-callback
+			});//end-ajax
 		}
 	</script>
 </body>

@@ -109,6 +109,23 @@ public class JobTaskController {
 		retObj.setFlag(true);
 		return retObj;
 	}
+	
+	@RequestMapping("runJob")
+	@ResponseBody
+	public RetObj runJob(HttpServletRequest request, Long jobId) {
+		RetObj retObj = new RetObj();
+		retObj.setFlag(false);
+		try {
+			taskService.runJob(jobId);
+			retObj.setMsg("成功！");
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			retObj.setMsg("任务失败！");
+			return retObj;
+		}
+		retObj.setFlag(true);
+		return retObj;
+	}
 
 	@RequestMapping("updateCron")
 	@ResponseBody

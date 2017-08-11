@@ -29,6 +29,7 @@ import com.xinnet.task.QuartzJobFactoryDisallowConcurrentExecution;
 import com.xinnet.task.dao.ScheduleJobMapper;
 import com.xinnet.task.domain.ScheduleJob;
 import com.xinnet.task.service.JobTaskService;
+import com.xinnet.task.util.TaskUtils;
 
 /**
  * 计划任务管理
@@ -289,6 +290,15 @@ public class JobTaskServiceImpl implements JobTaskService {
 		trigger = trigger.getTriggerBuilder().withIdentity(triggerKey).withSchedule(scheduleBuilder).build();
 
 		scheduler.rescheduleJob(triggerKey, trigger);
+	}
+
+	@Override
+	public void runJob(Long jobId) {
+		ScheduleJob job = getTaskById(jobId);
+		if (job == null) {
+			return;
+		}
+		TaskUtils.invokMethod(job);
 	}
 
 }
