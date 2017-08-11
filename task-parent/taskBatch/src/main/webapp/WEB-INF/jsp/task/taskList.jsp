@@ -120,6 +120,7 @@
 					<td>类路径</td>
 					<td>spring id</td>
 					<td>方法名</td>
+					<td>参数</td>
 					<td>操作</td>
 				</tr>
 			</thead>
@@ -129,7 +130,35 @@
 						<td>${job.jobId }</td>
 						<td>${job.jobName }</td>
 						<td>${job.jobGroup }</td>
-						<td>${job.jobStatus }<c:choose>
+						<td>${job.jobStatus }
+						     <c:choose>
+								<c:when test="${job.jobStatus=='1' }">
+									已开启&nbsp;
+								</c:when>
+								<c:otherwise>
+									未开启&nbsp;
+								</c:otherwise>
+							</c:choose>
+						</td>
+						<td>${job.cronExpression }</td>
+						<td>${job.description }</td>
+						<td>${job.isConcurrent }
+							<c:choose>
+								<c:when test="${job.isConcurrent=='1' }">
+									是&nbsp;
+								</c:when>
+								<c:otherwise>
+									否&nbsp;
+								</c:otherwise>
+							</c:choose>
+						
+						</td>
+						<td>${job.beanClass }</td>
+						<td>${job.springId }</td>
+						<td>${job.methodName }</td>
+						<td>${job.params }</td>
+						<td>
+						    <c:choose>
 								<c:when test="${job.jobStatus=='1' }">
 									<a href="javascript:;"
 										onclick="changeJobStatus('${job.jobId}','stop')">停止</a>&nbsp;
@@ -139,31 +168,26 @@
 										onclick="changeJobStatus('${job.jobId}','start')">开启</a>&nbsp;
 								</c:otherwise>
 							</c:choose>
+							<a href="javascript:;" onclick="updateCron('${job.jobId}')">更新cron</a>
 						</td>
-						<td>${job.cronExpression }</td>
-						<td>${job.description }</td>
-						<td>${job.isConcurrent }</td>
-						<td>${job.beanClass }</td>
-						<td>${job.springId }</td>
-						<td>${job.methodName }</td>
-						<td><a href="javascript:;" onclick="updateCron('${job.jobId}')">更新cron</a></td>
 					</tr>
 				</c:forEach>
 				<tr>
 					<td>n</td>
 					<td><input type="text" name="jobName" id="jobName"></input></td>
 					<td><input type="text" name="jobGroup" id="jobGroup"></input></td>
-					<td>0<input type="hidden" name="jobStatus" value="0"></input></td>
+					<td>未开启<input type="hidden" name="jobStatus" value="0"></input></td>
 					<td><input type="text" name="cronExpression"
 						id="cronExpression"></input></td>
 					<td><input type="text" name="description" id="description"></input></td>
 					<td><select name="isConcurrent" id="isConcurrent">
-							<option value="1">1</option>
-							<option value="0">0</option>
+							<option value="1">同步</option>
+							<option value="0">不同步</option>
 					</select></td>
 					<td><input type="text" name="beanClass" id="beanClass"></input></td>
 					<td><input type="text" name="springId" id="springId"></input></td>
 					<td><input type="text" name="methodName" id="methodName"></input></td>
+					<td><input type="text" name="params" id="params"></input></td>
 					<td><input type="button" onclick="add()" value="保存" /></td>
 				</tr>
 			</tbody>

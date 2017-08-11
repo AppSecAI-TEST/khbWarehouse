@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSONObject;
 import com.xinnet.task.domain.RetObj;
 import com.xinnet.task.domain.ScheduleJob;
 import com.xinnet.task.service.JobTaskService;
@@ -36,7 +37,7 @@ public class JobTaskController {
 
 	@RequestMapping("add")
 	@ResponseBody
-	public RetObj taskList(HttpServletRequest request, ScheduleJob scheduleJob) {
+	public RetObj add(HttpServletRequest request, ScheduleJob scheduleJob) {
 		RetObj retObj = new RetObj();
 		retObj.setFlag(false);
 		try {
@@ -44,6 +45,14 @@ public class JobTaskController {
 		} catch (Exception e) {
 			retObj.setMsg("cron表达式有误，不能被解析！");
 			return retObj;
+		}
+		if(!StringUtils.isEmpty(scheduleJob.getParams())) {
+			try {
+				JSONObject json = JSONObject.parseObject(scheduleJob.getParams());
+			} catch (Exception e) {
+				retObj.setMsg("参数请输入json格式！");
+				return retObj;
+			}
 		}
 		Object obj = null;
 		try {

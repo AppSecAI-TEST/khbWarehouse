@@ -53,6 +53,10 @@ public class ScheduleJob {
 	 * 任务调用的方法名
 	 */
 	private String methodName;
+	/**
+	 * 参数，json格式
+	 */
+	private String params;
 
 	public Long getJobId() {
 		return jobId;
@@ -148,5 +152,13 @@ public class ScheduleJob {
 
 	public void setMethodName(String methodName) {
 		this.methodName = methodName;
+	}
+
+	public String getParams() {
+		return params;
+	}
+
+	public void setParams(String params) {
+		this.params = params;
 	}
 }

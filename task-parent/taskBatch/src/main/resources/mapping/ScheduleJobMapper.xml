@@ -16,11 +16,12 @@
 			jdbcType="VARCHAR" />
 		<result column="spring_id" property="springId" jdbcType="VARCHAR" />
 		<result column="method_name" property="methodName" jdbcType="VARCHAR" />
+		<result column="params" property="params" jdbcType="VARCHAR" />
 	</resultMap>
 	<sql id="Base_Column_List">
 		job_id, create_time, update_time, job_name, job_group, job_status,
 		cron_expression,
-		description, bean_class, is_concurrent, spring_id, method_name
+		description, bean_class, is_concurrent, spring_id, method_name,params
 	</sql>
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
 		parameterType="java.lang.Long">
@@ -86,6 +87,9 @@
 			<if test="methodName != null">
 				method_name,
 			</if>
+			<if test="params != null">
+				params,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="jobId != null">
@@ -124,6 +128,9 @@
 			<if test="methodName != null">
 				#{methodName,jdbcType=VARCHAR},
 			</if>
+			<if test="params != null">
+				#{params,jdbcType=VARCHAR},
+			</if>
 		</trim>
 	</insert>
 	<update id="updateByPrimaryKeySelective" parameterType="com.xinnet.task.domain.ScheduleJob">
@@ -161,6 +168,9 @@
 			</if>
 			<if test="methodName != null">
 				method_name = #{methodName,jdbcType=VARCHAR},
+			</if>
+			<if test="params != null">
+				params = #{params,jdbcType=VARCHAR},
 			</if>
 		</set>
 		where job_id = #{jobId,jdbcType=BIGINT}

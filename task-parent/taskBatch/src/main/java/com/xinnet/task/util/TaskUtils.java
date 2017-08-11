@@ -33,21 +33,34 @@ public class TaskUtils {
 
 		}
 		if (object == null) {
-			log.error("任务名称 = [" + scheduleJob.getJobName() + "]---------------未启动成功，请检查是否配置正确！！！");
+			log.error("名称 = [" + scheduleJob.getJobName() + "]---------------未找到该class，请检查是否配置正确！！！");
 			return;
 		}
 		clazz = object.getClass();
 		Method method = null;
+		String params = null;
 		try {
-			method = clazz.getDeclaredMethod(scheduleJob.getMethodName());
+			//判断是否需要参数
+			params = scheduleJob.getParams();
+			if(StringUtils.isEmpty(params)) {
+				method = clazz.getDeclaredMethod(scheduleJob.getMethodName());
+			} else {
+				method = clazz.getDeclaredMethod(scheduleJob.getMethodName(),String.class);
+			}
+			
 		} catch (NoSuchMethodException e) {
-			log.error("任务名称 = [" + scheduleJob.getJobName() + "]---------------未启动成功，方法名设置错误！！！");
+			log.error("名称 = [" + scheduleJob.getJobName() + "]---------------未找到该方法，方法名设置错误！！！");
 		} catch (SecurityException e) {
 			e.printStackTrace();
 		}
 		if (method != null) {
 			try {
-				method.invoke(object);
+				if(StringUtils.isEmpty(params)) {
+					method.invoke(object);
+				} else {
+					method.invoke(object,params);
+				}
+				log.info("任务名称 = [" + scheduleJob.getJobName() + "]----------执行成功，时间--["+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())+"]");
 			} catch (IllegalAccessException e) {
 				e.printStackTrace();
 			} catch (IllegalArgumentException e) {
@@ -56,6 +69,5 @@ public class TaskUtils {
 				e.printStackTrace();
 			}
 		}
-		log.info("任务名称 = [" + scheduleJob.getJobName() + "]----------执行成功，时间--["+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())+"]");
 	}
 }
